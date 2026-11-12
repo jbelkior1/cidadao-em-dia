@@ -11,7 +11,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from sistema import checklist, config, conversa, ia, laboratorio, materias, testes
+from sistema import assistente, checklist, config, conversa, ia, laboratorio, materias, testes
 from sistema.adaptadores import dsa, pcp
 from sistema.mobilidade import decisao, fontes, plano, rede
 
@@ -61,6 +61,38 @@ def chat_inicio() -> dict:
 @app.post("/api/chat")
 def chat(m: Mensagem) -> dict:
     return conversa.processar(m.texto, m.acao, m.estado)
+
+
+class Viagem(BaseModel):
+    origem: str
+    destino: str
+
+
+class FalaHistorico(BaseModel):
+    papel: str
+    texto: str
+
+
+class ContextoAssistente(BaseModel):
+    casa: str | None = None              # estação perto de casa, guardada no aparelho da pessoa
+    ultima_viagem: Viagem | None = None  # a última viagem conferida nesta conversa
+
+
+class PedidoAssistente(BaseModel):
+    texto: str
+    historico: list[FalaHistorico] = []
+    contexto: ContextoAssistente = ContextoAssistente()
+    simular: str | None = None
+
+
+@app.get("/api/assistente/inicio")
+def assistente_inicio(casa: str | None = None, simular: str | None = None) -> dict:
+    return assistente.abertura({"casa": casa}, simular)
+
+
+@app.post("/api/assistente")
+def assistente_responder(p: PedidoAssistente) -> dict:
+    return assistente.responder(p.texto, [h.model_dump() for h in p.historico], p.contexto.model_dump(), p.simular)
 
 
 @app.get("/api/config/ia")

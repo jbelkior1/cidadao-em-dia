@@ -3,6 +3,8 @@
 - Situação das linhas: agregador público usado por projetos abertos (não é
   fonte oficial). Junta Metrô, CPTM, ViaMobilidade, ViaQuatro, Linha 6 e Linha 13.
 - Avisos de tempo: INMET (oficial), filtrados para a cidade de São Paulo.
+- Alagamentos ao vivo: CGE, o Centro de Gerenciamento de Emergências Climáticas da
+  Prefeitura (oficial): estado de atenção ou alerta e pontos de alagamento do dia.
 
 Cada leitura fica guardada alguns minutos (cache). Quando uma fonte cai, o app
 mostra a última leitura com a hora dela e diz que está sem atualização.
@@ -22,6 +24,8 @@ import httpx
 
 URL_LINHAS = "https://www.tictrens.com.br/helper/line-statuses"
 URL_INMET = "https://apiprevmet3.inmet.gov.br/avisos/ativos"
+URL_CGE = "https://www.cgesp.org/v3/"
+URL_CGE_ALAGAMENTOS = "https://www.cgesp.org/v3/alagamentos.jsp"
 CODIGO_IBGE_SP = "3550308"
 CACHE_SEG = 90
 HISTORICO = Path(__file__).resolve().parent.parent / "dados" / "historico_linhas.local.jsonl"
@@ -122,6 +126,68 @@ def avisos_tempo() -> dict:
         except Exception:
             valor = dict(guardado["valor"], ok=False) if guardado else {"ok": False, "lido_em": "", "avisos": [], "fonte": "INMET"}
         _cache["inmet"] = {"t": time.time(), "valor": valor}
+        return valor
+
+
+def _html_cge(url: str) -> str:
+    r = httpx.get(url, headers={"User-Agent": "Mozilla/5.0 (PlanoB-GS2026; trabalho academico)"}, timeout=25)
+    r.raise_for_status()
+    return r.content.decode(r.encoding or "iso-8859-1", errors="replace") if r.encoding else r.content.decode("iso-8859-1", errors="replace")
+
+
+def _texto(trecho: str) -> str:
+    import html
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", trecho))).strip()
+
+
+def ler_cge_pagina_inicial(pagina: str) -> dict:
+    """Avisos recentes (estado de atenção ou alerta) e quantos pontos de alagamento estão ativos."""
+    noticias = [{"titulo": _texto(t), "quando": _texto(q)}
+                for t, q in re.findall(r'<div class="noticia">.*?<h1>(.*?)</h1>\s*<h2>(.*?)</h2>', pagina, flags=re.S)]
+    estado = None
+    for n in noticias:                                     # a mais recente primeiro
+        if re.search(r"estado de (aten|alerta)", n["titulo"], re.I):
+            estado = None if n["titulo"].lower().startswith("término") or "rmino" in n["titulo"][:8] else n
+            break
+    ativos = re.search(r'class="num-ativos">\s*(\d+)', pagina)
+    return {"estado": estado, "ativos": int(ativos.group(1)) if ativos else None, "avisos": noticias[:4]}
+
+
+def ler_cge_alagamentos(pagina: str) -> list[dict]:
+    """Pontos de alagamento do dia: zona, bairro, horário, via e se está ativo e transitável."""
+    pontos = []
+    for bloco_zona in re.split(r'<h1 class="tit-bairros">', pagina)[1:]:
+        zona = _texto(bloco_zona.split("</h1>", 1)[0])
+        for bloco_bairro in re.split(r'<td class="bairro', bloco_zona)[1:]:
+            bairro = _texto(bloco_bairro.split(">", 1)[1].split("<hr", 1)[0])
+            for situacao, local, detalhe in re.findall(
+                    r'<li class="(ativo-[a-z]+|inativo-[a-z]+)".*?col-local">(.*?)</li>.*?<li class="arial-descr-alag">(.*?)</li>', bloco_bairro, flags=re.S):
+                partes = [x.strip() for x in re.split(r"<br\s*/?>", local)]
+                horario = re.findall(r"\d{2}:\d{2}", partes[0])
+                det = {_texto(k).lower(): v.strip() for k, v in (_texto(x).split(":", 1) for x in re.split(r"<br\s*/?>", detalhe) if ":" in x)}
+                pontos.append({"zona": zona, "bairro": bairro, "ativo": situacao.startswith("ativo"),
+                               "transitavel": situacao.endswith("-transitavel"), "inicio": horario[0] if horario else "",
+                               "fim": horario[1] if len(horario) > 1 else "", "via": _texto(partes[1]) if len(partes) > 1 else "",
+                               "sentido": _texto(det.get("sentido", "")), "referencia": det.get("referência", "")})
+    return pontos
+
+
+def alertas_cge() -> dict:
+    """Estado de atenção/alerta para alagamentos e os pontos de hoje, do CGE da Prefeitura."""
+    with _trava:
+        guardado = _cache.get("cge")
+        if guardado and time.time() - guardado["t"] < CACHE_SEG * 2:
+            return guardado["valor"]
+        try:
+            inicio = ler_cge_pagina_inicial(_html_cge(URL_CGE))
+            pontos = ler_cge_alagamentos(_html_cge(URL_CGE_ALAGAMENTOS))
+            valor = {"ok": True, "lido_em": _agora(), **inicio, "pontos_hoje": pontos,
+                     "ativos_lista": [p for p in pontos if p["ativo"]], "fonte": "CGE, Prefeitura de São Paulo"}
+        except Exception:
+            valor = dict(guardado["valor"], ok=False) if guardado else {
+                "ok": False, "lido_em": "", "estado": None, "ativos": None, "avisos": [], "pontos_hoje": [], "ativos_lista": [],
+                "fonte": "CGE, Prefeitura de São Paulo"}
+        _cache["cge"] = {"t": time.time(), "valor": valor}
         return valor
 
 

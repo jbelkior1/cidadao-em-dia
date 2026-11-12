@@ -299,7 +299,7 @@ class Api(SemInternet):
             self.assertEqual(self.cliente.get(f"/api/materias/{cod}").status_code, 200, cod)
 
     def test_laboratorio(self):
-        r = self.cliente.post("/api/laboratorio/simular", json={"parte": "Antes de sair", "canais": ["App e site"], "n": 300}).json()
+        r = self.cliente.post("/api/laboratorio/simular", json={"parte": "Linha parada na hora do pico", "canais": ["App e site"], "n": 300}).json()
         self.assertEqual(len(r["opinioes"]), 10)
 
 

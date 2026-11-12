@@ -1,5 +1,5 @@
-import { FlaskConical, Info, LayoutDashboard, Menu, MessageCircle, Route, SlidersHorizontal, TrainFront, X, type LucideIcon } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { FlaskConical, Info, LayoutDashboard, Menu, MessageCircle, SlidersHorizontal, X, type LucideIcon } from "lucide-react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import { useApp } from "../App";
@@ -7,34 +7,32 @@ import { CORES_DAS_MATERIAS, MATERIAS_DO_SISTEMA } from "../lib/api";
 
 type Item = { rotulo: string; para: string; icone?: LucideIcon; cor?: string };
 const GRUPOS: { titulo: string; itens: Item[] }[] = [
+  { titulo: "O sistema", itens: [{ rotulo: "Auxilia", para: "/", icone: MessageCircle }] },
+  { titulo: "A sociedade", itens: [{ rotulo: "Simulação da sociedade", para: "/sociedade", icone: FlaskConical }] },
   {
-    titulo: "Para você",
+    titulo: "As matérias",
     itens: [
-      { rotulo: "Antes de sair", para: "/", icone: Route },
-      { rotulo: "Trem e metrô agora", para: "/linhas", icone: TrainFront },
-      { rotulo: "Pergunte", para: "/pergunte", icone: MessageCircle },
-    ],
-  },
-  { titulo: "Entenda", itens: [{ rotulo: "Como funciona", para: "/como-funciona", icone: Info }] },
-  { titulo: "Laboratório", itens: [{ rotulo: "Simulação da sociedade", para: "/laboratorio", icone: FlaskConical }] },
-  {
-    titulo: "Matérias",
-    itens: [
+      { rotulo: "Case norteador", para: "/caso", icone: Info },
       { rotulo: "Painel da equipe", para: "/materias", icone: LayoutDashboard },
       ...MATERIAS_DO_SISTEMA.map((m) => ({ rotulo: `${m.cod} · ${m.curto}`, para: `/materias/${m.cod.toLowerCase()}`, cor: CORES_DAS_MATERIAS[m.cod] })),
     ],
   },
-  { titulo: "Sistema", itens: [{ rotulo: "Configurações de IA", para: "/configuracoes", icone: SlidersHorizontal }] },
+  { titulo: "Configurações", itens: [{ rotulo: "Configurações de IA", para: "/configuracoes", icone: SlidersHorizontal }] },
 ];
 const TITULOS: Record<string, string> = {
-  "/": "Antes de sair",
-  "/linhas": "Trem e metrô agora",
-  "/pergunte": "Pergunte",
-  "/como-funciona": "Como funciona",
-  "/laboratorio": "Simulação da sociedade",
+  "/": "O sistema · Auxilia",
+  "/sociedade": "A sociedade usando o sistema",
+  "/caso": "Case norteador",
   "/materias": "Painel da equipe",
   "/configuracoes": "Configurações de IA",
 };
+
+/** Rotas que aparecem dentro do celular. */
+export const ROTAS_DO_APP = ["/"];
+
+const ContextoMenu = createContext<{ abrirMenu: () => void }>({ abrirMenu: () => {} });
+/** O app abre a gaveta do sistema pelo botão da barra dele (no celular de verdade). */
+export const useMenu = () => useContext(ContextoMenu);
 
 function tituloDa(caminho: string): string {
   if (TITULOS[caminho]) return TITULOS[caminho];
@@ -117,8 +115,12 @@ export default function Casca({ children }: { children: ReactNode }) {
   const [menuAberto, setMenuAberto] = useState(false);
   const { ia } = useApp();
   const { pathname } = useLocation();
+  // qualquer endereço desconhecido também abre o app (é a rota "*")
+  const ehApp = ROTAS_DO_APP.includes(pathname) || (!(pathname in TITULOS) && !pathname.startsWith("/materias/"));
+  const soNoComputador = ehApp ? "hidden lg:flex" : "flex";
 
   return (
+    <ContextoMenu.Provider value={{ abrirMenu: () => setMenuAberto(true) }}>
     <div className="flex h-full bg-fundo">
       {/* Barra lateral fixa no computador */}
       <aside className="hidden w-64 shrink-0 flex-col border-r border-linha bg-superficie lg:flex">
@@ -140,7 +142,7 @@ export default function Casca({ children }: { children: ReactNode }) {
       )}
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-14 shrink-0 items-center gap-3 border-b border-linha bg-superficie px-4 lg:px-6">
+        <header className={`${soNoComputador} h-14 shrink-0 items-center gap-3 border-b border-linha bg-superficie px-4 lg:px-6`}>
           <button
             type="button"
             className="-ml-1 rounded-lg p-2 text-apagado hover:bg-fundo lg:hidden"
@@ -160,11 +162,12 @@ export default function Casca({ children }: { children: ReactNode }) {
             </span>
           </div>
         </header>
-        <div className="shrink-0 border-b border-linha bg-marca-suave px-4 py-1.5 text-center text-[13px] font-medium text-marca-forte">
+        <div className={`${ehApp ? "hidden lg:block" : ""} shrink-0 border-b border-linha bg-marca-suave px-4 py-1.5 text-center text-[13px] font-medium text-marca-forte`}>
           Projeto educacional da FIAP. Usa dados públicos; não substitui os avisos oficiais das operadoras.
         </div>
         <main className="relative min-h-0 flex-1 overflow-y-auto">{children}</main>
       </div>
     </div>
+    </ContextoMenu.Provider>
   );
 }

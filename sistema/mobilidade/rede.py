@@ -11,6 +11,7 @@ from functools import lru_cache
 from pathlib import Path
 
 ARQUIVO = Path(__file__).resolve().parent.parent / "dados" / "rede.json"
+PENALIDADE_TROCA = 4   # minutos a mais na escolha da rota para cada troca de linha: ninguém baldeia para ganhar 1 minuto
 
 
 def sem_acento(texto: str) -> str:
@@ -64,11 +65,11 @@ def rota(origem: str, destino: str, evitar: set[str] | None = None) -> dict | No
         return None
     evitar = evitar or set()
     alvos = set(_ids_com_mesmo_nome(destino))
-    fila = [(0.0, i, []) for i in _ids_com_mesmo_nome(origem)]
+    fila = [(0.0, 0.0, i, []) for i in _ids_com_mesmo_nome(origem)]
     heapq.heapify(fila)
     visitados = set()
     while fila:
-        tempo, atual, caminho = heapq.heappop(fila)
+        custo, tempo, atual, caminho = heapq.heappop(fila)
         if atual in visitados:
             continue
         visitados.add(atual)
@@ -77,7 +78,10 @@ def rota(origem: str, destino: str, evitar: set[str] | None = None) -> dict | No
         for proximo, minutos, via in rede["vizinhos"][atual]:
             if via in evitar or proximo in visitados:
                 continue
-            heapq.heappush(fila, (tempo + minutos, proximo, caminho + [(atual, proximo, via, minutos)]))
+            anterior = caminho[-1][2] if caminho else None
+            troca = via == "a pé" or (anterior not in (None, "a pé") and anterior != via)   # a pé ou trocando de linha na mesma parada
+            extra = PENALIDADE_TROCA if troca else 0      # só pesa na escolha; o tempo mostrado é o real
+            heapq.heappush(fila, (custo + minutos + extra, tempo + minutos, proximo, caminho + [(atual, proximo, via, minutos)]))
     return None
 
 

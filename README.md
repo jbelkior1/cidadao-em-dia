@@ -2,7 +2,9 @@
 
 Saiba antes de sair se o seu trem vai te deixar na mão. Projeto da Global Solution 2026.2 da FIAP (CitizenTech).
 
-O Plano B confere o trajeto de trem e metrô em São Paulo antes de a pessoa sair de casa: situação das linhas, aviso de chuva do INMET, pontos de alagamento do GeoSampa perto das estações e ocorrências da SSP-SP perto da saída e da chegada. Responde numa frase ("Pode ir", "Saia mais cedo" ou "Use o Plano B") e, quando uma linha para, compara esperar com desviar e explica os direitos do passageiro.
+O sistema é uma conversa com a **Auxilia**, agente que acompanha a pessoa no trem e no metrô de São Paulo. A pessoa escreve "estou saindo de casa"; a Auxilia pergunta para onde ela vai, confere situação das linhas, aviso de chuva do INMET, alagamentos ao vivo do CGE, áreas de risco do GeoSampa e ocorrências da SSP-SP perto das estações, e responde com a decisão ("Pode ir", "Saia mais cedo" ou "Use o Plano B"), a previsão de chegada e o desvio quando uma linha para. Se for atrasar, ela monta a mensagem para a pessoa mandar pelo WhatsApp dela.
+
+Cada mensagem passa pelo modelo de IA configurado (Gemini, Groq ou Ollama, em Configurações de IA), que só afirma o que as ferramentas do sistema devolvem. Dado pessoal é barrado antes de chegar ao modelo. Se a IA falhar na hora, a Auxilia responde pelas regras e pela base.
 
 ## Como rodar
 
@@ -30,14 +32,13 @@ Os testes do sistema não dependem da internet: a situação das linhas e os avi
 
 ## As telas
 
-| Grupo | Páginas |
+| Parte | O que tem |
 |---|---|
-| Para você | **Antes de sair** (trajeto salvo, decisão do dia, Plano B quando a linha para, segurança nas estações e energia da viagem), **Trem e metrô agora** (as linhas e o aviso do INMET) e **Pergunte** (orientação oficial com fonte) |
-| Entenda | Como funciona: o problema, o passo a passo, o fluxograma, as matérias e de onde vêm os dados |
-| Laboratório | Simulação da sociedade: passageiros simulados avaliam cada parte e cada canal (app, painel na estação, WhatsApp) |
-| Matérias | Painel da equipe e uma página por matéria, com **Entenda**, **Teste** e **Checklist da entrega** |
+| O sistema | A conversa com a Auxilia, vista como **notebook** ou dentro de um **celular** (no celular de verdade, tela cheia) |
+| A sociedade | Dez passageiros simulados vivem uma situação do dia (linha parada no pico, temporal, volta à noite, dia normal); a conversa de cada um vem do sistema de verdade |
+| As matérias | **Case norteador** (o que o caso pede, o roteiro do pitch, o que cada matéria faz dentro e fora do sistema), Painel da equipe e uma página por matéria com **Entenda**, **Teste** e **Checklist da entrega** |
 
-O **modo banca** mostra o selo da matéria em cada parte e libera a simulação de falha numa linha, para a apresentação. A falha simulada aparece marcada como simulação.
+O **modo banca** abre o painel "Por trás da tela": quem fez cada parte da última resposta, a simulação de falha numa linha e o aviso que chega no celular antes de sair (tocar no aviso continua a conversa). A falha simulada aparece marcada como simulação.
 
 ## As 8 matérias no produto
 
@@ -58,8 +59,9 @@ O **modo banca** mostra o selo da matéria em cada parte e libera a simulação 
 
 | Pasta | O que tem |
 |---|---|
-| `sistema/mobilidade/` | Rede (Dijkstra com custo de baldeação e desvio até a próxima troca), fontes ao vivo (linhas e INMET, com cache de 90 s e histórico local), decisão do dia, energia e a montagem do Antes de sair |
-| `sistema/` | API, Pergunte (`conversa.py`), barreira de dado pessoal, camada de IA, testes das matérias, laboratório e checklist |
+| `sistema/assistente.py` | A Auxilia: instruções, ferramentas (viagem, linhas, alertas, orientação, segurança, duração das falhas, mensagem de atraso, estação de casa), o laço com o modelo e as regras para quando a IA falha |
+| `sistema/mobilidade/` | Rede (Dijkstra com custo de baldeação e desvio até a próxima troca), fontes ao vivo (linhas, INMET e CGE, com cache e histórico local), decisão do dia, energia e a montagem da viagem |
+| `sistema/` | API, barreira de dado pessoal, camada de IA, busca por regras (`conversa.py`), testes das matérias, sociedade (`laboratorio.py`) e checklist |
 | `sistema/web/` | As telas (React, Vite e Tailwind) |
 | `sistema/dados/` | `rede.json` (do GTFS), `seguranca_estacoes.json` (da SSP-SP), `personas.json` e `checklist.json` |
 | `scripts/montar_rede.py` | Monta `rede.json` a partir do GTFS da SPTrans e dos alagamentos do GeoSampa |
@@ -72,9 +74,13 @@ O **modo banca** mostra o selo da matéria em cada parte e libera a simulação 
 - Rede: GTFS da SPTrans.
 - Situação das linhas: agregador público (não oficial) que lê os avisos das seis operadoras. A linha 7 não aparece nele.
 - Chuva: avisos ativos do INMET filtrados para a cidade de São Paulo.
-- Alagamentos: camada de pontos de risco do GeoSampa.
+- Alagamentos: CGE da Prefeitura ao vivo (estado de atenção ou alerta e pontos do dia) e áreas de risco do GeoSampa.
 - Segurança: planilha de dados criminais da SSP-SP de 2026, contada por estação, sem endereço e sem dado de pessoa.
 - Energia: MCTI (fator da rede elétrica), Relatório Integrado 2025 do Metrô, INMETRO (PBEV), Inventário Nacional de Emissões e ANP.
+
+**Limitação conhecida:** o GTFS da SPTrans distribui o tempo dos trens da CPTM por igual entre as estações e infla essas viagens (a linha 8 soma 140 min de ponta a ponta). As linhas do metrô estão coerentes. A equipe precisa decidir se corrige com o tempo publicado pela CPTM.
+
+Ficaram de fora por não serem abertos: alertas do Waze (só para parceiros) e posição dos ônibus da SPTrans (exige cadastro aprovado).
 
 **Ainda em conferência:** orientações, serviços, fatores de energia e a base da SSP vieram de fontes oficiais lidas em 12/11/2026, mas a equipe precisa abrir cada fonte e confirmar antes de entregar. Veja `pesquisa/FONTES_MOBILIDADE.md`, `pesquisa/ENERGIA_FONTES.md` e `entregas/mlam/dados/LEIA-ME.md`.
 
@@ -83,7 +89,7 @@ O **modo banca** mostra o selo da matéria em cada parte e libera a simulação 
 Detalhes em `docs/decisoes/0001-o-nucleo-e-a-entrega.md`.
 
 - **O núcleo é a entrega.** O arquivo que o professor roda é o mesmo que o app chama.
-- **Privacidade antes de tudo.** Sem conta, sem nome e sem localização; o trajeto fica no aparelho. A barreira de dado pessoal roda antes de qualquer registro e de qualquer chamada a modelo de IA.
+- **Privacidade antes de tudo.** Sem conta, sem nome e sem localização; a única lembrança é a estação de casa, no aparelho da pessoa. A barreira de dado pessoal roda antes de qualquer registro e de qualquer chamada a modelo de IA.
 - **Funciona sem IA.** A chave fica em `config.local.json`, fora do git, e a tela nunca recebe a chave de volta.
 - **Não é canal oficial.** O app mostra de onde veio cada informação e a hora em que foi lida.
 

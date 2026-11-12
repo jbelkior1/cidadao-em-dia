@@ -381,7 +381,7 @@ export function TesteMlam() {
 
 export function TesteEmConstrucao({ cod }: { cod: string }) {
   const textos: Record<string, string> = {
-    PAI: "O agente da entrega ainda não foi feito. Quando estiver pronto, o Pergunte com IA responde com a base de leis e regulamentos do passageiro e este teste mostra o placar do juiz antes e depois da melhoria. Hoje dá para ligar um modelo nas Configurações.",
+    PAI: "O agente da entrega ainda não foi feito. Quando estiver pronto, a entrega da PAI (RAG com base própria, juiz e testes) fica à parte. No sistema, a parte de IA já é a Auxilia: ligue um modelo nas Configurações e converse com ela.",
     MMC: "O simulador dos ônibus de apoio entra se houver tempo: a frota de 72 ônibus por região e a redistribuição por transformação linear criada pelo grupo, que mantém o total e não gera número negativo.",
     COA: "Esta entrega fica fora do app, no Wokwi: um Raspberry Pi Pico com sensor de nível de água acende o alerta num ponto de alagamento. No app, os pontos de alagamento vêm do GeoSampa.",
   };

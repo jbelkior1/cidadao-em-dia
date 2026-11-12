@@ -1,16 +1,19 @@
-"""Laboratório: simulação da sociedade (sem IA).
+"""A sociedade usando o sistema: passageiros simulados vivendo um dia com a Auxilia (sem IA).
 
 Inspirado no TinyTroupe (microsoft/TinyTroupe, MIT): personas descritas em JSON
-avaliam uma parte do produto, cada uma com a sua realidade.
+vivem uma situação do dia, cada uma com a sua realidade e o seu trajeto.
 
 Como funciona:
-  1. Cada persona é um passageiro de São Paulo com internet, familiaridade com o
-     celular, confiança em aviso pelo celular, necessidades e um canal preferido
+  1. Cada persona é um passageiro de São Paulo com trajeto, internet, familiaridade com
+     o celular, confiança em aviso pelo celular, necessidades e um canal preferido
      (sistema/dados/personas.json).
-  2. Para a parte do produto e os canais escolhidos, um modelo logístico calcula a
-     chance de a persona usar o produto: utilidade menos barreiras.
-  3. A fala de cada persona é montada a partir dos motivos que mais pesaram.
-  4. Uma população sintética (milhares de pessoas parecidas com as personas, com
+  2. Na situação escolhida (dia normal, linha parada no pico, temporal, volta à noite),
+     o sistema de verdade confere o trajeto da persona: rede, desvio, decisão da CS e
+     segurança da SSP-SP. Isso vira a conversa dela com a Auxilia.
+  3. Um modelo logístico calcula a chance de ela usar o sistema: quanto ele ajuda
+     naquela situação menos as barreiras de internet, uso do celular e confiança.
+  4. A fala de cada persona é montada a partir dos motivos que mais pesaram.
+  5. Uma população sintética (milhares de pessoas parecidas com as personas, com
      variação aleatória) estima a adesão por perfil.
 
 Tudo aqui é FICTÍCIO: pesos, personas e proporções servem para discutir o
@@ -19,6 +22,7 @@ produto, não são pesquisa. O teste com pessoas de verdade (PCP, SERS e PAI ped
 """
 import json
 import math
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -30,13 +34,18 @@ NECESSIDADE_TEXTO = {"linha_parada": "saber na hora se a linha parou e por onde 
                      "seguranca": "saber em que horário a estação é mais tranquila", "direitos": "conseguir a declaração de atraso e saber meus direitos",
                      "custo": "comparar quanto gasto indo de carro ou de trem"}
 
-# partes do produto: o que atendem e quanto exigem de internet e de familiaridade com o celular
-PARTES = {
-    "Plano B completo": {"atende": ["linha_parada", "chuva", "seguranca", "direitos", "custo"], "internet": 0.55, "letramento": 0.5},
-    "Antes de sair": {"atende": ["linha_parada", "chuva", "seguranca", "custo"], "internet": 0.5, "letramento": 0.45},
-    "Trem e metrô agora": {"atende": ["linha_parada"], "internet": 0.45, "letramento": 0.3},
-    "Pergunte": {"atende": ["direitos", "seguranca"], "internet": 0.5, "letramento": 0.6},
+# situações do dia: o que a Auxilia resolve nelas, a hora e o que muda na viagem
+SITUACOES = {
+    "Linha parada na hora do pico": {"atende": ["linha_parada", "direitos"], "hora": 18, "falha": True, "chuva": False, "volta": False,
+                                     "internet": 0.5, "letramento": 0.5},
+    "Temporal no fim da tarde": {"atende": ["chuva", "linha_parada"], "hora": 17, "falha": False, "chuva": True, "volta": False,
+                                 "internet": 0.5, "letramento": 0.5},
+    "Volta para casa à noite": {"atende": ["seguranca", "linha_parada"], "hora": 22, "falha": False, "chuva": False, "volta": True,
+                                "internet": 0.5, "letramento": 0.5},
+    "Dia normal": {"atende": ["custo", "seguranca"], "hora": 11, "falha": False, "chuva": False, "volta": False,
+                   "internet": 0.5, "letramento": 0.5},
 }
+PARTES = SITUACOES   # nome usado pela API desde a primeira versão
 # canais: quanto diminuem a exigência e quem os prefere
 CANAIS = {
     "App e site": {"internet": 0.0, "letramento": 0.0, "combina": ["app"]},
@@ -92,6 +101,71 @@ def falar(p: dict, veredito: str, barreira: str, canal: str, parte_nome: str, pe
     return " ".join(frases)
 
 
+FAIXA_FRASE = {"madrugada": "de madrugada", "manha": "de manhã", "tarde": "à tarde", "noite": "à noite"}
+
+
+def conversa_da_persona(p: dict, situacao_nome: str, hoje: datetime | None = None) -> dict | None:
+    """O que a persona escreveria à Auxilia nessa situação e o que o sistema de verdade responderia.
+
+    Usa a rede, o desvio, a decisão da CS e a segurança da SSP-SP. A situação do dia (falha,
+    temporal, horário) é simulada; o resto vem dos mesmos módulos que a Auxilia usa.
+    """
+    from sistema.assistente import resolver_estacao
+    from sistema.mobilidade import decisao, plano
+
+    sit = SITUACOES[situacao_nome]
+    a, b = resolver_estacao(p["origem"]), resolver_estacao(p["destino"])
+    if not a or not b:
+        return None
+    if sit["volta"]:
+        a, b = b, a
+    agora = (hoje or datetime.now()).replace(hour=sit["hora"], minute=0, second=0, microsecond=0)
+    if agora.weekday() >= 5:                               # simula num dia útil, como a rotina das personas
+        agora = agora.replace(day=agora.day - (agora.weekday() - 4))
+    from sistema.mobilidade import rede
+    normal = rede.rota(a["id"], b["id"])
+    falha = normal["linhas"][0] if (sit["falha"] and normal and normal["linhas"]) else None
+    pl = plano.antes_de_sair(a["id"], b["id"], simular_falha=falha, agora=agora)
+    entradas = dict(pl["entradas"])
+    entradas["chuva"] = sit["chuva"]                     # a situação manda: a chuva e a falha reais de hoje não entram
+    if not sit["falha"]:
+        entradas["falha"] = False
+    codigo = decisao.decidir(entradas["falha"], entradas["chuva"], entradas["alagamento"], entradas["pico"])
+    frase = decisao.TEXTO[codigo]
+    pelas = lambda linhas: f"Pela Linha {linhas[0]}" if len(linhas) == 1 else f"Pelas linhas {', '.join(linhas[:-1])} e {linhas[-1]}"
+
+    if sit["falha"]:
+        pergunta = f"A Linha {falha} parou e eu tô indo para {b['nome']}. E agora?"
+        pb = pl.get("plano_b") or {}
+        if pb.get("parcial"):
+            resposta = f"{frase}. {pb['parcial']['texto']} Chega em uns {pb['parcial']['rota']['minutos']} min."
+        elif pb.get("alternativa") and pb.get("recomendacao") == "desviar":
+            resposta = f"{frase}. Desvie: {pelas(pb['alternativa']['linhas']).lower()}, {pb['alternativa']['minutos']} min (+{pb['acrescimo_min']})."
+        else:
+            resposta = f"{frase}. Não há outro caminho por trilho; espere ou procure o ônibus de apoio (PAESE) na estação."
+        resposta += " Se quiser, monto a mensagem para avisar que você vai atrasar."
+    elif sit["chuva"]:
+        pergunta = f"Tá caindo um temporal. Consigo chegar em {b['nome']}?"
+        resposta = f"{frase}. {pelas(pl['rota']['linhas'])}, uns {pl['rota']['minutos']} min; com chuva, conte com atraso."
+        alag = [m["texto"] for m in pl["motivos"] if m["tipo"] == "alagamento"]
+        if alag:
+            resposta += f" Atenção, área de alagamento perto de {alag[0]}."
+    elif sit["volta"]:
+        pergunta = f"Vou voltar de {a['nome']} para {b['nome']} agora à noite. É tranquilo?"
+        s = plano.seguranca_da_estacao(b["id"]) or plano.seguranca_da_estacao(a["id"])
+        resposta = f"{frase}. São uns {pl['rota']['minutos']} min."
+        if s:
+            resposta += (f" Perto de {s['estacao']}, os registros na SSP-SP são mais comuns {FAIXA_FRASE.get(s['faixa_mais_comum'], s['faixa_mais_comum'])}; "
+                         "prefira a saída mais movimentada.")
+    else:
+        pergunta = f"Vou de {a['nome']} para {b['nome']}. Posso ir?"
+        resposta = f"{frase}. {pelas(pl['rota']['linhas'])}, uns {pl['rota']['minutos']} min."
+        if pl.get("energia"):
+            e = pl["energia"]
+            resposta += f" De trilho você emite uns {round(e['modos'][0]['co2_kg'] * 1000)} g de CO₂; de carro seriam {str(e['modos'][2]['co2_kg']).replace('.', ',')} kg."
+    return {"pessoa": pergunta, "auxilia": resposta, "decisao": codigo}
+
+
 def ouvir_personas(parte_nome: str, canais: list[str]) -> list[dict]:
     parte = PARTES[parte_nome]
     opinioes = []
@@ -104,6 +178,7 @@ def ouvir_personas(parte_nome: str, canais: list[str]) -> list[dict]:
             "internet": p["internet"], "genero": p["genero"], "canal": canal, "chance": round(chance, 2), "veredito": veredito,
             "nota": round(1 + 4 * chance), "fala": falar(p, veredito, barreira, canal, parte_nome, pesos),
             "barreira": BARREIRAS[barreira], "sugestao": SUGESTAO[barreira], "tem_barreira": barreira != "nenhuma",
+            "trajeto": f"{p['origem']} → {p['destino']}", "conversa": conversa_da_persona(p, parte_nome),
         })
     return sorted(opinioes, key=lambda o: -o["chance"])
 

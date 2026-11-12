@@ -58,6 +58,7 @@ export type TesteCS = { entradas: { falha: boolean; chuva: boolean; alagamento: 
 export type Opiniao = {
   id: string; nome: string; idade: number; quem: string; onde: string; perfil: string; internet: string; genero: string; canal: string;
   chance: number; veredito: "usaria" | "em dúvida" | "não usaria"; nota: number; fala: string; barreira: string; sugestao: string;
+  trajeto: string; conversa: { pessoa: string; auxilia: string; decisao: string } | null;
 };
 export type Simulacao = {
   parte: string; canais: string[]; n: number; semente: number; usariam: number; total_personas: number; adesao: number;
@@ -115,7 +116,7 @@ export const MATERIAS_DO_SISTEMA = [
   { cod: "DSA", curto: "Catálogo" },
   { cod: "SERS", curto: "Energia" },
   { cod: "MLAM", curto: "Segurança" },
-  { cod: "PAI", curto: "Pergunte com IA" },
+  { cod: "PAI", curto: "Auxilia (IA)" },
   { cod: "MMC", curto: "Ônibus de apoio" },
   { cod: "COA", curto: "Sensor de água" },
 ];
@@ -175,6 +176,51 @@ export const mobilidade = {
     pedir<PlanoDoDia>(`/api/mobilidade/plano?origem=${encodeURIComponent(origem)}&destino=${encodeURIComponent(destino)}${simular ? `&simular=${simular}` : ""}`),
   testeCS: (entradas: TesteCS["entradas"]) => pedir<TesteCS>("/api/teste/cs", { method: "POST", body: JSON.stringify(entradas) }),
   testeMLAM: () => pedir<TesteMLAM>("/api/teste/mlam"),
+};
+
+/* ---------------------------------------------------------------- assistente */
+
+export type EtapaCartao = { via: string; de: string; ate: string; min: number; paradas: number; cor: string | null };
+export type RotaCartao = { minutos: number; etapas: EtapaCartao[] };
+export type CartaoPlano = {
+  tipo: "plano"; origem: string; destino: string; veredito: PlanoDoDia["veredito"]; motivos: string[]; rota: RotaCartao;
+  linhas: { numero: string; cor: string; nivel: Nivel; simulado: boolean }[]; simulacao: string | null;
+  desvio: { recomendacao: "desviar" | "esperar"; texto: string; rota: RotaCartao | null; acrescimo_min: number | null } | null;
+  minutos: number; atraso_min: number; chegada: string | null;
+  seguranca: Partial<Record<"saida" | "chegada", { estacao: string; total: number; faixa: string }>>;
+  energia: { km: number; trilho_g: number; carro_kg: number; carro_custo: number; tarifa: number; percentual: number | null } | null;
+};
+export type LinhaCartao = { numero: string; nome: string; cor: string; status: string; nivel: Nivel; simulado: boolean };
+export type CartaoLinhas = { tipo: "linhas"; lido_em: string; linhas: LinhaCartao[] };
+export type CartaoOrientacao = { tipo: "orientacao"; titulo: string; resposta: string; onde: string; canal: string; fonte: string; verificado_em: string };
+export type CartaoSeguranca = { tipo: "seguranca"; estacao: string; total: number; faixa: string; por_faixa: Record<string, number>; tipo_principal: string; periodo: string };
+export type PontoCGE = { zona: string; bairro: string; ativo: boolean; transitavel: boolean; inicio: string; fim: string; via: string; sentido: string; referencia: string };
+export type CartaoAlertas = {
+  tipo: "alertas"; lido_em: string; inmet: AvisoTempo[]; cge_estado: { titulo: string; quando: string } | null; cge_ativos: number | null;
+  cge_pontos: PontoCGE[]; cge_ok: boolean;
+};
+export type CartaoPanorama = {
+  tipo: "panorama"; lido_em: string; problemas: LinhaCartao[]; normais: number; inmet: AvisoTempo[];
+  cge_estado: { titulo: string; quando: string } | null; cge_ativos: number | null;
+};
+export type CartaoMensagem = { tipo: "mensagem"; texto: string; para_quem: string };
+export type Cartao = CartaoPlano | CartaoLinhas | CartaoOrientacao | CartaoSeguranca | CartaoAlertas | CartaoPanorama | CartaoMensagem;
+export type Viagem = { origem: string; destino: string };
+export type RespostaAssistente = {
+  texto: string; recusa: boolean; cartoes: Cartao[]; rastro: Passo[]; sugestoes: string[]; ia: { usada: boolean; aviso: string }; aviso: string;
+  memoria: { casa?: string }; ultima_viagem: Viagem | null;
+};
+export type FalaHistorico = { papel: "pessoa" | "plano"; texto: string };
+
+export const assistente = {
+  inicio: (casa: string | null, simular?: string) => {
+    const q = new URLSearchParams();
+    if (casa) q.set("casa", casa);
+    if (simular) q.set("simular", simular);
+    return pedir<RespostaAssistente>(`/api/assistente/inicio?${q}`);
+  },
+  responder: (texto: string, historico: FalaHistorico[], contexto: { casa: string | null; ultima_viagem: Viagem | null }, simular?: string) =>
+    pedir<RespostaAssistente>("/api/assistente", { method: "POST", body: JSON.stringify({ texto, historico, contexto, simular: simular || null }) }),
 };
 
 /** Texto escuro sobre cores claras (Linha 4 Amarela, 15 Prata), branco nas demais. */

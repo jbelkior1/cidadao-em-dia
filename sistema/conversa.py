@@ -1,4 +1,4 @@
-"""O Pergunte do Plano B.
+"""Busca por regras do Plano B (base do PCP com o canal da DSA), usada pela rota /api/chat e pela Auxilia quando a IA falha.
 
 A pessoa escreve o que aconteceu ("a linha parou", "roubaram meu celular") e
 recebe a orientação oficial pela busca por pontos do PCP, com o serviço do

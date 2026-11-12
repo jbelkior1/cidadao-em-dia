@@ -101,6 +101,33 @@ def conversar(mensagens: list[dict], max_tokens: int = 350, temperatura: float =
     return texto.strip()
 
 
+def chamar_com_ferramentas(mensagens: list[dict], ferramentas: list[dict], max_tokens: int = 600, temperatura: float = 0.3,
+                           cfg: dict | None = None) -> dict:
+    """Uma rodada com ferramentas (function calling no formato OpenAI). Devolve a mensagem do modelo como veio.
+
+    A mensagem volta inteira para o histórico na rodada seguinte: os modelos novos do Gemini anexam
+    uma assinatura às chamadas de ferramenta e recusam a continuação sem ela.
+    """
+    cfg = cfg or config.ler()
+    if not ligada(cfg):
+        raise IAIndisponivel("A IA não está configurada.")
+    uso = uso_de_hoje()
+    if cfg["limite_diario"] and uso["chamadas"] >= cfg["limite_diario"]:
+        raise IAIndisponivel(f"O limite de {cfg['limite_diario']} chamadas de IA por dia foi atingido.")
+    corpo = {"model": cfg["modelo"], "messages": mensagens, "tools": ferramentas, "tool_choice": "auto",
+             "max_tokens": max_tokens, "temperature": temperatura}
+    try:
+        r = httpx.post(cfg["base_url"].rstrip("/") + "/chat/completions", json=corpo, headers=_cabecalhos(cfg), timeout=TEMPO_LIMITE)
+        r.raise_for_status()
+        dados = r.json()
+        mensagem = dados["choices"][0]["message"]
+    except (httpx.HTTPError, KeyError, IndexError, ValueError) as e:
+        raise IAIndisponivel(_explicar_erro(e)) from None
+    consumo = dados.get("usage") or {}
+    _somar_uso(int(consumo.get("prompt_tokens", 0)), int(consumo.get("completion_tokens", 0)))
+    return mensagem
+
+
 def testar(cfg: dict | None = None) -> dict:
     """Confere a conexão: lista os modelos e faz uma chamada mínima."""
     cfg = cfg or config.ler()
