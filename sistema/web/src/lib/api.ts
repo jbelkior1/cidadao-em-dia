@@ -133,7 +133,7 @@ export const CORES_DAS_MATERIAS: Record<string, string> = {
   Sistema: "#556A6A",
 };
 
-/* ---------------------------------------------------------------- Plano B (mobilidade) */
+/* ---------------------------------------------------------------- mobilidade */
 export type Nivel = "normal" | "atencao" | "parada" | "encerrada" | "sem_dado";
 export type LinhaInfo = { numero: string; nome: string; cor: string };
 export type EstacaoEscolha = { id: string; nome: string; linhas: string[] };

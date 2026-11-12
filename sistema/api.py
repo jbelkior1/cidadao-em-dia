@@ -22,7 +22,7 @@ async def ciclo_de_vida(_app):
     yield
 
 
-app = FastAPI(title="Plano B", docs_url="/api/docs", openapi_url="/api/openapi.json", lifespan=ciclo_de_vida)
+app = FastAPI(title="Auxilia", docs_url="/api/docs", openapi_url="/api/openapi.json", lifespan=ciclo_de_vida)
 
 
 class Mensagem(BaseModel):
@@ -142,7 +142,7 @@ def listar_materias() -> dict:
             "situacao": {"PCP": pcp.situacao(), "DSA": dsa.situacao()}}
 
 
-# ---------------------------------------------------------------- Plano B: mobilidade
+# ---------------------------------------------------------------- mobilidade
 @app.get("/api/mobilidade/estacoes")
 def estacoes() -> dict:
     return {"estacoes": rede.estacoes_para_escolha(),

@@ -1,4 +1,4 @@
-"""A decisão do dia: "pode ir", "saia mais cedo" ou "use o Plano B".
+"""A decisão do dia: "pode ir", "saia mais cedo" ou "mude o caminho".
 
 ESTE É O LUGAR DA MATÉRIA DE CS.
 O enunciado de CS pede um módulo de decisão lógica com 3 ou 4 variáveis
@@ -28,7 +28,7 @@ PLANO_B = "plano_b"
 TEXTO = {
     PODE_IR: "Pode ir",
     MAIS_CEDO: "Saia mais cedo",
-    PLANO_B: "Use o Plano B",
+    PLANO_B: "Mude o caminho",
 }
 
 

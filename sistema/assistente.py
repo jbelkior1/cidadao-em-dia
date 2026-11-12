@@ -1,4 +1,4 @@
-"""Auxilia: a agente do Plano B, que acompanha a pessoa no trem e no metrô de São Paulo.
+"""Auxilia: a agente que acompanha a pessoa no trem e no metrô de São Paulo.
 
 A conversa é o sistema inteiro. A pessoa escreve "estou saindo de casa", a Auxilia
 pergunta para onde ela vai, confere tudo e responde com a conclusão e cartões
@@ -67,7 +67,7 @@ def _f(nome: str, descricao: str, propriedades: dict | None = None, obrigatorios
 
 FERRAMENTAS = [
     _f("ver_trajeto",
-       "Confere uma viagem de trem e metrô AGORA: decisão (pode ir, saia mais cedo, use o Plano B), caminho, previsão de chegada, "
+       "Confere uma viagem de trem e metrô AGORA: decisão (pode ir, saia mais cedo, mude o caminho), caminho, previsão de chegada, "
        "desvio se uma linha falhar, chuva, alagamento, pico, segurança na saída e na chegada e energia da viagem.",
        {"origem": {"type": "string", "description": "estação de saída"}, "destino": {"type": "string", "description": "estação de chegada"}},
        ["origem", "destino"]),
@@ -140,8 +140,8 @@ class Sessao:
         c = cartao_do_plano(p, self.agora)
         self.cartao(c)
         resumo = {"origem": p["origem"], "destino": p["destino"], "decisao": p["veredito"]["texto"],
-                  "motivos": [m["texto"] for m in p["motivos"]], "minutos": p["rota"]["minutos"],
-                  "chegada_prevista": c["chegada"], "caminho": _texto_do_caminho(p["rota"]), "simulacao": p["simulacao"]}
+                  "motivos": [m["texto"] for m in p["motivos"]], "minutos_da_viagem": c["minutos"],
+                  "minutos_pelo_caminho_normal": p["rota"]["minutos"], "chegada_prevista": c["chegada"], "caminho": _texto_do_caminho(p["rota"]), "simulacao": p["simulacao"]}
         if c["atraso_min"]:
             resumo["atraso_previsto_min"] = c["atraso_min"]
         if p["plano_b"]:
@@ -310,7 +310,7 @@ def _instrucoes(contexto: dict, simular: str | None, agora: datetime) -> str:
     if _nome_da_estacao(ultima.get("origem")) and _nome_da_estacao(ultima.get("destino")):
         ultima_txt = f"Última viagem conferida nesta conversa: de {_nome_da_estacao(ultima['origem'])} para {_nome_da_estacao(ultima['destino'])}."
     dia = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"][agora.weekday()]
-    return f"""Você é a {NOME}, agente do app Plano B que acompanha a pessoa no trem e no metrô de São Paulo, no dia a dia. Agora são {agora:%H:%M} de {dia}, {agora:%d/%m/%Y}.
+    return f"""Você é a {NOME}, agente que acompanha a pessoa no trem e no metrô de São Paulo, no dia a dia. Agora são {agora:%H:%M} de {dia}, {agora:%d/%m/%Y}.
 {"Estação perto de casa (guardada no aparelho dela): " + casa + "." if casa else "Você ainda não sabe a estação perto de casa."}
 {ultima_txt}
 {f"ATENÇÃO: há uma simulação de falha na Linha {simular} ligada (demonstração para a banca). Diga que é simulação quando citar." if simular else ""}
@@ -318,7 +318,7 @@ def _instrucoes(contexto: dict, simular: str | None, agora: datetime) -> str:
 Como conduzir:
 - Você conduz a conversa, como uma pessoa que ajuda. Se a pessoa disser que está saindo e não disser para onde, pergunte para onde vai. Se faltar a estação de saída e você não souber a de casa, pergunte de qual estação ela sai. Uma pergunta por vez.
 - Quando souber saída e destino, chame ver_trajeto na hora, sem pedir confirmação. Se ela disser a estação de casa, chame lembrar_casa também.
-- Se a viagem tiver atraso ou Plano B, ofereça montar a mensagem para avisar quem está esperando (mensagem_de_atraso). Para montar a mensagem de uma viagem já conferida, chame só mensagem_de_atraso (não precisa conferir de novo).
+- Se a viagem tiver atraso ou precisar mudar de caminho, ofereça montar a mensagem para avisar quem está esperando (mensagem_de_atraso). Para montar a mensagem de uma viagem já conferida, chame só mensagem_de_atraso (não precisa conferir de novo).
 - Só chame ver_trajeto de novo se a pessoa mudar de viagem ou pedir para conferir outra vez.
 - Cumprimento ou agradecimento: responda curto e puxe o assunto da viagem.
 
@@ -467,7 +467,7 @@ def _resposta(texto: str, sessao: Sessao, contexto: dict, recusa: bool = False, 
     return {"texto": texto, "recusa": recusa, "cartoes": sessao.cartoes[-MAX_CARTOES:], "rastro": sessao.rastro,
             "sugestoes": sugestoes(sessao, contexto), "ia": {"usada": ia_usada, "aviso": aviso},
             "memoria": sessao.memoria, "ultima_viagem": _ultima_viagem(sessao) or None,
-            "aviso": "O Plano B não é canal oficial. Confirme com a operadora."}
+            "aviso": "A Auxilia não é canal oficial. Confirme com a operadora."}
 
 
 def _ultima_viagem(sessao: Sessao) -> dict | None:

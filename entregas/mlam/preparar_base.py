@@ -4,7 +4,7 @@
 Prepara a base "ocorrências criminais no entorno das estações de trem e metrô de São Paulo".
 
 Usada em duas frentes da Global Solution 2026.2 (FIAP, tema CitizenTech):
-  - app "Plano B": mostra, por estação, quando e que tipo de ocorrência é mais comum por perto;
+  - app "Auxilia": mostra, por estação, quando e que tipo de ocorrência é mais comum por perto;
   - matéria MLAM: base real para a análise estatística (regressão etc.).
 
 O que o script faz, em ordem:

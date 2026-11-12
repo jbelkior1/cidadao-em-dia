@@ -29,7 +29,7 @@ URL_CGE_ALAGAMENTOS = "https://www.cgesp.org/v3/alagamentos.jsp"
 CODIGO_IBGE_SP = "3550308"
 CACHE_SEG = 90
 HISTORICO = Path(__file__).resolve().parent.parent / "dados" / "historico_linhas.local.jsonl"
-CABECALHO = {"User-Agent": "PlanoB-GS2026/0.1 (trabalho academico)"}
+CABECALHO = {"User-Agent": "Auxilia-GS2026/0.1 (trabalho academico)"}
 
 _cache: dict[str, dict] = {}
 _trava = threading.Lock()
@@ -130,7 +130,7 @@ def avisos_tempo() -> dict:
 
 
 def _html_cge(url: str) -> str:
-    r = httpx.get(url, headers={"User-Agent": "Mozilla/5.0 (PlanoB-GS2026; trabalho academico)"}, timeout=25)
+    r = httpx.get(url, headers={"User-Agent": "Mozilla/5.0 (Auxilia-GS2026; trabalho academico)"}, timeout=25)
     r.raise_for_status()
     return r.content.decode(r.encoding or "iso-8859-1", errors="replace") if r.encoding else r.content.decode("iso-8859-1", errors="replace")
 

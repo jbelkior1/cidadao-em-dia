@@ -1,6 +1,6 @@
 # Base de ocorrências no entorno das estações (MLAM · Global Solution 2026.2)
 
-Base real, derivada da planilha oficial da SSP-SP, com uma linha por estação de trem ou metrô de São Paulo e a contagem de ocorrências registradas num raio de 300 m. Serve ao app "Plano B" (CitizenTech) e à análise estatística da matéria MLAM. Só há números agregados por estação: nenhum endereço, número de BO ou dado de pessoa foi gravado.
+Base real, derivada da planilha oficial da SSP-SP, com uma linha por estação de trem ou metrô de São Paulo e a contagem de ocorrências registradas num raio de 300 m. Serve ao app "Auxilia" (CitizenTech) e à análise estatística da matéria MLAM. Só há números agregados por estação: nenhum endereço, número de BO ou dado de pessoa foi gravado.
 
 ## Arquivos
 - `dados/ocorrencias_estacoes_2026.csv`: a base (139 linhas, uma por estação).

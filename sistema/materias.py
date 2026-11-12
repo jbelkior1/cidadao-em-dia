@@ -1,4 +1,4 @@
-"""O que cada matéria faz no Plano B: textos das páginas Entenda e do Painel da equipe.
+"""O que cada matéria faz na Auxilia: textos das páginas Entenda e do Painel da equipe.
 
 As oito matérias entram no produto. Cada professor continua recebendo a entrega
 no formato do enunciado; o código que ele corrige é o mesmo que roda no app.
@@ -25,11 +25,11 @@ NO_SISTEMA = [
     {
         "cod": "CS", "nome": "Computer Science", "curto": "A decisão do dia", "cor": "#4338CA",
         "papel": "Decide a frase principal do app a partir de quatro perguntas de sim ou não: há falha numa linha do trajeto, há aviso de chuva, há alagamento perto de alguma estação, é horário de pico.",
-        "ajuda": "A pessoa não precisa interpretar quatro informações: recebe uma frase só, \"pode ir\", \"saia mais cedo\" ou \"use o Plano B\".",
+        "ajuda": "A pessoa não precisa interpretar quatro informações: recebe uma frase só, \"pode ir\", \"saia mais cedo\" ou \"mude o caminho\".",
         "quando": ["Toda vez que a Auxilia confere uma viagem"],
         "recebe": "Quatro valores verdadeiro ou falso: falha (F), chuva (C), alagamento (A) e pico (P).",
         "devolve": "A decisão do dia.",
-        "no_chat": "Na decisão do cartão da viagem: pode ir, saia mais cedo ou use o Plano B.",
+        "no_chat": "Na decisão do cartão da viagem: pode ir, saia mais cedo ou mude o caminho.",
         "entrega": "Relatório em PDF com tabela-verdade, forma canônica, simplificação por álgebra e Karnaugh, circuitos original e simplificado, e um programa com a lógica simplificada.",
         "pasta": "", "rodar": "",
         "regra": "Tabela-verdade, Karnaugh e circuito são feitos pelo grupo, à mão. Usar IA nessas partes tira 4 pontos. Hoje o app usa uma regra provisória de prioridades, que será trocada pela expressão simplificada do grupo.",
@@ -101,10 +101,10 @@ NO_SISTEMA = [
         "cod": "MMC", "nome": "Modelagem Matemática e Computacional", "curto": "Os ônibus de apoio", "cor": "#6B7280",
         "papel": "Modela a frota de ônibus das regiões Norte, Sul, Leste e Oeste com um sistema linear e propõe uma redistribuição por transformação linear, que é o que acontece quando ônibus de apoio cobrem uma linha parada.",
         "ajuda": "Mostra como a cidade pode deslocar ônibus para atender uma falha sem perder ônibus e sem deixar região descoberta.",
-        "quando": ["Fora do sistema nesta versão; o simulador de ônibus de apoio entra se houver tempo"],
+        "quando": ["Fora do sistema: entrega própria da matéria (modelo matricial da frota e política de redistribuição)"],
         "recebe": "A frota disponível por região e a necessidade de cada uma.",
         "devolve": "A nova distribuição, com a prova de que mantém o total e não gera números negativos.",
-        "no_chat": "Na página da matéria; no sistema, o Plano B indica o ônibus de apoio (PAESE) quando não há desvio.",
+        "no_chat": "Fora do sistema. Entregue à parte, no formato do enunciado.",
         "entrega": "Etapa 1 (modelo matricial, unicidade e solução em Python) e etapa 2 (política de redistribuição por transformação linear).",
         "pasta": "", "rodar": "",
         "regra": "Frota de 72 ônibus. A matriz da transformação é criada pelo grupo e precisa preservar o total e não gerar valores negativos.",
@@ -116,10 +116,10 @@ NO_SISTEMA = [
         "cod": "COA", "nome": "Computer Organization and Architecture", "curto": "O sensor de alagamento", "cor": "#0891B2",
         "papel": "Um Raspberry Pi Pico com sensor de nível de água, no Wokwi, acende um alerta num ponto de alagamento (passagem subterrânea ou ponto de ônibus).",
         "ajuda": "Avisa no local quando a água sobe, antes de alguém tentar passar.",
-        "quando": ["Fora do sistema: é entregue no Wokwi. Na conversa, os alagamentos vêm do CGE e do GeoSampa"],
+        "quando": ["Fora do sistema: entregue no Wokwi, com a Raspberry Pi Pico e o sensor de nível de água"],
         "recebe": "A leitura do sensor de nível.",
         "devolve": "LED e buzina de alerta conforme o nível.",
-        "no_chat": "Na página da matéria.",
+        "no_chat": "Fora do sistema. Entregue à parte, no Wokwi.",
         "entrega": "Link do projeto no Wokwi com a Pico e o código em MicroPython, vídeo no YouTube e nomes de todos.",
         "pasta": "", "rodar": "",
         "regra": "Sensores e atuadores ligados ao problema escolhido. O enunciado cita alerta de risco em espaço público como exemplo.",
@@ -129,6 +129,10 @@ NO_SISTEMA = [
     },
 ]
 
-A_PARTE: list[dict] = []
+# Entregues à parte, fora do sistema: não fazem sentido dentro da conversa (o COA depende do Wokwi,
+# o MMC é um modelo matemático da frota). Continuam com página, teste e checklist próprios.
+FORA_DO_SISTEMA = ("MMC", "COA")
+A_PARTE: list[dict] = [m for m in NO_SISTEMA if m["cod"] in FORA_DO_SISTEMA]
+NO_SISTEMA = [m for m in NO_SISTEMA if m["cod"] not in FORA_DO_SISTEMA]
 
 POR_CODIGO = {m["cod"]: m for m in NO_SISTEMA + A_PARTE}

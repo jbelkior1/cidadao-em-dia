@@ -37,7 +37,7 @@ export const useMenu = () => useContext(ContextoMenu);
 function tituloDa(caminho: string): string {
   if (TITULOS[caminho]) return TITULOS[caminho];
   const cod = caminho.match(/^\/materias\/([a-z]+)/)?.[1]?.toUpperCase();
-  return cod ? `Matéria ${cod}` : "Plano B";
+  return cod ? `Matéria ${cod}` : "Auxilia";
 }
 
 function Marca() {
@@ -47,7 +47,7 @@ function Marca() {
         <span className="text-[17px] font-black tracking-tight" aria-hidden>B</span>
       </span>
       <div className="min-w-0 leading-tight">
-        <p className="truncate text-[15px] font-bold">Plano B</p>
+        <p className="truncate text-[15px] font-bold">Auxilia</p>
         <p className="truncate text-xs text-apagado">GS 2026.2 · FIAP</p>
       </div>
     </div>

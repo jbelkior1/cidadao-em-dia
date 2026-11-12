@@ -1,4 +1,4 @@
-"""Monta as bases das entregas a partir da pesquisa em fontes oficiais (tema do Plano B).
+"""Monta as bases das entregas a partir da pesquisa em fontes oficiais (tema da Auxilia).
 
     python pesquisa/montar_bases.py
 

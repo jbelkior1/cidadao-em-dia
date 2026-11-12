@@ -9,19 +9,22 @@ type No = { id: string; rotulo: string; sub?: string; x: number; y: number; w: n
 type Ligacao = { de: string; para: string; rotulo?: string; tracejada?: boolean };
 
 const NOS: No[] = [
-  { id: "cidadao", rotulo: "Passageiro", sub: "\"estou saindo de casa\"", x: 16, y: 196, w: 150, h: 60, tipo: "pessoa" },
-  { id: "auxilia", rotulo: "Auxilia", sub: "conversa e conduz", x: 214, y: 186, w: 170, h: 80, tipo: "tela" },
-  { id: "fontes", rotulo: "Fontes ao vivo", sub: "linhas, INMET, CGE", x: 430, y: 380, w: 190, h: 60, tipo: "tela" },
+  { id: "cidadao", rotulo: "Passageiro", sub: "\"estou saindo de casa\"", x: 16, y: 140, w: 150, h: 60, tipo: "pessoa" },
+  { id: "auxilia", rotulo: "Auxilia", sub: "conversa e conduz", x: 214, y: 130, w: 170, h: 80, tipo: "tela" },
+  { id: "fontes", rotulo: "Fontes ao vivo", sub: "linhas, INMET, CGE", x: 430, y: 300, w: 190, h: 60, tipo: "tela" },
   { id: "CS", rotulo: "CS", sub: "decisão da viagem", x: 730, y: 12, w: 168, h: 46, tipo: "materia" },
   { id: "SERS", rotulo: "SERS", sub: "energia da viagem", x: 730, y: 64, w: 168, h: 46, tipo: "materia" },
   { id: "MLAM", rotulo: "MLAM", sub: "segurança (SSP-SP)", x: 730, y: 116, w: 168, h: 46, tipo: "materia" },
-  { id: "MMC", rotulo: "MMC", sub: "ônibus de apoio", x: 730, y: 168, w: 168, h: 46, tipo: "materia" },
-  { id: "PCP", rotulo: "PCP", sub: "orientações oficiais", x: 730, y: 230, w: 168, h: 46, tipo: "materia" },
-  { id: "DSA", rotulo: "DSA", sub: "canal de atendimento", x: 730, y: 282, w: 168, h: 46, tipo: "materia" },
-  { id: "PAI", rotulo: "PAI", sub: "IA com ferramentas", x: 730, y: 334, w: 168, h: 46, tipo: "materia" },
-  { id: "COA", rotulo: "COA", sub: "sensor de água", x: 730, y: 396, w: 168, h: 46, tipo: "materia" },
-  { id: "wokwi", rotulo: "Wokwi", sub: "fora do sistema", x: 946, y: 396, w: 120, h: 46, tipo: "tela" },
+  { id: "PCP", rotulo: "PCP", sub: "orientações oficiais", x: 730, y: 168, w: 168, h: 46, tipo: "materia" },
+  { id: "DSA", rotulo: "DSA", sub: "canal de atendimento", x: 730, y: 220, w: 168, h: 46, tipo: "materia" },
+  { id: "PAI", rotulo: "PAI", sub: "IA com ferramentas", x: 730, y: 272, w: 168, h: 46, tipo: "materia" },
+  // entregues à parte: sem ligação com o sistema
+  { id: "COA", rotulo: "COA", sub: "sensor de água · Wokwi", x: 730, y: 388, w: 168, h: 46, tipo: "materia" },
+  { id: "MMC", rotulo: "MMC", sub: "frota de ônibus · modelo", x: 908, y: 388, w: 160, h: 46, tipo: "materia" },
 ];
+
+/** Molduras de agrupamento (desenhadas atrás dos nós, sem setas). */
+const GRUPOS = [{ x: 716, y: 348, w: 360, h: 98, rotulo: "Entregues à parte, fora do sistema" }];
 
 const LIGACOES: Ligacao[] = [
   { de: "cidadao", para: "auxilia" },
@@ -29,12 +32,9 @@ const LIGACOES: Ligacao[] = [
   { de: "auxilia", para: "CS", rotulo: "decide" },
   { de: "auxilia", para: "SERS" },
   { de: "auxilia", para: "MLAM" },
-  { de: "auxilia", para: "MMC", tracejada: true },
   { de: "auxilia", para: "PCP", rotulo: "orienta" },
   { de: "auxilia", para: "DSA" },
   { de: "auxilia", para: "PAI", rotulo: "conversa" },
-  { de: "fontes", para: "COA", rotulo: "alagamento", tracejada: true },
-  { de: "COA", para: "wokwi" },
 ];
 
 const POR_ID = Object.fromEntries(NOS.map((n) => [n.id, n]));
@@ -54,7 +54,7 @@ export default function Fluxograma({ destaque }: { destaque?: string }) {
 
   return (
     <div className="overflow-x-auto rounded-xl border border-linha bg-superficie p-3">
-      <svg viewBox="0 0 1080 456" className="min-w-[760px]" role="img"
+      <svg viewBox="0 0 1080 452" className="min-w-[760px]" role="img"
         aria-label={destaque ? `Fluxograma do sistema com a matéria ${destaque} em destaque` : "Fluxograma do sistema"}>
         <defs>
           {["normal", "foco", "cinza"].map((tipo) => (
@@ -63,6 +63,16 @@ export default function Fluxograma({ destaque }: { destaque?: string }) {
             </marker>
           ))}
         </defs>
+
+        {GRUPOS.map((g) => {
+          const on = !destaque || NOS.some((n) => n.id === destaque && n.x >= g.x && n.y >= g.y && n.y < g.y + g.h);
+          return (
+            <g key={g.rotulo}>
+              <rect x={g.x} y={g.y} width={g.w} height={g.h} rx={14} fill="none" stroke={on ? "#8FA19D" : CINZA.linha} strokeWidth={1.4} strokeDasharray="6 5" />
+              <text x={g.x + 12} y={g.y + 22} fontSize="12.5" fontWeight="600" fill={on ? "#556A6A" : CINZA.texto}>{g.rotulo}</text>
+            </g>
+          );
+        })}
 
         {LIGACOES.map((l) => {
           const emFoco = !destaque || l.de === destaque || l.para === destaque;

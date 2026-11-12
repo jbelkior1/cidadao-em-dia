@@ -77,7 +77,7 @@ function Plano({ c }: { c: CartaoPlano }) {
       )}
       {c.desvio ? (
         <div className="space-y-2 rounded-xl border-2 border-marca/60 bg-marca-suave/40 p-3">
-          <p className="text-[12px] font-bold tracking-wide text-marca-forte uppercase">Plano B · {c.desvio.recomendacao === "desviar" ? "desvie" : "espere"}</p>
+          <p className="text-[12px] font-bold tracking-wide text-marca-forte uppercase">Outro caminho · {c.desvio.recomendacao === "desviar" ? "desvie" : "espere"}</p>
           <p className="text-[13px]">{c.desvio.texto}</p>
           {c.desvio.rota && <EtapasCompactas rota={c.desvio.rota} />}
         </div>
@@ -235,7 +235,7 @@ function Mensagem({ c }: { c: CartaoMensagem }) {
           Abrir no WhatsApp
         </a>
       </div>
-      <p className="text-[11px] text-apagado">Você escolhe para quem enviar. O Plano B não envia nada sozinho.</p>
+      <p className="text-[11px] text-apagado">Você escolhe para quem enviar. A Auxilia não envia nada sozinha.</p>
     </div>
   );
 }

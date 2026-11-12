@@ -1,8 +1,8 @@
-# Plano B · GS 2026.2
+# Auxilia · GS 2026.2
 
 Saiba antes de sair se o seu trem vai te deixar na mão. Projeto da Global Solution 2026.2 da FIAP (CitizenTech).
 
-O sistema é uma conversa com a **Auxilia**, agente que acompanha a pessoa no trem e no metrô de São Paulo. A pessoa escreve "estou saindo de casa"; a Auxilia pergunta para onde ela vai, confere situação das linhas, aviso de chuva do INMET, alagamentos ao vivo do CGE, áreas de risco do GeoSampa e ocorrências da SSP-SP perto das estações, e responde com a decisão ("Pode ir", "Saia mais cedo" ou "Use o Plano B"), a previsão de chegada e o desvio quando uma linha para. Se for atrasar, ela monta a mensagem para a pessoa mandar pelo WhatsApp dela.
+O sistema é uma conversa com a **Auxilia**, agente que acompanha a pessoa no trem e no metrô de São Paulo. A pessoa escreve "estou saindo de casa"; a Auxilia pergunta para onde ela vai, confere situação das linhas, aviso de chuva do INMET, alagamentos ao vivo do CGE, áreas de risco do GeoSampa e ocorrências da SSP-SP perto das estações, e responde com a decisão ("Pode ir", "Saia mais cedo" ou "Mude o caminho"), a previsão de chegada e o desvio quando uma linha para. Se for atrasar, ela monta a mensagem para a pessoa mandar pelo WhatsApp dela.
 
 Cada mensagem passa pelo modelo de IA configurado (Gemini, Groq ou Ollama, em Configurações de IA), que só afirma o que as ferramentas do sistema devolvem. Dado pessoal é barrado antes de chegar ao modelo. Se a IA falhar na hora, a Auxilia responde pelas regras e pela base.
 
@@ -34,7 +34,7 @@ Os testes do sistema não dependem da internet: a situação das linhas e os avi
 
 | Parte | O que tem |
 |---|---|
-| O sistema | A conversa com a Auxilia, vista como **notebook** ou dentro de um **celular** (no celular de verdade, tela cheia) |
+| O sistema | A Auxilia em 3 layouts que se trocam na tela: **1 · Conversa** (o chat é a tela), **2 · Copiloto** (chat com painel vivo da viagem e da cidade) e **3 · Painel** (a viagem em destaque, ações rápidas e a conversa embaixo). Cada um pode ser visto como **notebook** ou dentro de um **celular**; no celular de verdade, tela cheia |
 | A sociedade | Dez passageiros simulados vivem uma situação do dia (linha parada no pico, temporal, volta à noite, dia normal); a conversa de cada um vem do sistema de verdade |
 | As matérias | **Case norteador** (o que o caso pede, o roteiro do pitch, o que cada matéria faz dentro e fora do sistema), Painel da equipe e uma página por matéria com **Entenda**, **Teste** e **Checklist da entrega** |
 
@@ -42,7 +42,7 @@ O **modo banca** abre o painel "Por trás da tela": quem fez cada parte da últi
 
 ## As 8 matérias no produto
 
-| Matéria | O que faz no Plano B | Onde está |
+| Matéria | O que faz na Auxilia | Onde está |
 |---|---|---|
 | PCP | Orientações por busca de pontos (linha parada, chuva, segurança, direitos, gratuidades) | `entregas/pcp/citizen-assist-ai/` (repositório próprio na entrega) |
 | CS | A decisão do dia a partir de 4 entradas: falha (F), chuva (C), alagamento (A) e pico (P) | `sistema/mobilidade/decisao.py` (regra provisória até o grupo fazer a parte de CS) |
@@ -50,10 +50,12 @@ O **modo banca** abre o painel "Por trás da tela": quem fez cada parte da últi
 | SERS | A mesma viagem de trem ou metrô, ônibus a diesel e carro: energia, CO₂ e custo | `sistema/mobilidade/energia.py`, `pesquisa/energia_modos.json` |
 | MLAM | Ocorrências da SSP-SP por estação (janeiro a setembro de 2026, raio de 300 m) | `entregas/mlam/` |
 | PAI | Pergunte com IA (versão do PDF geral); a versão do .docx segue à parte | camada de IA em `sistema/ia.py`; agente a fazer |
-| MMC | Ônibus de apoio: redistribuição da frota por transformação linear | entrega à parte; simulador se houver tempo |
-| COA | Sensor de nível de água num ponto de alagamento, no Wokwi | entrega à parte |
+| MMC | Fora do sistema: modelo matricial da frota e política de redistribuição | entrega à parte |
+| COA | Fora do sistema: sensor de nível de água num ponto de alagamento | entrega à parte, no Wokwi |
 
 **CS:** tabela-verdade, Karnaugh e circuito são feitos pelo grupo, à mão. Usar IA nessas partes tira 4 pontos. O teste da matéria no app mostra uma combinação por vez, sem montar a tabela.
+
+COA e MMC não fazem sentido dentro da conversa, então seguem só o que o enunciado pede, à parte. Continuam com página, teste e checklist no sistema, mas sem ligação com a Auxilia.
 
 ## Pastas
 
@@ -102,4 +104,4 @@ Detalhes em `docs/decisoes/0001-o-nucleo-e-a-entrega.md`.
 
 ## Versão anterior
 
-O esqueleto em Streamlit do tema anterior (Cidadão em Dia: `app.py`, `paginas/`, `modulos/`, `nucleo/`, `servicos/`, `data/`) continua na raiz só para manter a vitrine antiga em https://jbelkior1.github.io/cidadao-em-dia/. Não faz parte do Plano B.
+O esqueleto em Streamlit do tema anterior (Cidadão em Dia: `app.py`, `paginas/`, `modulos/`, `nucleo/`, `servicos/`, `data/`) continua na raiz só para manter a vitrine antiga em https://jbelkior1.github.io/cidadao-em-dia/. Não faz parte da Auxilia.

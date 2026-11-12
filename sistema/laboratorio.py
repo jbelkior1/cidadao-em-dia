@@ -55,7 +55,7 @@ CANAIS = {
 BARREIRAS = {"internet": "internet", "letramento": "uso do celular", "confianca": "confiança",
              "utilidade": "não atende o que precisa", "nenhuma": "nenhuma"}
 SUGESTAO = {"internet": "Mostrar o mesmo aviso em painéis nas estações, sem depender da internet da pessoa",
-            "letramento": "Letra grande, áudio e uma frase só: pode ir, saia mais cedo ou use o Plano B",
+            "letramento": "Letra grande, áudio e uma frase só: pode ir, saia mais cedo ou mude o caminho",
             "confianca": "Mostrar sempre de onde veio o aviso (operadora, INMET) e a hora da leitura",
             "utilidade": "Incluir os ônibus e as outras linhas que a pessoa usa no dia a dia",
             "nenhuma": "Divulgar nas estações, nos terminais e nas escolas para mais gente conhecer"}

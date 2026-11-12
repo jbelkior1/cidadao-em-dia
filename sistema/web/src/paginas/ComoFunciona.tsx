@@ -30,7 +30,7 @@ export default function ComoFunciona() {
     <div className="mx-auto w-full max-w-4xl space-y-10 px-4 py-8 lg:px-8">
       <header className="space-y-3">
         <p className="text-[13px] font-semibold tracking-wide text-marca-forte uppercase">Global Solution 2026.2 · CitizenTech · Citizen Assist AI</p>
-        <h2 className="text-3xl leading-tight font-bold">Auxilia: a agente que segura o seu Plano B no trem e no metrô</h2>
+        <h2 className="text-3xl leading-tight font-bold">Auxilia: a agente que segura o sua companhia no trem e no metrô</h2>
         <p className="text-lg text-apagado">
           O case pede um assistente que oriente o cidadão com fonte, avise as limitações e não use dados pessoais. A nossa resposta é uma
           conversa só: a pessoa diz que está saindo, a Auxilia confere linhas, chuva, alagamento e caminho e diz o que fazer.
@@ -104,6 +104,25 @@ export default function ComoFunciona() {
             </li>
           ))}
         </ul>
+        {!!materias?.a_parte.length && (
+          <div className="space-y-3 rounded-2xl border border-dashed border-linha p-4">
+            <p className="text-[15px] font-bold">Entregues à parte, fora do sistema</p>
+            <p className="text-[15px] text-apagado">
+              Estas atividades não fazem sentido dentro da conversa, então seguem só o que o enunciado pede, no formato dele.
+            </p>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {materias.a_parte.map((m) => (
+                <li key={m.cod} className="rounded-xl bg-superficie p-4 ring-1 ring-linha">
+                  <p className="font-bold">{m.cod} · {m.nome}</p>
+                  <p className="mt-1 text-[14px]"><span className="font-semibold">Entrega: </span>{m.entrega}</p>
+                  <Link to={`/materias/${m.cod.toLowerCase()}`} className="mt-2 inline-flex items-center gap-1 text-[14px] font-semibold text-marca-forte">
+                    Entenda, teste e checklist<ArrowRight className="size-4" aria-hidden />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
 
       <section className="space-y-3">
