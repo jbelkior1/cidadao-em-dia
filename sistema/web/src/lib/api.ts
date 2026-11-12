@@ -19,7 +19,7 @@ export type TesteIA = { ok: boolean; erro: string; modelos: string[]; resposta?:
 export type Materia = {
   cod: string; nome: string; curto?: string; cor: string; papel: string; no_chat?: string; entrega: string; pasta?: string; rodar?: string;
   regra?: string; ajuda?: string; quando?: string[]; recebe?: string; devolve?: string; nesta_versao?: string; como_testar?: string;
-  ver_funcionando?: { rotulo: string; acao: string }[];
+  ver_funcionando?: { rotulo: string; rota: string }[];
 };
 
 export type Status = "Feito" | "Falta conferir" | "A fazer";
@@ -47,10 +47,13 @@ export type TestePCP = {
 };
 export type NoDSA = { id: string; titulo: string; categoria: string; prazo: string; publico_alvo: string; canal: string };
 export type EstadoDSA = { ok: boolean; mensagem: string; tamanho: number; nos: NoDSA[]; achados: string[]; cabeca: string | null; cauda: string | null };
-export type TesteSERS = {
-  kwh: number; kwh_com_desconto: number; kwh_cobrados: number; preco_medio: number | null; desconto_mes: number | null; desconto_ano: number | null;
-  passos: string[]; fonte: string; consultado_em: string; falta: string;
+export type TesteSERS = NonNullable<Energia> & { passos: string[]; falta: string };
+export type TesteMLAM = {
+  ok: boolean; mensagem?: string; meta: { fonte: string; periodo: string; raio_m: number; observacao: string }; estacoes: number;
+  faixas: Record<string, number>; tipos: Record<string, number>;
+  ranking: { estacao: string; linhas: string[]; total: number; faixa_mais_comum: string }[]; falta: string;
 };
+export type TesteCS = { entradas: { falha: boolean; chuva: boolean; alagamento: boolean; pico: boolean }; codigo: string; texto: string; regra_provisoria: boolean; aviso: string };
 
 export type Opiniao = {
   id: string; nome: string; idade: number; quem: string; onde: string; perfil: string; internet: string; genero: string; canal: string;
@@ -100,18 +103,21 @@ export const api = {
   estadoDSA: () => pedir<EstadoDSA>("/api/teste/dsa"),
   operarDSA: (operacao: string, dados: Record<string, string> = {}) =>
     pedir<EstadoDSA>("/api/teste/dsa", { method: "POST", body: JSON.stringify({ operacao, dados }) }),
-  testeSERS: (kwh: number, valor: number | null) => pedir<TesteSERS>("/api/teste/sers", { method: "POST", body: JSON.stringify({ kwh, valor }) }),
+  testeSERS: (km: number) => pedir<TesteSERS>("/api/teste/sers", { method: "POST", body: JSON.stringify({ km }) }),
   laboratorio: () => pedir<OpcoesLaboratorio>("/api/laboratorio"),
   simular: (corpo: { parte: string; canais: string[]; n: number; semente: number }) =>
     pedir<Simulacao>("/api/laboratorio/simular", { method: "POST", body: JSON.stringify(corpo) }),
 };
 
 export const MATERIAS_DO_SISTEMA = [
-  { cod: "PCP", curto: "Assistente" },
+  { cod: "PCP", curto: "Orientações" },
+  { cod: "CS", curto: "Decisão do dia" },
   { cod: "DSA", curto: "Catálogo" },
   { cod: "SERS", curto: "Energia" },
-  { cod: "PAI", curto: "Agente com IA" },
-  { cod: "MLAM", curto: "Dados" },
+  { cod: "MLAM", curto: "Segurança" },
+  { cod: "PAI", curto: "Pergunte com IA" },
+  { cod: "MMC", curto: "Ônibus de apoio" },
+  { cod: "COA", curto: "Sensor de água" },
 ];
 
 export const CORES_DAS_MATERIAS: Record<string, string> = {
@@ -125,3 +131,55 @@ export const CORES_DAS_MATERIAS: Record<string, string> = {
   MMC: "#6B7280",
   Sistema: "#556A6A",
 };
+
+/* ---------------------------------------------------------------- Plano B (mobilidade) */
+export type Nivel = "normal" | "atencao" | "parada" | "encerrada" | "sem_dado";
+export type LinhaInfo = { numero: string; nome: string; cor: string };
+export type EstacaoEscolha = { id: string; nome: string; linhas: string[] };
+export type LinhaAgora = LinhaInfo & { status: string; descricao?: string; nivel: Nivel; operadora: string; simulado?: boolean };
+export type Etapa = { via: string; de: string; ate: string; paradas: number; min: number; linha?: LinhaInfo };
+export type Rota = { minutos: number; etapas: Etapa[]; linhas: string[]; estacoes: string[]; baldeacoes: number; km: number };
+export type Motivo = { tipo: "falha" | "ok" | "sem_dado" | "chuva" | "alagamento" | "pico"; texto: string };
+export type Seguranca = {
+  estacao: string; total: number; por_faixa: Record<string, number>; por_tipo: Record<string, number>; celular: number | null;
+  faixa_mais_comum: string; meta?: { fonte?: string; periodo?: string; raio_m?: number };
+} | null;
+export type ModoEnergia = {
+  modo: string; energia_kwh: number | null; co2_kg: number | null; co2_kg_max: number | null; custo_rs: number | null;
+  custo_tipo: "tarifa" | "combustível"; renovavel: boolean; nota: string;
+};
+export type Energia = {
+  km: number; modos: ModoEnergia[]; trilho_vs_carro: number | null; premissas: string[]; rotulo: string; fontes: string[]; consultado_em: string;
+} | null;
+export type PlanoB = {
+  recomendacao: "desviar" | "esperar"; texto: string; alternativa: Rota | null; acrescimo_min: number | null;
+  historico: { suficiente: boolean; episodios?: number; mediana_min?: number; coletando_desde?: string | null };
+  apoio: string; parcial?: { rota: Rota; acrescimo_min: number; texto: string };
+};
+export type PlanoDoDia = {
+  ok: boolean; origem: string; destino: string;
+  veredito: { codigo: "pode_ir" | "mais_cedo" | "plano_b"; texto: string; regra_provisoria: boolean };
+  entradas: { falha: boolean; chuva: boolean; alagamento: boolean; pico: boolean };
+  motivos: Motivo[]; rota: Rota; linhas: LinhaAgora[]; plano_b: PlanoB | null;
+  seguranca: { origem: Seguranca; destino: Seguranca }; energia: Energia;
+  fontes: { linhas: { nome: string; lido_em: string; ok: boolean; aviso: string }; tempo: { nome: string; lido_em: string; ok: boolean }; rede: string };
+  simulacao: string | null;
+};
+export type AvisoTempo = { quando: string; tipo: string; severidade: string; inicio: string; fim: string; riscos: string; instrucoes: string };
+
+export const mobilidade = {
+  estacoes: () => pedir<{ estacoes: EstacaoEscolha[]; linhas: LinhaInfo[] }>("/api/mobilidade/estacoes"),
+  linhas: () => pedir<{ linhas: LinhaAgora[]; fonte: string; lido_em: string; ok: boolean; aviso: string }>("/api/mobilidade/linhas"),
+  tempo: () => pedir<{ ok: boolean; lido_em: string; avisos: AvisoTempo[]; fonte: string }>("/api/mobilidade/tempo"),
+  plano: (origem: string, destino: string, simular?: string) =>
+    pedir<PlanoDoDia>(`/api/mobilidade/plano?origem=${encodeURIComponent(origem)}&destino=${encodeURIComponent(destino)}${simular ? `&simular=${simular}` : ""}`),
+  testeCS: (entradas: TesteCS["entradas"]) => pedir<TesteCS>("/api/teste/cs", { method: "POST", body: JSON.stringify(entradas) }),
+  testeMLAM: () => pedir<TesteMLAM>("/api/teste/mlam"),
+};
+
+/** Texto escuro sobre cores claras (Linha 4 Amarela, 15 Prata), branco nas demais. */
+export function corDoTexto(fundo: string): string {
+  const h = fundo.replace("#", "");
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16));
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.62 ? "#14212B" : "#FFFFFF";
+}

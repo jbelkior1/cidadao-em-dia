@@ -158,6 +158,12 @@ function Orientacao({ bloco, aoClicar, desligado }: { bloco: Bloco; aoClicar: Cl
             <dd>{bloco.onde}</dd>
           </div>
         )}
+        {bloco.canal && (
+          <div>
+            <dt className="font-semibold">Canal de atendimento</dt>
+            <dd>{bloco.canal}</dd>
+          </div>
+        )}
         {bloco.para_quem && (
           <div>
             <dt className="font-semibold">Para quem é</dt>

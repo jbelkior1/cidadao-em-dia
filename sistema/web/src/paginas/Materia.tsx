@@ -1,10 +1,10 @@
-import { ArrowUpRight, FlaskConical } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Checklist from "../componentes/Checklist";
 import Fluxograma from "../componentes/Fluxograma";
-import { TesteDsa, TesteEmConstrucao, TestePcp, TesteSers } from "../componentes/Testes";
+import { TesteCs, TesteDsa, TesteEmConstrucao, TesteMlam, TestePcp, TesteSers } from "../componentes/Testes";
 import { api, type DadosMateria } from "../lib/api";
 
 const PARTES = ["Entenda", "Teste", "Checklist da entrega"] as const;
@@ -58,22 +58,16 @@ function Entenda({ dados }: { dados: DadosMateria }) {
           </p>
         )}
       </section>
-      {(m.ver_funcionando?.length || m.cod === "MLAM") && (
+      {!!m.ver_funcionando?.length && (
         <section className="space-y-2">
           <h3 className="text-lg font-bold">Ver funcionando</h3>
           <div className="flex flex-wrap gap-2">
-            {m.ver_funcionando?.map((v) => (
-              <button key={v.acao} type="button" onClick={() => navegar("/", { state: { acao: v.acao, rotulo: v.rotulo } })}
+            {m.ver_funcionando.map((v) => (
+              <button key={v.rota} type="button" onClick={() => navegar(v.rota)}
                 className="inline-flex items-center gap-1.5 rounded-full bg-superficie px-4 py-2 text-[15px] font-semibold text-marca-forte ring-1 ring-marca/40 ring-inset hover:bg-marca-suave">
-                {v.rotulo} no atendimento <ArrowUpRight className="size-4" aria-hidden />
+                {v.rotulo} <ArrowUpRight className="size-4" aria-hidden />
               </button>
             ))}
-            {m.cod === "MLAM" && (
-              <button type="button" onClick={() => navegar("/laboratorio")}
-                className="inline-flex items-center gap-1.5 rounded-full bg-superficie px-4 py-2 text-[15px] font-semibold text-marca-forte ring-1 ring-marca/40 ring-inset hover:bg-marca-suave">
-                <FlaskConical className="size-4" aria-hidden /> Simulação da sociedade
-              </button>
-            )}
           </div>
         </section>
       )}
@@ -90,9 +84,11 @@ function Teste({ dados }: { dados: DadosMateria }) {
         {dados.materia.como_testar}
       </p>
       {cod === "PCP" && <TestePcp />}
+      {cod === "CS" && <TesteCs />}
       {cod === "DSA" && <TesteDsa />}
       {cod === "SERS" && <TesteSers />}
-      {(cod === "PAI" || cod === "MLAM") && <TesteEmConstrucao cod={cod} />}
+      {cod === "MLAM" && <TesteMlam />}
+      {(cod === "PAI" || cod === "MMC" || cod === "COA") && <TesteEmConstrucao cod={cod} />}
     </div>
   );
 }

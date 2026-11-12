@@ -71,7 +71,7 @@
     "COA: só um integrante entrega; não basta montar o circuito, é preciso mostrar a lógica do código e as leituras de sensor mudando a resposta do circuito. Deixar o link do Wokwi abrir sem login é cautela, não regra escrita.",
     "SERS: dados com origem, unidade, período e premissas; estimativa marcada como estimativa; solução sem análise de energia ou sem integração ao assistente não atende ao escopo. Enviar apenas um arquivo .txt.",
     "MMC: o enunciado não traz rubrica nem formato de entrega; a política de redistribuição deve ser criada pela equipe.",
-    "A base de 13 orientações (PCP e DSA) e a regra da Tarifa Social (SERS) vieram de páginas oficiais lidas em 12/11/2026 e ainda não foram conferidas pela equipe. Nenhuma data deve ser tratada como conferida até o grupo abrir cada fonte.",
+    "As bases do Plano B (16 orientações do PCP, 15 serviços da DSA, fatores de energia da SERS e ocorrências da SSP-SP da MLAM) vieram de fontes oficiais lidas em 12/11/2026 e ainda não foram conferidas pela equipe. Nenhuma data deve ser tratada como conferida até o grupo abrir cada fonte.",
     "As evidências de teste da DSA foram feitas com os 6 registros antigos; o historico.json e o CSV do PCP estão vazios. O grupo precisa refazer os testes com os dados atuais e tirar prints próprios.",
     "Integrantes e RM estão como \"A PREENCHER PELO GRUPO\" nos READMEs e na documentação.",
     "O PDF geral tem 28 páginas e as páginas 1, 8, 9, 12 e 28 não têm texto extraído (imagens, sem OCR); pode haver regra ali, principalmente nas p.8 e 9 (seção DESAFIOS). O PDF geral também tem texto de outros semestres (p.3 Future at Work, p.14 GS2026.1).",
@@ -138,7 +138,7 @@
           "fonte": "enunciado PCP seção 3",
           "quem": "grupo",
           "onde": "entregas/pcp/citizen-assist-ai/README.md (seção Público e problema); data/base_conhecimento.json",
-          "como": "A base existe (13 orientações sobre Cadastro Único, Tarifa Social, documentos e golpes), mas o README ainda diz \"A PREENCHER PELO GRUPO\" no público e no problema. O grupo precisa confirmar o público e escrever o texto.",
+          "como": "A base existe (16 orientações de mobilidade: linha parada, chuva e alagamento, segurança, direitos do passageiro e gratuidades), mas o README ainda diz \"A PREENCHER PELO GRUPO\" no público e no problema. O grupo precisa confirmar o público e escrever o texto.",
           "status": "Falta conferir"
         },
         {
@@ -171,7 +171,7 @@
           "fonte": "enunciado PCP seção 4; rubrica",
           "quem": "código",
           "onde": "entregas/pcp/citizen-assist-ai/data/base_conhecimento.json",
-          "como": "Há 13 orientações, 4 categorias (Cadastro e benefícios, Conta de luz, Documentos, Segurança digital) e 6 palavras-chave em cada. Teste test_minimos_do_enunciado passa.",
+          "como": "Há 16 orientações, 5 categorias e pelo menos 5 palavras-chave em cada. Teste test_minimos_do_enunciado passa.",
           "status": "Feito"
         },
         {
@@ -788,12 +788,12 @@
         {
           "id": "SERS-01",
           "requisito": "Definir o contexto: público, necessidade energética e como as orientações ajudam",
-          "detalhe": "\"Definição do contexto: identificar o público escolhido, a necessidade energética abordada e como as orientações poderão contribuir\". Hoje: família de baixa renda e conta de luz com a Tarifa Social.",
+          "detalhe": "\"Definição do contexto: identificar o público escolhido, a necessidade energética abordada e como as orientações poderão contribuir\". Hoje: passageiro de trem e metrô de São Paulo e a energia da viagem casa-trabalho (carro, ônibus a diesel, trilho elétrico).",
           "peso": "60 (Fundamentação e coerência técnica)",
           "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos",
           "quem": "grupo",
-          "onde": "sistema/servicos/energia.py (docstring); README da SERS (a criar)",
-          "como": "O público e a necessidade estão implícitos no código, mas o grupo ainda não confirmou nem escreveu isso.",
+          "onde": "sistema/mobilidade/energia.py (docstring); README da SERS (a criar)",
+          "como": "O público e a necessidade estão no código e na tela de energia, mas o grupo ainda não confirmou nem escreveu isso.",
           "status": "Falta conferir"
         },
         {
@@ -803,9 +803,9 @@
           "peso": "60 (Fundamentação e coerência técnica)",
           "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos",
           "quem": "código",
-          "onde": "",
-          "como": "Só existe a faixa de 80 kWh da Tarifa Social. Falta a base de consumo com origem, unidade, período e premissas.",
-          "status": "A fazer"
+          "onde": "pesquisa/energia_modos.json; pesquisa/ENERGIA_FONTES.md",
+          "como": "Fatores levantados em fontes oficiais, com unidade, ano e premissa (MCTI, Relatório Integrado do Metrô, INMETRO, ANP). Falta a equipe abrir as fontes e conferir os números lidos de PDF e o teor de etanol da gasolina.",
+          "status": "Falta conferir"
         },
         {
           "id": "SERS-03",
@@ -814,19 +814,19 @@
           "peso": "60 (Fundamentação e coerência técnica)",
           "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos e Desafio",
           "quem": "código",
-          "onde": "",
-          "como": "Não existe ainda. É o núcleo da nota: sem comparação a solução é genérica e não atende ao escopo.",
-          "status": "A fazer"
+          "onde": "sistema/mobilidade/energia.py: comparar",
+          "como": "Compara trilho elétrico (renovável: 86,8% da eletricidade do país em 2025), ônibus a diesel e carro a gasolina para a mesma viagem, com energia, CO₂ e custo. Falta revisar as premissas (ocupação do carro, lotação do ônibus) e escrever as limitações.",
+          "status": "Falta conferir"
         },
         {
           "id": "SERS-04",
-          "requisito": "Regra da Tarifa Social (fonte Aneel) no cálculo e no chat",
+          "requisito": "Comparação de modos (trilho, ônibus, carro) no cálculo e na tela",
           "detalhe": "Desconto de 100% no consumo de até 80 kWh por mês, nas contas emitidas a partir de 5 de julho de 2025; o que passa disso não tem desconto. Valor em reais é estimativa pelo preço médio da conta.",
           "peso": "60 (Fundamentação e coerência técnica)",
           "fonte": "pesquisa/dados_tarifa_social.json (página da Aneel lida em 12/11/2026)",
           "quem": "código",
-          "onde": "sistema/servicos/energia.py: calcular; sistema/servicos/direitos.py: orientar; sistema/conversa.py: _luz_resultado",
-          "como": "Calcula o consumo coberto e a estimativa de desconto, e o chat mostra com fonte e aviso. Testes dos serviços passam. EM_CONFERENCIA está ligado: o grupo precisa abrir a página da Aneel e confirmar a regra.",
+          "onde": "sistema/mobilidade/energia.py; sistema/testes.py: sers_testar; tela Antes de sair",
+          "como": "O Antes de sair mostra a comparação para a distância de cada trajeto, com premissas e o aviso de estimativa. O teste da matéria mostra cada conta passo a passo. Falta o grupo conferir os números.",
           "status": "Falta conferir"
         },
         {
@@ -836,9 +836,9 @@
           "peso": "30 (Aplicação e utilidade)",
           "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos; PDF geral p.25",
           "quem": "código",
-          "onde": "sistema/conversa.py; sistema/triagem.py",
-          "como": "Hoje o chat só traz a Tarifa Social (item acima). Falta incluir a comparação de alternativas e mostrar que ela sustenta a recomendação.",
-          "status": "A fazer"
+          "onde": "sistema/web/src/paginas/AntesDeSair.tsx (quadro de energia)",
+          "como": "A comparação aparece no Antes de sair, em linguagem simples, com as premissas e o aviso de estimativa. Falta validar o texto com usuários.",
+          "status": "Falta conferir"
         },
         {
           "id": "SERS-06",
@@ -848,7 +848,7 @@
           "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos",
           "quem": "código",
           "onde": "sistema/conversa.py: _luz_resultado",
-          "como": "O aviso \"Estimativa pelo preço médio da sua conta, não é garantia\" já aparece na conta de luz. Falta o mesmo cuidado na comparação e conferir as fontes.",
+          "como": "A tela diz \"Estimativa a partir de médias oficiais, não medição da sua viagem\" e lista as premissas; as fontes aparecem no teste da matéria. Falta conferir as fontes.",
           "status": "Falta conferir"
         },
         {
@@ -880,8 +880,8 @@
           "peso": "",
           "fonte": "enunciado SERS (portal), Entregáveis 1",
           "quem": "grupo",
-          "onde": "sistema/servicos/energia.py; pesquisa/dados_tarifa_social.json",
-          "como": "Só existe o código e os dados da Tarifa Social. Faltam os demais itens.",
+          "onde": "sistema/mobilidade/energia.py; pesquisa/energia_modos.json; pesquisa/ENERGIA_FONTES.md",
+          "como": "Código, dados com origem e fontes já existem. Faltam as justificativas e as referências no README.",
           "status": "A fazer"
         },
         {
@@ -1394,9 +1394,9 @@
           "peso": "",
           "fonte": "portal MLAM questão 01",
           "quem": "grupo",
-          "onde": "",
-          "como": "Escolher a base e justificar.",
-          "status": "A fazer"
+          "onde": "entregas/mlam/dados/ocorrencias_estacoes_2026.csv; entregas/mlam/dados/LEIA-ME.md",
+          "como": "Base real da SSP-SP (SPDadosCriminais_2026.xlsx), janeiro a setembro de 2026, contada num raio de 300 m de 139 estações da capital, gerada por entregas/mlam/preparar_base.py. Falta o grupo escrever a justificativa e conferir se as variáveis servem às questões 02 a 06 (limite: é contagem, sem o fluxo de passageiros).",
+          "status": "Falta conferir"
         },
         {
           "id": "MLAM-02",
@@ -1406,7 +1406,7 @@
           "fonte": "portal MLAM questão 02a",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1417,7 +1417,7 @@
           "fonte": "portal MLAM questão 02b",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1428,7 +1428,7 @@
           "fonte": "portal MLAM questão 03a",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1439,7 +1439,7 @@
           "fonte": "portal MLAM questão 03b",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1450,7 +1450,7 @@
           "fonte": "portal MLAM questão 04a",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1461,7 +1461,7 @@
           "fonte": "portal MLAM questão 04b",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1472,7 +1472,7 @@
           "fonte": "portal MLAM questão 04c",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1483,7 +1483,7 @@
           "fonte": "portal MLAM questão 04d",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1494,7 +1494,7 @@
           "fonte": "portal MLAM questão 04e",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1505,7 +1505,7 @@
           "fonte": "portal MLAM questão 04f",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1516,7 +1516,7 @@
           "fonte": "portal MLAM questão 05a",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1527,7 +1527,7 @@
           "fonte": "portal MLAM questão 05b",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1538,7 +1538,7 @@
           "fonte": "portal MLAM questão 05c",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1549,7 +1549,7 @@
           "fonte": "portal MLAM questão 05d",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1560,7 +1560,7 @@
           "fonte": "portal MLAM questão 05e",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1571,7 +1571,7 @@
           "fonte": "portal MLAM questão 05f",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1582,7 +1582,7 @@
           "fonte": "portal MLAM questão 06a",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1593,7 +1593,7 @@
           "fonte": "portal MLAM questão 06b",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1604,7 +1604,7 @@
           "fonte": "portal MLAM questão 06c",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não há código da MLAM.",
+          "como": "A base está pronta; falta o código desta questão.",
           "status": "A fazer"
         },
         {
@@ -1625,9 +1625,9 @@
           "peso": "",
           "fonte": "portal MLAM questão 08a",
           "quem": "grupo",
-          "onde": "",
-          "como": "Salvar a base escolhida.",
-          "status": "A fazer"
+          "onde": "entregas/mlam/dados/ocorrencias_estacoes_2026.csv",
+          "como": "ocorrencias_estacoes_2026.csv com 139 estações, total, faixas de horário e tipos. Conferir antes de enviar.",
+          "status": "Falta conferir"
         },
         {
           "id": "MLAM-23",
@@ -1637,7 +1637,7 @@
           "fonte": "portal MLAM questão 08b",
           "quem": "código",
           "onde": "",
-          "como": "Ainda não existe.",
+          "como": "Só existe preparar_base.py, que monta a base. Faltam os códigos das questões 02 a 06.",
           "status": "A fazer"
         },
         {
@@ -1837,7 +1837,7 @@
           "fonte": "enunciado CS p.1; PDF geral p.20",
           "quem": "grupo",
           "onde": "",
-          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "como": "No app, as quatro entradas (falha, chuva, alagamento e pico) já existem e uma regra provisória decide. O módulo da entrega, com a expressão simplificada pelo grupo, ainda não foi feito.",
           "status": "A fazer"
         },
         {
@@ -1903,7 +1903,7 @@
           "fonte": "enunciado CS p.1, item 6",
           "quem": "grupo",
           "onde": "",
-          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "como": "O teste da matéria no app aceita as quatro entradas e mostra a decisão, uma combinação por vez. Falta trocar a regra provisória pela expressão do grupo e fazer o programa da entrega.",
           "status": "A fazer"
         },
         {
@@ -1969,7 +1969,7 @@
           "fonte": "enunciado CS p.2",
           "quem": "grupo",
           "onde": "",
-          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "como": "O app chama sistema/mobilidade/decisao.py: decidir. Quando o grupo tiver a expressão simplificada, basta trocar o corpo dessa função e desligar REGRA_PROVISORIA.",
           "status": "A fazer"
         },
         {

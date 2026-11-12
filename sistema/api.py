@@ -4,15 +4,25 @@
 
 Se a interface já foi compilada (sistema/web/dist), a API também serve as telas.
 """
-from fastapi import FastAPI, HTTPException
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from sistema import checklist, config, conversa, ia, laboratorio, materias, testes
 from sistema.adaptadores import dsa, pcp
+from sistema.mobilidade import decisao, fontes, plano, rede
 
-app = FastAPI(title="Cidadão em Dia", docs_url="/api/docs", openapi_url="/api/openapi.json")
+
+@asynccontextmanager
+async def ciclo_de_vida(_app):
+    fontes.coletar_em_segundo_plano()      # grava a situação das linhas a cada 2 minutos enquanto a API estiver ligada
+    yield
+
+
+app = FastAPI(title="Plano B", docs_url="/api/docs", openapi_url="/api/openapi.json", lifespan=ciclo_de_vida)
 
 
 class Mensagem(BaseModel):
@@ -100,6 +110,61 @@ def listar_materias() -> dict:
             "situacao": {"PCP": pcp.situacao(), "DSA": dsa.situacao()}}
 
 
+# ---------------------------------------------------------------- Plano B: mobilidade
+@app.get("/api/mobilidade/estacoes")
+def estacoes() -> dict:
+    return {"estacoes": rede.estacoes_para_escolha(),
+            "linhas": [{"numero": n, "nome": l["nome"], "cor": l["cor"]} for n, l in rede.carregar()["linhas"].items()]}
+
+
+@app.get("/api/mobilidade/linhas")
+def linhas_agora() -> dict:
+    situacao = fontes.situacao_linhas()
+    lista = []
+    for n, info in rede.carregar()["linhas"].items():
+        atual = situacao["linhas"].get(n)
+        lista.append({"numero": n, "nome": info["nome"], "cor": info["cor"],
+                      "status": atual["status"] if atual else "Sem informação na fonte",
+                      "descricao": atual["descricao"] if atual else "",
+                      "nivel": atual["nivel"] if atual else "sem_dado",
+                      "operadora": atual["operadora"] if atual else ""})
+    return {"linhas": lista, "fonte": situacao["fonte"], "lido_em": situacao["lido_em"], "ok": situacao["ok"], "aviso": situacao.get("aviso", "")}
+
+
+@app.get("/api/mobilidade/tempo")
+def tempo_agora() -> dict:
+    return fontes.avisos_tempo()
+
+
+@app.get("/api/mobilidade/plano")
+def plano_do_dia(origem: str, destino: str, simular: str | None = Query(None, description="número da linha para simular uma falha")) -> dict:
+    if origem == destino:
+        raise HTTPException(400, "Escolha estações diferentes para a origem e o destino.")
+    resultado = plano.antes_de_sair(origem, destino, simular_falha=simular)
+    if not resultado.get("ok"):
+        raise HTTPException(404, resultado.get("erro", "Não encontrei esse trajeto."))
+    return resultado
+
+
+class EntradasCS(BaseModel):
+    falha: bool
+    chuva: bool
+    alagamento: bool
+    pico: bool
+
+
+@app.post("/api/teste/cs")
+def teste_cs(e: EntradasCS) -> dict:
+    codigo = decisao.decidir(e.falha, e.chuva, e.alagamento, e.pico)
+    return {"entradas": e.model_dump(), "codigo": codigo, "texto": decisao.TEXTO[codigo], "regra_provisoria": decisao.REGRA_PROVISORIA,
+            "aviso": "Regra provisória de prioridades. A tabela-verdade, o Karnaugh e o circuito são do grupo, feitos à mão."}
+
+
+@app.get("/api/teste/mlam")
+def teste_mlam() -> dict:
+    return testes.mlam_resumo()
+
+
 # ---------------------------------------------------------------- matérias: painel, checklist e testes
 class MudancaItem(BaseModel):
     status: str | None = None
@@ -117,8 +182,7 @@ class PedidoDSA(BaseModel):
 
 
 class PedidoSERS(BaseModel):
-    kwh: float
-    valor: float | None = None
+    km: float
 
 
 class PedidoSimulacao(BaseModel):
@@ -170,9 +234,9 @@ def teste_dsa(p: PedidoDSA) -> dict:
 
 @app.post("/api/teste/sers")
 def teste_sers(p: PedidoSERS) -> dict:
-    if p.kwh <= 0 or p.kwh > 5000 or (p.valor is not None and (p.valor <= 0 or p.valor > 20000)):
-        raise HTTPException(400, "Informe um consumo entre 1 e 5000 kWh e, se quiser, um valor de conta positivo.")
-    return testes.sers_testar(p.kwh, p.valor)
+    if not 0 < p.km <= 200:
+        raise HTTPException(400, "Informe uma distância entre 0,1 e 200 km.")
+    return testes.sers_testar(p.km)
 
 
 @app.get("/api/laboratorio")

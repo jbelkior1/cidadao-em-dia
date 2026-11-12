@@ -3,13 +3,14 @@
 PCP: a busca por pontos sobre a base, com a lista de tuplas da maior para a menor.
 DSA: um catálogo de demonstração na lista encadeada da entrega. Fica na memória
      do servidor, para o grupo cadastrar, excluir e ordenar sem mexer nos dados.
-SERS: o cálculo do desconto passo a passo.
+MLAM: um resumo da base real da SSP-SP agregada por estação (só leitura).
+SERS: a mesma viagem de carro, ônibus e trilho, com cada conta passo a passo.
 """
 import sys
 
 from sistema.adaptadores import dsa as ponte_dsa
 from sistema.adaptadores import pcp as ponte_pcp
-from sistema.servicos import energia
+from sistema.mobilidade import energia
 
 _demo = None
 
@@ -61,14 +62,46 @@ def pcp_testar(pergunta: str) -> dict:
     return ponte_pcp.pontuar_todas(pergunta) | {"base": ponte_pcp.base_resumida()}
 
 
-def sers_testar(kwh: float, valor: float | None) -> dict:
-    c = energia.calcular(kwh, valor)
-    passos = [f"Consumo informado: {kwh:g} kWh no mês.",
-              f"Os primeiros {energia.FAIXA_KWH} kWh têm 100% de desconto: {c['kwh_com_desconto']:g} kWh entram no desconto.",
-              f"O que passa de {energia.FAIXA_KWH} kWh é cobrado normalmente: {c['kwh_cobrados']:g} kWh."]
-    if c["preco_medio"] is not None:
-        passos += [f"Preço médio da sua conta: {energia.reais(valor)} ÷ {kwh:g} kWh = {energia.por_kwh(c['preco_medio'])}.",
-                   f"Desconto estimado: {c['kwh_com_desconto']:g} kWh × {energia.reais(c['preco_medio'], 3)} = {energia.reais(c['desconto_mes'])} por mês, "
-                   f"ou {energia.reais(c['desconto_ano'])} em 12 meses."]
-    return c | {"passos": passos, "fonte": energia.FONTE, "consultado_em": energia.CONSULTADO_EM,
-                "falta": "Comparar duas alternativas para a mesma necessidade, uma delas renovável, com custo, viabilidade e impacto ambiental."}
+def _reais(valor: float) -> str:
+    return f"R$ {valor:.2f}".replace(".", ",")
+
+
+def sers_testar(km: float) -> dict:
+    c = energia.comparar(km)
+    trilho, onibus, carro = c["modos"]
+    v, br = energia._v, energia._br
+    litros = round(c["km"] / v("carro_consumo_hb20_sense_gasolina"), 2)
+    passos = [
+        f"Distância: {br(c['km'])} km.",
+        f"Trem ou metrô: {br(c['km'])} km × {br(v('metro_sp_energia_por_passageiro_km'))} kWh por passageiro-km = {br(trilho['energia_kwh'])} kWh; "
+        f"× {br(round(v('fator_emissao_sin') * 1000, 1))} g de CO₂ por kWh = {br(round(trilho['co2_kg'] * 1000))} g de CO₂. Tarifa de {_reais(trilho['custo_rs'])}.",
+        f"Carro: {br(c['km'])} km ÷ {br(v('carro_consumo_hb20_sense_gasolina'))} km/L = {br(litros)} L de gasolina; "
+        f"× {br(v('fator_emissao_gasolina_automotiva'))} kg de CO₂ por litro = {br(carro['co2_kg_max'])} kg (só a parte fóssil, 78%: {br(carro['co2_kg'])} kg); "
+        f"× {_reais(v('preco_gasolina_sp_capital'))} por litro = {_reais(carro['custo_rs'])} de combustível.",
+        f"Ônibus a diesel: {br(c['km'])} km × {br(v('comparativo_metro_onibus_sp_gco2e_pkm'))} g de CO₂ por passageiro-km = {br(onibus['co2_kg'])} kg de CO₂. "
+        f"Tarifa de {_reais(onibus['custo_rs'])}.",
+    ]
+    return c | {"passos": passos,
+                "falta": "Testes com usuários, vídeo de até 3 minutos e o .txt com os links. A equipe precisa abrir as fontes e conferir os números lidos de PDF."}
+
+
+def mlam_resumo(quantas: int = 15) -> dict:
+    """Resumo descritivo da base da MLAM. As questões 02 a 07 (probabilidade, testes e regressões) são do grupo."""
+    import json
+    from pathlib import Path
+    arquivo = Path(__file__).resolve().parent / "dados" / "seguranca_estacoes.json"
+    try:
+        dados = json.loads(arquivo.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return {"ok": False, "mensagem": "A base ainda não foi gerada. Rode python entregas/mlam/preparar_base.py."}
+    estacoes = dados["estacoes"]
+    faixas = {f: sum(e["por_faixa"].get(f, 0) for e in estacoes) for f in ("madrugada", "manha", "tarde", "noite")}
+    tipos: dict[str, int] = {}
+    for e in estacoes:
+        for t, n in e["por_tipo"].items():
+            tipos[t] = tipos.get(t, 0) + n
+    ranking = sorted(estacoes, key=lambda e: e["total"], reverse=True)[:quantas]
+    return {"ok": True, "meta": dados["meta"], "estacoes": len(estacoes),
+            "faixas": faixas, "tipos": dict(sorted(tipos.items(), key=lambda x: -x[1])),
+            "ranking": [{"estacao": e["estacao"], "linhas": e["linhas"], "total": e["total"], "faixa_mais_comum": e["faixa_mais_comum"]} for e in ranking],
+            "falta": "Questões 02 a 07: probabilidade, testes de hipótese e regressões, com o relatório em PDF. A base não tem o fluxo de passageiros, então é contagem, não taxa."}

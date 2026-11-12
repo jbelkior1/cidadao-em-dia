@@ -3,10 +3,12 @@ import { Route, Routes } from "react-router-dom";
 
 import Casca from "./componentes/Casca";
 import { api, type EstadoIA } from "./lib/api";
+import AntesDeSair from "./paginas/AntesDeSair";
 import Atendimento from "./paginas/Atendimento";
 import ComoFunciona from "./paginas/ComoFunciona";
 import Configuracoes from "./paginas/Configuracoes";
 import Laboratorio from "./paginas/Laboratorio";
+import LinhasAgora from "./paginas/LinhasAgora";
 import Materia from "./paginas/Materia";
 import PainelEquipe from "./paginas/Painel";
 
@@ -52,13 +54,15 @@ export default function App() {
     <ContextoApp.Provider value={{ modoBanca, alternarModoBanca, ia, recarregarIA }}>
       <Casca>
         <Routes>
-          <Route path="/" element={<Atendimento />} />
+          <Route path="/" element={<AntesDeSair />} />
+          <Route path="/linhas" element={<LinhasAgora />} />
+          <Route path="/pergunte" element={<Atendimento />} />
           <Route path="/como-funciona" element={<ComoFunciona />} />
           <Route path="/laboratorio" element={<Laboratorio />} />
           <Route path="/materias" element={<PainelEquipe />} />
           <Route path="/materias/:cod" element={<Materia />} />
           <Route path="/configuracoes" element={<Configuracoes />} />
-          <Route path="*" element={<Atendimento />} />
+          <Route path="*" element={<AntesDeSair />} />
         </Routes>
       </Casca>
     </ContextoApp.Provider>

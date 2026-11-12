@@ -63,6 +63,17 @@ def servico_de(titulo: str) -> dict | None:
     return None
 
 
+def servico_por_id(servico_id: str) -> dict | None:
+    """Percorre a lista encadeada do primeiro nó ao último até achar o id (busca linear)."""
+    catalogo = _carregar()
+    if catalogo is None:
+        return None
+    for servico in catalogo.lista.percorrer():
+        if servico.id == servico_id:
+            return {"id": servico.id, "titulo": servico.titulo, "publico_alvo": servico.publico_alvo, "canal": servico.canal, "prazo": None}
+    return None
+
+
 def proximos() -> list[dict]:
     """Serviços com prazo, do que vence primeiro para o último (ordenados pelo merge sort da entrega)."""
     catalogo = _carregar()

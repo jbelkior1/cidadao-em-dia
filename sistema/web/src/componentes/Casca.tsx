@@ -1,4 +1,4 @@
-import { CalendarCheck, FlaskConical, Info, LayoutDashboard, Menu, MessageCircle, SlidersHorizontal, X, type LucideIcon } from "lucide-react";
+import { FlaskConical, Info, LayoutDashboard, Menu, MessageCircle, Route, SlidersHorizontal, TrainFront, X, type LucideIcon } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -7,7 +7,14 @@ import { CORES_DAS_MATERIAS, MATERIAS_DO_SISTEMA } from "../lib/api";
 
 type Item = { rotulo: string; para: string; icone?: LucideIcon; cor?: string };
 const GRUPOS: { titulo: string; itens: Item[] }[] = [
-  { titulo: "Para o cidadão", itens: [{ rotulo: "Atendimento", para: "/", icone: MessageCircle }] },
+  {
+    titulo: "Para você",
+    itens: [
+      { rotulo: "Antes de sair", para: "/", icone: Route },
+      { rotulo: "Trem e metrô agora", para: "/linhas", icone: TrainFront },
+      { rotulo: "Pergunte", para: "/pergunte", icone: MessageCircle },
+    ],
+  },
   { titulo: "Entenda", itens: [{ rotulo: "Como funciona", para: "/como-funciona", icone: Info }] },
   { titulo: "Laboratório", itens: [{ rotulo: "Simulação da sociedade", para: "/laboratorio", icone: FlaskConical }] },
   {
@@ -20,7 +27,9 @@ const GRUPOS: { titulo: string; itens: Item[] }[] = [
   { titulo: "Sistema", itens: [{ rotulo: "Configurações de IA", para: "/configuracoes", icone: SlidersHorizontal }] },
 ];
 const TITULOS: Record<string, string> = {
-  "/": "Atendimento",
+  "/": "Antes de sair",
+  "/linhas": "Trem e metrô agora",
+  "/pergunte": "Pergunte",
   "/como-funciona": "Como funciona",
   "/laboratorio": "Simulação da sociedade",
   "/materias": "Painel da equipe",
@@ -30,17 +39,17 @@ const TITULOS: Record<string, string> = {
 function tituloDa(caminho: string): string {
   if (TITULOS[caminho]) return TITULOS[caminho];
   const cod = caminho.match(/^\/materias\/([a-z]+)/)?.[1]?.toUpperCase();
-  return cod ? `Matéria ${cod}` : "Cidadão em Dia";
+  return cod ? `Matéria ${cod}` : "Plano B";
 }
 
 function Marca() {
   return (
     <div className="flex h-16 shrink-0 items-center gap-3 border-b border-linha px-5">
       <span className="flex size-9 items-center justify-center rounded-xl bg-marca text-white">
-        <CalendarCheck className="size-5" aria-hidden />
+        <span className="text-[17px] font-black tracking-tight" aria-hidden>B</span>
       </span>
       <div className="min-w-0 leading-tight">
-        <p className="truncate text-[15px] font-bold">Cidadão em Dia</p>
+        <p className="truncate text-[15px] font-bold">Plano B</p>
         <p className="truncate text-xs text-apagado">GS 2026.2 · FIAP</p>
       </div>
     </div>
@@ -152,7 +161,7 @@ export default function Casca({ children }: { children: ReactNode }) {
           </div>
         </header>
         <div className="shrink-0 border-b border-linha bg-marca-suave px-4 py-1.5 text-center text-[13px] font-medium text-marca-forte">
-          Projeto educacional. Não é canal oficial do governo e não pede dados pessoais.
+          Projeto educacional da FIAP. Usa dados públicos; não substitui os avisos oficiais das operadoras.
         </div>
         <main className="relative min-h-0 flex-1 overflow-y-auto">{children}</main>
       </div>

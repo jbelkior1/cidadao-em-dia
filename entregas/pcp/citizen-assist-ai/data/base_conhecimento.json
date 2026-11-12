@@ -1,270 +1,319 @@
 [
   {
     "id": 1,
-    "categoria": "Cadastro e benefícios",
-    "titulo": "Atualizar o Cadastro Único",
+    "categoria": "Falha na linha",
+    "titulo": "Declaração de atraso do Metrô (linhas 1, 2, 3 e 15)",
     "palavras_chave": [
-      "cadastro único",
-      "cadúnico",
-      "atualizar",
-      "atualizo",
-      "atualização",
-      "desatualizado"
+      "declaração",
+      "atraso",
+      "comprovante de atraso",
+      "declaração de ocorrência",
+      "justificar atraso",
+      "cheguei atrasado"
     ],
-    "resposta": "A família deve atualizar o Cadastro Único pelo menos a cada 24 meses (dois anos), mesmo que nada tenha mudado, e também quando houver mudança nas informações da família. A atualização é feita presencialmente no CRAS ou em outro posto de atendimento do município, e é gratuita. Para saber quando atualizar, consulte o aplicativo do Cadastro Único. Se a família for convocada, deve ir ao posto municipal.",
-    "documentos": [
-      "CPF de todas as pessoas da família (obrigatório)",
-      "Documento de identificação",
-      "Comprovante de residência, se houver (preferencialmente conta de luz)"
-    ],
-    "onde": "CRAS ou posto de cadastramento do município; Disque 121 (Central do MDS); aplicativo Cadastro Único para consultar quando atualizar",
-    "fonte": "https://www.gov.br/mds/pt-br/acoes-e-programas/cadastro-unico",
+    "resposta": "Nas linhas 1-Azul, 2-Verde, 3-Vermelha e 15-Prata, depois que a ocorrência termina a declaração fica disponível no site oficial do Metrô, na seção Declaração de Ocorrências, durante o dia. Se a ocorrência foi em outro dia, é preciso abrir uma solicitação no Fale Conosco do site ou ligar para a Central de Informações (0800 770 7722, todos os dias, das 5h à meia-noite). O documento serve para justificar atrasos causados por ocorrências que afetam a circulação dos trens. Para a Linha 4-Amarela o pedido é feito à Via Quatro.",
+    "documentos": [],
+    "onde": "Site do Metrô (Declaração de Ocorrências), Fale Conosco do site, Central de Informações 0800 770 7722",
+    "fonte": "https://www.metro.sp.gov.br/pt_BR/fale-conosco/faq/",
     "verificado_em": "2026-11-12",
     "conferido_pela_equipe": false
   },
   {
     "id": 2,
-    "categoria": "Cadastro e benefícios",
-    "titulo": "Fazer a inscrição no Cadastro Único",
+    "categoria": "Falha na linha",
+    "titulo": "Declaração de atraso nas linhas 4, 5, 8 e 9",
     "palavras_chave": [
-      "cadastro único",
-      "cadúnico",
-      "inscrição",
-      "inscrever",
-      "cadastrar",
-      "fazer cadastro"
+      "declaração",
+      "atraso",
+      "viaquatro",
+      "viamobilidade",
+      "linha 4",
+      "linha 8",
+      "linha 9"
     ],
-    "resposta": "Podem se cadastrar as famílias com renda mensal de até meio salário-mínimo por pessoa; famílias com renda maior também podem ser cadastradas quando um programa exigir o Cadastro. A inscrição é feita presencialmente em um posto de atendimento do município, como o CRAS, e é gratuita. Leve o CPF de todas as pessoas da família e um documento de identificação.",
-    "documentos": [
-      "CPF de todas as pessoas da família (obrigatório)",
-      "Documento de identificação",
-      "Comprovante de residência, se houver (preferencialmente conta de luz)"
-    ],
-    "onde": "CRAS ou posto de cadastramento do município; Disque 121; informações em gov.br/cadastrounico",
-    "fonte": "https://www.gov.br/mds/pt-br/acoes-e-programas/cadastro-unico",
+    "resposta": "Os sites das concessionárias (portal Motiva Trilhos) têm uma página Declaração de ocorrências, com a lista de documentos em PDF que pode ser filtrada por data e por linha. As páginas orientam consultar a declaração para ver acontecimentos da linha nos últimos 90 dias. A Central de atendimento da Linha 4-Amarela é 0800-770-7100 e a da Linha 5-Lilás e da ViaMobilidade 8 e 9 é 0800-770-7106.",
+    "documentos": [],
+    "onde": "Site da concessionária (página Declaração de ocorrências da Linha 4, ou das Linhas 8 e 9) e Central de atendimento",
+    "fonte": "https://trilhos.motiva.com.br/linha-4-amarela/declaracao-de-ocorrencias",
     "verificado_em": "2026-11-12",
     "conferido_pela_equipe": false
   },
   {
     "id": 3,
-    "categoria": "Conta de luz",
-    "titulo": "Tarifa Social de Energia: desconto na conta de luz",
+    "categoria": "Falha na linha",
+    "titulo": "Declaração de atraso da CPTM",
     "palavras_chave": [
-      "tarifa social",
-      "conta de luz",
-      "desconto na conta",
-      "direito a desconto",
-      "luz de graça",
-      "80 kwh"
+      "declaração",
+      "atraso",
+      "cptm",
+      "trem atrasou",
+      "comunicado de ocorrência"
     ],
-    "resposta": "Têm direito famílias inscritas no Cadastro Único com renda de até meio salário-mínimo por pessoa, idosos (65 anos ou mais) ou pessoas com deficiência que recebem o BPC, e famílias com portador de doença ou deficiência, com renda de até 3 salários-mínimos. Pela regra vigente desde as faturas emitidas a partir de 5 de julho de 2025, o desconto é de 100% para o consumo até 80 kWh por mês, e o que passar disso não tem desconto. A Tarifa Social é concedida automaticamente a quem se enquadra, sem precisar pedir à distribuidora. O benefício vale para uma só unidade consumidora residencial por família.",
+    "resposta": "Não foi possível confirmar em página oficial da CPTM um passo a passo para pedir a declaração de atraso. O FAQ do Metrô manda quem viajou nas demais linhas (as que não são do Metrô nem da Via Quatro e da ViaMobilidade) consultar o site da CPTM. A Central de Relacionamento da CPTM atende pelo 0800 055 0121, das 5h às 23h, e pelo WhatsApp (11) 99767-7030.",
     "documentos": [],
-    "onde": "Automático, a partir do Cadastro Único ou do cadastro do BPC; dúvidas na distribuidora de energia ou na Aneel",
-    "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+    "onde": "Central de Relacionamento CPTM (0800 055 0121 ou WhatsApp) e site da CPTM",
+    "fonte": "https://www.cptm.sp.gov.br/cptm/contato/fale-conosco",
     "verificado_em": "2026-11-12",
     "conferido_pela_equipe": false
   },
   {
     "id": 4,
-    "categoria": "Conta de luz",
-    "titulo": "Desconto da Tarifa Social não apareceu na conta de luz",
+    "categoria": "Falha na linha",
+    "titulo": "Ônibus de apoio (PAESE) quando a linha para",
     "palavras_chave": [
-      "tarifa social",
-      "conta de luz",
-      "não apareceu",
-      "não veio",
-      "sem desconto",
-      "distribuidora"
+      "paese",
+      "ônibus de apoio",
+      "linha parou",
+      "parou",
+      "ônibus emergencial",
+      "e agora"
     ],
-    "resposta": "Se a família se enquadra nos critérios e não está recebendo o desconto na fatura, deve entrar em contato com a distribuidora de energia. A Tarifa Social é automática para famílias em que um dos membros é titular do contrato com a distribuidora, então não é preciso pedir. O Cadastro Único deve ter sido atualizado nos últimos 2 anos, e o endereço do Cadastro Único precisa estar atualizado.",
+    "resposta": "PAESE é o plano de cooperação entre empresas de transporte de São Paulo para apoio mútuo em situações de emergência. Quando é acionado a pedido de uma operadora, a SPTrans coloca ônibus em uma linha especial entre as estações afetadas. Em exemplos oficiais, a Prefeitura divulgou o trecho atendido e orientou ligar para o 156 para saber o itinerário. A página oficial lida não diz se o ônibus é gratuito.",
     "documentos": [],
-    "onde": "Distribuidora de energia da sua região (canal de atendimento que consta na fatura); CRAS para atualizar o Cadastro Único",
-    "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+    "onde": "Ônibus do plano nas estações afetadas; informações de itinerário pelo telefone 156",
+    "fonte": "https://prefeitura.sp.gov.br/web/mobilidade/w/institucional/sptrans/acesso_a_informacao/366625",
     "verificado_em": "2026-11-12",
     "conferido_pela_equipe": false
   },
   {
     "id": 5,
-    "categoria": "Cadastro e benefícios",
-    "titulo": "Bolsa Família bloqueado por cadastro desatualizado",
+    "categoria": "Falha na linha",
+    "titulo": "Trem parado entre estações",
     "palavras_chave": [
-      "bolsa família",
-      "bloqueado",
-      "cancelado",
-      "revisão cadastral",
-      "averiguação",
-      "desbloquear"
+      "trem parado",
+      "parou entre estações",
+      "túnel",
+      "evacuação",
+      "descer na via"
     ],
-    "resposta": "Quando o cadastro fica dois anos ou mais sem atualização, a família entra na Revisão Cadastral. Famílias com benefício bloqueado por falta de atualização no prazo devem atualizar as informações no Cadastro Único. Se a família mantiver o perfil do Bolsa Família, o benefício pode voltar, com valores que podem ser diferentes dos anteriores, e o desbloqueio é feito pelo coordenador municipal ou pela Senarc.",
+    "resposta": "Acompanhe a situação da operação pelo Direto do Metrô (site ou aplicativo). Em exercícios oficiais do Metrô com o Corpo de Bombeiros, a evacuação é feita pela passarela de emergência instalada ao longo da linha, com procedimentos de comunicação com os passageiros. Procure sempre orientação dos empregados da operadora. Esta orientação ainda não está completa: a regra oficial de não descer na via não pôde ser confirmada em página lida.",
     "documentos": [],
-    "onde": "Posto do Cadastro Único do município (CRAS); coordenador municipal do Bolsa Família; Disque Social 121; aplicativo Cadastro Único",
-    "fonte": "https://www.gov.br/mds/pt-br/acoes-e-programas/cadastro-unico/perguntas-frequentes-cadastro-unico/gst-acao-de-qualificacao-cadastral-de-2026/19-a-familia-que-teve",
+    "onde": "Dentro do trem e nas estações, com os empregados da operadora; Direto do Metrô (site e aplicativo)",
+    "fonte": "https://www.metro.sp.gov.br/2026/09/21/metro-e-corpo-de-bombeiros-realizam-simulados-de-evacuacao-e-resgate-na-linha-17-ouro/",
     "verificado_em": "2026-11-12",
     "conferido_pela_equipe": false
   },
   {
     "id": 6,
-    "categoria": "Cadastro e benefícios",
-    "titulo": "BPC para idoso ou pessoa com deficiência",
+    "categoria": "Falha na linha",
+    "titulo": "Onde ver a situação das linhas",
     "palavras_chave": [
-      "bpc",
-      "loas",
-      "benefício de prestação continuada",
-      "deficiência",
-      "inss",
-      "65 anos"
+      "situação das linhas",
+      "status",
+      "linha parada",
+      "como está a linha",
+      "direto do metrô",
+      "funcionando"
     ],
-    "resposta": "O BPC é para pessoa com 65 anos ou mais ou com deficiência, com renda familiar por pessoa de até um quarto do salário-mínimo. A família precisa ter inscrição atualizada no Cadastro Único, com CPF de todos, atualizada há no máximo dois anos. O pedido pode ser feito pelo telefone 135, pelo site ou aplicativo Meu INSS ou nas agências do INSS, e é gratuito: não é preciso pagar intermediários. A deficiência é verificada por avaliação biopsicossocial.",
-    "documentos": [
-      "Documento de identificação com foto",
-      "CPF de todos os membros da família no Cadastro Único",
-      "Cópias simples (o INSS pode pedir originais em caso de dúvida)"
-    ],
-    "onde": "Telefone 135; site ou aplicativo Meu INSS; Agências da Previdência Social; CRAS para orientação",
-    "fonte": "https://www.gov.br/mds/pt-br/acoes-e-programas/suas/beneficios-assistenciais/beneficio-assistencial-ao-idoso-e-a-pessoa-com-deficiencia-bpc",
+    "resposta": "O Metrô informa em tempo real a situação da operação pelo Direto do Metrô, no site e em aplicativo para iOS e Android, e também pelas redes sociais oficiais e painéis nas estações. A CPTM indica no site o Aplicativo CPTM Oficial, com condições operacionais em tempo real das linhas. A ViaQuatro e a ViaMobilidade (8 e 9) têm um WhatsApp, (11) 91277-6323, com informações automáticas sobre as condições das linhas.",
+    "documentos": [],
+    "onde": "Site e app Direto do Metrô; app CPTM Oficial; WhatsApp (11) 91277-6323 (Motiva Trilhos)",
+    "fonte": "https://www.metro.sp.gov.br/sua-viagem/direto-metro/",
     "verificado_em": "2026-11-12",
     "conferido_pela_equipe": false
   },
   {
     "id": 7,
-    "categoria": "Documentos",
-    "titulo": "Consultar e regularizar o CPF",
+    "categoria": "Chuva e alagamento",
+    "titulo": "Chuva forte e alagamento: o que fazer",
     "palavras_chave": [
-      "cpf",
-      "situação cadastral",
-      "regularizar",
-      "suspenso",
-      "pendente de regularização",
-      "receita federal"
+      "alagamento",
+      "chuva",
+      "chovendo",
+      "enchente",
+      "tempestade",
+      "alagada",
+      "inundação"
     ],
-    "resposta": "A consulta da situação cadastral do CPF é gratuita no serviço do gov.br e permite ver, por exemplo, se está Regular ou Pendente de regularização. Se estiver pendente por falta de declaração do Imposto de Renda, enviar a declaração correta leva a situação de volta a Regular. Se estiver Suspensa, o cadastro está incorreto ou incompleto e precisa ser regularizado. A atualização do CPF é gratuita pelos canais da Receita; em unidades conveniadas (cartório, Banco do Brasil, Caixa, Correios) é cobrada taxa de R$ 7,00.",
-    "documentos": [
-      "Documento de identidade oficial com foto"
-    ],
-    "onde": "Serviço Consultar CPF no gov.br; serviço Atualizar CPF no gov.br; Receita Federal; unidades conveniadas",
-    "fonte": "https://www.gov.br/pt-br/servicos/consultar-cadastro-de-pessoas-fisicas",
+    "resposta": "Em inundação, não cruze pontes, ruas ou avenidas alagadas, procure um lugar elevado para estacionar e evite contato com a água, porque 15 cm de água em movimento podem derrubar uma pessoa e 30 cm podem arrastar um carro. Em tempestade, abrigue-se imediatamente em uma edificação ou veículo, longe de janelas, tomadas e materiais metálicos. Não use aparelhos ligados à fiação elétrica e telefônica.",
+    "documentos": [],
+    "onde": "Orientações do portal SP Sempre Alerta (Defesa Civil de SP)",
+    "fonte": "https://www.spsemprealerta.sp.gov.br/orientacoes/inundacoes/",
     "verificado_em": "2026-11-12",
     "conferido_pela_equipe": false
   },
   {
     "id": 8,
-    "categoria": "Documentos",
-    "titulo": "Carteira de Identidade Nacional (CIN), o novo RG",
+    "categoria": "Chuva e alagamento",
+    "titulo": "Defesa Civil: telefone 199 e alerta por SMS",
     "palavras_chave": [
-      "rg",
-      "identidade",
-      "cin",
-      "carteira de identidade",
-      "primeira via",
-      "documento de identidade"
+      "defesa civil",
+      "199",
+      "40199",
+      "alerta",
+      "sms",
+      "emergência"
     ],
-    "resposta": "A primeira via da Carteira de Identidade Nacional e as renovações são gratuitas. A CIN é emitida nos Institutos de Identificação dos estados e do Distrito Federal, e o número do CPF passa a ser o número do registro nacional. Para a primeira via, a página cita a certidão de nascimento ou de casamento. A carteira também existe em formato digital, no aplicativo gov.br.",
-    "documentos": [
-      "Certidão de nascimento ou de casamento"
-    ],
-    "onde": "Instituto de Identificação do seu estado ou do Distrito Federal (agendamento e lista de postos variam por estado)",
-    "fonte": "https://www.gov.br/gestao/pt-br/identidade-nacional",
+    "resposta": "A Defesa Civil de São Paulo recebe emergências pelo telefone 199. Para receber alertas no celular, envie por SMS o CEP da área de interesse para o 40199; o serviço é gratuito para o cidadão. A Defesa Civil também mantém um canal no WhatsApp para acompanhar os alertas.",
+    "documentos": [],
+    "onde": "Telefone 199; SMS para 40199; canal da Defesa Civil no WhatsApp",
+    "fonte": "https://www.spsemprealerta.sp.gov.br/",
     "verificado_em": "2026-11-12",
     "conferido_pela_equipe": false
   },
   {
     "id": 9,
-    "categoria": "Documentos",
-    "titulo": "Certidão de nascimento ou casamento: segunda via e gratuidade",
+    "categoria": "Segurança",
+    "titulo": "Celular roubado ou furtado",
     "palavras_chave": [
-      "certidão",
-      "certidão de nascimento",
-      "certidão de casamento",
-      "cartório",
-      "segunda via da certidão",
-      "declaração de pobreza"
+      "celular",
+      "roubado",
+      "furtado",
+      "roubaram",
+      "bloquear",
+      "boletim de ocorrência"
     ],
-    "resposta": "O registro de nascimento, o de óbito e a primeira certidão deles não têm cobrança de emolumentos. Quem é reconhecidamente pobre fica isento do pagamento pelas demais certidões do cartório de registro civil. A pobreza é comprovada por declaração do próprio interessado; se a pessoa for analfabeta, a declaração leva a assinatura de duas testemunhas. Declaração falsa gera responsabilidade civil e criminal.",
-    "documentos": [],
-    "onde": "Cartório de Registro Civil de Pessoas Naturais (procurar o cartório onde o registro foi feito ou o mais próximo)",
-    "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l6015compilada.htm",
+    "resposta": "Comunique a ocorrência e bloqueie o aparelho junto às operadoras o mais rápido possível; o Celular Seguro (gov.br) também permite cadastrar contato de confiança para registrar o roubo ou furto por você. O boletim pode ser feito na Delegacia Eletrônica da Polícia Civil de SP, que funciona 24 horas, vale para fatos ocorridos no Estado de São Paulo e pede dados pessoais, RG ou RNE e CPF. A página do serviço lista 'roubo ou perda de celulares'.",
+    "documentos": [
+      "RG ou RNE",
+      "CPF",
+      "dados do aparelho"
+    ],
+    "onde": "Operadora da linha; Celular Seguro (gov.br); Delegacia Eletrônica (site da Polícia Civil de SP)",
+    "fonte": "https://www.gov.br/celularseguro",
     "verificado_em": "2026-11-12",
     "conferido_pela_equipe": false
   },
   {
     "id": 10,
-    "categoria": "Documentos",
-    "titulo": "Carteira da Pessoa Idosa para viagem interestadual",
+    "categoria": "Segurança",
+    "titulo": "Assédio ou importunação: como denunciar",
     "palavras_chave": [
-      "carteira do idoso",
-      "carteira da pessoa idosa",
-      "passagem",
-      "viagem",
-      "ônibus",
-      "idoso"
+      "assédio",
+      "importunação",
+      "denunciar",
+      "denúncia",
+      "abuso",
+      "sms segurança"
     ],
-    "resposta": "Pessoas com 60 anos ou mais, com renda individual de até dois salários-mínimos e cadastradas no Cadastro Único, podem emitir a Carteira da Pessoa Idosa. O serviço é gratuito, feito online no site oficial ou com ajuda presencial no CRAS. Para emitir a carteira, o Cadastro Único precisa estar atualizado, e a página pede o NIS.",
-    "documentos": [
-      "NIS (Número de Inscrição Social, gerado pelo Cadastro Único)"
-    ],
-    "onde": "Site carteiraidoso.cidadania.gov.br; ajuda presencial no CRAS",
-    "fonte": "https://www.gov.br/pt-br/servicos/adquirir-carteira-do-idoso",
+    "resposta": "No Metrô, a ocorrência de segurança pode ser comunicada por SMS ao serviço SMS Segurança, número 97333-2252, pelo aplicativo Metrô Conecta ou a qualquer empregado disponível nas estações. Na CPTM, o Canal de Denúncia aceita denúncias de importunação sexual ou assédios pelo formulário online, pelo e-mail canaldedenuncia@cptm.sp.gov.br ou pelo telefone (11) 3117-7459; a CPTM diz que o anonimato é garantido.",
+    "documentos": [],
+    "onde": "SMS Segurança do Metrô, app Metrô Conecta, empregados nas estações; Canal de Denúncia da CPTM",
+    "fonte": "https://www.cptm.sp.gov.br/cptm/esg-consciente/praticas-de-governanca/canal-de-denuncias",
     "verificado_em": "2026-11-12",
     "conferido_pela_equipe": false
   },
   {
     "id": 11,
-    "categoria": "Segurança digital",
-    "titulo": "Valores a receber do Banco Central",
+    "categoria": "Direitos do passageiro",
+    "titulo": "Achados e perdidos",
     "palavras_chave": [
-      "valores a receber",
-      "dinheiro esquecido",
-      "banco central",
-      "dinheiro a receber",
-      "svr",
-      "devolução"
+      "achados e perdidos",
+      "perdi",
+      "esqueci",
+      "perdido",
+      "objeto",
+      "documento perdido"
     ],
-    "resposta": "O único site para consultar e solicitar a devolução dos valores é o valoresareceber.bcb.gov.br, e todos os serviços são totalmente gratuitos. A consulta usa CPF e data de nascimento. Para solicitar a devolução é preciso conta gov.br nível prata ou ouro com verificação em duas etapas e uma chave Pix. O Banco Central não envia links nem entra em contato com você sobre valores a receber, e nenhum pagamento é necessário.",
-    "documentos": [
-      "CPF e data de nascimento",
-      "Conta gov.br nível prata ou ouro com verificação em duas etapas",
-      "Chave Pix (para solicitar a devolução)"
-    ],
-    "onde": "valoresareceber.bcb.gov.br (digitar o endereço direto no navegador)",
-    "fonte": "https://www.gov.br/pt-br/servicos/consultar-e-solicitar-a-devolucao-de-valores-a-receber",
+    "resposta": "No Metrô, o Posto Central de Achados e Perdidos fica na Estação Sé e funciona de segunda a sexta, das 7h às 20h, exceto feriados; para documentos, a consulta também pode ser feita pela Central de Informações (0800 770 7722). Os objetos ficam guardados por 60 dias. Na CPTM, a Central de Achados e Perdidos fica na Estação Palmeiras-Barra Funda, de segunda a sexta, das 8h às 16h, exceto feriados, com consulta online e o mesmo 0800 e WhatsApp da Central de Relacionamento.",
+    "documentos": [],
+    "onde": "Estação Sé (Metrô); Estação Palmeiras-Barra Funda (CPTM); consulta online e telefone",
+    "fonte": "https://www.cptm.sp.gov.br/cptm/contato/fale-conosco",
     "verificado_em": "2026-11-12",
     "conferido_pela_equipe": false
   },
   {
     "id": 12,
-    "categoria": "Segurança digital",
-    "titulo": "Mensagem do governo: como saber se é verdadeira",
+    "categoria": "Direitos do passageiro",
+    "titulo": "Como reclamar: ouvidorias e Artesp",
     "palavras_chave": [
-      "golpe",
-      "mensagem falsa",
-      "pix",
-      "taxa",
-      "site falso",
-      "link"
+      "reclamação",
+      "reclamar",
+      "ouvidoria",
+      "artesp",
+      "protocolo",
+      "lei 13.460"
     ],
-    "resposta": "Sites oficiais do governo federal usam exclusivamente o domínio gov.br. Não informe dados pessoais em sites fora do gov.br e não faça pagamentos por Pix pedidos por páginas ou mensagens não oficiais. Os alertas oficiais dizem que o governo federal não cobra taxa por Pix para emitir CNH e que o Ministério da Integração não pede Pix para liberar recursos. Se já pagou ou passou dados, troque as senhas (principalmente a do gov.br), guarde os comprovantes e registre boletim de ocorrência.",
-    "documentos": [],
-    "onde": "Sites com domínio gov.br; opção 'Denunciar Fraudes e Golpes Digitais' no portal do CISC; delegacia para boletim de ocorrência",
-    "fonte": "https://www.gov.br/cisc/pt-br/alertas-de-golpes-digitais/falso-programa-de-cnh-cobra-taxa-via-pix",
+    "resposta": "Primeiro registre a reclamação na própria operadora e guarde o número do protocolo. O Metrô tem Fale Conosco no site (24 horas) e Ouvidoria pelos telefones (11) 3291-2890 e 3291-2891; a CPTM tem Ouvidoria pelo (11) 3117-7094 e pelo portal Fala SP; a ViaQuatro e a ViaMobilidade recebem pelo formulário 'Abra seu chamado', com resposta em 20 dias corridos, prorrogáveis por mais 10. Se não houver resposta ou ela não for satisfatória, a Artesp recebe a manifestação pelo 0800 727 83 77 (segunda a sexta, das 7h às 19h), pelo Fala SP, WhatsApp ou e-mail. A Lei 13.460/2017 fixa 30 dias, prorrogáveis uma vez, para a decisão final da ouvidoria.",
+    "documentos": [
+      "número do protocolo do primeiro contato com a operadora"
+    ],
+    "onde": "Fale Conosco e Ouvidoria da operadora; Ouvidoria da Artesp (0800 727 83 77, Fala SP, e-mail)",
+    "fonte": "https://www.artesp.sp.gov.br/artesp/canais-de-comunicacao/ouvidoria",
     "verificado_em": "2026-11-12",
     "conferido_pela_equipe": false
   },
   {
     "id": 13,
-    "categoria": "Segurança digital",
-    "titulo": "Golpe no Cadastro Único: não pague intermediários",
+    "categoria": "Acessibilidade e gratuidades",
+    "titulo": "Gratuidade para 65 anos ou mais",
     "palavras_chave": [
-      "golpe",
-      "intermediário",
-      "pagar para cadastrar",
-      "cobrando",
-      "fraude",
-      "disque 121"
+      "gratuidade",
+      "idoso",
+      "65 anos",
+      "passe livre idoso",
+      "de graça",
+      "estatuto da pessoa idosa"
     ],
-    "resposta": "O serviço do Cadastro Único é gratuito nos CRAS e postos autorizados. Não pague a intermediários e desconfie de mensagens ou ligações pedindo documentos pessoais. Não compartilhe seus dados com desconhecidos e denuncie tentativas de fraude às autoridades. Para se informar, use o Disque 121 (Central do MDS) ou o site gov.br/cadastrounico.",
+    "resposta": "O Estatuto da Pessoa Idosa assegura a gratuidade nos transportes coletivos públicos urbanos e semiurbanos para maiores de 65 anos; para ter o acesso basta apresentar qualquer documento pessoal que prove a idade. A SPTrans oferece o Bilhete Único Especial da Pessoa Idosa para quem tem 65 anos ou mais e mora na capital ou região metropolitana, pedido pelo Atendimento Digital ou em posto de atendimento. De 60 a 64 anos há uma cota mensal de gratuidade no Bilhete Único Comum, que precisa ser recarregada todo mês.",
+    "documentos": [
+      "documento pessoal que prove a idade",
+      "para o Bilhete Único Especial: documento com foto emitido há até dez anos, CPF e comprovante de residência recente"
+    ],
+    "onde": "Embarque com documento ou com o Bilhete Único Especial; pedido pelo Atendimento Digital da SPTrans (atendimento.sptrans.com.br) ou em posto de atendimento",
+    "fonte": "https://www.planalto.gov.br/ccivil_03/leis/2003/l10.741.htm",
+    "verificado_em": "2026-11-12",
+    "conferido_pela_equipe": false
+  },
+  {
+    "id": 14,
+    "categoria": "Acessibilidade e gratuidades",
+    "titulo": "Gratuidade para pessoas com deficiência",
+    "palavras_chave": [
+      "gratuidade",
+      "deficiência",
+      "pcd",
+      "bilhete especial",
+      "passe livre",
+      "isenção"
+    ],
+    "resposta": "O Bilhete Único Especial da Pessoa com Deficiência é para residentes no município de São Paulo e região metropolitana, e o pedido é feito com um formulário da SPTrans preenchido pelo médico (válido por 90 dias), enviado pelo Atendimento da SPTrans depois do login ou em um posto de atendimento. A SPTrans analisa em cerca de 20 dias. Alguns cartões valem só nos ônibus municipais; confira o verso do cartão antes de usar no metrô e no trem. O Metrô lista o benefício entre as isenções do bilhete.",
+    "documentos": [
+      "documento oficial com foto",
+      "CPF, se não constar no documento",
+      "comprovante de residência dos últimos 6 meses",
+      "formulário da SPTrans preenchido pelo médico"
+    ],
+    "onde": "Atendimento da SPTrans (site) ou posto de atendimento",
+    "fonte": "https://www.sptrans.com.br/perguntas-e-respostas/?sobre=bilhete-pcd",
+    "verificado_em": "2026-11-12",
+    "conferido_pela_equipe": false
+  },
+  {
+    "id": 15,
+    "categoria": "Acessibilidade e gratuidades",
+    "titulo": "Acessibilidade e atendimento preferencial nas estações",
+    "palavras_chave": [
+      "acessibilidade",
+      "cadeirante",
+      "mobilidade reduzida",
+      "elevador",
+      "atendimento preferencial",
+      "embarque assistido"
+    ],
+    "resposta": "No Metrô, havendo dificuldade de acesso nas estações, a pessoa deve procurar o empregado mais próximo para o atendimento preferencial, ou ligar para a Central de Informações (0800 770 7722). Na CPTM, todos os colaboradores das estações estão habilitados para auxiliar pessoas com restrição de mobilidade, e o serviço Táxi Acessível, gratuito e exclusivo para pessoas com deficiência físico-motora, está disponível nas estações sem recursos de acessibilidade. Um colaborador da estação chama o táxi, que leva a pessoa à estação acessível mais próxima.",
     "documentos": [],
-    "onde": "CRAS ou posto de cadastramento; Disque 121 (Central do MDS); gov.br/cadastrounico",
-    "fonte": "https://www.gov.br/mds/pt-br/noticias-e-conteudos/desenvolvimento-social/noticias-desenvolvimento-social/tire-suas-duvidas-sobre-o-novo-cadastro-unico",
+    "onde": "Empregados nas estações; Central de Informações do Metrô (0800 770 7722); colaborador da estação da CPTM para chamar o Táxi Acessível",
+    "fonte": "https://www.cptm.sp.gov.br/cptm/sua-viagem/acessibilidade",
+    "verificado_em": "2026-11-12",
+    "conferido_pela_equipe": false
+  },
+  {
+    "id": 16,
+    "categoria": "Acessibilidade e gratuidades",
+    "titulo": "Tarifas e integração do Bilhete Único",
+    "palavras_chave": [
+      "tarifa",
+      "preço",
+      "passagem",
+      "quanto custa",
+      "integração",
+      "bilhete único"
+    ],
+    "resposta": "Pela tabela da SPTrans atualizada em 06/01/2026, o crédito comum custa R$ 5,30 no ônibus e R$ 5,40 no sistema metroferroviário, e a integração ônibus mais metrô ou trem custa R$ 9,38 no Bilhete Único Comum. O Metrô informa que o Bilhete Único Comum cobre uma viagem de metrô ou trem e até 3 embarques em ônibus municipais diferentes no período de 3 horas, com a viagem sobre trilhos feita nas primeiras 2 horas. O bilhete unitário de metrô e CPTM custa R$ 5,40 e vale para uma viagem.",
+    "documentos": [],
+    "onde": "Site da SPTrans (Tarifas) e página Bilhetes e Cartões do Metrô",
+    "fonte": "https://www.sptrans.com.br/tarifas/",
     "verificado_em": "2026-11-12",
     "conferido_pela_equipe": false
   }

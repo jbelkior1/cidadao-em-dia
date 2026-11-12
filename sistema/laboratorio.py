@@ -4,17 +4,18 @@ Inspirado no TinyTroupe (microsoft/TinyTroupe, MIT): personas descritas em JSON
 avaliam uma parte do produto, cada uma com a sua realidade.
 
 Como funciona:
-  1. Cada persona tem internet, familiaridade com o celular, confiança no governo,
-     necessidades e um canal preferido (sistema/dados/personas.json).
+  1. Cada persona é um passageiro de São Paulo com internet, familiaridade com o
+     celular, confiança em aviso pelo celular, necessidades e um canal preferido
+     (sistema/dados/personas.json).
   2. Para a parte do produto e os canais escolhidos, um modelo logístico calcula a
      chance de a persona usar o produto: utilidade menos barreiras.
   3. A fala de cada persona é montada a partir dos motivos que mais pesaram.
   4. Uma população sintética (milhares de pessoas parecidas com as personas, com
      variação aleatória) estima a adesão por perfil.
 
-Tudo aqui é FICTÍCIO: pesos, personas e proporções serão trocados pelos
-resultados da MLAM, com base real. As falas podem vir de um modelo de IA no
-futuro, trocando a função `falar`.
+Tudo aqui é FICTÍCIO: pesos, personas e proporções servem para discutir o
+produto, não são pesquisa. O teste com pessoas de verdade (PCP, SERS e PAI pedem)
+é que vale. As falas podem vir de um modelo de IA no futuro, trocando a função `falar`.
 """
 import json
 import math
@@ -25,30 +26,30 @@ import numpy as np
 PERSONAS = json.loads((Path(__file__).parent / "dados" / "personas.json").read_text(encoding="utf-8"))
 
 NIVEL_INTERNET = {"boa": 1.0, "só no celular, com pacote": 0.6, "quase nenhuma": 0.05}
-NECESSIDADE_TEXTO = {"documentos": "tirar documento", "beneficios": "saber dos meus direitos",
-                     "conta_luz": "pagar menos na conta de luz", "golpe": "não cair em golpe"}
+NECESSIDADE_TEXTO = {"linha_parada": "saber na hora se a linha parou e por onde ir", "chuva": "fugir da chuva forte e dos alagamentos",
+                     "seguranca": "saber em que horário a estação é mais tranquila", "direitos": "conseguir a declaração de atraso e saber meus direitos",
+                     "custo": "comparar quanto gasto indo de carro ou de trem"}
 
 # partes do produto: o que atendem e quanto exigem de internet e de familiaridade com o celular
 PARTES = {
-    "Cidadão em Dia completo": {"atende": ["documentos", "beneficios", "conta_luz", "golpe"], "internet": 0.55, "letramento": 0.5},
-    "Tenho algum direito?": {"atende": ["beneficios", "conta_luz"], "internet": 0.45, "letramento": 0.4},
-    "Tirar uma dúvida": {"atende": ["documentos"], "internet": 0.5, "letramento": 0.6},
-    "Minha conta de luz": {"atende": ["conta_luz"], "internet": 0.45, "letramento": 0.5},
-    "Isso é golpe?": {"atende": ["golpe"], "internet": 0.5, "letramento": 0.6},
+    "Plano B completo": {"atende": ["linha_parada", "chuva", "seguranca", "direitos", "custo"], "internet": 0.55, "letramento": 0.5},
+    "Antes de sair": {"atende": ["linha_parada", "chuva", "seguranca", "custo"], "internet": 0.5, "letramento": 0.45},
+    "Trem e metrô agora": {"atende": ["linha_parada"], "internet": 0.45, "letramento": 0.3},
+    "Pergunte": {"atende": ["direitos", "seguranca"], "internet": 0.5, "letramento": 0.6},
 }
 # canais: quanto diminuem a exigência e quem os prefere
 CANAIS = {
     "App e site": {"internet": 0.0, "letramento": 0.0, "combina": ["app"]},
-    "Totem no CRAS ou posto": {"internet": -1.0, "letramento": -0.25, "combina": ["totem", "presencial"]},
+    "Painel na estação (futuro)": {"internet": -1.0, "letramento": -0.25, "combina": ["painel", "presencial"]},
     "WhatsApp (futuro)": {"internet": -0.2, "letramento": -0.15, "combina": ["whatsapp"]},
 }
 BARREIRAS = {"internet": "internet", "letramento": "uso do celular", "confianca": "confiança",
              "utilidade": "não atende o que precisa", "nenhuma": "nenhuma"}
-SUGESTAO = {"internet": "Ter um totem no CRAS ou no posto, que funcione sem a internet da pessoa",
-            "letramento": "Letra grande, áudio e botões simples, com alguém para ajudar no começo",
-            "confianca": "Mostrar sempre a fonte oficial e deixar claro que não pede dados pessoais",
-            "utilidade": "Incluir outros serviços que a pessoa usa no dia a dia",
-            "nenhuma": "Divulgar no CRAS, na escola e no posto para mais gente conhecer"}
+SUGESTAO = {"internet": "Mostrar o mesmo aviso em painéis nas estações, sem depender da internet da pessoa",
+            "letramento": "Letra grande, áudio e uma frase só: pode ir, saia mais cedo ou use o Plano B",
+            "confianca": "Mostrar sempre de onde veio o aviso (operadora, INMET) e a hora da leitura",
+            "utilidade": "Incluir os ônibus e as outras linhas que a pessoa usa no dia a dia",
+            "nenhuma": "Divulgar nas estações, nos terminais e nas escolas para mais gente conhecer"}
 
 
 def _chance(p: dict, parte: dict, canal: dict, internet: float | None = None, letramento: float | None = None,
@@ -58,10 +59,10 @@ def _chance(p: dict, parte: dict, canal: dict, internet: float | None = None, le
     letramento = p["letramento"] if letramento is None else letramento
     confianca = p["confianca"] if confianca is None else confianca
     atende = len(set(p["precisa"]) & set(parte["atende"])) / len(p["precisa"])
-    utilidade = 1.8 * atende + (0.4 if p["cadunico"] and "beneficios" in parte["atende"] else 0)
+    utilidade = 1.8 * atende + (0.4 if p["usa_todo_dia"] and "linha_parada" in parte["atende"] else 0)
     b_internet = 4.0 * max(0.0, parte["internet"] + canal["internet"] - internet)
     b_letramento = 3.0 * max(0.0, parte["letramento"] + canal["letramento"] - letramento)
-    b_confianca = 1.2 * max(0.0, 0.5 - (confianca + 0.15))   # +0,15: fonte e data visíveis aumentam a confiança
+    b_confianca = 1.2 * max(0.0, 0.5 - (confianca + 0.15))   # +0,15: fonte e hora da leitura visíveis aumentam a confiança
     combina = 0.6 if p["prefere"] in canal["combina"] else 0.0
     z = -1.0 + utilidade - b_internet - b_letramento - b_confianca + combina
     pesos = {"internet": b_internet, "letramento": b_letramento, "confianca": b_confianca, "utilidade": max(0.0, 1.3 - utilidade)}
@@ -84,9 +85,9 @@ def falar(p: dict, veredito: str, barreira: str, canal: str, parte_nome: str, pe
     elif barreira == "letramento" and pesos["letramento"] > 0.3:
         frases.append("Tenho dificuldade com o celular e me perco com muita tela e letra pequena.")
     elif barreira == "confianca" and pesos["confianca"] > 0.1:
-        frases.append(f"Fico com o pé atrás com coisa do governo no celular. Ver a fonte me deixa mais tranquil{terminacao}.")
-    if canal.startswith("Totem"):
-        frases.append(f"O totem no {'posto' if p['onde'] != 'capital' else 'CRAS'} me ajuda porque é perto e não usa a minha internet.")
+        frases.append(f"Já vi aviso errado no celular. Ver de onde veio e a hora me deixa mais tranquil{terminacao}.")
+    if canal.startswith("Painel"):
+        frases.append("O painel na estação me ajuda porque eu vejo na hora e não gasto a minha internet.")
     frases.append(f"Meu medo é {p['medo']}.")
     return " ".join(frases)
 

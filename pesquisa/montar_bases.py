@@ -1,8 +1,12 @@
-"""Monta as bases das entregas a partir da pesquisa em fontes oficiais.
+"""Monta as bases das entregas a partir da pesquisa em fontes oficiais (tema do Plano B).
 
     python pesquisa/montar_bases.py
 
-Lê pesquisa/base_real_proposta.json e grava:
+Lê:
+- pesquisa/base_mobilidade.json      (orientações de mobilidade, levantadas em 12/11/2026)
+- pesquisa/servicos_mobilidade.json  (serviços ao passageiro, levantados em 12/11/2026)
+
+Grava:
 - entregas/pcp/citizen-assist-ai/data/base_conhecimento.json  (formato do enunciado do PCP)
 - entregas/dsa/dados/servicos.json                            (formato do catálogo da DSA)
 
@@ -10,8 +14,10 @@ Os fatos (resposta, documentos, onde, fonte) vêm da pesquisa, sem alteração.
 Aqui só se ajustam o título e as palavras-chave, para a busca por pontos
 encontrar a orientação quando a pessoa escreve do jeito dela.
 
-Cada registro sai com "conferido_pela_equipe": false. Depois de abrir a fonte e
-conferir o texto, a equipe troca para true (ou apaga o campo) e atualiza a data.
+Cada orientação sai com "conferido_pela_equipe": false. Depois de abrir a fonte
+e conferir o texto, a equipe troca para true (ou apaga o campo) e atualiza a data.
+
+A base anterior (tema Cidadão em Dia) continua em pesquisa/base_real_proposta.json.
 """
 import json
 from pathlib import Path
@@ -20,38 +26,46 @@ RAIZ = Path(__file__).resolve().parent.parent
 
 # id da pesquisa -> (título curto, palavras-chave que a pessoa digitaria)
 AJUSTES = {
-    1: ("Atualizar o Cadastro Único",
-        ["cadastro único", "cadúnico", "atualizar", "atualizo", "atualização", "desatualizado"]),
-    2: ("Fazer a inscrição no Cadastro Único",
-        ["cadastro único", "cadúnico", "inscrição", "inscrever", "cadastrar", "fazer cadastro"]),
-    3: ("Tarifa Social de Energia: desconto na conta de luz",
-        ["tarifa social", "conta de luz", "desconto na conta", "direito a desconto", "luz de graça", "80 kwh"]),
-    4: ("Desconto da Tarifa Social não apareceu na conta de luz",
-        ["tarifa social", "conta de luz", "não apareceu", "não veio", "sem desconto", "distribuidora"]),
-    5: ("Bolsa Família bloqueado por cadastro desatualizado",
-        ["bolsa família", "bloqueado", "cancelado", "revisão cadastral", "averiguação", "desbloquear"]),
-    6: ("BPC para idoso ou pessoa com deficiência",
-        ["bpc", "loas", "benefício de prestação continuada", "deficiência", "inss", "65 anos"]),
-    7: ("Consultar e regularizar o CPF",
-        ["cpf", "situação cadastral", "regularizar", "suspenso", "pendente de regularização", "receita federal"]),
-    8: ("Carteira de Identidade Nacional (CIN), o novo RG",
-        ["rg", "identidade", "cin", "carteira de identidade", "primeira via", "documento de identidade"]),
-    9: ("Certidão de nascimento ou casamento: segunda via e gratuidade",
-        ["certidão", "certidão de nascimento", "certidão de casamento", "cartório", "segunda via da certidão", "declaração de pobreza"]),
-    10: ("Carteira da Pessoa Idosa para viagem interestadual",
-         ["carteira do idoso", "carteira da pessoa idosa", "passagem", "viagem", "ônibus", "idoso"]),
-    11: ("Valores a receber do Banco Central",
-         ["valores a receber", "dinheiro esquecido", "banco central", "dinheiro a receber", "svr", "devolução"]),
-    12: ("Mensagem do governo: como saber se é verdadeira",
-         ["golpe", "mensagem falsa", "pix", "taxa", "site falso", "link"]),
-    13: ("Golpe no Cadastro Único: não pague intermediários",
-         ["golpe", "intermediário", "pagar para cadastrar", "cobrando", "fraude", "disque 121"]),
+    1: ("Declaração de atraso do Metrô (linhas 1, 2, 3 e 15)",
+        ["declaração", "atraso", "comprovante de atraso", "declaração de ocorrência", "justificar atraso", "cheguei atrasado"]),
+    2: ("Declaração de atraso nas linhas 4, 5, 8 e 9",
+        ["declaração", "atraso", "viaquatro", "viamobilidade", "linha 4", "linha 8", "linha 9"]),
+    3: ("Declaração de atraso da CPTM",
+        ["declaração", "atraso", "cptm", "trem atrasou", "comunicado de ocorrência"]),
+    4: ("Ônibus de apoio (PAESE) quando a linha para",
+        ["paese", "ônibus de apoio", "linha parou", "parou", "ônibus emergencial", "e agora"]),
+    5: ("Trem parado entre estações",
+        ["trem parado", "parou entre estações", "túnel", "evacuação", "descer na via"]),
+    6: ("Onde ver a situação das linhas",
+        ["situação das linhas", "status", "linha parada", "como está a linha", "direto do metrô", "funcionando"]),
+    7: ("Chuva forte e alagamento: o que fazer",
+        ["alagamento", "chuva", "chovendo", "enchente", "tempestade", "alagada", "inundação"]),
+    8: ("Defesa Civil: telefone 199 e alerta por SMS",
+        ["defesa civil", "199", "40199", "alerta", "sms", "emergência"]),
+    9: ("Celular roubado ou furtado",
+        ["celular", "roubado", "furtado", "roubaram", "bloquear", "boletim de ocorrência"]),
+    10: ("Assédio ou importunação: como denunciar",
+         ["assédio", "importunação", "denunciar", "denúncia", "abuso", "sms segurança"]),
+    11: ("Achados e perdidos",
+         ["achados e perdidos", "perdi", "esqueci", "perdido", "objeto", "documento perdido"]),
+    12: ("Como reclamar: ouvidorias e Artesp",
+         ["reclamação", "reclamar", "ouvidoria", "artesp", "protocolo", "lei 13.460"]),
+    13: ("Gratuidade para 65 anos ou mais",
+         ["gratuidade", "idoso", "65 anos", "passe livre idoso", "de graça", "estatuto da pessoa idosa"]),
+    14: ("Gratuidade para pessoas com deficiência",
+         ["gratuidade", "deficiência", "pcd", "bilhete especial", "passe livre", "isenção"]),
+    15: ("Acessibilidade e atendimento preferencial nas estações",
+         ["acessibilidade", "cadeirante", "mobilidade reduzida", "elevador", "atendimento preferencial", "embarque assistido"]),
+    16: ("Tarifas e integração do Bilhete Único",
+         ["tarifa", "preço", "passagem", "quanto custa", "integração", "bilhete único"]),
 }
 
 
 def main():
-    pesquisa = json.loads((RAIZ / "pesquisa" / "base_real_proposta.json").read_text(encoding="utf-8"))
-    pcp, dsa = [], []
+    pesquisa = json.loads((RAIZ / "pesquisa" / "base_mobilidade.json").read_text(encoding="utf-8"))
+    servicos = json.loads((RAIZ / "pesquisa" / "servicos_mobilidade.json").read_text(encoding="utf-8"))
+
+    pcp = []
     for item in pesquisa:
         titulo, palavras = AJUSTES.get(item["id"], (item["titulo"], item["palavras_chave"]))
         pcp.append({
@@ -59,11 +73,18 @@ def main():
             "resposta": item["resposta"], "documentos": item["documentos"], "onde": item["onde"],
             "fonte": item["fonte"], "verificado_em": item["verificado_em"], "conferido_pela_equipe": False,
         })
-        dsa.append({
-            "id": f"SRV-{item['id']:03d}", "titulo": titulo, "categoria": item["categoria"], "descricao": item["resposta"],
-            "publico_alvo": item["publico_alvo"], "canal": item["onde"], "prazo": item["prazo"] or "",
-            "fonte": item["fonte"], "verificado_em": item["verificado_em"],
-        })
+
+    dsa = []
+    for s in servicos:
+        descricao = s["descricao"]
+        prazo = s.get("prazo", "")
+        if prazo and not (len(prazo) == 10 and prazo[4] == "-" and prazo[7] == "-"):
+            descricao = f"{descricao} Prazo: {prazo}."           # a DSA só aceita data AAAA-MM-DD no campo prazo
+            prazo = ""
+        dsa.append({"id": s["id"], "titulo": s["titulo"], "categoria": s["categoria"], "descricao": descricao,
+                    "publico_alvo": s["publico_alvo"], "canal": s["canal"], "prazo": prazo,
+                    "fonte": s["fonte"], "verificado_em": s["verificado_em"]})
+
     destino_pcp = RAIZ / "entregas" / "pcp" / "citizen-assist-ai" / "data" / "base_conhecimento.json"
     destino_dsa = RAIZ / "entregas" / "dsa" / "dados" / "servicos.json"
     destino_pcp.write_text(json.dumps(pcp, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

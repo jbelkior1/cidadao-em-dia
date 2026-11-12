@@ -36,7 +36,8 @@ class BaseEntregue(unittest.TestCase):
 
     def test_fonte_oficial_e_data(self):
         for o in self.base:
-            self.assertRegex(o["fonte"], r"^https://[^/]*(\.gov\.br|\.jus\.br)/", o["titulo"])
+            # órgãos públicos (.gov.br, .jus.br), SPTrans e o site oficial da concessionária das linhas 4, 5, 8 e 9
+            self.assertRegex(o["fonte"], r"^https://[^/]*(\.gov\.br|\.jus\.br|sptrans\.com\.br|trilhos\.motiva\.com\.br)/", o["titulo"])
             self.assertTrue(re.fullmatch(r"\d{4}-\d{2}-\d{2}", o["verificado_em"]), o["titulo"])
 
     def test_nada_de_texto_provisorio(self):

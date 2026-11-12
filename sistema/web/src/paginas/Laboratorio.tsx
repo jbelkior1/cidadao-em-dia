@@ -74,11 +74,10 @@ export default function Laboratorio() {
       <header className="space-y-3">
         <h2 className="text-2xl font-bold">Simulação da sociedade</h2>
         <p className="max-w-3xl text-[17px] text-apagado">
-          Antes de levar o produto às ruas, um grupo de pessoas simuladas avalia a ideia, cada uma com a sua realidade: internet,
-          familiaridade com o celular, confiança no governo e o que ela precisa.
+          Antes de levar o app às ruas, passageiros simulados de São Paulo avaliam a ideia, cada um com a sua realidade: internet,
+          familiaridade com o celular, confiança em aviso pelo celular e o que precisa no trajeto.
         </p>
         <div className="flex flex-wrap items-center gap-2 text-[13px] text-apagado">
-          <SeloMateria selo={{ materia: "MLAM", papel: "modelo de adesão" }} />
           <span className="opacity-60"><SeloMateria selo={{ materia: "PAI", papel: "falas com IA (em breve)" }} /></span>
           <span className="rounded-full bg-alerta-suave px-2.5 py-0.5 font-semibold text-alerta">personas e pesos fictícios</span>
         </div>
@@ -87,14 +86,14 @@ export default function Laboratorio() {
       <details className="rounded-xl border border-linha bg-superficie px-4 py-3 text-[15px]">
         <summary className="cursor-pointer font-semibold">Como a simulação funciona</summary>
         <ol className="mt-3 list-decimal space-y-2 pl-5 text-apagado">
-          <li><span className="font-semibold text-tinta">Personas.</span> Dez pessoas fictícias com idade, onde moram, internet, familiaridade com o celular, confiança no governo, o que precisam, o canal que preferem e um medo.</li>
+          <li><span className="font-semibold text-tinta">Personas.</span> Dez pessoas fictícias com idade, onde moram, internet, familiaridade com o celular, confiança em aviso pelo celular, o que precisam, o canal que preferem e um medo.</li>
           <li><span className="font-semibold text-tinta">Avaliação.</span> Para a parte do produto e os canais escolhidos, um modelo logístico calcula a chance de cada pessoa usar: quanto o produto atende a necessidade dela, menos as barreiras de internet, de uso do celular e de confiança. Cada pessoa usa o canal que funciona melhor para ela.</li>
           <li><span className="font-semibold text-tinta">Fala.</span> A opinião de cada pessoa é montada a partir dos motivos que mais pesaram. Nesta versão não há IA: as falas seguem regras.</li>
           <li><span className="font-semibold text-tinta">População.</span> Milhares de pessoas parecidas com as personas, com variação aleatória, estimam a adesão por perfil.</li>
         </ol>
         <p className="mt-3 text-apagado">
           A ideia vem do <a className="text-marca-forte underline" href="https://github.com/microsoft/TinyTroupe" target="_blank" rel="noreferrer">TinyTroupe</a> (Microsoft),
-          que simula grupos focais com personas. Quando a MLAM tiver a base real, os coeficientes da regressão logística substituem os pesos escritos à mão.
+          que simula grupos focais com personas. Os pesos são escritos à mão e servem para discutir o produto; o teste com pessoas de verdade, que PCP, SERS e PAI pedem, é o que vale.
         </p>
       </details>
 

@@ -1,0 +1,3867 @@
+{
+ "meta": {
+  "gerado_em": "2026-11-12",
+  "fonte_rede": "GTFS da SPTrans (linhas de trem e metrô)",
+  "fonte_alagamentos": "GeoSampa, camada risco_ocorrencia_alagamento",
+  "alagamentos_lidos": 292,
+  "raio_alagamento_m": 500,
+  "baldeacao_min": 5
+ },
+ "linhas": {
+  "1": {
+   "numero": "1",
+   "nome": "Azul",
+   "cor": "#0455A1",
+   "estacoes": [
+    "18852",
+    "18851",
+    "18853",
+    "18854",
+    "18855",
+    "18856",
+    "18857",
+    "18984",
+    "18989",
+    "18862",
+    "18863",
+    "18868",
+    "19000",
+    "18870",
+    "18872",
+    "18873",
+    "18874",
+    "18877",
+    "18878",
+    "18879",
+    "18880",
+    "18881",
+    "18882"
+   ]
+  },
+  "2": {
+   "numero": "2",
+   "nome": "Verde",
+   "cor": "#007E5E",
+   "estacoes": [
+    "9505541",
+    "3305856",
+    "3305845",
+    "3305749",
+    "2705944",
+    "9206550",
+    "18860",
+    "18861",
+    "18858",
+    "18859",
+    "18850",
+    "18848",
+    "4406608",
+    "18849"
+   ]
+  },
+  "3": {
+   "numero": "3",
+   "nome": "Vermelha",
+   "cor": "#EE372F",
+   "estacoes": [
+    "18986",
+    "18864",
+    "18865",
+    "6714561",
+    "18867",
+    "18869",
+    "18871",
+    "1010054",
+    "18875",
+    "18876",
+    "18944",
+    "18883",
+    "18884",
+    "18885",
+    "18886",
+    "18887",
+    "18888",
+    "18890"
+   ]
+  },
+  "4": {
+   "numero": "4",
+   "nome": "Amarela",
+   "cor": "#FFD400",
+   "estacoes": [
+    "8010123",
+    "18866",
+    "4406630",
+    "2600672",
+    "4406631",
+    "6311368",
+    "6311285",
+    "6311287",
+    "1211339",
+    "1211401",
+    "9607525"
+   ]
+  },
+  "5": {
+   "numero": "5",
+   "nome": "Lilás",
+   "cor": "#9B3894",
+   "estacoes": [
+    "9206443",
+    "9206549",
+    "9206548",
+    "5306695",
+    "5306694",
+    "5306691",
+    "3407190",
+    "7206945",
+    "7206944",
+    "7206943",
+    "7206877",
+    "19040",
+    "19041",
+    "19042",
+    "19043",
+    "19044",
+    "19045"
+   ]
+  },
+  "6": {
+   "numero": "6",
+   "nome": "Laranja",
+   "cor": "#F68B1F",
+   "estacoes": [
+    "2914645",
+    "2914646",
+    "2914647",
+    "4814665",
+    "6114515",
+    "6114516"
+   ]
+  },
+  "7": {
+   "numero": "7",
+   "nome": "Rubi",
+   "cor": "#CA016B",
+   "estacoes": [
+    "614606",
+    "18919",
+    "18917",
+    "18916",
+    "18965",
+    "18923",
+    "18922",
+    "4114459",
+    "18921",
+    "18924",
+    "18925",
+    "18926",
+    "18971",
+    "18972",
+    "18973",
+    "18974",
+    "18975"
+   ]
+  },
+  "8": {
+   "numero": "8",
+   "nome": "Diamante",
+   "cor": "#97A098",
+   "estacoes": [
+    "18939",
+    "18985",
+    "18918",
+    "18969",
+    "18964",
+    "4011343",
+    "18960",
+    "18959",
+    "18958",
+    "18957",
+    "18956",
+    "18955",
+    "18954",
+    "18953",
+    "18952",
+    "18951",
+    "18950",
+    "18949",
+    "18948",
+    "18947",
+    "18946"
+   ]
+  },
+  "9": {
+   "numero": "9",
+   "nome": "Esmeralda",
+   "cor": "#01A9A7",
+   "estacoes": [
+    "18960",
+    "18961",
+    "18962",
+    "18963",
+    "18967",
+    "18966",
+    "18968",
+    "18913",
+    "18912",
+    "18911",
+    "18910",
+    "18909",
+    "7206982",
+    "18906",
+    "18908",
+    "18907",
+    "2314493",
+    "2314514",
+    "3014630",
+    "3014945",
+    "3015054"
+   ]
+  },
+  "10": {
+   "numero": "10",
+   "nome": "Turquesa",
+   "cor": "#049FC3",
+   "estacoes": [
+    "18920",
+    "18940",
+    "1010053",
+    "18941",
+    "18942",
+    "18927",
+    "18928",
+    "18929",
+    "18930",
+    "18936",
+    "18934",
+    "18935",
+    "18937",
+    "18931",
+    "18932"
+   ]
+  },
+  "11": {
+   "numero": "11",
+   "nome": "Coral",
+   "cor": "#F68368",
+   "estacoes": [
+    "18920",
+    "18940",
+    "18987",
+    "8210164",
+    "3608883",
+    "18892",
+    "18893",
+    "18895",
+    "18894",
+    "18898",
+    "18899",
+    "18901",
+    "18902",
+    "18978",
+    "18979",
+    "18980",
+    "18981"
+   ]
+  },
+  "12": {
+   "numero": "12",
+   "nome": "Safira",
+   "cor": "#133C8D",
+   "estacoes": [
+    "18987",
+    "8210163",
+    "18889",
+    "2815191",
+    "18891",
+    "7612124",
+    "8615209",
+    "18897",
+    "3515230",
+    "18900",
+    "18976",
+    "3515265",
+    "3515266"
+   ]
+  },
+  "13": {
+   "numero": "13",
+   "nome": "Jade",
+   "cor": "#00B352",
+   "estacoes": [
+    "1814711",
+    "1814712",
+    "1814713"
+   ]
+  },
+  "15": {
+   "numero": "15",
+   "nome": "Prata",
+   "cor": "#868686",
+   "estacoes": [
+    "9505577",
+    "7405493",
+    "7405516",
+    "7405517",
+    "7405518",
+    "7805208",
+    "7805213",
+    "7805219",
+    "7805216",
+    "7805217",
+    "7504951"
+   ]
+  },
+  "17": {
+   "numero": "17",
+   "nome": "Ouro",
+   "cor": "#C9A227",
+   "estacoes": [
+    "3407222",
+    "3407224",
+    "3407225",
+    "3407226",
+    "1506220",
+    "1506224",
+    "1506222",
+    "1506221",
+    "1506223"
+   ]
+  }
+ },
+ "estacoes": [
+  {
+   "id": "5306695",
+   "nome": "Aacd - Servidor",
+   "lat": -23.597819,
+   "lon": -46.652545,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7206877",
+   "nome": "Adolfo Pinheiro",
+   "lat": -23.650083,
+   "lon": -46.704237,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "1506222",
+   "nome": "Aeroporto De Congonhas",
+   "lat": -23.626925,
+   "lon": -46.661869,
+   "linhas": [
+    "17"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "1814713",
+   "nome": "Aeroporto Guarulhos",
+   "lat": -23.433667,
+   "lon": -46.493732,
+   "linhas": [
+    "13"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18919",
+   "nome": "Água Branca",
+   "lat": -23.521231,
+   "lon": -46.689237,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "4814665",
+   "nome": "Água Branca",
+   "lat": -23.52055,
+   "lon": -46.688138,
+   "linhas": [
+    "6"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7206943",
+   "nome": "Alto Da Boa Vista",
+   "lat": -23.641632,
+   "lon": -46.699465,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3305749",
+   "nome": "Alto Do Ipiranga",
+   "lat": -23.60213,
+   "lon": -46.612593,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18984",
+   "nome": "Ana Rosa",
+   "lat": -23.581388,
+   "lon": -46.638455,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18860",
+   "nome": "Ana Rosa",
+   "lat": -23.581204,
+   "lon": -46.638496,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18867",
+   "nome": "Anhangabaú",
+   "lat": -23.5478,
+   "lon": -46.6392,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18894",
+   "nome": "Antônio Gianetti Neto",
+   "lat": -23.554322,
+   "lon": -46.383668,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18954",
+   "nome": "Antônio João",
+   "lat": -23.516859,
+   "lon": -46.858801,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3515265",
+   "nome": "Aracaré",
+   "lat": -23.500329,
+   "lon": -46.339044,
+   "linhas": [
+    "12"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18874",
+   "nome": "Armênia",
+   "lat": -23.525409,
+   "lon": -46.629192,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18888",
+   "nome": "Artur Alvim",
+   "lat": -23.540068,
+   "lon": -46.484833,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "2314493",
+   "nome": "Autódromo",
+   "lat": -23.706148,
+   "lon": -46.688358,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18926",
+   "nome": "Baltazar Fidélis",
+   "lat": -23.310582,
+   "lon": -46.722853,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18953",
+   "nome": "Barueri",
+   "lat": -23.512644,
+   "lon": -46.875113,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18876",
+   "nome": "Belém",
+   "lat": -23.542922,
+   "lon": -46.589676,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18911",
+   "nome": "Berrini",
+   "lat": -23.604669,
+   "lon": -46.696825,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7206944",
+   "nome": "Borba Gato",
+   "lat": -23.633334,
+   "lon": -46.693018,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18972",
+   "nome": "Botujuru",
+   "lat": -23.23541,
+   "lon": -46.767932,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "1010053",
+   "nome": "Brás",
+   "lat": -23.545582,
+   "lon": -46.616314,
+   "linhas": [
+    "10"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18987",
+   "nome": "Brás",
+   "lat": -23.545461,
+   "lon": -46.616228,
+   "linhas": [
+    "11",
+    "12"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "1010054",
+   "nome": "Brás",
+   "lat": -23.547751,
+   "lon": -46.616127,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18979",
+   "nome": "Brás Cubas",
+   "lat": -23.536255,
+   "lon": -46.225325,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18875",
+   "nome": "Bresser-Mooca",
+   "lat": -23.546398,
+   "lon": -46.607246,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18858",
+   "nome": "Brigadeiro",
+   "lat": -23.567623,
+   "lon": -46.649055,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7206945",
+   "nome": "Brooklin",
+   "lat": -23.626914,
+   "lon": -46.688171,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "1506224",
+   "nome": "Brooklin Paulista",
+   "lat": -23.629594,
+   "lon": -46.673505,
+   "linhas": [
+    "17"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "1506221",
+   "nome": "Brooklin Paulista",
+   "lat": -23.629637,
+   "lon": -46.673561,
+   "linhas": [
+    "17"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3014945",
+   "nome": "Bruno Covas-Mendes-Vila Natal",
+   "lat": -23.754624,
+   "lon": -46.709389,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "1211339",
+   "nome": "Butantã",
+   "lat": -23.571874,
+   "lon": -46.708048,
+   "linhas": [
+    "4"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18924",
+   "nome": "Caieiras",
+   "lat": -23.367176,
+   "lon": -46.752822,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18901",
+   "nome": "Calmon Viana",
+   "lat": -23.525497,
+   "lon": -46.332803,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3515266",
+   "nome": "Calmon Viana",
+   "lat": -23.525202,
+   "lon": -46.333504,
+   "linhas": [
+    "12"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7405517",
+   "nome": "Camilo Haddad",
+   "lat": -23.595483,
+   "lon": -46.537606,
+   "linhas": [
+    "15"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3407190",
+   "nome": "Campo Belo",
+   "lat": -23.618357,
+   "lon": -46.682067,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3407226",
+   "nome": "Campo Belo",
+   "lat": -23.61854,
+   "lon": -46.683429,
+   "linhas": [
+    "17"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "19044",
+   "nome": "Campo Limpo",
+   "lat": -23.648987,
+   "lon": -46.758878,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18973",
+   "nome": "Campo Limpo Paulista",
+   "lat": -23.207264,
+   "lon": -46.784873,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "19045",
+   "nome": "Capão Redondo",
+   "lat": -23.659955,
+   "lon": -46.768691,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18934",
+   "nome": "Capuava",
+   "lat": -23.65851,
+   "lon": -46.490542,
+   "linhas": [
+    "10"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18878",
+   "nome": "Carandiru",
+   "lat": -23.508985,
+   "lon": -46.62492,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18956",
+   "nome": "Carapicuíba",
+   "lat": -23.518744,
+   "lon": -46.835417,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18883",
+   "nome": "Carrão",
+   "lat": -23.53784,
+   "lon": -46.564393,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18962",
+   "nome": "Ceasa",
+   "lat": -23.538372,
+   "lon": -46.741543,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "9206550",
+   "nome": "Chácara Klabin",
+   "lat": -23.5926,
+   "lon": -46.6307,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "9206443",
+   "nome": "Chácara Klabin",
+   "lat": -23.59299,
+   "lon": -46.630999,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3407224",
+   "nome": "Chucri Zaidan",
+   "lat": -23.613987,
+   "lon": -46.695494,
+   "linhas": [
+    "17"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18913",
+   "nome": "Cidade Jardim",
+   "lat": -23.585337,
+   "lon": -46.691293,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18967",
+   "nome": "Cidade Universitária",
+   "lat": -23.55757,
+   "lon": -46.712434,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18848",
+   "nome": "Clínicas",
+   "lat": -23.554007,
+   "lon": -46.671097,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18959",
+   "nome": "Comandante Sampaio",
+   "lat": -23.52599,
+   "lon": -46.796059,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18891",
+   "nome": "Comendador Ermelino",
+   "lat": -23.485166,
+   "lon": -46.482828,
+   "linhas": [
+    "12"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18851",
+   "nome": "Conceição",
+   "lat": -23.635039,
+   "lon": -46.641239,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18850",
+   "nome": "Consolação",
+   "lat": -23.55809,
+   "lon": -46.660201,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3608883",
+   "nome": "Corinthians-Itaquera",
+   "lat": -23.541986,
+   "lon": -46.471271,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18890",
+   "nome": "Corinthians-Itaquera",
+   "lat": -23.542411,
+   "lon": -46.471964,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18892",
+   "nome": "Dom Bosco",
+   "lat": -23.541714,
+   "lon": -46.447993,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18969",
+   "nome": "Domingos De Moraes",
+   "lat": -23.518787,
+   "lon": -46.721665,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18900",
+   "nome": "Eng Manoel Feio",
+   "lat": -23.478636,
+   "lon": -46.364469,
+   "linhas": [
+    "12"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18889",
+   "nome": "Eng. Goulart",
+   "lat": -23.498281,
+   "lon": -46.520092,
+   "linhas": [
+    "12"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "1814711",
+   "nome": "Eng. Goulart",
+   "lat": -23.498099,
+   "lon": -46.51992,
+   "linhas": [
+    "13"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18948",
+   "nome": "Engenheiro Cardoso",
+   "lat": -23.535245,
+   "lon": -46.928291,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18981",
+   "nome": "Estudantes",
+   "lat": -23.515696,
+   "lon": -46.18493,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "5306691",
+   "nome": "Eucaliptos",
+   "lat": -23.60984,
+   "lon": -46.668649,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "6311285",
+   "nome": "Faria Lima",
+   "lat": -23.567399,
+   "lon": -46.693451,
+   "linhas": [
+    "4"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7805216",
+   "nome": "Fazenda Da Juta",
+   "lat": -23.611853,
+   "lon": -46.487579,
+   "linhas": [
+    "15"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18898",
+   "nome": "Ferraz De Vasconcelos",
+   "lat": -23.540688,
+   "lon": -46.368207,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "6311368",
+   "nome": "Fradique Coutinho",
+   "lat": -23.566103,
+   "lon": -46.684273,
+   "linhas": [
+    "4"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18971",
+   "nome": "Francisco Morato",
+   "lat": -23.284893,
+   "lon": -46.742046,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18925",
+   "nome": "Franco Da Rocha",
+   "lat": -23.332181,
+   "lon": -46.727614,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "2914646",
+   "nome": "Freguesia Do Ó",
+   "lat": -23.501756,
+   "lon": -46.693714,
+   "linhas": [
+    "6"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18957",
+   "nome": "General Miguel Costa",
+   "lat": -23.523639,
+   "lon": -46.815998,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "19042",
+   "nome": "Giovanni Gronchi",
+   "lat": -23.643975,
+   "lon": -46.734112,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3014630",
+   "nome": "Grajaú",
+   "lat": -23.736283,
+   "lon": -46.697068,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18909",
+   "nome": "Granja Julieta",
+   "lat": -23.627599,
+   "lon": -46.712111,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18895",
+   "nome": "Guaianases",
+   "lat": -23.542298,
+   "lon": -46.415633,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18937",
+   "nome": "Guapituba",
+   "lat": -23.691321,
+   "lon": -46.449263,
+   "linhas": [
+    "10"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "1814712",
+   "nome": "Guarulhos Cecap",
+   "lat": -23.44808,
+   "lon": -46.493539,
+   "linhas": [
+    "13"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18886",
+   "nome": "Guilhermina Esperança",
+   "lat": -23.529319,
+   "lon": -46.516673,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18968",
+   "nome": "Hebraica - Rebouças",
+   "lat": -23.573822,
+   "lon": -46.698634,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "4406630",
+   "nome": "Higienópolis-Mackenzie",
+   "lat": -23.549031,
+   "lon": -46.652303,
+   "linhas": [
+    "4"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "9206548",
+   "nome": "Hospital São Paulo",
+   "lat": -23.598381,
+   "lon": -46.645612,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18964",
+   "nome": "Imperatriz Leopoldina",
+   "lat": -23.523749,
+   "lon": -46.737662,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18942",
+   "nome": "Ipiranga",
+   "lat": -23.582356,
+   "lon": -46.59666,
+   "linhas": [
+    "10"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18897",
+   "nome": "Itaim Paulista",
+   "lat": -23.493989,
+   "lon": -46.402304,
+   "linhas": [
+    "12"
+   ],
+   "alagamentos_500m": 25
+  },
+  {
+   "id": "18947",
+   "nome": "Itapevi",
+   "lat": -23.545728,
+   "lon": -46.935416,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18976",
+   "nome": "Itaquaquecetuba",
+   "lat": -23.48577,
+   "lon": -46.348456,
+   "linhas": [
+    "12"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18852",
+   "nome": "Jabaquara",
+   "lat": -23.646033,
+   "lon": -46.641028,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18950",
+   "nome": "Jandira",
+   "lat": -23.527721,
+   "lon": -46.902507,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18922",
+   "nome": "Jaraguá",
+   "lat": -23.455502,
+   "lon": -46.738483,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18952",
+   "nome": "Jardim Belval",
+   "lat": -23.514306,
+   "lon": -46.88929,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7504951",
+   "nome": "Jardim Colonial",
+   "lat": -23.599045,
+   "lon": -46.468949,
+   "linhas": [
+    "15"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "8615209",
+   "nome": "Jardim Helena - Vila Mara",
+   "lat": -23.492765,
+   "lon": -46.420369,
+   "linhas": [
+    "12"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7805213",
+   "nome": "Jardim Planalto",
+   "lat": -23.606046,
+   "lon": -46.507963,
+   "linhas": [
+    "15"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3515230",
+   "nome": "Jardim Romano",
+   "lat": -23.485148,
+   "lon": -46.386211,
+   "linhas": [
+    "12"
+   ],
+   "alagamentos_500m": 1
+  },
+  {
+   "id": "18880",
+   "nome": "Jardim São Paulo-Ayrton Senna",
+   "lat": -23.492642,
+   "lon": -46.617445,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18951",
+   "nome": "Jardim Silveira",
+   "lat": -23.523568,
+   "lon": -46.893491,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7206982",
+   "nome": "João Dias",
+   "lat": -23.639836,
+   "lon": -46.723488,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "2914645",
+   "nome": "João Paulo I",
+   "lat": -23.493626,
+   "lon": -46.691468,
+   "linhas": [
+    "6"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18893",
+   "nome": "José Bonifácio",
+   "lat": -23.53912,
+   "lon": -46.431683,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18939",
+   "nome": "Júlio Prestes",
+   "lat": -23.532964,
+   "lon": -46.640763,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18975",
+   "nome": "Jundiai",
+   "lat": -23.195643,
+   "lon": -46.8719,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18978",
+   "nome": "Jundiapeba",
+   "lat": -23.542687,
+   "lon": -46.256308,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18907",
+   "nome": "Jurubatuba",
+   "lat": -23.677465,
+   "lon": -46.702213,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18917",
+   "nome": "Lapa",
+   "lat": -23.517538,
+   "lon": -46.703952,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18918",
+   "nome": "Lapa",
+   "lat": -23.519585,
+   "lon": -46.700124,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "19040",
+   "nome": "Largo Treze",
+   "lat": -23.654465,
+   "lon": -46.710305,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18868",
+   "nome": "Liberdade",
+   "lat": -23.555211,
+   "lon": -46.635581,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18940",
+   "nome": "Luz",
+   "lat": -23.535103,
+   "lon": -46.635436,
+   "linhas": [
+    "10",
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18872",
+   "nome": "Luz",
+   "lat": -23.5366,
+   "lon": -46.634299,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "8010123",
+   "nome": "Luz",
+   "lat": -23.536598,
+   "lon": -46.634502,
+   "linhas": [
+    "4"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18864",
+   "nome": "Marechal Deodoro",
+   "lat": -23.533163,
+   "lon": -46.657264,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18935",
+   "nome": "Mauá",
+   "lat": -23.668016,
+   "lon": -46.461769,
+   "linhas": [
+    "10"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "5306694",
+   "nome": "Moema",
+   "lat": -23.603386,
+   "lon": -46.661974,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18980",
+   "nome": "Mogi Das Cruzes",
+   "lat": -23.521185,
+   "lon": -46.197135,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18941",
+   "nome": "Moóca",
+   "lat": -23.557799,
+   "lon": -46.608419,
+   "linhas": [
+    "10"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18910",
+   "nome": "Morumbi",
+   "lat": -23.621519,
+   "lon": -46.701657,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3407222",
+   "nome": "Morumbi",
+   "lat": -23.622447,
+   "lon": -46.702799,
+   "linhas": [
+    "17"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7405493",
+   "nome": "Oratorio",
+   "lat": -23.582144,
+   "lon": -46.561877,
+   "linhas": [
+    "15"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18960",
+   "nome": "Osasco",
+   "lat": -23.527834,
+   "lon": -46.776007,
+   "linhas": [
+    "8",
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "4406631",
+   "nome": "Oscar Freire",
+   "lat": -23.560414,
+   "lon": -46.671819,
+   "linhas": [
+    "4"
+   ],
+   "alagamentos_500m": 1
+  },
+  {
+   "id": "614606",
+   "nome": "Palmeiras - Barra Funda",
+   "lat": -23.525282,
+   "lon": -46.667175,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18985",
+   "nome": "Palmeiras - Barra Funda",
+   "lat": -23.525592,
+   "lon": -46.666651,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18920",
+   "nome": "Palmeiras - Barra Funda",
+   "lat": -23.525317,
+   "lon": -46.666547,
+   "linhas": [
+    "10",
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18986",
+   "nome": "Palmeiras - Barra Funda",
+   "lat": -23.525703,
+   "lon": -46.666803,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18881",
+   "nome": "Parada Inglesa",
+   "lat": -23.487104,
+   "lon": -46.608883,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 1
+  },
+  {
+   "id": "18989",
+   "nome": "Paraíso",
+   "lat": -23.5753,
+   "lon": -46.6408,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18861",
+   "nome": "Paraíso",
+   "lat": -23.5754,
+   "lon": -46.6407,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18887",
+   "nome": "Patriarca",
+   "lat": -23.531079,
+   "lon": -46.501715,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "2600672",
+   "nome": "Paulista",
+   "lat": -23.555071,
+   "lon": -46.662131,
+   "linhas": [
+    "4"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18871",
+   "nome": "Pedro II",
+   "lat": -23.549742,
+   "lon": -46.626281,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 1
+  },
+  {
+   "id": "18884",
+   "nome": "Penha",
+   "lat": -23.533594,
+   "lon": -46.542944,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 2
+  },
+  {
+   "id": "6114516",
+   "nome": "Perdizes",
+   "lat": -23.53208,
+   "lon": -46.676621,
+   "linhas": [
+    "6"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18921",
+   "nome": "Perus",
+   "lat": -23.404054,
+   "lon": -46.754465,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18966",
+   "nome": "Pinheiros",
+   "lat": -23.566631,
+   "lon": -46.703082,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "6311287",
+   "nome": "Pinheiros",
+   "lat": -23.56725,
+   "lon": -46.701925,
+   "linhas": [
+    "4"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18916",
+   "nome": "Piqueri",
+   "lat": -23.504206,
+   "lon": -46.714999,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 1
+  },
+  {
+   "id": "18965",
+   "nome": "Pirituba",
+   "lat": -23.488464,
+   "lon": -46.726058,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18899",
+   "nome": "Poá",
+   "lat": -23.525211,
+   "lon": -46.34325,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18877",
+   "nome": "Portuguesa-Tietê",
+   "lat": -23.516067,
+   "lon": -46.625162,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18855",
+   "nome": "Praça Da Árvore",
+   "lat": -23.610583,
+   "lon": -46.637918,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18936",
+   "nome": "Prefeito Celso Daniel - Santo André",
+   "lat": -23.652472,
+   "lon": -46.528568,
+   "linhas": [
+    "10"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18930",
+   "nome": "Prefeito Saladino",
+   "lat": -23.638762,
+   "lon": -46.53686,
+   "linhas": [
+    "10"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "4011343",
+   "nome": "Presidente Altino",
+   "lat": -23.530253,
+   "lon": -46.760683,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18961",
+   "nome": "Presidente Altino",
+   "lat": -23.530423,
+   "lon": -46.760577,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "2314514",
+   "nome": "Primavera-Interlagos",
+   "lat": -23.722893,
+   "lon": -46.691773,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18958",
+   "nome": "Quitaúna",
+   "lat": -23.522871,
+   "lon": -46.807085,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "6714561",
+   "nome": "República",
+   "lat": -23.544038,
+   "lon": -46.642729,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 1
+  },
+  {
+   "id": "18866",
+   "nome": "República",
+   "lat": -23.544215,
+   "lon": -46.642461,
+   "linhas": [
+    "4"
+   ],
+   "alagamentos_500m": 1
+  },
+  {
+   "id": "18931",
+   "nome": "Ribeirão Pires",
+   "lat": -23.713586,
+   "lon": -46.414805,
+   "linhas": [
+    "10"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18932",
+   "nome": "Rio Grande Da Serra",
+   "lat": -23.742981,
+   "lon": -46.392026,
+   "linhas": [
+    "10"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "4406608",
+   "nome": "S. N. Sra. De Fátima-Sumaré",
+   "lat": -23.550974,
+   "lon": -46.677575,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3305845",
+   "nome": "Sacomã",
+   "lat": -23.601192,
+   "lon": -46.601963,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18949",
+   "nome": "Sagrado Coração",
+   "lat": -23.52908,
+   "lon": -46.91728,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18865",
+   "nome": "Santa Cecília",
+   "lat": -23.538095,
+   "lon": -46.649009,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18856",
+   "nome": "Santa Cruz",
+   "lat": -23.598541,
+   "lon": -46.636638,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "9206549",
+   "nome": "Santa Cruz",
+   "lat": -23.598445,
+   "lon": -46.636618,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "2914647",
+   "nome": "Santa Marina",
+   "lat": -23.514102,
+   "lon": -46.691658,
+   "linhas": [
+    "6"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18946",
+   "nome": "Santa Rita",
+   "lat": -23.545115,
+   "lon": -46.947651,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18955",
+   "nome": "Santa Terezinha",
+   "lat": -23.516347,
+   "lon": -46.84807,
+   "linhas": [
+    "8"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18879",
+   "nome": "Santana",
+   "lat": -23.502706,
+   "lon": -46.624761,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18906",
+   "nome": "Santo Amaro",
+   "lat": -23.655909,
+   "lon": -46.719702,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "19041",
+   "nome": "Santo Amaro",
+   "lat": -23.655575,
+   "lon": -46.721095,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "2705944",
+   "nome": "Santos-Imigrantes",
+   "lat": -23.595941,
+   "lon": -46.62071,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18870",
+   "nome": "São Bento",
+   "lat": -23.544094,
+   "lon": -46.634175,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18928",
+   "nome": "São Caetano",
+   "lat": -23.610281,
+   "lon": -46.57033,
+   "linhas": [
+    "10"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18863",
+   "nome": "São Joaquim",
+   "lat": -23.561473,
+   "lon": -46.63858,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18853",
+   "nome": "São Judas",
+   "lat": -23.625882,
+   "lon": -46.640936,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7405516",
+   "nome": "São Lucas",
+   "lat": -23.589,
+   "lon": -46.544597,
+   "linhas": [
+    "15"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7805217",
+   "nome": "São Mateus",
+   "lat": -23.612272,
+   "lon": -46.477314,
+   "linhas": [
+    "15"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7612124",
+   "nome": "São Miguel Paulista",
+   "lat": -23.490494,
+   "lon": -46.443699,
+   "linhas": [
+    "12"
+   ],
+   "alagamentos_500m": 2
+  },
+  {
+   "id": "1211401",
+   "nome": "São Paulo - Morumbi",
+   "lat": -23.586132,
+   "lon": -46.723471,
+   "linhas": [
+    "4"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7805219",
+   "nome": "Sapopemba",
+   "lat": -23.614677,
+   "lon": -46.500834,
+   "linhas": [
+    "15"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18854",
+   "nome": "Saúde",
+   "lat": -23.618245,
+   "lon": -46.639139,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "19000",
+   "nome": "Sé",
+   "lat": -23.550614,
+   "lon": -46.633505,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18869",
+   "nome": "Sé",
+   "lat": -23.550503,
+   "lon": -46.633305,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "6114515",
+   "nome": "Sesc-Pompeia",
+   "lat": -23.527248,
+   "lon": -46.683295,
+   "linhas": [
+    "6"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18908",
+   "nome": "Socorro",
+   "lat": -23.66343,
+   "lon": -46.71097,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18902",
+   "nome": "Suzano",
+   "lat": -23.533521,
+   "lon": -46.309229,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18927",
+   "nome": "Tamanduateí",
+   "lat": -23.592982,
+   "lon": -46.589343,
+   "linhas": [
+    "10"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3305856",
+   "nome": "Tamanduateí",
+   "lat": -23.593116,
+   "lon": -46.589667,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "8210164",
+   "nome": "Tatuapé",
+   "lat": -23.540189,
+   "lon": -46.576374,
+   "linhas": [
+    "11"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "8210163",
+   "nome": "Tatuapé",
+   "lat": -23.5401,
+   "lon": -46.5765,
+   "linhas": [
+    "12"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18944",
+   "nome": "Tatuapé",
+   "lat": -23.5403,
+   "lon": -46.5767,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18873",
+   "nome": "Tiradentes",
+   "lat": -23.531286,
+   "lon": -46.632499,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18859",
+   "nome": "Trianon-Masp",
+   "lat": -23.563573,
+   "lon": -46.653905,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18882",
+   "nome": "Tucuruvi",
+   "lat": -23.480016,
+   "lon": -46.603214,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "2815191",
+   "nome": "USP Leste",
+   "lat": -23.485691,
+   "lon": -46.503078,
+   "linhas": [
+    "12"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18929",
+   "nome": "Utinga",
+   "lat": -23.626196,
+   "lon": -46.543623,
+   "linhas": [
+    "10"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3015054",
+   "nome": "Varginha",
+   "lat": -23.770367,
+   "lon": -46.712051,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18974",
+   "nome": "Várzea Paulista",
+   "lat": -23.208824,
+   "lon": -46.829012,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "1506220",
+   "nome": "Vereador José Diniz",
+   "lat": -23.62209,
+   "lon": -46.678848,
+   "linhas": [
+    "17"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18862",
+   "nome": "Vergueiro",
+   "lat": -23.568467,
+   "lon": -46.639928,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "4114459",
+   "nome": "Vila Aurora",
+   "lat": -23.437612,
+   "lon": -46.747275,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18923",
+   "nome": "Vila Clarice",
+   "lat": -23.470038,
+   "lon": -46.744207,
+   "linhas": [
+    "7"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "3407225",
+   "nome": "Vila Cordeiro",
+   "lat": -23.615585,
+   "lon": -46.688565,
+   "linhas": [
+    "17"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "19043",
+   "nome": "Vila Das Belezas",
+   "lat": -23.640331,
+   "lon": -46.745882,
+   "linhas": [
+    "5"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18849",
+   "nome": "Vila Madalena",
+   "lat": -23.546498,
+   "lon": -46.691141,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18857",
+   "nome": "Vila Mariana",
+   "lat": -23.589359,
+   "lon": -46.634677,
+   "linhas": [
+    "1"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18885",
+   "nome": "Vila Matilde",
+   "lat": -23.531901,
+   "lon": -46.530904,
+   "linhas": [
+    "3"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18912",
+   "nome": "Vila Olímpia",
+   "lat": -23.593185,
+   "lon": -46.692871,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 1
+  },
+  {
+   "id": "9505577",
+   "nome": "Vila Prudente",
+   "lat": -23.58462,
+   "lon": -46.583322,
+   "linhas": [
+    "15"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "9505541",
+   "nome": "Vila Prudente",
+   "lat": -23.58445,
+   "lon": -46.581943,
+   "linhas": [
+    "2"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "9607525",
+   "nome": "Vila Sônia",
+   "lat": -23.591689,
+   "lon": -46.735692,
+   "linhas": [
+    "4"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7405518",
+   "nome": "Vila Tolstói",
+   "lat": -23.600932,
+   "lon": -46.527049,
+   "linhas": [
+    "15"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "7805208",
+   "nome": "Vila União",
+   "lat": -23.60294,
+   "lon": -46.515768,
+   "linhas": [
+    "15"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "18963",
+   "nome": "Villa Lobos- Jaguaré",
+   "lat": -23.546718,
+   "lon": -46.732079,
+   "linhas": [
+    "9"
+   ],
+   "alagamentos_500m": 0
+  },
+  {
+   "id": "1506223",
+   "nome": "Washington Luís",
+   "lat": -23.634483,
+   "lon": -46.668348,
+   "linhas": [
+    "17"
+   ],
+   "alagamentos_500m": 0
+  }
+ ],
+ "trechos": [
+  {
+   "de": "614606",
+   "para": "18919",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18919",
+   "para": "18917",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18917",
+   "para": "18916",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18916",
+   "para": "18965",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18965",
+   "para": "18923",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18923",
+   "para": "18922",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18922",
+   "para": "4114459",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "4114459",
+   "para": "18921",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18921",
+   "para": "18924",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18924",
+   "para": "18925",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18925",
+   "para": "18926",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18926",
+   "para": "18971",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18971",
+   "para": "18972",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18972",
+   "para": "18973",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18973",
+   "para": "18974",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18974",
+   "para": "18975",
+   "min": 8.0,
+   "linha": "7"
+  },
+  {
+   "de": "18939",
+   "para": "18985",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18985",
+   "para": "18918",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18918",
+   "para": "18969",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18969",
+   "para": "18964",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18964",
+   "para": "4011343",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "4011343",
+   "para": "18960",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18960",
+   "para": "18959",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18959",
+   "para": "18958",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18958",
+   "para": "18957",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18957",
+   "para": "18956",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18956",
+   "para": "18955",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18955",
+   "para": "18954",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18954",
+   "para": "18953",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18953",
+   "para": "18952",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18952",
+   "para": "18951",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18951",
+   "para": "18950",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18950",
+   "para": "18949",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18949",
+   "para": "18948",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18948",
+   "para": "18947",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18947",
+   "para": "18946",
+   "min": 7.0,
+   "linha": "8"
+  },
+  {
+   "de": "18960",
+   "para": "18961",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18961",
+   "para": "18962",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18962",
+   "para": "18963",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18963",
+   "para": "18967",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18967",
+   "para": "18966",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18966",
+   "para": "18968",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18968",
+   "para": "18913",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18913",
+   "para": "18912",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18912",
+   "para": "18911",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18911",
+   "para": "18910",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18910",
+   "para": "18909",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18909",
+   "para": "7206982",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "7206982",
+   "para": "18906",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18906",
+   "para": "18908",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18908",
+   "para": "18907",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18907",
+   "para": "2314493",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "2314493",
+   "para": "2314514",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "2314514",
+   "para": "3014630",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "3014630",
+   "para": "3014945",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "3014945",
+   "para": "3015054",
+   "min": 3.0,
+   "linha": "9"
+  },
+  {
+   "de": "18920",
+   "para": "18940",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "18940",
+   "para": "1010053",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "1010053",
+   "para": "18941",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "18941",
+   "para": "18942",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "18942",
+   "para": "18927",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "18927",
+   "para": "18928",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "18928",
+   "para": "18929",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "18929",
+   "para": "18930",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "18930",
+   "para": "18936",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "18936",
+   "para": "18934",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "18934",
+   "para": "18935",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "18935",
+   "para": "18937",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "18937",
+   "para": "18931",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "18931",
+   "para": "18932",
+   "min": 7.0,
+   "linha": "10"
+  },
+  {
+   "de": "18920",
+   "para": "18940",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18940",
+   "para": "18987",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18987",
+   "para": "8210164",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "8210164",
+   "para": "3608883",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "3608883",
+   "para": "18892",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18892",
+   "para": "18893",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18893",
+   "para": "18895",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18895",
+   "para": "18894",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18894",
+   "para": "18898",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18898",
+   "para": "18899",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18899",
+   "para": "18901",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18901",
+   "para": "18902",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18902",
+   "para": "18978",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18978",
+   "para": "18979",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18979",
+   "para": "18980",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18980",
+   "para": "18981",
+   "min": 6.0,
+   "linha": "11"
+  },
+  {
+   "de": "18987",
+   "para": "8210163",
+   "min": 6.0,
+   "linha": "12"
+  },
+  {
+   "de": "8210163",
+   "para": "18889",
+   "min": 6.0,
+   "linha": "12"
+  },
+  {
+   "de": "18889",
+   "para": "2815191",
+   "min": 6.0,
+   "linha": "12"
+  },
+  {
+   "de": "2815191",
+   "para": "18891",
+   "min": 6.0,
+   "linha": "12"
+  },
+  {
+   "de": "18891",
+   "para": "7612124",
+   "min": 6.0,
+   "linha": "12"
+  },
+  {
+   "de": "7612124",
+   "para": "8615209",
+   "min": 6.0,
+   "linha": "12"
+  },
+  {
+   "de": "8615209",
+   "para": "18897",
+   "min": 6.0,
+   "linha": "12"
+  },
+  {
+   "de": "18897",
+   "para": "3515230",
+   "min": 6.0,
+   "linha": "12"
+  },
+  {
+   "de": "3515230",
+   "para": "18900",
+   "min": 6.0,
+   "linha": "12"
+  },
+  {
+   "de": "18900",
+   "para": "18976",
+   "min": 6.0,
+   "linha": "12"
+  },
+  {
+   "de": "18976",
+   "para": "3515265",
+   "min": 6.0,
+   "linha": "12"
+  },
+  {
+   "de": "3515265",
+   "para": "3515266",
+   "min": 6.0,
+   "linha": "12"
+  },
+  {
+   "de": "1814711",
+   "para": "1814712",
+   "min": 8.0,
+   "linha": "13"
+  },
+  {
+   "de": "1814712",
+   "para": "1814713",
+   "min": 8.0,
+   "linha": "13"
+  },
+  {
+   "de": "9505577",
+   "para": "7405493",
+   "min": 4.0,
+   "linha": "15"
+  },
+  {
+   "de": "7405493",
+   "para": "7405516",
+   "min": 4.0,
+   "linha": "15"
+  },
+  {
+   "de": "7405516",
+   "para": "7405517",
+   "min": 4.0,
+   "linha": "15"
+  },
+  {
+   "de": "7405517",
+   "para": "7405518",
+   "min": 4.0,
+   "linha": "15"
+  },
+  {
+   "de": "7405518",
+   "para": "7805208",
+   "min": 4.0,
+   "linha": "15"
+  },
+  {
+   "de": "7805208",
+   "para": "7805213",
+   "min": 4.0,
+   "linha": "15"
+  },
+  {
+   "de": "7805213",
+   "para": "7805219",
+   "min": 4.0,
+   "linha": "15"
+  },
+  {
+   "de": "7805219",
+   "para": "7805216",
+   "min": 4.0,
+   "linha": "15"
+  },
+  {
+   "de": "7805216",
+   "para": "7805217",
+   "min": 4.0,
+   "linha": "15"
+  },
+  {
+   "de": "7805217",
+   "para": "7504951",
+   "min": 4.0,
+   "linha": "15"
+  },
+  {
+   "de": "18852",
+   "para": "18851",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18851",
+   "para": "18853",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18853",
+   "para": "18854",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18854",
+   "para": "18855",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18855",
+   "para": "18856",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18856",
+   "para": "18857",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18857",
+   "para": "18984",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18984",
+   "para": "18989",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18989",
+   "para": "18862",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18862",
+   "para": "18863",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18863",
+   "para": "18868",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18868",
+   "para": "19000",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "19000",
+   "para": "18870",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18870",
+   "para": "18872",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18872",
+   "para": "18873",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18873",
+   "para": "18874",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18874",
+   "para": "18877",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18877",
+   "para": "18878",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18878",
+   "para": "18879",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18879",
+   "para": "18880",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18880",
+   "para": "18881",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "18881",
+   "para": "18882",
+   "min": 1.9,
+   "linha": "1"
+  },
+  {
+   "de": "9505541",
+   "para": "3305856",
+   "min": 2.5,
+   "linha": "2"
+  },
+  {
+   "de": "3305856",
+   "para": "3305845",
+   "min": 2.5,
+   "linha": "2"
+  },
+  {
+   "de": "3305845",
+   "para": "3305749",
+   "min": 2.5,
+   "linha": "2"
+  },
+  {
+   "de": "3305749",
+   "para": "2705944",
+   "min": 2.5,
+   "linha": "2"
+  },
+  {
+   "de": "2705944",
+   "para": "9206550",
+   "min": 2.5,
+   "linha": "2"
+  },
+  {
+   "de": "9206550",
+   "para": "18860",
+   "min": 2.5,
+   "linha": "2"
+  },
+  {
+   "de": "18860",
+   "para": "18861",
+   "min": 2.5,
+   "linha": "2"
+  },
+  {
+   "de": "18861",
+   "para": "18858",
+   "min": 2.5,
+   "linha": "2"
+  },
+  {
+   "de": "18858",
+   "para": "18859",
+   "min": 2.5,
+   "linha": "2"
+  },
+  {
+   "de": "18859",
+   "para": "18850",
+   "min": 2.5,
+   "linha": "2"
+  },
+  {
+   "de": "18850",
+   "para": "18848",
+   "min": 2.5,
+   "linha": "2"
+  },
+  {
+   "de": "18848",
+   "para": "4406608",
+   "min": 2.5,
+   "linha": "2"
+  },
+  {
+   "de": "4406608",
+   "para": "18849",
+   "min": 2.5,
+   "linha": "2"
+  },
+  {
+   "de": "18986",
+   "para": "18864",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18864",
+   "para": "18865",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18865",
+   "para": "6714561",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "6714561",
+   "para": "18867",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18867",
+   "para": "18869",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18869",
+   "para": "18871",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18871",
+   "para": "1010054",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "1010054",
+   "para": "18875",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18875",
+   "para": "18876",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18876",
+   "para": "18944",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18944",
+   "para": "18883",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18883",
+   "para": "18884",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18884",
+   "para": "18885",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18885",
+   "para": "18886",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18886",
+   "para": "18887",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18887",
+   "para": "18888",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "18888",
+   "para": "18890",
+   "min": 3.2,
+   "linha": "3"
+  },
+  {
+   "de": "8010123",
+   "para": "18866",
+   "min": 2.3,
+   "linha": "4"
+  },
+  {
+   "de": "18866",
+   "para": "4406630",
+   "min": 2.3,
+   "linha": "4"
+  },
+  {
+   "de": "4406630",
+   "para": "2600672",
+   "min": 2.3,
+   "linha": "4"
+  },
+  {
+   "de": "2600672",
+   "para": "4406631",
+   "min": 2.3,
+   "linha": "4"
+  },
+  {
+   "de": "4406631",
+   "para": "6311368",
+   "min": 2.3,
+   "linha": "4"
+  },
+  {
+   "de": "6311368",
+   "para": "6311285",
+   "min": 2.3,
+   "linha": "4"
+  },
+  {
+   "de": "6311285",
+   "para": "6311287",
+   "min": 2.3,
+   "linha": "4"
+  },
+  {
+   "de": "6311287",
+   "para": "1211339",
+   "min": 2.3,
+   "linha": "4"
+  },
+  {
+   "de": "1211339",
+   "para": "1211401",
+   "min": 2.3,
+   "linha": "4"
+  },
+  {
+   "de": "1211401",
+   "para": "9607525",
+   "min": 2.3,
+   "linha": "4"
+  },
+  {
+   "de": "9206443",
+   "para": "9206549",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "9206549",
+   "para": "9206548",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "9206548",
+   "para": "5306695",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "5306695",
+   "para": "5306694",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "5306694",
+   "para": "5306691",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "5306691",
+   "para": "3407190",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "3407190",
+   "para": "7206945",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "7206945",
+   "para": "7206944",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "7206944",
+   "para": "7206943",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "7206943",
+   "para": "7206877",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "7206877",
+   "para": "19040",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "19040",
+   "para": "19041",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "19041",
+   "para": "19042",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "19042",
+   "para": "19043",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "19043",
+   "para": "19044",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "19044",
+   "para": "19045",
+   "min": 3.0,
+   "linha": "5"
+  },
+  {
+   "de": "2914645",
+   "para": "2914646",
+   "min": 8.0,
+   "linha": "6"
+  },
+  {
+   "de": "2914646",
+   "para": "2914647",
+   "min": 8.0,
+   "linha": "6"
+  },
+  {
+   "de": "2914647",
+   "para": "4814665",
+   "min": 8.0,
+   "linha": "6"
+  },
+  {
+   "de": "4814665",
+   "para": "6114515",
+   "min": 8.0,
+   "linha": "6"
+  },
+  {
+   "de": "6114515",
+   "para": "6114516",
+   "min": 8.0,
+   "linha": "6"
+  },
+  {
+   "de": "3407222",
+   "para": "3407224",
+   "min": 4.0,
+   "linha": "17"
+  },
+  {
+   "de": "3407224",
+   "para": "3407225",
+   "min": 4.0,
+   "linha": "17"
+  },
+  {
+   "de": "3407225",
+   "para": "3407226",
+   "min": 4.0,
+   "linha": "17"
+  },
+  {
+   "de": "3407226",
+   "para": "1506220",
+   "min": 4.0,
+   "linha": "17"
+  },
+  {
+   "de": "1506220",
+   "para": "1506224",
+   "min": 4.0,
+   "linha": "17"
+  },
+  {
+   "de": "1506224",
+   "para": "1506222",
+   "min": 4.0,
+   "linha": "17"
+  },
+  {
+   "de": "1506221",
+   "para": "1506223",
+   "min": 15.0,
+   "linha": "17"
+  }
+ ],
+ "baldeacoes": [
+  {
+   "de": "614606",
+   "para": "18985",
+   "min": 5,
+   "metros": 64
+  },
+  {
+   "de": "614606",
+   "para": "18920",
+   "min": 5,
+   "metros": 64
+  },
+  {
+   "de": "614606",
+   "para": "18986",
+   "min": 5,
+   "metros": 60
+  },
+  {
+   "de": "18919",
+   "para": "4814665",
+   "min": 5,
+   "metros": 135
+  },
+  {
+   "de": "18917",
+   "para": "18918",
+   "min": 5,
+   "metros": 452
+  },
+  {
+   "de": "18985",
+   "para": "18920",
+   "min": 5,
+   "metros": 32
+  },
+  {
+   "de": "18985",
+   "para": "18986",
+   "min": 5,
+   "metros": 20
+  },
+  {
+   "de": "4011343",
+   "para": "18961",
+   "min": 5,
+   "metros": 22
+  },
+  {
+   "de": "18966",
+   "para": "6311287",
+   "min": 5,
+   "metros": 137
+  },
+  {
+   "de": "18910",
+   "para": "3407222",
+   "min": 5,
+   "metros": 156
+  },
+  {
+   "de": "18906",
+   "para": "19041",
+   "min": 5,
+   "metros": 147
+  },
+  {
+   "de": "18920",
+   "para": "18986",
+   "min": 5,
+   "metros": 50
+  },
+  {
+   "de": "18940",
+   "para": "18872",
+   "min": 5,
+   "metros": 203
+  },
+  {
+   "de": "18940",
+   "para": "8010123",
+   "min": 5,
+   "metros": 192
+  },
+  {
+   "de": "1010053",
+   "para": "18987",
+   "min": 5,
+   "metros": 16
+  },
+  {
+   "de": "1010053",
+   "para": "1010054",
+   "min": 5,
+   "metros": 242
+  },
+  {
+   "de": "18927",
+   "para": "3305856",
+   "min": 5,
+   "metros": 36
+  },
+  {
+   "de": "18987",
+   "para": "1010054",
+   "min": 5,
+   "metros": 255
+  },
+  {
+   "de": "8210164",
+   "para": "8210163",
+   "min": 5,
+   "metros": 16
+  },
+  {
+   "de": "8210164",
+   "para": "18944",
+   "min": 5,
+   "metros": 35
+  },
+  {
+   "de": "3608883",
+   "para": "18890",
+   "min": 5,
+   "metros": 85
+  },
+  {
+   "de": "18901",
+   "para": "3515266",
+   "min": 5,
+   "metros": 79
+  },
+  {
+   "de": "8210163",
+   "para": "18944",
+   "min": 5,
+   "metros": 30
+  },
+  {
+   "de": "18889",
+   "para": "1814711",
+   "min": 5,
+   "metros": 27
+  },
+  {
+   "de": "9505577",
+   "para": "9505541",
+   "min": 5,
+   "metros": 142
+  },
+  {
+   "de": "18856",
+   "para": "9206549",
+   "min": 5,
+   "metros": 11
+  },
+  {
+   "de": "18984",
+   "para": "18860",
+   "min": 5,
+   "metros": 21
+  },
+  {
+   "de": "18989",
+   "para": "18861",
+   "min": 5,
+   "metros": 15
+  },
+  {
+   "de": "19000",
+   "para": "18869",
+   "min": 5,
+   "metros": 24
+  },
+  {
+   "de": "18872",
+   "para": "8010123",
+   "min": 5,
+   "metros": 21
+  },
+  {
+   "de": "9206550",
+   "para": "9206443",
+   "min": 5,
+   "metros": 53
+  },
+  {
+   "de": "18850",
+   "para": "2600672",
+   "min": 5,
+   "metros": 389
+  },
+  {
+   "de": "6714561",
+   "para": "18866",
+   "min": 5,
+   "metros": 34
+  },
+  {
+   "de": "3407190",
+   "para": "3407226",
+   "min": 5,
+   "metros": 140
+  }
+ ]
+}

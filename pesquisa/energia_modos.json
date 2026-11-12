@@ -1,0 +1,373 @@
+{
+  "consultado_em": "2026-11-12",
+  "itens": [
+    {
+      "chave": "fator_emissao_sin",
+      "valor": 0.0461,
+      "unidade": "tCO2/MWh",
+      "ano_referencia": "2025 (média anual)",
+      "fonte": "https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/dados-e-ferramentas/fatores-de-emissao/arquivo/Inventario_2026_janset.xlsx",
+      "trecho": "Fator Médio Anual (tCO2/MWh) | ANO - 2025 | 0,0461 (célula da planilha oficial; a média das 12 médias mensais confere: 0,0461)",
+      "confianca": "alta",
+      "observacao": "Fator médio (usado em inventários), não de margem de operação. A planilha Inventario_2026_janset.xlsx traz a série anual 2006-2025. Foi baixada pelo link direto do arquivo, pois a página HTML do MCTI exibe verificação anti-robô (não resolvida). Nota técnica MCTI jun/2025: base do ONS ampliada a partir de jan/2025 (conjuntos solares/eólicos e biomassa), o que pode reduzir os valores e afetar a comparação com anos anteriores."
+    },
+    {
+      "chave": "fator_emissao_sin_2024",
+      "valor": 0.0545,
+      "unidade": "tCO2/MWh",
+      "ano_referencia": "2024 (média anual)",
+      "fonte": "https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/dados-e-ferramentas/fatores-de-emissao/arquivo/Inventario_2026_janset.xlsx",
+      "trecho": "Fator Médio Anual (tCO2/MWh) | ANO - 2024 | 0,0545",
+      "confianca": "alta",
+      "observacao": "Mesma planilha. 2024 teve meses secos (set 0,0917, out 0,1127, nov 0,0701). O fator varia com a hidrologia."
+    },
+    {
+      "chave": "fator_emissao_sin_2023",
+      "valor": 0.0385,
+      "unidade": "tCO2/MWh",
+      "ano_referencia": "2023 (média anual)",
+      "fonte": "https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/dados-e-ferramentas/fatores-de-emissao/arquivo/Inventario_2026_janset.xlsx",
+      "trecho": "Fator Médio Anual (tCO2/MWh) | ANO - 2023 | 0,0385",
+      "confianca": "alta",
+      "observacao": "Confere com o MME: 'O Sistema Interligado Nacional (SIN) registrou, em 2023, uma emissão de 38,5 kg de dióxido de carbono (CO2)' por MWh (https://www.gov.br/mme/pt-br/assuntos/noticias/2023-2026/geracao-de-energia-eletrica-tem-a-menor-emissao-de-co2-dos-ultimos-onze-anos)."
+    },
+    {
+      "chave": "fator_emissao_sin_2026_parcial",
+      "valor": 0.0431,
+      "unidade": "tCO2/MWh",
+      "ano_referencia": "2026 (jan-set, média simples dos 9 meses publicados)",
+      "fonte": "https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/sirene/dados-e-ferramentas/fatores-de-emissao/arquivo/Inventario_2026_janset.xlsx",
+      "trecho": "Jan a set de 2026: 0,0458; 0,0490; 0,0486; 0,0331; 0,0312; 0,0453; 0,0517; 0,0471; 0,0462",
+      "confianca": "média",
+      "observacao": "Média simples feita por nós (soma/9). O MCTI ainda não publicou média anual de 2026. Não usar como valor oficial; o de 2025 é o último anual."
+    },
+    {
+      "chave": "renovaveis_matriz_eletrica",
+      "valor": 86.8,
+      "unidade": "% da oferta interna de energia elétrica",
+      "ano_referencia": "2025",
+      "fonte": "https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-975/topico-847/BEN_Síntese_2026_PT.pdf",
+      "trecho": "A participação de renováveis na matriz elétrica ficou em 86,8% em 2025.",
+      "confianca": "alta",
+      "observacao": "EPE, BEN 2026 Relatório Síntese (ano-base 2025). Inclui SIN, sistemas isolados e autoprodução não injetada. O mesmo relatório mostra 88,2% para 2024. Geração centralizada: 89,9%."
+    },
+    {
+      "chave": "metro_sp_consumo_eletrico_operacao",
+      "valor": 401,
+      "unidade": "GWh",
+      "ano_referencia": "2025",
+      "fonte": "https://af0020-61294dc44a8f38122c35-endpoint.azureedge.net/blobaf00201eecb0af9a/wp-content/uploads/2026/03/RI-2025_MetroSP_130326-3.pdf",
+      "trecho": "Consumo de Energia Elétrica por fontes de consumo (GWh): Total 417 | Operação 401 (coluna 2025)",
+      "confianca": "alta",
+      "observacao": "Relatório Integrado 2025 do Metrô, painel GRI 302-1. O total de 417 GWh inclui canteiros de obras (15,7) e prédios administrativos (0,3). Operação 2024: 415; 2023: 413."
+    },
+    {
+      "chave": "metro_sp_passageiros_km",
+      "valor": 5596.3,
+      "unidade": "milhões de passageiros-km",
+      "ano_referencia": "2025",
+      "fonte": "https://af0020-61294dc44a8f38122c35-endpoint.azureedge.net/blobaf00201eecb0af9a/wp-content/uploads/2026/03/RI-2025_MetroSP_130326-3.pdf",
+      "trecho": "GRI 302-4 Passageiro Quilômetro | 5016,3 | 5356,7 | 5584,7 | 5596,3 (2022 a 2025)",
+      "confianca": "média",
+      "observacao": "A unidade 'milhões' vem do gráfico do Relatório Integrado 2023 ('Passageiro.quilômetro (em milhões)'); o painel de 2025 não repete a unidade. Checagem: 5.596,3 milhões pkm ÷ 892,7 milhões de passageiros = 6,27 km por passageiro, plausível."
+    },
+    {
+      "chave": "metro_sp_passageiros_transportados",
+      "valor": 892.7,
+      "unidade": "milhões de passageiros",
+      "ano_referencia": "2025",
+      "fonte": "https://af0020-61294dc44a8f38122c35-endpoint.azureedge.net/blobaf00201eecb0af9a/wp-content/uploads/2026/03/RI-2025_MetroSP_130326-3.pdf",
+      "trecho": "Em 2025, transportamos 892,7 milhões de passageiros",
+      "confianca": "alta",
+      "observacao": "Inclui entradas e transferências entre linhas, conforme o relatório."
+    },
+    {
+      "chave": "metro_sp_energia_por_passageiro_km",
+      "valor": 0.0717,
+      "unidade": "kWh/passageiro-km (calculado)",
+      "ano_referencia": "2025",
+      "fonte": "https://af0020-61294dc44a8f38122c35-endpoint.azureedge.net/blobaf00201eecb0af9a/wp-content/uploads/2026/03/RI-2025_MetroSP_130326-3.pdf",
+      "trecho": "CÁLCULO: 401 GWh ÷ 5.596,3 milhões pkm = 0,07166 kWh/pkm",
+      "confianca": "média",
+      "observacao": "Calculado por nós com dois números do relatório. É consumo de operação (tração + estações e auxiliares). Em 2023 daria 413/5.356,7 = 0,0771; em 2024, 415/5.584,7 = 0,0743. Energia na entrada do consumidor, sem perdas de geração e transmissão."
+    },
+    {
+      "chave": "metro_sp_energia_por_passageiro",
+      "valor": 0.449,
+      "unidade": "kWh/passageiro (calculado)",
+      "ano_referencia": "2025",
+      "fonte": "https://af0020-61294dc44a8f38122c35-endpoint.azureedge.net/blobaf00201eecb0af9a/wp-content/uploads/2026/03/RI-2025_MetroSP_130326-3.pdf",
+      "trecho": "CÁLCULO: 401 GWh ÷ 892,7 milhões de passageiros = 0,449 kWh/passageiro",
+      "confianca": "média",
+      "observacao": "Vale para a viagem média de 6,27 km, não para 15 km. Para outra distância use kWh/pkm. É o consumo total de operação, não só tração."
+    },
+    {
+      "chave": "metro_sp_tracao_por_carro_km",
+      "valor": 2.62,
+      "unidade": "kWh/carro-km",
+      "ano_referencia": "2025",
+      "fonte": "https://af0020-61294dc44a8f38122c35-endpoint.azureedge.net/blobaf00201eecb0af9a/wp-content/uploads/2026/03/RI-2025_MetroSP_130326-3.pdf",
+      "trecho": "O consumo de energia de tração por carro-quilômetro variou de 2,76 kWh/carro.km, em 2024, para 2,62 kWh/carro.km em 2025.",
+      "confianca": "alta",
+      "observacao": "Indicador oficial de tração da companhia. Não converte em passageiro-km sem a ocupação média do carro do trem."
+    },
+    {
+      "chave": "metro_sp_emissao_por_passageiro_km",
+      "valor": 3,
+      "unidade": "gCO2e/pkm",
+      "ano_referencia": "2025",
+      "fonte": "https://af0020-61294dc44a8f38122c35-endpoint.azureedge.net/blobaf00201eecb0af9a/wp-content/uploads/2026/03/RI-2025_MetroSP_130326-3.pdf",
+      "trecho": "a operação do Metrô resultou em uma emissão indireta de 3 gramas em CO₂e/pkm.",
+      "confianca": "alta",
+      "observacao": "Valor da própria companhia (inventário, escopo 2). Nosso cálculo com o fator MCTI 2025 dá 71,7 Wh × 46,1 g/kWh = 3,3 g/pkm, coerente."
+    },
+    {
+      "chave": "cptm_consumo_energia",
+      "valor": null,
+      "unidade": "não encontrado",
+      "ano_referencia": "—",
+      "fonte": "https://diariodotransporte.com.br/2025/11/23/cptm-divulga-primeiro-relatorio-de-emissoes-de-gases-de-efeito-estufa/",
+      "trecho": "(nenhum trecho oficial lido)",
+      "confianca": "baixa",
+      "observacao": "Não achei o PDF oficial do inventário de GEE 2024 da CPTM (nov/2025, com a Mackenzie). A página ESG da CPTM não expôs o link e o portal de transparência do Metrô estava 'em manutenção'. Há estudo de 2025 (ano-base 2023) citado pela imprensa com 7,57 MJ/km para trens da CPTM, mas não foi aberto na origem e não foi usado. Para 'trem ou metrô' use os dados do Metrô e declare a limitação."
+    },
+    {
+      "chave": "onibus_diesel_consumo_km_por_litro",
+      "valor": 2.1,
+      "unidade": "km/L",
+      "ano_referencia": "modelos 2012-2024 (inventário ano-base 2024)",
+      "fonte": "https://www.gov.br/transportes/pt-br/assuntos/sustentabilidade/mudanca-do-clima/0_ineavar_2025.pdf",
+      "trecho": "Tabela 5.3.3.a, ônibus urbanos, ano/modelo 2012-2024: 2,10 km/L (valores 'com base nas informações disponibilizadas pela CETESB (2025)')",
+      "confianca": "média",
+      "observacao": "Inventário Nacional de Emissões por Veículos Rodoviários, ano-base 2024 (MMA e Ministério dos Transportes), dado da CETESB. É média de ônibus urbano convencional, não medição da frota da SPTrans. Valor extraído por posição de célula do PDF (página 60); a equipe deve conferir. Fonte secundária da busca (ICCT, 0,63 L/km para padron de 87 passageiros, SPTrans 2023) não foi aberta e não foi usada."
+    },
+    {
+      "chave": "onibus_lotacao_media",
+      "valor": null,
+      "unidade": "não encontrado",
+      "ano_referencia": "—",
+      "fonte": "—",
+      "trecho": "(nenhum trecho oficial lido)",
+      "confianca": "baixa",
+      "observacao": "Não achei ocupação média dos ônibus da SPTrans em fonte oficial lida. Alternativa: o indicador do Metrô de 79 gCO2e/pkm para o ônibus de SP (2024), que embute uma ocupação desconhecida."
+    },
+    {
+      "chave": "comparativo_metro_onibus_sp_gco2e_pkm",
+      "valor": 79,
+      "unidade": "gCO2e/pkm",
+      "ano_referencia": "2024 (2023: 85; 2022: 91)",
+      "fonte": "https://af0020-61294dc44a8f38122c35-endpoint.azureedge.net/blobaf00201eecb0af9a/wp-content/uploads/2026/03/RI-2025_MetroSP_130326-3.pdf",
+      "trecho": "por passageiro quilômetro (Ônibus MSP - média) 91 | 85 | 79 | ND (2022, 2023, 2024, 2025)",
+      "confianca": "média",
+      "observacao": "Painel GRI 305-4 do Metrô, calculado pela companhia, não por SPTrans ou CETESB. 2025 consta 'ND'. Usar só como checagem, rotulado 'dado da companhia'."
+    },
+    {
+      "chave": "comparativo_metro_carro_gasolina_sp_gco2e_pkm",
+      "valor": 100,
+      "unidade": "gCO2e/pkm",
+      "ano_referencia": "2023 (2022: 100)",
+      "fonte": "https://af0020-61294dc44a8f38122c35-endpoint.azureedge.net/blobaf00201eecb0af9a/wp-content/uploads/2026/03/RI-2025_MetroSP_130326-3.pdf",
+      "trecho": "por passageiro quilômetro de carro a gasolina - RMSP - média 100 | 100 | - | -",
+      "confianca": "média",
+      "observacao": "Mesma ressalva: dado do Metrô, com ocupação média de carro que o relatório não informa."
+    },
+    {
+      "chave": "fator_emissao_diesel_mineral",
+      "valor": 2.63,
+      "unidade": "kg CO2/L",
+      "ano_referencia": "2004-2024 (coluna lida por posição)",
+      "fonte": "https://www.gov.br/transportes/pt-br/assuntos/sustentabilidade/mudanca-do-clima/0_ineavar_2025.pdf",
+      "trecho": "Tabela 4.1.1.1.1.c - Fatores de emissão de CO2 por ano-calendário e combustível: Diesel Mineral (kg/L), linha 2004-2024: 2,63",
+      "confianca": "alta",
+      "observacao": "Fonte do fator: Terceira Comunicação Nacional (74100 kgCO2/TJ, 0,04187 TJ/tep) convertido pela Equação 4.1.1.1.1 do inventário. É diesel mineral; o diesel de posto tem biodiesel (biodiesel 2,46 kg/L, biogênico). Aplicar 2,63 a todo o diesel superestima o fóssil."
+    },
+    {
+      "chave": "fator_emissao_gasolina_automotiva",
+      "valor": 2.23,
+      "unidade": "kg CO2/L",
+      "ano_referencia": "2004-2024",
+      "fonte": "https://www.gov.br/transportes/pt-br/assuntos/sustentabilidade/mudanca-do-clima/0_ineavar_2025.pdf",
+      "trecho": "Tabela 4.1.1.1.1.c: Gasolina Automotiva (kg/L), linha 2004-2024: 2,23 (69300 kgCO2/TJ)",
+      "confianca": "alta",
+      "observacao": "Vale para gasolina automotiva (gasolina A, sem etanol). A gasolina C de posto leva etanol anidro (o ensaio PBEV usa E22; o teor atual de posto não foi verificado). O CO2 do etanol é biogênico, então usar 2,23 em todo litro de gasolina C superestima o fóssil. Mostrar os dois cenários."
+    },
+    {
+      "chave": "fator_emissao_etanol",
+      "valor": 1.51,
+      "unidade": "kg CO2/L (hidratado; anidro 1,58)",
+      "ano_referencia": "2024",
+      "fonte": "https://www.gov.br/transportes/pt-br/assuntos/sustentabilidade/mudanca-do-clima/0_ineavar_2025.pdf",
+      "trecho": "Tabela 4.1.1.1.1.c: Etanol Anidro 1,58; Etanol Hidratado 1,51",
+      "confianca": "média",
+      "observacao": "Valor bruto de combustão; emissões de etanol são biogênicas e contabilizadas à parte. O cálculo principal do carro usa gasolina."
+    },
+    {
+      "chave": "carro_consumo_hb20_sense_gasolina",
+      "valor": 13.3,
+      "unidade": "km/L cidade (estrada 15,4; combinado 14,2)",
+      "ano_referencia": "PBEV 2026 (atualização 14/ago/26)",
+      "fonte": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/mascara-pbev-2026_19_jan-rev01.pdf",
+      "trecho": "Hyundai HB20 Sense 1.0-12V M-5: Gasolina Cidade 13,3 | Estrada 15,4 | Combinado 14,2 km/l",
+      "confianca": "alta",
+      "observacao": "Tabela oficial do INMETRO (PBEV 2026, 976 modelos/versões). Ensaio com combustível de referência; o cabeçalho diz: 'a gasolina tem adição de etanol anidro (E22)'. Valor de laboratório; o consumo real costuma ser pior. Colunas conferidas contra o cabeçalho (Etanol cid/est/comb, depois Gasolina cid/est/comb)."
+    },
+    {
+      "chave": "carro_consumo_mobi_like_gasolina",
+      "valor": 14.5,
+      "unidade": "km/L cidade (estrada 15,8; combinado 15,0)",
+      "ano_referencia": "PBEV 2026 (atualização 14/ago/26)",
+      "fonte": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/mascara-pbev-2026_19_jan-rev01.pdf",
+      "trecho": "Fiat Mobi Like 1.0-6V M-5: Gasolina Cidade 14,5 | Estrada 15,8 | Combinado 15,0 km/l",
+      "confianca": "alta",
+      "observacao": "Mesmo arquivo. É dos mais econômicos entre os populares que conferi (Argo Drive 1.0: 13,6 cidade, 14,0 combinado). A equipe deve declarar qual modelo adota; o Mobi é o mais favorável ao carro."
+    },
+    {
+      "chave": "carro_co2_gkm_pbev_mobi_like",
+      "valor": 106,
+      "unidade": "g CO2/km total (fóssil 87)",
+      "ano_referencia": "PBEV 2026",
+      "fonte": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/mascara-pbev-2026_19_jan-rev01.pdf",
+      "trecho": "Fiat Mobi Like: CO2 total (g/km) 106 | CO2 fóssil (g/km) 87",
+      "confianca": "média",
+      "observacao": "Medido pelo INMETRO. Não bate com litros × fator: 15,0 km/L e 2,23 kg/L dariam cerca de 149 g/km se tudo fosse fóssil, ou 116 g/km com 22% de etanol. Diferença não explicada (ver pendências). HB20 Sense: 113 total, 93 fóssil."
+    },
+    {
+      "chave": "carro_ocupacao_media_sp",
+      "valor": null,
+      "unidade": "não encontrado",
+      "ano_referencia": "—",
+      "fonte": "https://transparencia.metrosp.com.br/node/5383/download",
+      "trecho": "(nenhum trecho lido)",
+      "confianca": "baixa",
+      "observacao": "Não achei a taxa de ocupação de automóveis da Pesquisa OD 2023 (Metrô) nem da CET em página oficial acessível. O portal de transparência do Metrô respondeu 'Site em manutenção' nos PDFs da OD. Na conta de exemplo o carro entra com ocupação 1 (motorista sozinho) e isso está rotulado como premissa, não como dado."
+    },
+    {
+      "chave": "tarifa_metro_trem",
+      "valor": 5.4,
+      "unidade": "R$ por viagem",
+      "ano_referencia": "vigente desde 06/01/2026",
+      "fonte": "https://www.agenciasp.sp.gov.br/trens-e-metro-terao-nova-tarifa-a-partir-de-6-de-janeiro-com-valor-abaixo-da-inflacao/",
+      "trecho": "A tarifa básica do sistema metroferroviário metropolitano, que inclui trens e metrô, será reajustada de R$ 5,20 para R$ 5,40 a partir do dia 6 de janeiro.",
+      "confianca": "alta",
+      "observacao": "Confirmado na página de bilhetes do Metrô ('O valor da tarifa é de R$ 5,40 e o bilhete é válido para uma viagem', https://www.metro.sp.gov.br/sua-viagem/bilhetes-cartoes/) e na tabela da SPTrans (Crédito Eletrônico Comum, Sistema Metroferroviário, R$ 5,40, atualizada em 06/01/2026). Vale-transporte: R$ 5,92. Não vi reajuste posterior até 12/11/2026."
+    },
+    {
+      "chave": "tarifa_onibus_sptrans",
+      "valor": 5.3,
+      "unidade": "R$ por viagem",
+      "ano_referencia": "vigente desde 06/01/2026",
+      "fonte": "https://www.sptrans.com.br/tarifas/",
+      "trecho": "Dinheiro - Ônibus R$ 5,30 | Crédito Eletrônico Comum - Ônibus R$ 5,30 (Atualizado em 06/01/2026)",
+      "confianca": "alta",
+      "observacao": "Página oficial da SPTrans lida em 12/11/2026. A integração ônibus + metrô/trem não foi lida na tabela oficial (reportagem cita R$ 9,38; não usado)."
+    },
+    {
+      "chave": "preco_gasolina_sp_capital",
+      "valor": 6.35,
+      "unidade": "R$/L (gasolina comum, revenda)",
+      "ano_referencia": "semana 01/11/2026 a 07/11/2026",
+      "fonte": "https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/arq-sintese-semanal/2026/sintese-precos-45.pdf",
+      "trecho": "Preços médios de revenda da gasolina C comum por capitais - Semana de 01/11/2026 a 07/11/2026: São Paulo 6,35 | -0,16% | 5,13%",
+      "confianca": "alta",
+      "observacao": "ANP, Síntese Semanal 45/2026. Média da capital paulista; média Brasil na semana: R$ 6,47. Linha lida pela posição das células do PDF."
+    },
+    {
+      "chave": "preco_diesel_s10_sp_capital",
+      "valor": 7.25,
+      "unidade": "R$/L (diesel B S10, revenda)",
+      "ano_referencia": "semana 01/11/2026 a 07/11/2026",
+      "fonte": "https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/arq-sintese-semanal/2026/sintese-precos-45.pdf",
+      "trecho": "Preços médios de revenda do diesel B S10 por capitais - Semana de 01/11/2026 a 07/11/2026: São Paulo 7,25 | -0,28% | 18,08%",
+      "confianca": "alta",
+      "observacao": "Mesma síntese. Média Brasil: R$ 7,30. Ônibus compra diesel por contrato; serve só de referência."
+    },
+    {
+      "chave": "preco_etanol_sp_capital",
+      "valor": 4.01,
+      "unidade": "R$/L (etanol hidratado, revenda)",
+      "ano_referencia": "semana 01/11/2026 a 07/11/2026",
+      "fonte": "https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/arq-sintese-semanal/2026/sintese-precos-45.pdf",
+      "trecho": "Preços médios de revenda do etanol hidratado por capitais: São Paulo 4,01 | 0,50% | -2,91%",
+      "confianca": "alta",
+      "observacao": "Mesma síntese."
+    },
+    {
+      "chave": "onibus_eletricos_sptrans_frota",
+      "valor": 2009,
+      "unidade": "veículos (1.821 a bateria + 188 trólebus)",
+      "ano_referencia": "30/09/2026",
+      "fonte": "https://prefeitura.sp.gov.br/w/prefeitura-atinge-marco-hist%C3%B3rico-de-2-mil-%C3%B4nibus-el%C3%A9tricos-na-frota-de-s%C3%A3o-paulo-com-entrega-de-mais-250-ve%C3%ADculos",
+      "trecho": "No total, são 1.821 ônibus movidos a bateria e 188 trólebus circulando pelas ruas de São Paulo.",
+      "confianca": "alta",
+      "observacao": "Nota oficial da Prefeitura na entrega de mais 250 ônibus. A soma de 2.009 é nossa. Contagem de fim de setembro; pode ter mudado. Participação na frota total não calculada (frota total não lida em fonte oficial)."
+    }
+  ],
+  "premissas_sugeridas": [
+    "Fator de emissão da eletricidade: 0,0461 tCO2/MWh (média anual do SIN em 2025, MCTI), com sensibilidade de 0,0385 (2023) a 0,0545 (2024). O fator varia com a hidrologia; declarar o ano usado.",
+    "Metrô: 0,0717 kWh por passageiro-km (401 GWh de operação ÷ 5.596,3 milhões de pkm, Relatório Integrado 2025). É média da rede; hora de pico ou trecho vazio mudam o valor real.",
+    "Trem (CPTM): sem dado oficial lido; usar o do Metrô e dizer isso na tela. Não afirmar eficiência da CPTM.",
+    "Carro popular a gasolina: consumo de cidade do PBEV 2026 (HB20 Sense 13,3 km/L; Mobi Like 14,5 km/L). Dado de laboratório; o consumo real é pior. Declarar o modelo adotado.",
+    "Gasolina C como incerteza: cenário A (aumenta o carro) 2,23 kg CO2/L em todo litro; cenário B só a fração fóssil (ensaio usa E22, exemplo 2,23 × 0,78; teor atual de posto a confirmar). Mostrar intervalo, não número único.",
+    "Ocupação do carro: sem dado oficial lido. Calcular por veículo e usar ocupação 1 (motorista sozinho) como padrão editável pelo usuário. Se a equipe achar a OD 2023, trocar.",
+    "Ônibus a diesel: 2,10 km/L (ônibus urbano, inventário MMA/MT com dado CETESB) e 2,63 kg CO2/L de diesel mineral. Lotação sem fonte oficial lida: usar o indicador do Metrô (79 gCO2e/pkm, 2024) rotulado 'dado da companhia', ou ocupação editável.",
+    "Ônibus elétrico: 2.009 veículos (1.821 a bateria + 188 trólebus) em 30/09/2026. Sem dado oficial de kWh/km lido; só citar a existência como opção, sem calcular.",
+    "Custo: tarifa metrô/trem R$ 5,40 e ônibus R$ 5,30 (desde 06/01/2026); gasolina SP capital R$ 6,35/L (semana 01-07/11/2026). Custo do carro aqui é só combustível (sem estacionamento, manutenção, seguro, depreciação).",
+    "Rótulo obrigatório na tela: 'estimativa a partir de médias oficiais, não medição da sua viagem'."
+  ],
+  "formulas": [
+    "energia metrô (kWh por pessoa) = distância_km × (consumo_operação_GWh ÷ passageiros-km_milhões) = distância × 0,0717",
+    "CO2 metrô (g por pessoa) = energia_kWh × fator_SIN (tCO2/MWh) × 1000 = kWh × 46,1 g/kWh",
+    "litros do carro = distância_km ÷ consumo_km_por_L",
+    "CO2 carro por pessoa (kg) = litros × fator (kg CO2/L) ÷ ocupação",
+    "energia do carro (MJ por pessoa) = litros × MJ/L (gasolina A: 0,770 tep/m³ × 41,87 GJ/tep = 32,2 MJ/L) ÷ ocupação",
+    "CO2 ônibus por pessoa (kg) = distância ÷ 2,10 × 2,63 ÷ ocupação_média (ocupação sem fonte oficial)",
+    "custo carro = litros × preço R$/L ÷ ocupação; custo metrô/ônibus = tarifa por viagem",
+    "kWh por passageiro do Metrô = 401 GWh ÷ 892,7 milhões de passageiros = 0,449 (viagem média de 6,27 km; não usar em 15 km)"
+  ],
+  "exemplo_15km": {
+    "metro": {
+      "kwh": 1.075,
+      "MJ": 3.87,
+      "gCO2_fator_MCTI_2025": 49.5,
+      "gCO2_dado_Metro_3g_por_pkm": 45,
+      "tarifa_R$": 5.4
+    },
+    "HB20_Sense_cidade": {
+      "litros": 1.128,
+      "kgCO2_cenarioA_gasolinaA_integral": 2.52,
+      "kgCO2_cenarioB_fossil_78pct": 1.96,
+      "MJ_gasolinaA": 36.4,
+      "combustivel_R$": 7.16,
+      "obs": "por veiculo; dividir pela ocupacao"
+    },
+    "Mobi_Like_cidade": {
+      "litros": 1.034,
+      "kgCO2_cenarioA_gasolinaA_integral": 2.31,
+      "kgCO2_cenarioB_fossil_78pct": 1.8,
+      "MJ_gasolinaA": 33.4,
+      "combustivel_R$": 6.57,
+      "obs": "por veiculo; dividir pela ocupacao"
+    },
+    "onibus_diesel": {
+      "litros_por_veiculo": 7.14,
+      "kgCO2_por_veiculo": 18.79,
+      "kgCO2_por_km_veiculo": 1.252,
+      "ocupacao_implicita_se_79g_pkm": 15.9,
+      "gCO2_por_pessoa_com_dado_Metro_79g_pkm": 1185,
+      "tarifa_R$": 5.3
+    }
+  },
+  "pendencias": [
+    "CPTM: obter o PDF do Relatório de Emissões de GEE 2024 (CPTM e Mackenzie, nov/2025) no site ESG da CPTM ou pelo SIC, para ter MWh e passageiros do trem.",
+    "Ocupação média de automóvel e de ônibus na Pesquisa OD 2023 do Metrô (ou CET): não abriu, o portal de transparência do Metrô respondeu 'Site em manutenção' em 12/11/2026. Tentar de novo.",
+    "Teor de etanol anidro na gasolina C de posto hoje (o ensaio PBEV usa E22). Confirmar em fonte oficial (ANP ou MME) antes de usar o cenário B.",
+    "Divergência não explicada: g CO2/km do PBEV (Mobi 106 g/km) versus litros × 2,23 (cerca de 149 g/km tudo fóssil; cerca de 116 com E22). Comparar metodologias antes de misturar as duas abordagens.",
+    "Conferir na página 60 do Inventário (Tabela 5.3.3.a) o 2,10 km/L de ônibus urbano 2012-2024, e a Tabela 4.1.1.1.1.c (2,63 e 2,23 kg/L): lidos por posição de células no PDF.",
+    "O diesel de posto contém biodiesel; 2,63 kg/L é de diesel mineral. O percentual atual de biodiesel não foi verificado.",
+    "Unidade dos 5.596,3 do GRI 302-4 ('milhões de pkm') inferida do gráfico do RI 2023 e confirmada pela razão com passageiros (6,27 km). Conferir com o Metrô se for citar como número exato.",
+    "O fator MCTI de 2026 ainda não fechou o ano; 2025 é o último anual.",
+    "A tarifa de integração ônibus + metrô/trem não foi lida em fonte oficial.",
+    "Ônibus elétrico: consumo kWh/km da SPTrans não encontrado em fonte oficial lida.",
+    "Períodos diferentes na mesma tela: consumo do Metrô e fator do SIN são de 2025; PBEV é 2026; preços de combustível são de nov/2026. Declarar."
+  ]
+}

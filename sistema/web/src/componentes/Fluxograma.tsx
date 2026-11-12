@@ -9,32 +9,37 @@ type No = { id: string; rotulo: string; sub?: string; x: number; y: number; w: n
 type Ligacao = { de: string; para: string; rotulo?: string; tracejada?: boolean };
 
 const NOS: No[] = [
-  { id: "cidadao", rotulo: "Cidadão", x: 16, y: 196, w: 112, h: 52, tipo: "pessoa" },
-  { id: "atendimento", rotulo: "Atendimento", sub: "entende o pedido", x: 168, y: 186, w: 156, h: 72, tipo: "tela" },
-  { id: "duvida", rotulo: "Tirar uma dúvida", x: 380, y: 40, w: 172, h: 52, tipo: "tela" },
-  { id: "direitos", rotulo: "Tenho algum direito?", x: 380, y: 144, w: 172, h: 52, tipo: "tela" },
-  { id: "luz", rotulo: "Minha conta de luz", x: 380, y: 248, w: 172, h: 52, tipo: "tela" },
-  { id: "golpe", rotulo: "Isso é golpe?", sub: "regras do sistema", x: 380, y: 352, w: 172, h: 60, tipo: "tela" },
-  { id: "PCP", rotulo: "PCP", sub: "busca por pontos", x: 716, y: 20, w: 168, h: 56, tipo: "materia" },
-  { id: "DSA", rotulo: "DSA", sub: "lista encadeada", x: 716, y: 104, w: 168, h: 56, tipo: "materia" },
-  { id: "SERS", rotulo: "SERS", sub: "contas de energia", x: 716, y: 188, w: 168, h: 56, tipo: "materia" },
-  { id: "PAI", rotulo: "PAI", sub: "agente com IA", x: 716, y: 272, w: 168, h: 56, tipo: "materia" },
-  { id: "MLAM", rotulo: "MLAM", sub: "dados reais", x: 716, y: 356, w: 168, h: 56, tipo: "materia" },
-  { id: "laboratorio", rotulo: "Laboratório", sub: "simulação", x: 940, y: 356, w: 128, h: 56, tipo: "tela" },
+  { id: "cidadao", rotulo: "Passageiro", x: 16, y: 200, w: 120, h: 52, tipo: "pessoa" },
+  { id: "antes", rotulo: "Antes de sair", sub: "pode ir, mais cedo ou Plano B", x: 170, y: 64, w: 200, h: 64, tipo: "tela" },
+  { id: "linhas", rotulo: "Trem e metrô agora", x: 170, y: 200, w: 200, h: 52, tipo: "tela" },
+  { id: "pergunte", rotulo: "Pergunte", sub: "orientação oficial", x: 170, y: 330, w: 200, h: 64, tipo: "tela" },
+  { id: "fontes", rotulo: "Fontes ao vivo", sub: "operadoras, INMET, GeoSampa", x: 430, y: 190, w: 200, h: 72, tipo: "tela" },
+  { id: "CS", rotulo: "CS", sub: "decisão do dia", x: 730, y: 12, w: 168, h: 46, tipo: "materia" },
+  { id: "SERS", rotulo: "SERS", sub: "energia da viagem", x: 730, y: 64, w: 168, h: 46, tipo: "materia" },
+  { id: "MLAM", rotulo: "MLAM", sub: "segurança (SSP-SP)", x: 730, y: 116, w: 168, h: 46, tipo: "materia" },
+  { id: "MMC", rotulo: "MMC", sub: "ônibus de apoio", x: 730, y: 168, w: 168, h: 46, tipo: "materia" },
+  { id: "COA", rotulo: "COA", sub: "sensor de água", x: 730, y: 230, w: 168, h: 46, tipo: "materia" },
+  { id: "PCP", rotulo: "PCP", sub: "busca por pontos", x: 730, y: 296, w: 168, h: 46, tipo: "materia" },
+  { id: "DSA", rotulo: "DSA", sub: "lista encadeada", x: 730, y: 348, w: 168, h: 46, tipo: "materia" },
+  { id: "PAI", rotulo: "PAI", sub: "agente com IA", x: 730, y: 400, w: 168, h: 46, tipo: "materia" },
+  { id: "wokwi", rotulo: "Wokwi", sub: "fora do app", x: 946, y: 230, w: 120, h: 46, tipo: "tela" },
 ];
 
 const LIGACOES: Ligacao[] = [
-  { de: "cidadao", para: "atendimento" },
-  { de: "atendimento", para: "duvida" },
-  { de: "atendimento", para: "direitos" },
-  { de: "atendimento", para: "luz" },
-  { de: "atendimento", para: "golpe" },
-  { de: "duvida", para: "PCP", rotulo: "acha a orientação" },
-  { de: "duvida", para: "DSA", rotulo: "para quem é" },
-  { de: "duvida", para: "PAI", rotulo: "explica (com IA)", tracejada: true },
-  { de: "direitos", para: "DSA", rotulo: "catálogo" },
-  { de: "luz", para: "SERS", rotulo: "desconto" },
-  { de: "MLAM", para: "laboratorio", rotulo: "adesão" },
+  { de: "cidadao", para: "antes" },
+  { de: "cidadao", para: "linhas" },
+  { de: "cidadao", para: "pergunte" },
+  { de: "antes", para: "fontes" },
+  { de: "linhas", para: "fontes" },
+  { de: "antes", para: "CS", rotulo: "4 entradas" },
+  { de: "antes", para: "SERS", rotulo: "km da rota" },
+  { de: "antes", para: "MLAM", rotulo: "estações" },
+  { de: "antes", para: "MMC", rotulo: "linha parada", tracejada: true },
+  { de: "fontes", para: "COA", rotulo: "alagamento", tracejada: true },
+  { de: "COA", para: "wokwi" },
+  { de: "pergunte", para: "PCP", rotulo: "acha a orientação" },
+  { de: "pergunte", para: "DSA", rotulo: "canal do serviço" },
+  { de: "pergunte", para: "PAI", rotulo: "com IA", tracejada: true },
 ];
 
 const POR_ID = Object.fromEntries(NOS.map((n) => [n.id, n]));
@@ -54,7 +59,7 @@ export default function Fluxograma({ destaque }: { destaque?: string }) {
 
   return (
     <div className="overflow-x-auto rounded-xl border border-linha bg-superficie p-3">
-      <svg viewBox="0 0 1080 430" className="min-w-[760px]" role="img"
+      <svg viewBox="0 0 1080 456" className="min-w-[760px]" role="img"
         aria-label={destaque ? `Fluxograma do sistema com a matéria ${destaque} em destaque` : "Fluxograma do sistema"}>
         <defs>
           {["normal", "foco", "cinza"].map((tipo) => (
