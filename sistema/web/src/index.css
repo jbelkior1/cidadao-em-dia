@@ -1,0 +1,74 @@
+@import "tailwindcss";
+@import "@fontsource-variable/figtree";
+
+/*
+ * Cidadão em Dia: tokens de cor e tipografia.
+ * Estrutura no padrão dos sistemas da Genova (barra lateral, cabeçalho fino,
+ * cartões com canto de 12 px), com paleta própria: tema claro, letra grande
+ * e contraste alto, porque o público inclui idosos e quem usa pouco o celular.
+ */
+@theme {
+  --font-sans: "Figtree Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-fundo: #f4f7f6;
+  --color-superficie: #ffffff;
+  --color-tinta: #12292b;
+  --color-apagado: #556a6a;
+  --color-linha: #dce5e2;
+
+  --color-marca: #0e6b62;
+  --color-marca-forte: #0a544d;
+  --color-marca-suave: #ddeeea;
+
+  --color-alerta: #9a4f06;
+  --color-alerta-suave: #fbebd3;
+  --color-ok: #196f43;
+  --color-ok-suave: #ddf1e5;
+  --color-erro: #a3261d;
+  --color-erro-suave: #f9e0dd;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/* O app rola por dentro (barra lateral fixa, conteúdo com rolagem própria). */
+html,
+body {
+  overflow: hidden;
+}
+
+body {
+  background: var(--color-fundo);
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-marca);
+  outline-offset: 2px;
+}
+
+/* Só desliza: nunca começa invisível, para o conteúdo aparecer mesmo com a animação pausada. */
+@keyframes entrar {
+  from {
+    transform: translateY(6px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.entrar {
+  animation: entrar 0.22s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entrar {
+    animation: none;
+  }
+}

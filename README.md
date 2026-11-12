@@ -2,9 +2,50 @@
 
 Tire dúvidas sobre documentos, descubra direitos que você pode ter e não perca prazos. Projeto da Global Solution 2026.2 (CitizenTech).
 
-> Esta é a versão **esqueleto**. Textos, prazos, valores, personas e dados são exemplos marcados como tal e precisam ser trocados pelo trabalho de cada matéria e conferidos nas fontes oficiais.
+> O projeto está em transição. O **sistema novo** (chat, API e entregas das matérias) fica em `sistema/`, `entregas/` e `tests/`. O esqueleto antigo em Streamlit (`app.py`, `paginas/`, `modulos/`...) continua na raiz só para manter a vitrine online, com textos e valores de exemplo.
 
-## Ver online
+## Sistema novo (localhost)
+
+Precisa do [uv](https://docs.astral.sh/uv/). Para mexer nas telas, também do Node com [pnpm](https://pnpm.io/).
+
+```bash
+# 1. compilar as telas (só na primeira vez ou quando elas mudarem)
+pnpm --dir sistema/web install
+pnpm --dir sistema/web build
+
+# 2. subir o sistema: a API serve também as telas
+uv run uvicorn sistema.api:app --port 8010
+```
+
+Abre em http://localhost:8010. Para desenvolver as telas com atualização automática, deixe a API rodando e, em outro terminal, rode `pnpm --dir sistema/web dev` (http://localhost:5180).
+
+```bash
+# testes
+uv run python -m unittest discover -s tests/pcp
+uv run python -m unittest discover -s tests/dsa
+uv run python -m unittest discover -s tests/sistema
+```
+
+| Pasta | O que tem |
+|---|---|
+| `entregas/pcp/citizen-assist-ai/` | A entrega do PCP: programa de terminal (`python main.py`) com as 3 classes e a busca por pontos do enunciado. É o que vai para o repositório público próprio. |
+| `entregas/dsa/` | A entrega de DSA: lista encadeada, busca e ordenação próprias e menu de terminal (`python main.py`). |
+| `sistema/` | O sistema: conversa, barreira de dado pessoal, triagem, camada de IA e a API. Importa as classes das entregas sem alterar nada. |
+| `sistema/web/` | As telas (React, Vite e Tailwind): Atendimento, Como funciona, Simulação da sociedade, Painel da equipe, uma página por matéria (Entenda, Teste e Checklist da entrega) e Configurações de IA. |
+| `sistema/laboratorio.py` | A simulação da sociedade: personas, modelo logístico de adesão e população sintética (pesos fictícios até a base real da MLAM). |
+| `sistema/dados/checklist.json` | O checklist das 8 matérias, montado a partir dos enunciados: o que é pedido, onde está, como foi feito e o status. A tela edita status, onde e como. |
+| `pesquisa/` | Base levantada em páginas oficiais em 12/11/2026 e o script `montar_bases.py`, que gera os dados do PCP e da DSA. |
+| `tests/` | Testes das entregas e do sistema. |
+
+Três regras do desenho (detalhes em `docs/decisoes/0001-o-nucleo-e-a-entrega.md`):
+
+- **O núcleo é a entrega.** O arquivo que o professor roda é o mesmo que o chat chama.
+- **Privacidade antes de tudo.** A barreira de dado pessoal roda antes de qualquer registro e antes de qualquer chamada a modelo de IA. O chat não guarda o que a pessoa escreve.
+- **Funciona sem IA.** A chave fica em `config.local.json`, fora do git, e a tela nunca recebe a chave de volta.
+
+**Ainda em conferência:** as 13 orientações da base e as regras da Tarifa Social vieram de páginas oficiais, mas a equipe precisa abrir cada fonte e confirmar antes de entregar. Veja `pesquisa/FONTES.md`.
+
+## Esqueleto antigo: ver online
 
 https://jbelkior1.github.io/cidadao-em-dia/
 

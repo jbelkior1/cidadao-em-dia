@@ -1,0 +1,255 @@
+{
+  "aviso": "Conteúdo lido nas páginas oficiais em 12/11/2026 por leitura automática (extração/resumo da página). A equipe deve abrir cada fonte e confirmar os trechos antes de entregar. Nenhum valor foi completado de memória.",
+  "consultado_em": "2026-11-12",
+  "base_legal": [
+    {
+      "norma": "Lei nº 12.212, de 20 de janeiro de 2010",
+      "papel": "disciplina a Tarifa Social (Subclasse Residencial Baixa Renda)",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "A política pública está disciplinada pela Lei nº 12.212, de 20 de janeiro de 2010",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "norma": "Lei nº 10.438, de 26 de abril de 2002",
+      "papel": "também disciplina a política; art. 13 §3º-I trata da isenção de cotas da CDE (alterado em 2025)",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "pela Lei n° 10.438, de 26 de abril de 2002",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "norma": "Resolução Normativa Aneel nº 1.000/2021, arts. 176 a 179 e art. 200",
+      "papel": "regula a aplicação dos descontos",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "A ANEEL regula a aplicação dos descontos nos arts. 176 a 179 e art. 200 da Resolução Normativa (REN) nº 1.000/2021.",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "norma": "Medida Provisória nº 1.300, de 21 de maio de 2025",
+      "papel": "alterou a Lei 12.212/2010 e criou a faixa única de 100% até 80 kWh; art. 10, I: regra do art. 6º vale 45 dias após a publicação",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "A Medida Provisória (MPV) nº 1.300/2025, de 21 de maio de 2025, alterou a Lei nº 12.212/2010",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "norma": "Lei nº 15.235, de 8 de outubro de 2025",
+      "papel": "converteu a MP 1.300/2025; texto lido em planalto.gov.br (publicada no DOU de 9/10/2025, retificada em 10/10/2025, segundo a página)",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/lei/L15235.htm",
+      "trecho": "Altera as Leis nºs 10.438, de 26 de abril de 2002, 12.111, de 9 de dezembro de 2009, e 12.212, de 20 de janeiro de 2010;",
+      "consultado_em": "2026-11-12",
+      "nota": "Número da lei conferido também na Agência Câmara (Já virou lei (15.235/25)). A mesma página da Câmara associa a Lei 15.269/25 à MP 1.304 (setor elétrico), não à tarifa social."
+    }
+  ],
+  "quem_tem_direito": [
+    {
+      "chave": "renda_familiar_per_capita_maxima",
+      "valor": "meio salário-mínimo nacional (por pessoa), família inscrita no Cadastro Único",
+      "unidade": "fração do salário-mínimo",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "com renda familiar mensal por pessoa menor ou igual a meio salário-mínimo nacional",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "renda_familiar_maxima_com_doente_ou_deficiente",
+      "valor": 3,
+      "unidade": "salários-mínimos (renda mensal da família, com portador de doença ou deficiência)",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "com renda mensal de até 3 salários-mínimos, que tenha portador de doença ou deficiência",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "idade_minima_bpc",
+      "valor": 65,
+      "unidade": "anos (idosos) ou pessoas com deficiência beneficiárias do BPC",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "Idosos com 65 (sessenta e cinco) anos ou mais ou pessoas com deficiência",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "unidades_por_familia",
+      "valor": 1,
+      "unidade": "unidade consumidora residencial por família",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "cada família terá direito ao benefício da Tarifa Social em apenas uma unidade consumidora",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "cadastro_unico_atualizado",
+      "valor": 2,
+      "unidade": "anos (atualização máxima do Cadastro Único, verificada na concessão)",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "o Cadastro Único deve ter sido atualizado nos últimos 2 anos, o que será verificado na concessão do benefício.",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "indigenas_quilombolas",
+      "valor": "100% até 80 kWh/mês, custeado pela CDE",
+      "unidade": "texto",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/lei/L15235.htm",
+      "trecho": "terão direito a desconto de 100% (cem por cento) até o limite de consumo de 80 kWh/mês",
+      "consultado_em": "2026-11-12",
+      "nota": "Trecho lido na MP 1.300 (planalto); a página da Lei 15.235 resumiu o mesmo conteúdo no art. 2º §4º da Lei 12.212."
+    }
+  ],
+  "regra_vigente_desde_2025-07-05": [
+    {
+      "chave": "desconto_ate_80_kwh",
+      "valor": 100,
+      "unidade": "% de desconto",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "100% para o consumo até 80 kWh mensais",
+      "consultado_em": "2026-11-12",
+      "nota": "Faturas emitidas a partir de 5 de julho de 2025."
+    },
+    {
+      "chave": "limite_faixa_unica",
+      "valor": 80,
+      "unidade": "kWh por mês",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "Passa a existir apenas uma faixa de desconto para os beneficiários da Tarifa Social",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "desconto_acima_de_80_kwh",
+      "valor": 0,
+      "unidade": "% de desconto",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/mpv/mpv1300.htm",
+      "trecho": "0% (zero por cento)",
+      "consultado_em": "2026-11-12",
+      "nota": "Pela MP 1.300, art. 6º: parcela acima de 80 kWh/mês tem desconto de 0%. A Aneel diz: A parcela de consumo que ultrapassar 80 kWh não receberá desconto."
+    },
+    {
+      "chave": "inicio_da_regra",
+      "valor": "2025-07-05",
+      "unidade": "data",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "estabelecendo nova regra para os descontos nas faturas emitidas a partir de 5 de julho de 2025",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "exemplo_oficial_100_kwh",
+      "valor": 20,
+      "unidade": "kWh pagos de uma conta de 100 kWh",
+      "fonte": "https://www.gov.br/mme/pt-br/assuntos/noticias/gratuidade-ate-80-kwh-mensais-para-beneficiarios-da-tarifa-social-de-energia-eletrica-comeca-em-julho-2",
+      "trecho": "se a conta chegar a 100 kWh, vai pagar apenas 20 kWh no mês",
+      "consultado_em": "2026-11-12"
+    }
+  ],
+  "regra_anterior_ate_2025-07-04": [
+    {
+      "chave": "faixa_0_30_kwh",
+      "valor": 65,
+      "unidade": "% de desconto (primeiros 30 kWh)",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "para os primeiros 30 kWh consumidos no mês, o desconto na tarifa cobrada pela distribuidora de energia elétrica era de 65%",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "faixa_31_100_kwh",
+      "valor": 40,
+      "unidade": "% de desconto (31 a 100 kWh)",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "para a faixa de 31 kWh a 100 kWh de consumo, o desconto era de 40%",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "faixa_100_220_kwh",
+      "valor": 10,
+      "unidade": "% de desconto (100 a 220 kWh)",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "na faixa entre 100 kWh e 220 kWh, o desconto era de 10%",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "acima_220_kwh",
+      "valor": 0,
+      "unidade": "% de desconto (acima de 220 kWh)",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "o consumo superior a 220 kWh não recebia desconto.",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "indigenas_quilombolas_antes",
+      "valor": 100,
+      "unidade": "% de desconto nos primeiros 50 kWh",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "o desconto era de 100% para os primeiros 50 kWh consumidos mensalmente",
+      "consultado_em": "2026-11-12"
+    }
+  ],
+  "regra_prevista_2026": [
+    {
+      "chave": "faixa_de_renda_cde",
+      "valor": "superior a 1/2 e igual ou inferior a 1 salário-mínimo (renda per capita), inscritas no Cadastro Único",
+      "unidade": "faixa de renda",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/lei/L15235.htm",
+      "trecho": "as famílias com renda mensal per capita superior a 1/2 (meio) e igual ou inferior a 1 (um) salário mínimo",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "isencao_cde_limite_consumo",
+      "valor": 120,
+      "unidade": "kWh por mês (isenção das cotas anuais da CDE, uma unidade consumidora)",
+      "fonte": "https://www.gov.br/mds/pt-br/noticias-e-conteudos/desenvolvimento-social/noticias-desenvolvimento-social/luz-do-povo-gratuidade-na-tarifa-de-energia-para-quem-consome-ate-80-kwh-esta-vigente",
+      "trecho": "isenta o pagamento da Conta de Desenvolvimento Energético (CDE) no consumo mensal de até 120 kWh",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "inicio_isencao_cde",
+      "valor": "2026-01-01",
+      "unidade": "data",
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/mpv/mpv1300.htm",
+      "trecho": "A isenção de 120 kWh (§ 3º-I) começa em 1º de janeiro de 2026.",
+      "consultado_em": "2026-11-12",
+      "nota": "Esta frase é resumo da extração do texto da MP; o texto do MDS diz: a partir de 1° janeiro de 2026."
+    },
+    {
+      "chave": "efeito_medio_informado_pelo_governo",
+      "valor": 12,
+      "unidade": "% de desconto médio na conta (estimativa do governo, não garantia)",
+      "fonte": "https://www.gov.br/mds/pt-br/noticias-e-conteudos/desenvolvimento-social/noticias-desenvolvimento-social/luz-do-povo-gratuidade-na-tarifa-de-energia-para-quem-consome-ate-80-kwh-esta-vigente",
+      "trecho": "desconto em média de 12% na conta de luz para outras 55 milhões de pessoas",
+      "consultado_em": "2026-11-12"
+    }
+  ],
+  "como_e_concedida": [
+    {
+      "chave": "concessao",
+      "valor": "automática, desde janeiro de 2022, para famílias em que um membro é titular do contrato com a distribuidora",
+      "unidade": "texto",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "a Tarifa Social é concedida automaticamente desde janeiro de 2022",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "precisa_pedir",
+      "valor": "não",
+      "unidade": "texto",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "Portanto, não é mais necessário solicitar à distribuidora.",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "se_nao_aparecer",
+      "valor": "procurar a distribuidora de energia",
+      "unidade": "texto",
+      "fonte": "https://www.gov.br/aneel/pt-br/assuntos/tarifas/tarifa-social",
+      "trecho": "entre em contato com sua distribuidora de energia",
+      "consultado_em": "2026-11-12"
+    },
+    {
+      "chave": "tributos",
+      "valor": "iluminação pública e ICMS continuam cobrados",
+      "unidade": "texto",
+      "fonte": "https://www.gov.br/mds/pt-br/noticias-e-conteudos/desenvolvimento-social/noticias-desenvolvimento-social/luz-do-povo-gratuidade-na-tarifa-de-energia-para-quem-consome-ate-80-kwh-esta-vigente",
+      "trecho": "com as taxas de iluminação pública e ICMS ainda cobradas",
+      "consultado_em": "2026-11-12",
+      "nota": "O texto do MDS cita taxas de iluminação pública e ICMS como ainda cobrados (a frase é trecho de resumo; confirmar na página)."
+    }
+  ],
+  "pendencias_para_a_equipe": [
+    "Confirmar em página da Aneel/MME que a isenção da CDE até 120 kWh (renda entre meio e um salário-mínimo) está em operação em 2026; a base legal (Lei 15.235) prevê 01/01/2026, mas não li página oficial confirmando a aplicação nas faturas.",
+    "O texto do art. 1º da Lei 12.212 com 80 kWh e 100% veio por extração da página do Planalto e da MP; abrir e copiar literalmente.",
+    "A página da Aneel foi modificada em 04/07/2025; verificar se há atualização posterior em 2026 (a notícia da Aneel de 2024 aparece como modificada em 03/07/2026).",
+    "Não encontrei, nas páginas lidas, as regras de custo de disponibilidade para ligações trifásicas (o MME só cita que foi reduzido); não incluí números."
+  ]
+}

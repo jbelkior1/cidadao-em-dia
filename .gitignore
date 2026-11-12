@@ -4,3 +4,7 @@ __pycache__/
 .env
 .gradio/
 _teste_*.py
+config.local.json
+uso_ia.local.json
+node_modules/
+sistema/web/dist/

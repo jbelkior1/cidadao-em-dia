@@ -1,0 +1,2167 @@
+{
+  "atualizado_em": "2026-11-12",
+  "status": [
+    "Feito",
+    "Falta conferir",
+    "A fazer"
+  ],
+  "geral": [
+    {
+      "requisito": "Cada professor define a própria avaliação",
+      "detalhe": "Cada professor pede uma atividade específica, usada na nota de PS (Prova Semestral). Nada é avaliado em conjunto: cada matéria dá a sua nota. O PDF geral é só um resumo; formato, pesos e penalidades vêm de cada enunciado.",
+      "fonte": "PDF geral p.17-25"
+    },
+    {
+      "requisito": "Entrega pelo Portal do Aluno",
+      "detalhe": "Em \"Entrega de Trabalhos\", direto para os professores. Prazo e formato do portal também são exigência (ex.: SERS).",
+      "fonte": "PDF geral p.17; enunciado SERS"
+    },
+    {
+      "requisito": "Prazo: 19 de novembro, 23h55",
+      "detalhe": "O PDF geral diz só \"até 19 de novembro\"; o resumo do portal diz 23h55; o PDF do PCP diz 23h59. Adotar 23h55 e enviar com folga. Depois do prazo o portal não aceita envio (MLAM).",
+      "fonte": "PDF geral p.17; resumo do portal; enunciado PCP seção 13"
+    },
+    {
+      "requisito": "Grupo de até 3 pessoas",
+      "detalhe": "A GS pode ser feita em trio, dupla ou individualmente.",
+      "fonte": "PDF geral p.17"
+    },
+    {
+      "requisito": "Tema CitizenTech e case Citizen Assist AI",
+      "detalhe": "Assistente digital introdutório que facilita o acesso do cidadão a informações do cotidiano (serviços, documentos, direitos, orientações comunitárias), com um conjunto verificável de informações, respostas claras, referências e avisos de limitação.",
+      "fonte": "PDF geral p.10"
+    },
+    {
+      "requisito": "Requisitos de experiência do assistente",
+      "detalhe": "Navegação simples, acessibilidade básica e tratamento de entradas inválidas, sem coletar dados pessoais desnecessários e sem se apresentar como canal oficial.",
+      "fonte": "PDF geral p.11"
+    },
+    {
+      "requisito": "Protótipo testável com indicadores",
+      "detalhe": "Protótipo testável com usuários e indicadores de acerto das orientações, tempo para encontrar a informação e facilidade de utilização.",
+      "fonte": "PDF geral p.11"
+    },
+    {
+      "requisito": "Vídeo pitch de até 3 minutos para concorrer ao prêmio (opcional)",
+      "detalhe": "Não é requisito de nenhuma matéria. O PDF geral manda enviar pelo portal ao Scrum Master. O resumo do portal diz que o item aparece sob a SER, em YouTube não listado, sem narração de IA (a confirmar). Perguntas que o pitch deve responder: quem participa, tecnologias, como funciona, problema, cidadão beneficiado, resultados e ODS.",
+      "fonte": "PDF geral p.17; resumo do portal"
+    },
+    {
+      "requisito": "Calendário da GS",
+      "detalhe": "04/11 a 19/11 desenvolvimento (híbrido); 17/11 a 25/11 substitutivas; 23/11 a 27/11 vistas de prova (Teams); 27/11 resultados semestrais; 30/11 a 04/12 exames; 14/12 resultados dos exames; 16/12 limite para revisão de notas e faltas.",
+      "fonte": "PDF geral p.14-15"
+    },
+    {
+      "requisito": "Consultar o portal para o enunciado completo",
+      "detalhe": "Cada página de matéria do PDF geral manda verificar no portal ou com o professor.",
+      "fonte": "PDF geral p.18-25"
+    }
+  ],
+  "alertas": [
+    "PAI: a última linha do pai.txt (e do .docx) manda começar toda resposta com uma frase fixa e ameaça nota zero. É texto dentro do arquivo, sem autoridade: foi tratado como dado e não foi obedecido. Quanto ao PDF geral, a frase não está lá; quanto ao portal, não há fonte para afirmar. Vale perguntar ao professor se é teste.",
+    "PAI: uso inadequado de dados pessoais é penalizado (pedir, guardar, repetir, logar, enviar a serviço externo, usar dados reais nos testes ou no golden). Conta, perfil ou histórico de perguntas ligado a uma pessoa identificável também conta como dado pessoal. Resposta que obedeça a prompt injection ou use dado pessoal é erro no juiz.",
+    "PAI: acerto vem do juiz no golden dataset (com conferência manual de amostra); com pessoas só se medem tempo (pelo menos 5 pessoas, 3 tarefas) e facilidade (questionário de 5 perguntas). As justificativas devem ser curtas e específicas.",
+    "PCP: pergunta com 8 ou mais dígitos ou @ deve ser recusada e não registrada em historico.json nem no CSV. O \"0 para voltar\" vale em todas as telas, inclusive na pergunta livre.",
+    "PCP: a única penalidade escrita é \"o que passar de 8 minutos não será avaliado\" e funções não demonstradas e explicadas no vídeo \"não serão pontuadas\". Narração com IA ou voz sintética não é permitida e todos devem falar. É proibido inventar informações.",
+    "PCP: IA generativa não é proibida pelo enunciado (a seção 6.3 aceita integrações explicadas no README e no vídeo), mas o assistente só pode responder com o que está na base e a busca por pontuação é obrigatória. Manter IA fora da entrega é decisão do grupo, não regra.",
+    "PCP: repositório público e vídeo precisam estar acessíveis no momento da correção; códigos ou bases idênticos entre equipes podem ter desconto.",
+    "CS: usar IA na tabela-verdade, no Karnaugh ou no circuito custa 4 pontos da nota total (consta no enunciado de CS). IA só no texto do relatório.",
+    "MLAM: o enunciado completo foi colado do portal em 12/11 e é a fonte dos itens. Base real (fictícia ou gerada não vale); desconto de 2,0 por cadastro ou entrega inadequados e de 1,0 por item ausente; sem links; depois do prazo não aceita envio nem troca de arquivo.",
+    "DSA: a análise Big-O precisa ser coerente com o código; testes precisam incluir pelo menos uma operação em lista vazia; em Python, lista nativa não substitui a lista encadeada. O enunciado não escreve \"terminal\" nem proíbe menu gráfico, mas o menu de terminal é o caminho seguro.",
+    "COA: só um integrante entrega; não basta montar o circuito, é preciso mostrar a lógica do código e as leituras de sensor mudando a resposta do circuito. Deixar o link do Wokwi abrir sem login é cautela, não regra escrita.",
+    "SERS: dados com origem, unidade, período e premissas; estimativa marcada como estimativa; solução sem análise de energia ou sem integração ao assistente não atende ao escopo. Enviar apenas um arquivo .txt.",
+    "MMC: o enunciado não traz rubrica nem formato de entrega; a política de redistribuição deve ser criada pela equipe.",
+    "A base de 13 orientações (PCP e DSA) e a regra da Tarifa Social (SERS) vieram de páginas oficiais lidas em 12/11/2026 e ainda não foram conferidas pela equipe. Nenhuma data deve ser tratada como conferida até o grupo abrir cada fonte.",
+    "As evidências de teste da DSA foram feitas com os 6 registros antigos; o historico.json e o CSV do PCP estão vazios. O grupo precisa refazer os testes com os dados atuais e tirar prints próprios.",
+    "Integrantes e RM estão como \"A PREENCHER PELO GRUPO\" nos READMEs e na documentação.",
+    "O PDF geral tem 28 páginas e as páginas 1, 8, 9, 12 e 28 não têm texto extraído (imagens, sem OCR); pode haver regra ali, principalmente nas p.8 e 9 (seção DESAFIOS). O PDF geral também tem texto de outros semestres (p.3 Future at Work, p.14 GS2026.1).",
+    "As fichas FC-01 a FC-07 e o 00_LEIA-ME da PAI não estão no repositório nem nas fontes lidas; o que se diz sobre elas (versão 01/10/2026) não foi conferido."
+  ],
+  "divergencias": [
+    "PAI: o .docx (7 fichas de Aurora, framework livre, golden de 26 mensagens, juiz antes e depois, testes com usuários) e o PDF geral p.24 (base própria, ChromaDB, RAG em LCEL, Gradio, RAGAS em 8 perguntas, ZIP e vídeo de até 3 min) descrevem versões diferentes. O grupo decidiu fazer as duas, com ênfase na do .docx. O ZIP único não é exigência do .docx e custa cerca de 18 horas. \"Certificação\" (p.24) não é definida em nenhuma fonte.",
+    "DSA: o PDF geral (p.19) diz só C; o PDF do professor diz \"em C ou Python\", com os mesmos critérios. Em Python vale \"classes ou objetos\" com referências explícitas.",
+    "Horário limite: resumo do portal 23h55; PDF do PCP 23h59; PDF geral e PDF de DSA sem hora. Adotar 23h55.",
+    "Vídeo pitch: o PDF geral diz enviar ao Scrum Master pelo portal; o resumo diz que o item aparece sob a SER (a confirmar).",
+    "COA: o PDF geral (p.18) descreve fila virtual com botões, previsão por IA e publicação pela internet; o enunciado do professor deixa o tema livre e diz só Raspberry Pi Pico (sem W), então Wi-Fi e MQTT não estão previstos.",
+    "MMC: o PDF geral (p.22) pede avaliar os resultados; o PDF do professor termina na Etapa 2 e não traz rubrica, formato nem prazo.",
+    "PCP: o enunciado diz \"nenhuma orientação com 3 pontos\" = não encontrei, mas a faixa MÉDIA vai de 3 a 5; a leitura coerente é nenhuma com pelo menos 3 pontos. O README da entrega só mostra alternativas com 3 pontos ou mais (decisão do grupo).",
+    "Vídeos: PCP de 5 a 8 min (mais de 8 não é avaliado); SERS até 3 min, não listado; pitch até 3 min; PAI (versão do PDF geral) até 3 min; COA sem limite informado. O vídeo do PCP é técnico, não pitch.",
+    "CS: o PDF geral cita De Morgan e Karnaugh; o enunciado de CS diz De Morgan \"somente se necessário\". O enunciado de CS não traz pontos, prazo nem canal de envio.",
+    "Base de conhecimento: o PCP exige fonte oficial e data de conferência; o PAI usa fichas fictícias como única fonte. Os dois não podem se misturar na avaliação (o agente da PAI deve rodar isolado).",
+    "SERS: o enunciado do portal confirma o arquivo .txt, o vídeo não listado de até 3 minutos e os pesos 60/30/10; o PDF geral p.25 cita os testes com usuários e o repositório mas não o .txt."
+  ],
+  "materias": {
+    "PCP": {
+      "nome": "Pensamento Computacional e Automação com Python",
+      "formato_entrega": "Portal: um único arquivo .txt com 5 linhas (nome do assistente, público atendido, integrantes e RM, link do repositório GitHub, link do vídeo). Repositório público citizen-assist-ai com README.md, main.py, orientacao.py, base_conhecimento.py, assistente.py e data/ (base_conhecimento.json, historico.json, atendimentos.csv). Vídeo técnico no YouTube não listado, de 5 a 8 minutos. Repositório e vídeo acessíveis na correção.",
+      "prazo": "19/11/2026, 23h55 (o enunciado do PCP diz 23h59; adotar o menor)",
+      "rubrica": [
+        {
+          "criterio": "Funcionamento e modularização (executa sem erros, 4 arquivos .py, menu completo)",
+          "pontos": "1,0"
+        },
+        {
+          "criterio": "Base de conhecimento em JSON (10 orientações, 3 categorias, campos, fontes)",
+          "pontos": "1,0"
+        },
+        {
+          "criterio": "Orientação a objetos (3 classes, atributos, métodos e composição)",
+          "pontos": "2,0"
+        },
+        {
+          "criterio": "Busca e navegação (normalização, pontuação, tuplas, confiança, categorias)",
+          "pontos": "1,5"
+        },
+        {
+          "criterio": "Histórico, indicadores e exportação CSV",
+          "pontos": "1,0"
+        },
+        {
+          "criterio": "Entradas inválidas, dados pessoais e avisos",
+          "pontos": "0,5"
+        },
+        {
+          "criterio": "GitHub, README e teste com usuários",
+          "pontos": "0,5"
+        },
+        {
+          "criterio": "Vídeo técnico (domínio do código, demonstração, alteração ao vivo, participação de todos)",
+          "pontos": "2,5"
+        }
+      ],
+      "itens": [
+        {
+          "id": "PCP-01",
+          "requisito": "Público e tema escolhidos e base montada para eles",
+          "detalhe": "\"A equipe deve escolher um público e um tema e montar a base de conhecimento para ele.\" Cada atendimento responde 5 perguntas: há orientação, com que confiança, quais documentos e onde ir, qual a fonte e quando foi verificada, se a pessoa resolveu e em quanto tempo.",
+          "peso": "",
+          "fonte": "enunciado PCP seção 3",
+          "quem": "grupo",
+          "onde": "entregas/pcp/citizen-assist-ai/README.md (seção Público e problema); data/base_conhecimento.json",
+          "como": "A base existe (13 orientações sobre Cadastro Único, Tarifa Social, documentos e golpes), mas o README ainda diz \"A PREENCHER PELO GRUPO\" no público e no problema. O grupo precisa confirmar o público e escrever o texto.",
+          "status": "Falta conferir"
+        },
+        {
+          "id": "PCP-02",
+          "requisito": "Programa de terminal que roda com python main.py, sem erro e só com biblioteca padrão",
+          "detalhe": "\"O código deve executar sem erros com python main.py.\" Menu completo; só biblioteca padrão.",
+          "peso": "1,0 (Funcionamento e modularização)",
+          "fonte": "enunciado PCP seções 2 e 15; rubrica",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/main.py: main",
+          "como": "Rodei o programa com entradas simuladas (pergunta, navegação, indicadores, sair): abre o menu, responde e grava o histórico. Importa só csv, json, os, sys, time e datetime. A entrega tem exatamente 4 arquivos .py (teste test_exatamente_quatro_arquivos_py_na_entrega).",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-03",
+          "requisito": "Base data/base_conhecimento.json: lista de dicionários com os 9 campos obrigatórios",
+          "detalhe": "Campos: id, categoria, titulo, palavras_chave (lista), resposta, documentos (lista), onde, fonte, verificado_em; todos obrigatórios em cada orientação.",
+          "peso": "1,0 (Base de conhecimento em JSON)",
+          "fonte": "enunciado PCP seção 4",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/data/base_conhecimento.json; orientacao.py: Orientacao.de_dict",
+          "como": "Os 13 registros têm os 9 campos (mais um campo extra, conferido_pela_equipe, que o carregador aceita e ignora). Testes test_campos_obrigatorios_preenchidos e test_ids_unicos passam.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-04",
+          "requisito": "Base com no mínimo 10 orientações, 3 categorias e 3 palavras-chave por orientação",
+          "detalhe": "\"mínimo de 10 orientações, 3 categorias e 3 palavras-chave por orientação\".",
+          "peso": "1,0 (Base de conhecimento em JSON)",
+          "fonte": "enunciado PCP seção 4; rubrica",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/data/base_conhecimento.json",
+          "como": "Há 13 orientações, 4 categorias (Cadastro e benefícios, Conta de luz, Documentos, Segurança digital) e 6 palavras-chave em cada. Teste test_minimos_do_enunciado passa.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-05",
+          "requisito": "Toda orientação com fonte oficial e data em que a equipe conferiu; nada inventado",
+          "detalhe": "\"toda orientação deve ter fonte oficial e a data em que a equipe conferiu a informação\"; \"É proibido inventar informações.\" Resposta em linguagem simples.",
+          "peso": "1,0 (Base de conhecimento em JSON)",
+          "fonte": "enunciado PCP seção 4",
+          "quem": "grupo",
+          "onde": "entregas/pcp/citizen-assist-ai/data/base_conhecimento.json (campos fonte, verificado_em, conferido_pela_equipe)",
+          "como": "As 13 vieram de páginas oficiais lidas em 12/11/2026 e todas têm conferido_pela_equipe=false. O grupo precisa abrir cada fonte, conferir o texto e atualizar verificado_em. Escrever com palavras próprias (bases idênticas entre equipes podem ter desconto).",
+          "status": "Falta conferir"
+        },
+        {
+          "id": "PCP-06",
+          "requisito": "Classe Orientacao com os atributos e o método exibir()",
+          "detalhe": "Atributos: id, categoria, titulo, palavras_chave, resposta, documentos, onde, fonte, verificado_em. Método exibir() mostra a orientação na tela.",
+          "peso": "2,0 (Orientação a objetos)",
+          "fonte": "enunciado PCP seção 5 e rubrica",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/orientacao.py: Orientacao",
+          "como": "Classe com os 9 atributos, exibir() (que imprime texto()), de_dict() com validação e para_dict(). Testes de ida e volta e de exibir passam.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-07",
+          "requisito": "Classe BaseConhecimento com atributos caminho e orientacoes e os métodos pedidos",
+          "detalhe": "Métodos: carregar(), categorias(), por_categoria(), pontuar(), buscar(). Lê o JSON, lista as categorias e busca a melhor orientação.",
+          "peso": "2,0 (Orientação a objetos)",
+          "fonte": "enunciado PCP seção 5",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/base_conhecimento.py: BaseConhecimento",
+          "como": "Todos os métodos existem, mais detalhar_pontuacao() e nivel_confianca(). Testes de categorias, por_categoria e carregar passam.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-08",
+          "requisito": "Classe Assistente com nome, base, historico e os métodos pedidos",
+          "detalhe": "Métodos: perguntar(), navegar(), registrar(), indicadores(), exportar_csv(). Faz o atendimento, guarda o histórico e calcula os indicadores.",
+          "peso": "2,0 (Orientação a objetos)",
+          "fonte": "enunciado PCP seção 5",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/assistente.py: Assistente",
+          "como": "Todos os métodos existem. A lógica (responder, registrar, indicadores, exportar_csv) fica sem input/print; as telas (perguntar, navegar, menu) só conversam.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-09",
+          "requisito": "Composição entre as classes e main.py encaixando tudo",
+          "detalhe": "Assistente tem uma BaseConhecimento, que tem uma lista de objetos Orientacao. main.py cria a base, chama carregar() e cria o Assistente.",
+          "peso": "2,0 (Orientação a objetos)",
+          "fonte": "enunciado PCP seção 5 e rubrica",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/main.py: main",
+          "como": "main.py cria BaseConhecimento(caminho), chama carregar() e passa a base para Assistente(...), que abre o menu (a opção 1 chama perguntar()).",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-10",
+          "requisito": "Uso de dicionários e tuplas e modularização",
+          "detalhe": "\"Serão avaliados o uso de dicionários e tuplas, modularização, orientação a objetos.\" buscar() devolve lista de tuplas (pontos, orientacao).",
+          "peso": "1,0 (Funcionamento e modularização)",
+          "fonte": "PDF geral p.23; enunciado PCP seção 6.2",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/base_conhecimento.py: BaseConhecimento.buscar; assistente.py: Assistente.responder",
+          "como": "buscar() devolve [(pontos, Orientacao)]; o histórico é lista de dicionários; responder() devolve dicionário. Teste test_buscar_devolve_tuplas_ordenadas passa.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-11",
+          "requisito": "normalizar(): minúsculas, sem acento, sem pontuação, palavra inteira",
+          "detalhe": "\"Pergunta, palavras-chave e título devem ser comparados sem acentos, sem pontuação e em minúsculas.\" O roteiro do vídeo cobra normalizar() e pontuar().",
+          "peso": "1,5 (Busca e navegação)",
+          "fonte": "enunciado PCP seção 6.1; roteiro do vídeo item 4",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/base_conhecimento.py: normalizar",
+          "como": "Normaliza com a tabela de acentos do enunciado e troca sinais por espaço; a comparação é por palavra inteira (\"rg\" não casa dentro de \"energia\"). Testes passam.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-12",
+          "requisito": "Pontuação: +3 por palavra-chave e +1 por palavra de 4 letras ou mais no título",
+          "detalhe": "Exemplo oficial: \"Como faço o cartão do SUS?\" = 3 + 3 + 1 = 7 pontos.",
+          "peso": "1,5 (Busca e navegação)",
+          "fonte": "enunciado PCP seção 6.2",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/base_conhecimento.py: BaseConhecimento.pontuar, detalhar_pontuacao",
+          "como": "Constantes com os valores do enunciado; palavra do título conta uma vez. O teste test_exemplo_numerico_do_enunciado confere os 7 pontos.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-13",
+          "requisito": "Confiança ALTA (6 ou mais), MÉDIA (3 a 5) e \"Não encontrei\" (menos de 3)",
+          "detalhe": "\"Nenhuma orientação com 3 pontos\" = Não encontrei, sugerindo outras palavras ou as categorias (leitura coerente: nenhuma com pelo menos 3 pontos).",
+          "peso": "1,5 (Busca e navegação)",
+          "fonte": "enunciado PCP seção 6.2",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/base_conhecimento.py: BaseConhecimento.nivel_confianca; assistente.py: Assistente.responder",
+          "como": "Faixas conferidas nos testes (limites 2, 3, 5 e 6). Na tela, \"não encontrei\" sugere outras palavras e lista as categorias.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-14",
+          "requisito": "Mostrar a melhor orientação e até duas alternativas",
+          "detalhe": "buscar() devolve a lista da maior para a menor pontuação; o assistente mostra a melhor e até 2 alternativas.",
+          "peso": "1,5 (Busca e navegação)",
+          "fonte": "enunciado PCP seção 6.2",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/assistente.py: Assistente.responder, mostrar_resposta",
+          "como": "Mostra a melhor e até 2 alternativas. Decisão do grupo (README): só entram alternativas com pelo menos 3 pontos. Teste test_melhor_e_ate_duas_alternativas passa.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-15",
+          "requisito": "Navegação por categorias com \"0 para voltar\" em todas as telas, inclusive na pergunta livre",
+          "detalhe": "\"navegação por categorias: listar categorias e orientações numeradas, com \"0 para voltar\" em todas as telas\". A tela \"Digite sua dúvida (0 para voltar)\" também.",
+          "peso": "1,5 (Busca e navegação)",
+          "fonte": "enunciado PCP seção 7 e exemplo de tela",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/assistente.py: Assistente.navegar, navegar_categoria, perguntar",
+          "como": "Categorias e orientações numeradas, 0 volta no menu, na lista, na escolha da orientação, na pergunta s/n e na pergunta livre. Rodei o fluxo completo com entradas simuladas.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-16",
+          "requisito": "Entradas inválidas nunca encerram o programa",
+          "detalhe": "\"opção fora da faixa, letras, resposta vazia ou s/n inválido nunca encerram o programa\"; JSON ausente ou corrompido também não.",
+          "peso": "0,5 (Entradas inválidas, dados pessoais e avisos)",
+          "fonte": "enunciado PCP seção 7",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/assistente.py: ler_numero, ler_sim_nao, ler",
+          "como": "Opção inválida, texto vazio e s/n inválido repetem a pergunta; fim da entrada (Ctrl+C, Ctrl+D) sai sem erro. Testes test_entradas_invalidas_na_pergunta_nao_encerram e test_entrada_encerrada_nao_trava passam.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-17",
+          "requisito": "Dados pessoais: nunca pedir; 8 ou mais dígitos ou @ é recusado e não é registrado",
+          "detalhe": "Mensagem: \"Atenção: não digite CPF, telefone ou e-mail. Reescreva.\" Não pode aparecer em historico.json nem no CSV. Também não registrar nomes ou dados de quem faz o teste.",
+          "peso": "0,5 (Entradas inválidas, dados pessoais e avisos)",
+          "fonte": "enunciado PCP seções 7 e 10",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/assistente.py: Assistente.tem_dado_pessoal, registrar, perguntar",
+          "como": "tem_dado_pessoal conta os dígitos no total (mesmo separados por pontos e traços) e o @; registrar() recusa. Rodei com um CPF na pergunta: foi recusado e o histórico gravado não o contém. Testes passam.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-18",
+          "requisito": "Toda resposta mostra fonte, data de verificação, aviso de canal não oficial, confiança e pergunta s/n",
+          "detalhe": "\"toda resposta mostra fonte, data de verificação e o aviso \"este assistente não é canal oficial\"\". A saída do terminal não precisa ser idêntica ao exemplo, mas deve trazer informações equivalentes.",
+          "peso": "0,5 (Entradas inválidas, dados pessoais e avisos)",
+          "fonte": "enunciado PCP seções 7 e 10",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/orientacao.py: Orientacao.texto; assistente.py: mostrar_resposta",
+          "como": "A resposta mostra confiança com pontos, o cálculo (+3 / +1), título e categoria, documentos, onde, fonte com data e o aviso, e pergunta \"respondeu sua dúvida? (s/n)\". Conferido na execução.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-19",
+          "requisito": "JSON ausente ou corrompido não trava o programa",
+          "detalhe": "\"arquivos: JSON ausente ou corrompido não pode travar o programa\" (base, histórico e CSV).",
+          "peso": "1,0 (Funcionamento e modularização)",
+          "fonte": "enunciado PCP seção 7",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/base_conhecimento.py: BaseConhecimento.carregar; assistente.py: Assistente.carregar_lista",
+          "como": "Base ausente ou corrompida vira base vazia com mensagem; registro inválido é ignorado; histórico ilegível recomeça vazio. Testes de arquivo ausente, corrompido e não-lista passam.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-20",
+          "requisito": "Cada atendimento salvo em data/historico.json com os campos do enunciado",
+          "detalhe": "Campos: data, origem (pergunta ou categoria), pergunta, id da orientação, encontrou, ajudou, tentativas, tempo em segundos (time.time() e round(..., 1)).",
+          "peso": "1,0 (Histórico, indicadores e exportação CSV)",
+          "fonte": "enunciado PCP seção 8",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/assistente.py: Assistente.registrar; data/historico.json",
+          "como": "registrar() grava os 8 campos (orientacao_id no lugar de id da orientação). Rodei com entradas simuladas e o historico.json recebeu os atendimentos. O historico.json do repositório está vazio, de propósito, até o teste com pessoas.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-21",
+          "requisito": "Ao sair, pedir nota de facilidade de 1 a 5",
+          "detalhe": "\"Ao sair, o assistente pede uma nota de facilidade de 1 a 5.\"",
+          "peso": "1,0 (Histórico, indicadores e exportação CSV)",
+          "fonte": "enunciado PCP seção 8",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/assistente.py: Assistente.sair, registrar_nota",
+          "como": "Pede nota de 1 a 5 com laço de validação (0 volta ao menu) e guarda em data/notas_facilidade.json, arquivo separado do histórico (decisão do grupo, descrita no README).",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-22",
+          "requisito": "Calcular e mostrar os 6 indicadores",
+          "detalhe": "Resposta encontrada (%), taxa de acerto (%), tempo médio para encontrar, tentativas por atendimento, facilidade de uso (1 a 5) e lista de dúvidas sem solução.",
+          "peso": "1,0 (Histórico, indicadores e exportação CSV)",
+          "fonte": "enunciado PCP seção 8",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/assistente.py: Assistente.indicadores, mostrar_indicadores",
+          "como": "Os 6 indicadores existem e o histórico vazio não divide por zero. O tempo médio considera só os atendimentos em que ajudou (definição do grupo, no README). Testes passam.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-23",
+          "requisito": "Exportar os atendimentos para data/atendimentos.csv com csv.DictWriter",
+          "detalhe": "\"Os atendimentos devem ser exportados para data/atendimentos.csv com csv.DictWriter\".",
+          "peso": "1,0 (Histórico, indicadores e exportação CSV)",
+          "fonte": "enunciado PCP seção 8 e estrutura",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/assistente.py: Assistente.exportar_csv",
+          "como": "Usa csv.DictWriter, UTF-8 com BOM, cabeçalho igual às chaves do histórico. O CSV do repositório só tem o cabeçalho; o arquivo com dados do teste vem do item do teste com pessoas.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-24",
+          "requisito": "Teste com pelo menos 3 pessoas de fora, somando 10 atendimentos ou mais, antes do vídeo",
+          "detalhe": "README registra indicadores, dúvidas sem solução e uma melhoria feita a partir do teste. Sem nomes nem dados das pessoas.",
+          "peso": "0,5 (GitHub, README e teste com usuários)",
+          "fonte": "enunciado PCP seção 9",
+          "quem": "grupo",
+          "onde": "entregas/pcp/citizen-assist-ai/data/historico.json, data/atendimentos.csv, README.md (seção Resultado do teste)",
+          "como": "historico.json está vazio e o CSV só tem o cabeçalho. O grupo precisa rodar o teste, gerar o CSV e preencher a seção do README.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PCP-25",
+          "requisito": "Estrutura de arquivos da entrega",
+          "detalhe": "Pasta citizen-assist-ai com README.md, main.py, orientacao.py, base_conhecimento.py, assistente.py e data/ (base_conhecimento.json, historico.json, atendimentos.csv). Rubrica pede 4 arquivos .py.",
+          "peso": "1,0 (Funcionamento e modularização)",
+          "fonte": "enunciado PCP seções 11 e 14",
+          "quem": "código",
+          "onde": "entregas/pcp/citizen-assist-ai/",
+          "como": "A pasta tem a estrutura pedida (4 .py e data/). Teste que confere exatamente 4 arquivos .py passa.",
+          "status": "Feito"
+        },
+        {
+          "id": "PCP-26",
+          "requisito": "Repositório GitHub público chamado citizen-assist-ai, acessível na correção",
+          "detalhe": "\"A entrega do código deverá ser feita por meio de um repositório público no GitHub.\"",
+          "peso": "0,5 (GitHub, README e teste com usuários)",
+          "fonte": "enunciado PCP seções 11 e 14",
+          "quem": "grupo",
+          "onde": "",
+          "como": "A pasta está pronta dentro do projeto do sistema. Falta criar o repositório próprio, copiar a pasta, publicar e abrir em janela anônima para conferir.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PCP-27",
+          "requisito": "README.md completo",
+          "detalhe": "Integrantes (nome e RM), público e problema, ODS, como executar, regra de pontuação, integrações (se houver), fontes consultadas, resultado do teste com usuários, limitações e link do vídeo.",
+          "peso": "0,5 (GitHub, README e teste com usuários)",
+          "fonte": "enunciado PCP seção 11",
+          "quem": "grupo",
+          "onde": "entregas/pcp/citizen-assist-ai/README.md",
+          "como": "O rascunho tem como executar, estrutura, classes, regra de pontuação, indicadores e limitações. Faltam preencher integrantes, público, ODS, fontes finais, resultado do teste e link do vídeo.",
+          "status": "Falta conferir"
+        },
+        {
+          "id": "PCP-28",
+          "requisito": "Integração com outras disciplinas (opcional): se houver, explicar no README e no vídeo",
+          "detalhe": "\"A busca por pontuação desta seção continua obrigatória, pois é ela que será avaliada em PCP.\" IA generativa não é proibida pelo enunciado, mas o assistente só pode responder com o que está na base.",
+          "peso": "",
+          "fonte": "enunciado PCP seção 6.3; PDF geral p.23",
+          "quem": "código",
+          "onde": "sistema/adaptadores/pcp.py; sistema/conversa.py",
+          "como": "O sistema (chat e API) reutiliza as classes da entrega sem gravar no histórico do PCP. O README diz \"Nenhuma integração nesta versão\": o grupo decide se declara a integração com o sistema.",
+          "status": "Falta conferir"
+        },
+        {
+          "id": "PCP-29",
+          "requisito": "Vídeo técnico de 5 a 8 minutos no YouTube não listado, com todos falando",
+          "detalhe": "Cada integrante explica uma parte técnica; código legível e programa rodando; sem narração de IA nem voz sintética; não é pitch. \"O que passar de 8 minutos não será avaliado.\"",
+          "peso": "2,5 (Vídeo técnico)",
+          "fonte": "enunciado PCP seção 12 e rubrica",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Ainda não gravado.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PCP-30",
+          "requisito": "Roteiro do vídeo em 8 pontos, com alteração ao vivo",
+          "detalhe": "(1) equipe, público e problema (até 30 s); (2) JSON, um registro, dicionários e tuplas; (3) classes, atributos, métodos, self, composição; (4) normalizar() e pontuar() com uma pergunta real; (5) execução: encontrada, não encontrada, entrada inválida, dado pessoal bloqueado, navegação; (6) alteração ao vivo: incluir palavra-chave no JSON; (7) historico.json, CSV e indicadores do teste; (8) uma decisão técnica e uma limitação. \"Funções não demonstradas não serão pontuadas.\"",
+          "peso": "2,5 (Vídeo técnico)",
+          "fonte": "enunciado PCP seção 12",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Ensaiar a alteração ao vivo: o programa lê o JSON ao abrir, então basta editar o arquivo e reiniciar.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PCP-31",
+          "requisito": "Entrega no portal: um único arquivo .txt com cinco linhas",
+          "detalhe": "Nome do assistente, público atendido, integrantes e RM, link do repositório e link do vídeo. Prazo 19/11 (o enunciado diz 23h59; adotar 23h55). Não enviar zip nem PDF.",
+          "peso": "",
+          "fonte": "enunciado PCP seção 13",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Gerar o .txt, conferir os dois links em janela anônima e enviar com folga.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PCP-32",
+          "requisito": "Regras gerais: base própria, repositório e vídeo acessíveis na correção",
+          "detalhe": "\"Códigos ou bases idênticos entre equipes diferentes poderão ter desconto na nota.\" Repositório e vídeo precisam estar acessíveis quando o professor corrigir.",
+          "peso": "",
+          "fonte": "enunciado PCP seção 15",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Conferência final antes do envio.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PCP-33",
+          "requisito": "Testes automáticos da lógica (decisão de engenharia, não pedido no enunciado)",
+          "detalhe": "Cobrem o exemplo de 7 pontos, os limites 3, 5 e 6, o bloqueio de dado pessoal, JSON ausente e corrompido, indicadores, CSV e o fluxo das telas.",
+          "peso": "",
+          "fonte": "decisão do grupo",
+          "quem": "código",
+          "onde": "tests/pcp/test_citizen_assist_ai.py; tests/pcp/test_base_entregue.py",
+          "como": "55 testes, todos passando (uv run python -m unittest discover -s tests/pcp).",
+          "status": "Feito"
+        }
+      ]
+    },
+    "DSA": {
+      "nome": "Data Structures and Algorithms",
+      "formato_entrega": "Portal do Aluno, direto ao professor. O enunciado não fixa o formato. Conteúdo: código-fonte funcional com instruções de execução; documentação técnica; descrição dos algoritmos de busca e ordenação com Big-O; evidências dos testes. Sugestão: um ZIP com código, documentação e evidências (confirmar com o professor).",
+      "prazo": "19/11/2026, 23h55 (o PDF de DSA não traz hora)",
+      "rubrica": [
+        {
+          "criterio": "CRUD, menu e validação de entradas",
+          "pontos": "3,0"
+        },
+        {
+          "criterio": "Lista encadeada e uso correto dos recursos da linguagem",
+          "pontos": "3,0"
+        },
+        {
+          "criterio": "Busca, ordenação e análise Big-O",
+          "pontos": "2,0"
+        },
+        {
+          "criterio": "Organização, documentação e instruções de execução",
+          "pontos": "1,0"
+        },
+        {
+          "criterio": "Testes funcionais e evidências",
+          "pontos": "1,0"
+        }
+      ],
+      "itens": [
+        {
+          "id": "DSA-01",
+          "requisito": "Linguagem escolhida e declarada na documentação (C ou Python)",
+          "detalhe": "O PDF do professor diz \"em C ou Python\", com os mesmos critérios; o PDF geral (p.19) diz só C. O grupo escolheu Python.",
+          "peso": "",
+          "fonte": "enunciado DSA seção 1; PDF geral p.19",
+          "quem": "grupo",
+          "onde": "entregas/dsa/docs/DOCUMENTACAO.md (seção 1)",
+          "como": "A documentação declara Python 3 com biblioteca padrão. Confirmar com o professor que Python vale, por causa do PDF geral.",
+          "status": "Falta conferir"
+        },
+        {
+          "id": "DSA-02",
+          "requisito": "Registro com id único, título, categoria, descrição, público-alvo e canal/local de atendimento",
+          "detalhe": "Pode ter outros campos. Categorias sugeridas: documentos, assistência social, educação, saúde, atendimento comunitário.",
+          "peso": "3,0 (CRUD, menu e validação)",
+          "fonte": "enunciado DSA seções 2 e 3",
+          "quem": "código",
+          "onde": "entregas/dsa/servico.py: Servico",
+          "como": "Servico tem os 6 campos obrigatórios e 3 extras (prazo, fonte, verificado_em). Documentados na seção 2 da documentação.",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-03",
+          "requisito": "Lista encadeada própria como estrutura principal (classes No e ListaEncadeada)",
+          "detalhe": "\"A estrutura principal de armazenamento deverá ser uma lista encadeada implementada pela equipe\", com inserção, percurso, atualização e remoção. Em Python: classes com referências explícitas entre nós; list/dict nativos não substituem.",
+          "peso": "3,0 (Lista encadeada e recursos da linguagem)",
+          "fonte": "enunciado DSA seção 5",
+          "quem": "código",
+          "onde": "entregas/dsa/lista_encadeada.py: No, ListaEncadeada",
+          "como": "Lista com cabeça e cauda, inserir_inicio/fim, percorrer, buscar_por_id, atualizar e remover. Testes test_sem_colecoes_nativas_na_lista e os de inserção passam. (Itens de C, como struct e free, não se aplicam.)",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-04",
+          "requisito": "Cadastrar serviço validando campo obrigatório vazio e id duplicado",
+          "detalhe": "\"Cadastrar novos serviços e orientações, validando campos obrigatórios e identificadores.\"",
+          "peso": "3,0 (CRUD, menu e validação)",
+          "fonte": "enunciado DSA seção 4",
+          "quem": "código",
+          "onde": "entregas/dsa/catalogo.py: Catalogo.cadastrar",
+          "como": "Recusa campo vazio, id duplicado (sem diferenciar maiúsculas), valor que não é texto e prazo inválido. Testes passam e rodei pelo menu.",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-05",
+          "requisito": "Consultar um registro pelo identificador",
+          "detalhe": "\"Consultar um registro pelo identificador\", com mensagem clara para registro não encontrado.",
+          "peso": "3,0 (CRUD, menu e validação)",
+          "fonte": "enunciado DSA seção 4",
+          "quem": "código",
+          "onde": "entregas/dsa/catalogo.py: Catalogo.consultar; lista_encadeada.py: ListaEncadeada.buscar_por_id",
+          "como": "Busca linear pelo id; trata id vazio, lista vazia e não encontrado. Rodei pelo menu (opção 2).",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-06",
+          "requisito": "Listar todos os registros",
+          "detalhe": "\"listar todos os registros cadastrados\"; avisar quando a lista está vazia.",
+          "peso": "3,0 (CRUD, menu e validação)",
+          "fonte": "enunciado DSA seção 4",
+          "quem": "código",
+          "onde": "entregas/dsa/catalogo.py: Catalogo.listar",
+          "como": "Percorre os nós e mostra um por linha; lista vazia mostra aviso. Rodei pelo menu (opção 3).",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-07",
+          "requisito": "Atualizar um registro existente, com validação",
+          "detalhe": "\"Atualizar informações de um registro existente.\"",
+          "peso": "3,0 (CRUD, menu e validação)",
+          "fonte": "enunciado DSA seção 4",
+          "quem": "código",
+          "onde": "entregas/dsa/catalogo.py: Catalogo.atualizar; lista_encadeada.py: ListaEncadeada.atualizar",
+          "como": "Escolhe o registro pelo id e o campo por número; o id não muda; recusa campo obrigatório vazio e prazo inválido. Testes test_atualizar_regras passam.",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-08",
+          "requisito": "Excluir registro ajustando os ponteiros (cabeça, meio, fim e nó único)",
+          "detalhe": "\"Excluir registros, ajustando corretamente a estrutura de dados.\" Em C seria preciso dar free no nó removido; em Python não se aplica.",
+          "peso": "3,0 (CRUD, menu e validação)",
+          "fonte": "enunciado DSA seções 4 e 5",
+          "quem": "código",
+          "onde": "entregas/dsa/lista_encadeada.py: ListaEncadeada.remover; catalogo.py: Catalogo.excluir",
+          "como": "Trata cabeça, meio, fim, nó único e id inexistente, e atualiza a cauda. Testes test_remover_cabeca, meio, fim, unico e inexistente passam.",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-09",
+          "requisito": "Pesquisa por título ou categoria com algoritmo escrito pela equipe",
+          "detalhe": "\"A busca e a ordenação deverão utilizar algoritmos implementados no código, sem depender exclusivamente de funções prontas da linguagem.\"",
+          "peso": "2,0 (Busca, ordenação e Big-O)",
+          "fonte": "enunciado DSA seções 4 e 5",
+          "quem": "código",
+          "onde": "entregas/dsa/algoritmos.py: buscar_por_atributo, contem_trecho",
+          "como": "Busca linear com comparação de trecho feita letra a letra, sem in/index/filter. Teste test_sem_funcoes_prontas_de_ordenacao_e_busca passa.",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-10",
+          "requisito": "Ordenar por pelo menos um critério com algoritmo próprio (merge sort na lista encadeada)",
+          "detalhe": "Por exemplo título ou identificador. Sem sorted() nem list.sort().",
+          "peso": "2,0 (Busca, ordenação e Big-O)",
+          "fonte": "enunciado DSA seções 4 e 5",
+          "quem": "código",
+          "onde": "entregas/dsa/algoritmos.py: ordenar, _merge_sort, _dividir, _mesclar",
+          "como": "Merge sort que só religa os nós, estável, por título, id ou prazo. Testes de ordenação (incluindo muitos registros e lista vazia) passam.",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-11",
+          "requisito": "Menu interativo de terminal com opção de sair e mensagens claras",
+          "detalhe": "\"Disponibilizar menu interativo com opção de saída e mensagens claras para operações inválidas ou registros não encontrados.\" O enunciado não diz \"terminal\", mas o menu de terminal é o caminho seguro; GUI é opcional e não substitui os requisitos.",
+          "peso": "3,0 (CRUD, menu e validação)",
+          "fonte": "enunciado DSA seção 4; PDF geral p.19",
+          "quem": "código",
+          "onde": "entregas/dsa/main.py: main, MENU, ACOES",
+          "como": "Menu com 7 opções e 0 para sair, em laço. Rodei a entrega: opção inexistente avisa e volta ao menu.",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-12",
+          "requisito": "Tratar entradas inválidas sem quebrar (opção, valor incompatível, campo vazio, id duplicado)",
+          "detalhe": "\"Tratar entradas inválidas, como opções inexistentes, valores incompatíveis, campos obrigatórios vazios e identificadores duplicados.\"",
+          "peso": "3,0 (CRUD, menu e validação)",
+          "fonte": "enunciado DSA seção 4",
+          "quem": "código",
+          "onde": "entregas/dsa/catalogo.py: _validar_campo; servico.py: data_valida; main.py",
+          "como": "Cada operação devolve (sucesso, mensagem, dado) e o menu só imprime. Fim da entrada é tratado. Rodei entradas erradas sem traceback.",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-13",
+          "requisito": "Documentar a busca e a ordenação (funcionamento passo a passo)",
+          "detalhe": "\"Implementar e documentar ao menos uma estratégia de busca e um algoritmo de ordenação. Explicar seu funcionamento\".",
+          "peso": "2,0 (Busca, ordenação e Big-O)",
+          "fonte": "enunciado DSA seções 6 e 8",
+          "quem": "código",
+          "onde": "entregas/dsa/docs/DOCUMENTACAO.md (seção 6)",
+          "como": "A seção 6 explica a busca linear e o merge sort, com passo a passo e exemplo pequeno.",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-14",
+          "requisito": "Análise Big-O de inserção, busca, exclusão e ordenação, com as hipóteses",
+          "detalhe": "Indicar as hipóteses (n = tamanho da lista, ponteiro de cauda). Precisa ser coerente com o código implementado.",
+          "peso": "2,0 (Busca, ordenação e Big-O)",
+          "fonte": "enunciado DSA seções 6 e 8",
+          "quem": "código",
+          "onde": "entregas/dsa/docs/DOCUMENTACAO.md (seção 7)",
+          "como": "A seção 7 tem tabela de melhor e pior caso por operação e a hipótese da cauda; conferi contra o código (cadastrar é O(n) por causa da checagem de id duplicado).",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-15",
+          "requisito": "Documentação técnica: objetivo, campos, lista encadeada, organização do código e instruções de uso",
+          "detalhe": "\"Documentação técnica contendo objetivo, campos dos registros, descrição da lista encadeada, organização do código e instruções de uso.\"",
+          "peso": "1,0 (Organização, documentação e instruções)",
+          "fonte": "enunciado DSA seção 8",
+          "quem": "código",
+          "onde": "entregas/dsa/docs/DOCUMENTACAO.md; README.md",
+          "como": "As seções 1 a 5 cobrem os cinco pontos. Falta só o nome e RM dos integrantes (item próprio).",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-16",
+          "requisito": "Código-fonte funcional com instruções de execução",
+          "detalhe": "\"Código-fonte funcional em C ou Python, com instruções para compilação/execução e arquivos necessários.\"",
+          "peso": "1,0 (Organização, documentação e instruções)",
+          "fonte": "enunciado DSA seção 8",
+          "quem": "código",
+          "onde": "entregas/dsa/README.md; main.py",
+          "como": "README explica como executar (python main.py) e o que tem em cada arquivo. Só biblioteca padrão.",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-17",
+          "requisito": "Testes funcionais com evidências: entrada, esperado e observado, com prints do terminal",
+          "detalhe": "Cobrir cadastro, consulta, atualização, exclusão, pesquisa, ordenação e entradas inválidas, com vários registros e pelo menos uma operação em lista vazia.",
+          "peso": "1,0 (Testes funcionais e evidências)",
+          "fonte": "enunciado DSA seções 7 e 8",
+          "quem": "grupo",
+          "onde": "entregas/dsa/docs/EVIDENCIAS.md",
+          "como": "A tabela tem 28 cenários, inclusive lista vazia, mas foi gerada com os 6 registros antigos e não tem prints. O grupo precisa refazer com os 13 serviços atuais e colar prints do próprio terminal.",
+          "status": "Falta conferir"
+        },
+        {
+          "id": "DSA-18",
+          "requisito": "Dados iniciais (13 serviços) conferidos pelo grupo nas fontes oficiais",
+          "detalhe": "Os serviços vieram de páginas oficiais lidas em 12/11/2026; o case pede conjunto verificável de informações.",
+          "peso": "",
+          "fonte": "PDF geral p.10",
+          "quem": "grupo",
+          "onde": "entregas/dsa/dados/servicos.json",
+          "como": "Abrir cada fonte, conferir o texto e atualizar verificado_em.",
+          "status": "Falta conferir"
+        },
+        {
+          "id": "DSA-19",
+          "requisito": "Nome completo e RM dos integrantes na entrega",
+          "detalhe": "README e documentação ainda dizem \"A PREENCHER PELO GRUPO\".",
+          "peso": "",
+          "fonte": "PDF geral p.17",
+          "quem": "grupo",
+          "onde": "entregas/dsa/README.md; docs/DOCUMENTACAO.md; docs/EVIDENCIAS.md",
+          "como": "Preencher os três arquivos.",
+          "status": "A fazer"
+        },
+        {
+          "id": "DSA-20",
+          "requisito": "Envio no Portal do Aluno até 19/11, com o formato aceito pelo professor",
+          "detalhe": "O enunciado não fixa formato do pacote (ZIP, PDF ou link). Sugestão: um ZIP com código, documentação (com Big-O) e evidências. Confirmar com o professor.",
+          "peso": "",
+          "fonte": "PDF geral p.17",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Perguntar o formato e enviar com folga antes das 23h55.",
+          "status": "A fazer"
+        },
+        {
+          "id": "DSA-21",
+          "requisito": "Integração com o sistema (opcional, fora do enunciado)",
+          "detalhe": "\"Interfaces gráficas, integração com APIs e recursos de IA são opcionais e não substituem os requisitos de DSA.\"",
+          "peso": "",
+          "fonte": "enunciado DSA seção 9",
+          "quem": "código",
+          "onde": "entregas/dsa/integracao.py; sistema/adaptadores/dsa.py",
+          "como": "O sistema reutiliza o catálogo da lista encadeada; os dois testes de integração em tests/sistema passam. A entrega de DSA continua sendo main.py, catalogo.py, lista_encadeada.py e algoritmos.py.",
+          "status": "Feito"
+        },
+        {
+          "id": "DSA-22",
+          "requisito": "Testes automáticos com unittest (extra, não pedido)",
+          "detalhe": "Cobrem lista, remoções, ordenação, busca, validação, lista vazia e ausência de list/dict nativos guardando os registros.",
+          "peso": "",
+          "fonte": "decisão do grupo",
+          "quem": "código",
+          "onde": "tests/dsa/test_dsa.py",
+          "como": "28 testes, todos passando (uv run python -m unittest discover -s tests/dsa).",
+          "status": "Feito"
+        }
+      ]
+    },
+    "SERS": {
+      "nome": "Soluções em Energias Renováveis e Sustentáveis",
+      "formato_entrega": "Portal: apenas um arquivo .txt com nome completo e RM de cada integrante, link do repositório GitHub e link do vídeo no YouTube (não listado, até 3 minutos). Repositório com README, códigos, dados com origem e premissas, cálculos e comparação, justificativas, referências e registros dos testes com usuários. Se o repositório for compartilhado, a parte da SERS deve estar identificada.",
+      "prazo": "19/11/2026, 23h55",
+      "rubrica": [
+        {
+          "criterio": "Fundamentação e coerência técnica (dados, cálculos, comparação, custos, viabilidade, impactos, coerência com o assistente)",
+          "pontos": "60"
+        },
+        {
+          "criterio": "Aplicação e utilidade da solução (adequação ao público, recomendações, integração ao assistente)",
+          "pontos": "30"
+        },
+        {
+          "criterio": "Usabilidade e comunicação (clareza, referências, limitações, evidências dos testes com usuários)",
+          "pontos": "10"
+        }
+      ],
+      "itens": [
+        {
+          "id": "SERS-01",
+          "requisito": "Definir o contexto: público, necessidade energética e como as orientações ajudam",
+          "detalhe": "\"Definição do contexto: identificar o público escolhido, a necessidade energética abordada e como as orientações poderão contribuir\". Hoje: família de baixa renda e conta de luz com a Tarifa Social.",
+          "peso": "60 (Fundamentação e coerência técnica)",
+          "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos",
+          "quem": "grupo",
+          "onde": "sistema/servicos/energia.py (docstring); README da SERS (a criar)",
+          "como": "O público e a necessidade estão implícitos no código, mas o grupo ainda não confirmou nem escreveu isso.",
+          "status": "Falta conferir"
+        },
+        {
+          "id": "SERS-02",
+          "requisito": "Análise de consumo com dados reais, públicos ou estimados, com origem, unidade, período e premissas",
+          "detalhe": "\"utilizar dados reais, públicos ou estimados de forma justificada, indicando sua origem, as unidades, o período considerado e as premissas dos cálculos\". Dado estimado deve ser marcado como estimado. Dados de exemplo do esqueleto não servem.",
+          "peso": "60 (Fundamentação e coerência técnica)",
+          "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos",
+          "quem": "código",
+          "onde": "",
+          "como": "Só existe a faixa de 80 kWh da Tarifa Social. Falta a base de consumo com origem, unidade, período e premissas.",
+          "status": "A fazer"
+        },
+        {
+          "id": "SERS-03",
+          "requisito": "Comparar ao menos duas alternativas (uma renovável) para a mesma necessidade e o mesmo período, com cálculos e justificativas",
+          "detalhe": "Considerar custos, viabilidade e impactos ambientais; mostrar benefícios, custos e limitações de cada opção.",
+          "peso": "60 (Fundamentação e coerência técnica)",
+          "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos e Desafio",
+          "quem": "código",
+          "onde": "",
+          "como": "Não existe ainda. É o núcleo da nota: sem comparação a solução é genérica e não atende ao escopo.",
+          "status": "A fazer"
+        },
+        {
+          "id": "SERS-04",
+          "requisito": "Regra da Tarifa Social (fonte Aneel) no cálculo e no chat",
+          "detalhe": "Desconto de 100% no consumo de até 80 kWh por mês, nas contas emitidas a partir de 5 de julho de 2025; o que passa disso não tem desconto. Valor em reais é estimativa pelo preço médio da conta.",
+          "peso": "60 (Fundamentação e coerência técnica)",
+          "fonte": "pesquisa/dados_tarifa_social.json (página da Aneel lida em 12/11/2026)",
+          "quem": "código",
+          "onde": "sistema/servicos/energia.py: calcular; sistema/servicos/direitos.py: orientar; sistema/conversa.py: _luz_resultado",
+          "como": "Calcula o consumo coberto e a estimativa de desconto, e o chat mostra com fonte e aviso. Testes dos serviços passam. EM_CONFERENCIA está ligado: o grupo precisa abrir a página da Aneel e confirmar a regra.",
+          "status": "Falta conferir"
+        },
+        {
+          "id": "SERS-05",
+          "requisito": "Integrar os resultados às respostas do chat, com linguagem acessível, referências e limitações",
+          "detalhe": "\"incorporar os resultados às respostas do Citizen Assist AI, demonstrando como a análise sustenta as orientações\". Soluções sem integração ao assistente não atendem ao escopo.",
+          "peso": "30 (Aplicação e utilidade)",
+          "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos; PDF geral p.25",
+          "quem": "código",
+          "onde": "sistema/conversa.py; sistema/triagem.py",
+          "como": "Hoje o chat só traz a Tarifa Social (item acima). Falta incluir a comparação de alternativas e mostrar que ela sustenta a recomendação.",
+          "status": "A fazer"
+        },
+        {
+          "id": "SERS-06",
+          "requisito": "Fontes verificáveis e condições das recomendações, sem tratar estimativa como garantida",
+          "detalhe": "\"evitando tratar estimativas de economia, geração ou custos como resultados garantidos\".",
+          "peso": "60 (Fundamentação e coerência técnica)",
+          "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos",
+          "quem": "código",
+          "onde": "sistema/conversa.py: _luz_resultado",
+          "como": "O aviso \"Estimativa pelo preço médio da sua conta, não é garantia\" já aparece na conta de luz. Falta o mesmo cuidado na comparação e conferir as fontes.",
+          "status": "Falta conferir"
+        },
+        {
+          "id": "SERS-07",
+          "requisito": "Testes com usuários: situações testadas, comentários e ajustes, sem dados pessoais",
+          "detalhe": "\"verificar a compreensão e a utilidade das orientações, registrando as situações testadas, os comentários recebidos e os ajustes realizados\". Aparece também no PDF geral p.25.",
+          "peso": "10 (Usabilidade e comunicação)",
+          "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos; PDF geral p.25",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "SERS-08",
+          "requisito": "README do repositório com integrantes, público e problema, funcionalidades de energia e como executar",
+          "detalhe": "\"README com identificação dos integrantes, descrição do público e do problema, funcionalidades de energia e instruções para executar ou testar a solução\".",
+          "peso": "",
+          "fonte": "enunciado SERS (portal), Entregáveis 1",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Escrever o README da parte de energia.",
+          "status": "A fazer"
+        },
+        {
+          "id": "SERS-09",
+          "requisito": "Repositório com códigos, dados com origem e premissas, cálculos, comparação, justificativas e referências",
+          "detalhe": "Justificativas por custo, viabilidade e impacto.",
+          "peso": "",
+          "fonte": "enunciado SERS (portal), Entregáveis 1",
+          "quem": "grupo",
+          "onde": "sistema/servicos/energia.py; pesquisa/dados_tarifa_social.json",
+          "como": "Só existe o código e os dados da Tarifa Social. Faltam os demais itens.",
+          "status": "A fazer"
+        },
+        {
+          "id": "SERS-10",
+          "requisito": "Contribuição da SERS claramente identificada no repositório compartilhado",
+          "detalhe": "\"a contribuição de Soluções em Energias Renováveis e Sustentáveis deverá estar claramente identificada\".",
+          "peso": "",
+          "fonte": "enunciado SERS (portal), Entregáveis 1",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Indicar no README quais arquivos e telas são da SERS.",
+          "status": "A fazer"
+        },
+        {
+          "id": "SERS-11",
+          "requisito": "Vídeo técnico no YouTube não listado, de até 3 minutos",
+          "detalhe": "Mostrar público e necessidade, análise de consumo e comparação (incluindo a renovável), demonstração das funcionalidades de energia no assistente, recomendações e limitações.",
+          "peso": "",
+          "fonte": "enunciado SERS (portal), Entregáveis 2",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Ainda não gravado.",
+          "status": "A fazer"
+        },
+        {
+          "id": "SERS-12",
+          "requisito": "Envio no portal: apenas um arquivo .txt com nome completo, RM, link do repositório e link do vídeo",
+          "detalhe": "Os dois links precisam estar acessíveis. Conferir no portal o prazo e o formato, que também são exigência.",
+          "peso": "",
+          "fonte": "enunciado SERS (portal), Entregáveis 3",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Gerar o .txt e enviar com folga antes das 23h55 de 19/11.",
+          "status": "A fazer"
+        },
+        {
+          "id": "SERS-13",
+          "requisito": "Uso criterioso de IA generativa: o grupo verifica dados, cálculos, referências e recomendações",
+          "detalhe": "\"A equipe será responsável por verificar os dados, cálculos, referências e recomendações apresentados, além de demonstrar compreensão das decisões adotadas.\"",
+          "peso": "60 (Fundamentação e coerência técnica)",
+          "fonte": "enunciado SERS (portal), Orientações gerais",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Conferir cada número e cada fonte antes de entregar.",
+          "status": "A fazer"
+        }
+      ]
+    },
+    "PAI": {
+      "nome": "Prompt and Artificial Intelligence",
+      "formato_entrega": "Versão do .docx: protótipo testável (notebook executado ou repositório) com instruções para rodar, imagem do grafo se for script, organização das fichas, tabela do juiz antes e depois, relatório dos testes com usuários, justificativas e limitações, nome completo de todos no início. Versão do PDF geral p.24: ZIP com notebook, base documental, avaliacao_ragas.json, README, certificação e vídeo de até 3 minutos. O .docx não diz como subir no portal.",
+      "prazo": "19/11/2026, 23h55 (o PDF geral só diz \"até 19 de novembro\")",
+      "rubrica": [
+        {
+          "criterio": "Qualidade das respostas no golden dataset e citação das fichas",
+          "pontos": "não informado"
+        },
+        {
+          "criterio": "Tratamento de entradas inválidas, avisos e acessibilidade básica",
+          "pontos": "não informado"
+        },
+        {
+          "criterio": "Arquitetura com framework e qualidade das justificativas",
+          "pontos": "não informado"
+        },
+        {
+          "criterio": "Uso de dados pessoais (uso inadequado é penalizado)",
+          "pontos": "penalidade, valor não informado"
+        },
+        {
+          "criterio": "Pipeline de LLM as a Judge, com comparação antes e depois",
+          "pontos": "não informado"
+        },
+        {
+          "criterio": "Resistência a prompt injection",
+          "pontos": "não informado"
+        },
+        {
+          "criterio": "Testes com usuários e indicadores (acerto, tempo, facilidade)",
+          "pontos": "não informado"
+        },
+        {
+          "criterio": "Organização e execução do trabalho",
+          "pontos": "não informado"
+        }
+      ],
+      "itens": [
+        {
+          "id": "PAI-01",
+          "requisito": "Nome completo de todos os integrantes no início do trabalho",
+          "detalhe": "\"o trabalho entregue precisa conter, no início, o nome completo de todos os integrantes do grupo.\"",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), topo e seção 5",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Notebook e relatório começam com os nomes.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-02",
+          "requisito": "Assistente do tema fixo: documentos pessoais (RG, CPF, título de eleitor, carteira de trabalho, certidões, CNH)",
+          "detalhe": "Assistente introdutório que responde certo, mostra a fonte, trata erros e protege dados.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 1",
+          "quem": "código",
+          "onde": "",
+          "como": "Não existe código da PAI ainda.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-03",
+          "requisito": "Carregar as 7 fichas FC-01 a FC-07 como única fonte de verdade",
+          "detalhe": "Preservar id, palavras-chave, custo, prazo, documentos, passo a passo, onde, fonte e data (versão 01/10/2026). As fichas não estão no repositório.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 2.1",
+          "quem": "código",
+          "onde": "",
+          "como": "Copiar as fichas do material do professor para um local do projeto e carregá-las.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-04",
+          "requisito": "Regra de ouro: só usar o que está nas fichas; sem informação, dizer que não encontrou e orientar o órgão",
+          "detalhe": "\"Se a informação não está lá, o assistente não inventa: ele diz que não encontrou e orienta o usuário a consultar o órgão competente.\" Toda resposta no escopo cita a ficha (ex.: FC-01) e a data de verificação.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 2.1",
+          "quem": "código",
+          "onde": "",
+          "como": "Depende das fichas e do agente.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-05",
+          "requisito": "Justificar por escrito a organização das fichas (como são carregadas e usadas)",
+          "detalhe": "Em prompt, estrutura de dados ou busca por trechos; o grupo decide e justifica.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seções 2.1 e 5",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Texto curto no relatório.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-06",
+          "requisito": "Navegação simples: menu por categorias e entrada livre em texto",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 2.2",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-07",
+          "requisito": "Resposta clara em passo a passo, linguagem simples, com fonte e data de verificação",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 2.2",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-08",
+          "requisito": "Aviso em toda resposta: não é canal oficial e o usuário deve confirmar no site do órgão",
+          "detalhe": "\"Avisos em toda resposta\", não só no rodapé da página.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 2.2",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-09",
+          "requisito": "Entradas inválidas com resposta amigável: vazia, sem sentido, muito longa e fora do escopo",
+          "detalhe": "Golden #21 pede \"não entendi\", pedir para reformular e oferecer menu ou exemplos.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 2.2 e golden #21",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-10",
+          "requisito": "Acessibilidade básica: frases curtas, bom contraste, tamanho de texto adequado, uso só com teclado",
+          "detalhe": "Leitor de tela não é exigência.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 2.2",
+          "quem": "código",
+          "onde": "",
+          "como": "Testar o uso só com teclado.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-11",
+          "requisito": "Agente feito com framework de agentes (LangChain, LangGraph, CrewAI ou similar)",
+          "detalhe": "Um agente ou vários.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 2.3",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-12",
+          "requisito": "Justificativas curtas e específicas: framework, um ou vários agentes, modelo, onde a IA entra",
+          "detalhe": "\"Respostas curtas e específicas valem mais do que textos longos e genéricos.\" Também dizer onde bastam estruturas lógicas e algoritmos.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 2.3",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Texto no relatório.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-13",
+          "requisito": "Escolher e justificar o modelo de linguagem (Ollama, Groq ou outro permitido pelos professores)",
+          "detalhe": "Provedor pago (Claude, OpenAI, Gemini) precisa de permissão do professor. Texto só vai a serviço externo depois de mascarar dado pessoal. A chave não pode ir ao repositório.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seções 2.3 e 3",
+          "quem": "grupo",
+          "onde": "sistema/ia.py (tela de provedor do sistema, fora da PAI)",
+          "como": "Decisão do grupo e confirmação com o professor.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-14",
+          "requisito": "Proteção de dados pessoais: não pedir, não guardar, não enviar sem necessidade, não exibir",
+          "detalhe": "Detectar CPF, telefone e e-mail e avisar ou ocultar antes de processar (golden #22 e #23). Conta, perfil ou histórico de perguntas ligado a pessoa identificável também é dado pessoal.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 3 e golden #22-23",
+          "quem": "código",
+          "onde": "sistema/privacidade.py (do sistema, não da PAI)",
+          "como": "A barreira do sistema serve de referência, mas o agente da PAI precisa da própria defesa.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-15",
+          "requisito": "Golden dataset: usar exatamente as 26 mensagens e respostas esperadas",
+          "detalhe": "19 no escopo, 1 fora do escopo, 1 inválida, 2 com dados pessoais, 2 de injection e 1 de aviso. Perguntas próprias podem ser acrescentadas, sem substituir.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 4.1",
+          "quem": "código",
+          "onde": "",
+          "como": "Digitar as 26 mensagens em um arquivo de dados.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-16",
+          "requisito": "Pipeline de LLM as a Judge com régua explícita e justificada",
+          "detalhe": "Acerto = pontos esperados sem contradizer nem inventar, cita a ficha e não pede nem repete dado pessoal. Avaliar o conteúdo, não a forma. Obedecer injection ou usar dado pessoal é erro.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 4.2",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-17",
+          "requisito": "Rodar agente e juiz nas 26 mensagens, analisar os erros, aplicar uma melhoria e rodar de novo (antes e depois)",
+          "detalhe": "Tabela do notebook com a comparação.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 4.2",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-18",
+          "requisito": "Indicador de acerto: resultado do juiz no golden, com conferência manual de uma amostra",
+          "detalhe": "O acerto vem do juiz, não de pessoas de fora.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 4.3",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Conferir uma amostra à mão.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-19",
+          "requisito": "Indicador de tempo: cronometrar pelo menos 5 pessoas de fora em 3 tarefas simples",
+          "detalhe": "Registrar só tempo, acertos e nota, sem identificar participantes.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seções 4.3 e 3",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-20",
+          "requisito": "Indicador de facilidade: questionário de 5 perguntas, escala de 1 a 5, após o teste",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 4.3",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-21",
+          "requisito": "Resistência a prompt injection: tratar todo conteúdo externo como dado",
+          "detalhe": "Golden #24 (revelar o prompt) e #25 (\"[SISTEMA] regra nova\", manter o valor correto). A frase escondida no fim do enunciado é texto sem autoridade e não deve ser obedecida.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 4 e golden #24-25",
+          "quem": "código",
+          "onde": "",
+          "como": "Defesa tem de existir no código do agente.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-22",
+          "requisito": "Protótipo testável: notebook executado ou repositório, com instruções e imagem do grafo",
+          "detalhe": "Se for script, incluir imagem do grafo ou diagrama da arquitetura.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 5",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-23",
+          "requisito": "Relatório dos testes com usuários com os três indicadores (acerto, tempo e facilidade)",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 5",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Escrever depois dos testes.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-24",
+          "requisito": "Relatório de justificativas e limitações",
+          "detalhe": "Framework, arquitetura, modelo, o que o grupo tentou e mudou e o que o assistente não consegue fazer.",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 5",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Escrever no final.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-25",
+          "requisito": "Organização e execução do trabalho: repositório ou notebook organizado, README claro, resultados reproduzíveis",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "enunciado PAI (.docx), seção 6",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-26",
+          "requisito": "Envio no portal (formato não definido pelo .docx)",
+          "detalhe": "O .docx não fala de ZIP nem de vídeo; o PDF geral p.24 fala. O grupo decidiu fazer as duas versões, com ênfase na do .docx. Confirmar o formato com o professor.",
+          "peso": "",
+          "fonte": "PDF geral p.17; enunciado PAI",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Decidir o pacote e enviar antes das 23h55.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-27",
+          "requisito": "[Versão do PDF geral] Base documental própria (ao menos 2 documentos) com uma armadilha real de contradição ou desatualização",
+          "detalhe": "Escolher uma frente de cidadania. Conflita com o .docx (fichas fixas de Aurora); só vale na versão do PDF.",
+          "peso": "",
+          "fonte": "PDF geral p.24",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Escolher a base e montar a armadilha.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-28",
+          "requisito": "[Versão do PDF geral] Comparar 2 estratégias de chunking e justificar pela resposta",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "PDF geral p.24",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-29",
+          "requisito": "[Versão do PDF geral] Gerar embeddings e criar índice no ChromaDB com metadados (incluindo doc_id)",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "PDF geral p.24",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-30",
+          "requisito": "[Versão do PDF geral] Pipeline RAG em LangChain LCEL com citação do doc_id e comportamento de \"não sei\"",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "PDF geral p.24",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-31",
+          "requisito": "[Versão do PDF geral] Agente com 2 ou mais ferramentas, uma calculando, com erro controlado e limite de chamadas",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "PDF geral p.24",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-32",
+          "requisito": "[Versão do PDF geral] Interface Gradio com histórico e fontes",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "PDF geral p.24",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe. Cuidado: histórico ligado a pessoa é dado pessoal.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-33",
+          "requisito": "[Versão do PDF geral] 3 guardrails: escopo, prompt injection na fonte e LGPD",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "PDF geral p.24",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-34",
+          "requisito": "[Versão do PDF geral] Avaliar com RAGAS 8 perguntas (4 simples e 4 de armadilha), com ground truth próprio, e gerar avaliacao_ragas.json",
+          "detalhe": "README explica por que a métrica ficou alta ou baixa e qual melhoria propor.",
+          "peso": "",
+          "fonte": "PDF geral p.24",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "PAI-35",
+          "requisito": "[Versão do PDF geral] ZIP com notebook, base documental, avaliacao_ragas.json, README, certificação e vídeo de até 3 minutos",
+          "detalhe": "\"Certificação\" não é definida em nenhuma fonte; perguntar ao professor.",
+          "peso": "",
+          "fonte": "PDF geral p.24",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Montar no final.",
+          "status": "A fazer"
+        }
+      ]
+    },
+    "MLAM": {
+      "nome": "Modelagem Linear para Aprendizado de Máquina",
+      "formato_entrega": "Um representante posta no Portal: base em .csv ou .xlsx, códigos em .py e relatório em .pdf, nos formatos trabalhados em aula. Sem links. Nome completo e matrícula de todos.",
+      "prazo": "19/11/2026 (23h55 pelo resumo do portal; o texto colado do portal não traz hora). Depois do prazo o sistema não aceita envio nem troca.",
+      "rubrica": [
+        {
+          "criterio": "02) Probabilidade com distribuição normal",
+          "pontos": "1,0"
+        },
+        {
+          "criterio": "03) Testes de hipótese para a média",
+          "pontos": "1,0"
+        },
+        {
+          "criterio": "04) Análise bivariada e regressão linear simples",
+          "pontos": "2,0"
+        },
+        {
+          "criterio": "05) Análise multivariada e regressão linear múltipla",
+          "pontos": "2,0"
+        },
+        {
+          "criterio": "06) Regressão logística binária",
+          "pontos": "2,0"
+        },
+        {
+          "criterio": "07) Relatório estatístico com interpretações e insights",
+          "pontos": "2,0"
+        }
+      ],
+      "itens": [
+        {
+          "id": "MLAM-01",
+          "requisito": "[01] Base de dados real, de fonte indicada ou outra justificada",
+          "detalhe": "Bases indicadas: IBGE, dados.gov.br, Google Dataset Search, Kaggle, awesome-public-datasets. \"Não são aceitas bases geradas artificialmente ou fictícias.\" Os dados fictícios do sistema (personas.json) não servem.",
+          "peso": "",
+          "fonte": "portal MLAM questão 01",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Escolher a base e justificar.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-02",
+          "requisito": "[02a] P(X < média dos registros) com distribuição normal, classificando o evento",
+          "detalhe": "Escolher uma variável e assumir distribuição normal.",
+          "peso": "1,0 (questão 02)",
+          "fonte": "portal MLAM questão 02a",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-03",
+          "requisito": "[02b] P(X > mediana dos registros) com distribuição normal, classificando o evento",
+          "detalhe": "",
+          "peso": "1,0 (questão 02)",
+          "fonte": "portal MLAM questão 02b",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-04",
+          "requisito": "[03a] Teste de hipótese para a média: média amostral menor que a de referência, significância 6%, n = 20",
+          "detalhe": "Desvio padrão de referência = desvio padrão populacional dos dados.",
+          "peso": "1,0 (questão 03)",
+          "fonte": "portal MLAM questão 03a",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-05",
+          "requisito": "[03b] Teste de hipótese para a média: média amostral maior que a de referência, significância 9%, n = 25",
+          "detalhe": "Desvio padrão de referência = desvio padrão populacional dos dados.",
+          "peso": "1,0 (questão 03)",
+          "fonte": "portal MLAM questão 03b",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-06",
+          "requisito": "[04a] Gráfico de dispersão (2 variáveis quantitativas) com título e nomes nos eixos, interpretado",
+          "detalhe": "",
+          "peso": "2,0 (questão 04)",
+          "fonte": "portal MLAM questão 04a",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-07",
+          "requisito": "[04b] Covariância e correlação linear de Pearson, interpretadas",
+          "detalhe": "",
+          "peso": "2,0 (questão 04)",
+          "fonte": "portal MLAM questão 04b",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-08",
+          "requisito": "[04c] Gráfico da correlação linear de Pearson, interpretado",
+          "detalhe": "",
+          "peso": "2,0 (questão 04)",
+          "fonte": "portal MLAM questão 04c",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-09",
+          "requisito": "[04d] Reta da regressão linear simples no gráfico de dispersão e a equação",
+          "detalhe": "",
+          "peso": "2,0 (questão 04)",
+          "fonte": "portal MLAM questão 04d",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-10",
+          "requisito": "[04e] Adequação do modelo (R² e Teste F), interpretada",
+          "detalhe": "",
+          "peso": "2,0 (questão 04)",
+          "fonte": "portal MLAM questão 04e",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-11",
+          "requisito": "[04f] Uma previsão com a regressão simples",
+          "detalhe": "",
+          "peso": "2,0 (questão 04)",
+          "fonte": "portal MLAM questão 04f",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-12",
+          "requisito": "[05a] Gráfico de dispersão com pelo menos 3 variáveis quantitativas, interpretado",
+          "detalhe": "",
+          "peso": "2,0 (questão 05)",
+          "fonte": "portal MLAM questão 05a",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-13",
+          "requisito": "[05b] Matriz de covariância e matriz de correlação de Pearson, interpretadas",
+          "detalhe": "",
+          "peso": "2,0 (questão 05)",
+          "fonte": "portal MLAM questão 05b",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-14",
+          "requisito": "[05c] Gráfico de correlação de Pearson (multivariada), interpretado",
+          "detalhe": "",
+          "peso": "2,0 (questão 05)",
+          "fonte": "portal MLAM questão 05c",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-15",
+          "requisito": "[05d] Equação da regressão linear múltipla",
+          "detalhe": "",
+          "peso": "2,0 (questão 05)",
+          "fonte": "portal MLAM questão 05d",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-16",
+          "requisito": "[05e] Adequação do modelo múltiplo (R² e Teste F), interpretada",
+          "detalhe": "",
+          "peso": "2,0 (questão 05)",
+          "fonte": "portal MLAM questão 05e",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-17",
+          "requisito": "[05f] Previsão com pelo menos 2 variáveis explicativas",
+          "detalhe": "",
+          "peso": "2,0 (questão 05)",
+          "fonte": "portal MLAM questão 05f",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-18",
+          "requisito": "[06a] Equação da regressão logística binária (pelo menos 3 variáveis quantitativas)",
+          "detalhe": "",
+          "peso": "2,0 (questão 06)",
+          "fonte": "portal MLAM questão 06a",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-19",
+          "requisito": "[06b] Matriz de confusão e acurácia, interpretadas",
+          "detalhe": "",
+          "peso": "2,0 (questão 06)",
+          "fonte": "portal MLAM questão 06b",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-20",
+          "requisito": "[06c] Uma classificação com pelo menos 2 variáveis explicativas",
+          "detalhe": "",
+          "peso": "2,0 (questão 06)",
+          "fonte": "portal MLAM questão 06c",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não há código da MLAM.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-21",
+          "requisito": "[07] Relatório estatístico com tabelas, gráficos e medidas, com interpretações e insights para o problema-tema",
+          "detalhe": "Será apresentado a uma empresa ou cliente, que também avalia o rigor técnico.",
+          "peso": "2,0 (questão 07)",
+          "fonte": "portal MLAM questão 07",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Escrever depois das análises.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-22",
+          "requisito": "[08a] Base de dados em .csv ou .xlsx",
+          "detalhe": "\"Entregas estritamente nos formatos definidos e trabalhados em aula pelo professor.\" Um representante posta no portal.",
+          "peso": "",
+          "fonte": "portal MLAM questão 08a",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Salvar a base escolhida.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-23",
+          "requisito": "[08b] Códigos em .py",
+          "detalhe": "Os arquivos .py enviados é que serão avaliados.",
+          "peso": "",
+          "fonte": "portal MLAM questão 08b",
+          "quem": "código",
+          "onde": "",
+          "como": "Ainda não existe.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-24",
+          "requisito": "[08c] Relatório em .pdf",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "portal MLAM questão 08c",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Gerar o PDF do relatório.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-25",
+          "requisito": "Nome completo e número de matrícula de todos os integrantes",
+          "detalhe": "Todos os integrantes são responsáveis pelo conteúdo da entrega final.",
+          "peso": "",
+          "fonte": "portal MLAM orientações gerais",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Colocar nos arquivos entregues.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-26",
+          "requisito": "Não enviar links: postar todos os entregáveis diretamente no portal, nos formatos exigidos",
+          "detalhe": "Depois do prazo o sistema não aceita envios e não é permitido substituir os arquivos.",
+          "peso": "",
+          "fonte": "portal MLAM orientações gerais",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Conferir antes do prazo.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-27",
+          "requisito": "Cadastro e entrega adequados no sistema",
+          "detalhe": "\"Serão descontados 2,0 pontos em caso de cadastro ou entrega inadequados no sistema.\"",
+          "peso": "-2,0 (penalidade)",
+          "fonte": "portal MLAM orientações gerais",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Conferir o cadastro e o envio.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MLAM-28",
+          "requisito": "Nenhum item ausente ou não atendido",
+          "detalhe": "\"Será descontado 1,0 ponto por item ausente e/ou não atendido na avaliação.\"",
+          "peso": "-1,0 por item (penalidade)",
+          "fonte": "portal MLAM orientações gerais",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Revisar este checklist antes do envio.",
+          "status": "A fazer"
+        }
+      ]
+    },
+    "COA": {
+      "nome": "Computer Organization and Architecture",
+      "formato_entrega": "Portal, entrega única por um integrante: link do projeto Wokwi com a Raspberry Pi Pico e o código MicroPython, link do vídeo no YouTube (não listado vale) e nome completo de todos os integrantes. Entregue fora do sistema.",
+      "prazo": "19/11/2026, 23h55 (o PDF da COA não traz data nem hora)",
+      "rubrica": [
+        {
+          "criterio": "Identificação e compreensão do problema social ou urbano",
+          "pontos": "1,5"
+        },
+        {
+          "criterio": "Criatividade e relevância da solução (CitizenTech)",
+          "pontos": "1,5"
+        },
+        {
+          "criterio": "Montagem do circuito com Raspberry Pi Pico no Wokwi",
+          "pontos": "2,0"
+        },
+        {
+          "criterio": "Programação em MicroPython e lógica implementada",
+          "pontos": "2,0"
+        },
+        {
+          "criterio": "Demonstração do protótipo e explicação no vídeo",
+          "pontos": "2,0"
+        },
+        {
+          "criterio": "Organização e entrega dos links e identificação dos integrantes",
+          "pontos": "1,0"
+        }
+      ],
+      "itens": [
+        {
+          "id": "COA-01",
+          "requisito": "Escolher um problema real da sociedade ou da cidade e explicar quem é afetado",
+          "detalhe": "\"Escolher um problema existente na sociedade ou no ambiente urbano. Explicar quem é afetado por esse problema.\"",
+          "peso": "1,5 (Identificação e compreensão do problema)",
+          "fonte": "enunciado COA p.2, Etapa 1",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema. O tema é livre; a fila virtual do PDF geral não é obrigatória.",
+          "status": "A fazer"
+        },
+        {
+          "id": "COA-02",
+          "requisito": "Planejar a solução: sensores, atuadores, como a Pico recebe, processa e responde",
+          "detalhe": "Solução relevante e criativa, ligada ao CitizenTech e viável de simular no Wokwi.",
+          "peso": "1,5 (Criatividade e relevância)",
+          "fonte": "enunciado COA p.1 e p.2, Etapa 2",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "COA-03",
+          "requisito": "Circuito no Wokwi com Raspberry Pi Pico, com sensores e atuadores ligados ao problema",
+          "detalhe": "\"A utilização dos sensores e atuadores deverá estar relacionada ao problema escolhido.\" O enunciado diz só Pico (sem W).",
+          "peso": "2,0 (Montagem do circuito)",
+          "fonte": "enunciado COA p.2, Etapa 3, e p.3",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "COA-04",
+          "requisito": "Código MicroPython com leitura de sensores, condições e acionamento de saídas, testado no Wokwi",
+          "detalhe": "\"Não basta apenas montar um circuito: é necessário demonstrar a lógica implementada no código Python.\" Realizar testes e ajustes.",
+          "peso": "2,0 (Programação em MicroPython)",
+          "fonte": "enunciado COA p.2, Etapa 3, e p.3",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "COA-05",
+          "requisito": "Link do projeto Wokwi com o circuito e o código",
+          "detalhe": "",
+          "peso": "1,0 (Organização e entrega dos links)",
+          "fonte": "enunciado COA p.2, seção 4 item 1",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Conferir que o link abre sem login.",
+          "status": "A fazer"
+        },
+        {
+          "id": "COA-06",
+          "requisito": "Vídeo no YouTube (não listado vale): problema, público, funcionamento, componentes, simulação e benefício",
+          "detalhe": "Mostrar a alteração das leituras dos sensores e a resposta do circuito, e a lógica do código na tela. Não há limite de duração.",
+          "peso": "2,0 (Demonstração e clareza no vídeo)",
+          "fonte": "enunciado COA p.2, Etapa 4, seções 4 e 5, e p.3",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "COA-07",
+          "requisito": "Nome completo de todos os integrantes na entrega",
+          "detalhe": "",
+          "peso": "1,0 (Organização e entrega dos links)",
+          "fonte": "enunciado COA p.2, seção 4 item 3",
+          "quem": "grupo",
+          "onde": "",
+          "como": "",
+          "status": "A fazer"
+        },
+        {
+          "id": "COA-08",
+          "requisito": "Um único integrante faz a entrega no portal, e todos participam do desenvolvimento",
+          "detalhe": "\"apenas um integrante deverá realizar a entrega em nome do grupo.\"",
+          "peso": "1,0 (Organização e entrega dos links)",
+          "fonte": "enunciado COA p.2 seção 5 e p.3",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Combinar quem envia.",
+          "status": "A fazer"
+        }
+      ]
+    },
+    "CS": {
+      "nome": "Computer Science",
+      "formato_entrega": "Relatório técnico em PDF, prints de tela da simulação (logic.ly ou logiccircuit.org) e instruções de execução. Entregue fora do sistema.",
+      "prazo": "19/11/2026, 23h55 (resumo do portal; o enunciado de CS não traz prazo)",
+      "rubrica": [
+        {
+          "criterio": "Sem pontos por critério: modelagem, tabelas e expressões, De Morgan e Karnaugh, equivalência, funcionamento, testes e clareza",
+          "pontos": "não informado"
+        }
+      ],
+      "itens": [
+        {
+          "id": "CS-01",
+          "requisito": "Módulo de decisão lógica com 3 ou 4 variáveis booleanas e ao menos uma saída",
+          "detalhe": "Uma situação de atendimento (documentos necessários, agendamento ou encaminhamento), com significado explícito para 0 e 1.",
+          "peso": "",
+          "fonte": "enunciado CS p.1; PDF geral p.20",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "CS-02",
+          "requisito": "Tabela-verdade completa",
+          "detalhe": "Todas as combinações das entradas e suas saídas.",
+          "peso": "",
+          "fonte": "enunciado CS p.1, item 1",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "CS-03",
+          "requisito": "Expressão em forma canônica",
+          "detalhe": "Soma de mintermos ou produto de maxtermos.",
+          "peso": "",
+          "fonte": "enunciado CS p.1, item 2",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "CS-04",
+          "requisito": "Simplificação por álgebra booleana (De Morgan só se necessário)",
+          "detalhe": "Identificar as propriedades usadas.",
+          "peso": "",
+          "fonte": "enunciado CS p.1, item 3",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "CS-05",
+          "requisito": "Mapa de Karnaugh com agrupamentos, comparando com a simplificação algébrica",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "enunciado CS p.1, item 4",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "CS-06",
+          "requisito": "Circuitos lógicos original e simplificado, com contagem de portas",
+          "detalhe": "Mesmo critério de representação. Simuladores indicados: logic.ly/demo ou logiccircuit.org.",
+          "peso": "",
+          "fonte": "enunciado CS p.1, item 5 e 7",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "CS-07",
+          "requisito": "Programa ou simulação funcional que aceita as entradas e mostra a orientação",
+          "detalhe": "Tratar entradas inválidas e responder de forma compreensível.",
+          "peso": "",
+          "fonte": "enunciado CS p.1, item 6",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "CS-08",
+          "requisito": "Testes de todas as combinações da tabela-verdade",
+          "detalhe": "Equivalência entre a regra original, a expressão simplificada e o resultado executado.",
+          "peso": "",
+          "fonte": "enunciado CS p.2, item 8",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "CS-09",
+          "requisito": "Regras com fontes verificáveis e data de consulta; protótipo informa limitações e não é canal oficial",
+          "detalhe": "Evitar dados pessoais desnecessários; não confirmar a concessão de serviços ou direitos.",
+          "peso": "",
+          "fonte": "enunciado CS p.2",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "CS-10",
+          "requisito": "Relatório técnico em PDF e prints da simulação, com instruções de execução",
+          "detalhe": "Problema, variáveis, regras e referências, tabela-verdade, expressões, etapas de simplificação, Karnaugh, circuitos, resultados dos testes. Nome e RM de todos (resumo do guia).",
+          "peso": "",
+          "fonte": "enunciado CS p.2, Entregáveis",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "CS-11",
+          "requisito": "PROIBIDO usar IA na tabela-verdade, no mapa de Karnaugh e no circuito",
+          "detalhe": "\"Caso seja utilizado as ferramentas de IA, será descontado 4 pontos da nota total.\" IA só pode ajudar no texto do relatório.",
+          "peso": "-4,0 (penalidade)",
+          "fonte": "enunciado CS p.2",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Nenhuma IA nessas três partes, nem o Claude.",
+          "status": "A fazer"
+        },
+        {
+          "id": "CS-12",
+          "requisito": "Critérios de avaliação",
+          "detalhe": "Coerência da modelagem, correção das tabelas e expressões, De Morgan e Karnaugh, equivalência entre as representações, funcionamento, qualidade dos testes e clareza. Sem pontos por critério.",
+          "peso": "",
+          "fonte": "enunciado CS p.2",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Usar como roteiro de revisão.",
+          "status": "A fazer"
+        },
+        {
+          "id": "CS-13",
+          "requisito": "Integração com o assistente (opcional)",
+          "detalhe": "Permitida, desde que a contribuição de CS possa ser identificada e testada separadamente.",
+          "peso": "",
+          "fonte": "enunciado CS p.2",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema: entrega própria da matéria. Ainda não feito.",
+          "status": "A fazer"
+        },
+        {
+          "id": "CS-14",
+          "requisito": "Forma de envio",
+          "detalhe": "Portal (Entrega de Trabalhos) até 19/11, 23h55 (resumo do portal). O enunciado de CS não traz canal, prazo nem pontos; formato conforme o resumo (PDF + prints).",
+          "peso": "",
+          "fonte": "resumo do portal (nota CSC 2026.2)",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Confirmar com o professor.",
+          "status": "A fazer"
+        }
+      ]
+    },
+    "MMC": {
+      "nome": "Modelagem Matemática e Computacional",
+      "formato_entrega": "Não especificado no enunciado. Sugestão do guia: relatório PDF com o código Python; confirmar com o professor. Entregue fora do sistema.",
+      "prazo": "19/11/2026 (prazo geral; o PDF do MMC não traz prazo)",
+      "rubrica": [
+        {
+          "criterio": "Rubrica não consta no enunciado",
+          "pontos": "não informado"
+        }
+      ],
+      "itens": [
+        {
+          "id": "MMC-01",
+          "requisito": "Contexto e escopo",
+          "detalhe": "Modelo matemático e computacional para reconstruir a distribuição atual da frota e propor política de redistribuição; sistemas lineares, matrizes e transformações lineares em Python. O PDF geral (p.22) fala também em avaliar os resultados.",
+          "peso": "",
+          "fonte": "enunciado MMC p.1; PDF geral p.22",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-02",
+          "requisito": "Dados do Relatório I (frota)",
+          "detalhe": "4 centros (Norte, Sul, Leste, Oeste); frota regular = 72 ônibus. Norte + Oeste + 2xSul = 76; Sul + 2xLeste = 52; Norte + Leste + 2xOeste = 76.",
+          "peso": "",
+          "fonte": "enunciado MMC p.2",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-03",
+          "requisito": "Dados do Relatório II (demanda de pico)",
+          "detalhe": "Passageiros: Norte 560, Sul 760, Leste 720, Oeste 840; capacidade de 40 por ônibus.",
+          "peso": "",
+          "fonte": "enunciado MMC p.2",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-04",
+          "requisito": "Premissas obrigatórias",
+          "detalhe": "Cada ônibus atende só a sua região; frota total não pode ser ampliada; quantidades inteiras e não negativas; dados hipotéticos.",
+          "peso": "",
+          "fonte": "enunciado MMC p.3, seção 2",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-05",
+          "requisito": "Etapa 1a e 1b: identificar as variáveis e construir o modelo matemático",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "enunciado MMC p.3, Etapa 1",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-06",
+          "requisito": "Etapa 1c: representar o modelo como sistema matricial",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "enunciado MMC p.3, Etapa 1c",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-07",
+          "requisito": "Etapa 1d: investigar se a solução é única",
+          "detalhe": "Justificar com conceitos de Álgebra Linear.",
+          "peso": "",
+          "fonte": "enunciado MMC p.3, Etapa 1d",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-08",
+          "requisito": "Etapa 1e: resolver em Python e apresentar a distribuição",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "enunciado MMC p.3, Etapa 1e",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-09",
+          "requisito": "Etapa 1f: verificar se os resultados satisfazem todos os registros operacionais",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "enunciado MMC p.3, Etapa 1f",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-10",
+          "requisito": "Etapa 2a e 2b: estimar os ônibus necessários por região e identificar os desequilíbrios",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "enunciado MMC p.4, Etapa 2",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-11",
+          "requisito": "Etapa 2c: propor a política de redistribuição, justificando os critérios",
+          "detalhe": "Preservar o total e permitir compartilhamento entre os centros. Criada pela equipe: não existe matriz pré-estabelecida.",
+          "peso": "",
+          "fonte": "enunciado MMC p.4, Etapa 2c",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-12",
+          "requisito": "Etapa 2d e 2e: transformação linear, matriz associada e significado dos coeficientes",
+          "detalhe": "",
+          "peso": "",
+          "fonte": "enunciado MMC p.4, Etapas 2d e 2e",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-13",
+          "requisito": "Etapa 2f: demonstrar que o total é preservado e que não há alocação negativa",
+          "detalhe": "Prova matemática.",
+          "peso": "",
+          "fonte": "enunciado MMC p.4, Etapa 2f",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-14",
+          "requisito": "Avaliar os resultados da proposta na gestão do transporte",
+          "detalhe": "Só aparece no PDF geral; o PDF do professor termina na Etapa 2.",
+          "peso": "",
+          "fonte": "PDF geral p.22",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Fora do sistema.",
+          "status": "A fazer"
+        },
+        {
+          "id": "MMC-15",
+          "requisito": "Rubrica, formato de entrega e forma de envio",
+          "detalhe": "Não constam no PDF do MMC. Sugestão do guia: relatório PDF com o código Python; confirmar com o professor.",
+          "peso": "",
+          "fonte": "resumo do guia (nota do portal)",
+          "quem": "grupo",
+          "onde": "",
+          "como": "Perguntar ao professor.",
+          "status": "A fazer"
+        }
+      ]
+    }
+  }
+}
