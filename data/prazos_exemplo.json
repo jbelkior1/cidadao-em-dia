@@ -1,0 +1,5 @@
+[
+  {"direito": "Tarifa social de energia", "acao": "Deixar a conta de luz no nome de alguém da família", "prazo": "2026-12-31", "situacao_do_dado": "a confirmar na Aneel"},
+  {"direito": "Bolsa Família", "acao": "Atualizar o CadÚnico na revisão cadastral", "prazo": "consultar o CRAS", "situacao_do_dado": "a confirmar no MDS"},
+  {"direito": "Valores a receber", "acao": "Consultar no site do Banco Central", "prazo": "sem prazo divulgado", "situacao_do_dado": "a confirmar no Banco Central"}
+]
