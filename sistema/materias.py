@@ -26,16 +26,16 @@ NO_SISTEMA = [
         "cod": "CS", "nome": "Computer Science", "curto": "A decisão do dia", "cor": "#4338CA",
         "papel": "Decide a frase principal do app a partir de quatro perguntas de sim ou não: há falha numa linha do trajeto, há aviso de chuva, há alagamento perto de alguma estação, é horário de pico.",
         "ajuda": "A pessoa não precisa interpretar quatro informações: recebe uma frase só, \"pode ir\", \"saia mais cedo\" ou \"mude o caminho\".",
-        "quando": ["Toda vez que a Auxilia confere uma viagem"],
+        "quando": ["Fora do sistema: entrega própria da matéria, feita à mão pelo grupo (tabela-verdade, Karnaugh e circuito)"],
         "recebe": "Quatro valores verdadeiro ou falso: falha (F), chuva (C), alagamento (A) e pico (P).",
         "devolve": "A decisão do dia.",
-        "no_chat": "Na decisão do cartão da viagem: pode ir, saia mais cedo ou mude o caminho.",
+        "no_chat": "Fora do sistema. O produto tem a própria regra para \"pode ir, saia mais cedo ou mude o caminho\"; a entrega de CS segue à parte, e a integração é opcional pelo enunciado.",
         "entrega": "Relatório em PDF com tabela-verdade, forma canônica, simplificação por álgebra e Karnaugh, circuitos original e simplificado, e um programa com a lógica simplificada.",
         "pasta": "", "rodar": "",
         "regra": "Tabela-verdade, Karnaugh e circuito são feitos pelo grupo, à mão. Usar IA nessas partes tira 4 pontos. Hoje o app usa uma regra provisória de prioridades, que será trocada pela expressão simplificada do grupo.",
-        "nesta_versao": "O app já entrega as quatro entradas e mostra a decisão. Falta o grupo fazer a parte de CS e trocar a regra provisória pela dele.",
+        "nesta_versao": "Entregue à parte. O teste abaixo mostra a regra do produto com as mesmas quatro entradas; se o grupo quiser, pode trocá-la pela expressão simplificada dele (integração opcional).",
         "como_testar": "Ligue e desligue as quatro condições e veja a decisão que sai, uma combinação por vez.",
-        "ver_funcionando": [{"rotulo": "Conversar com a Auxilia", "rota": "/"}],
+        "ver_funcionando": [],
     },
     {
         "cod": "DSA", "nome": "Data Structures and Algorithms", "curto": "O catálogo de serviços", "cor": "#C2410C",
@@ -130,8 +130,9 @@ NO_SISTEMA = [
 ]
 
 # Entregues à parte, fora do sistema: não fazem sentido dentro da conversa (o COA depende do Wokwi,
-# o MMC é um modelo matemático da frota). Continuam com página, teste e checklist próprios.
-FORA_DO_SISTEMA = ("MMC", "COA")
+# o MMC é um modelo matemático da frota, a CS tem integração opcional e é feita à mão pelo grupo).
+# Continuam com página, teste e checklist próprios.
+FORA_DO_SISTEMA = ("CS", "MMC", "COA")
 A_PARTE: list[dict] = [m for m in NO_SISTEMA if m["cod"] in FORA_DO_SISTEMA]
 NO_SISTEMA = [m for m in NO_SISTEMA if m["cod"] not in FORA_DO_SISTEMA]
 

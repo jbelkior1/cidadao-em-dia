@@ -55,11 +55,15 @@ class Estacoes(unittest.TestCase):
 
 
 class Conversa(SemInternet):
-    def test_abertura_traz_a_cidade_agora(self):
-        r = assistente.abertura({}, agora=AGORA)
-        self.assertTrue(r["texto"].startswith("Bom dia! Eu sou a Auxilia."))
-        self.assertEqual(r["cartoes"][0]["tipo"], "panorama")
-        self.assertIn("Estou saindo de casa agora", r["sugestoes"])
+    def test_alertas_do_canto(self):
+        r = assistente.alertas_agora()
+        self.assertEqual(r["total"], 0)                      # tudo normal nos dados fixos
+        self.assertEqual([i["nivel"] for i in r["itens"]], ["ok"])   # só o CGE conferido, sem alerta
+        simulado = assistente.alertas_agora("9")
+        self.assertEqual(simulado["total"], 1)
+        self.assertTrue(simulado["parada"])
+        self.assertIn("Linha 9", simulado["itens"][0]["titulo"])
+        self.assertIn("simulação", simulado["itens"][0]["texto"])
 
     def test_dado_pessoal_nao_chega_ao_modelo(self):
         with mock.patch.object(ia, "chamar_com_ferramentas", side_effect=AssertionError("não devia chamar")):
@@ -74,7 +78,8 @@ class Conversa(SemInternet):
         plano = r["cartoes"][0]
         self.assertEqual(plano["tipo"], "plano")
         self.assertEqual(plano["chegada"], "11:53")
-        self.assertIn("CS", [p["materia"] for p in r["rastro"]])
+        self.assertNotIn("CS", [p["materia"] for p in r["rastro"]])      # a CS é entregue à parte
+        self.assertEqual(plano["situacao"]["9"]["nivel"], "normal")
         self.assertIn("PAI", [p["materia"] for p in r["rastro"]])
         self.assertIsNotNone(r["ultima_viagem"])
         # a segunda rodada leva o resultado da ferramenta como mensagem "tool"
@@ -168,10 +173,10 @@ class Sociedade(SemInternet):
 class Api(SemInternet):
     def test_inicio_e_resposta(self):
         cliente = TestClient(app)
-        inicio = cliente.get("/api/assistente/inicio").json()
-        self.assertIn("Auxilia", inicio["texto"])
+        alertas = cliente.get("/api/assistente/alertas", params={"simular": "4"}).json()
+        self.assertEqual(alertas["total"], 1)
         with mock.patch.object(ia, "chamar_com_ferramentas", return_value=final("Oi! Para onde você vai?")):
-            r = cliente.post("/api/assistente", json={"texto": "oi", "historico": [{"papel": "plano", "texto": inicio["texto"]}]}).json()
+            r = cliente.post("/api/assistente", json={"texto": "oi", "historico": [{"papel": "plano", "texto": "Oi! Como posso te auxiliar?"}]}).json()
         self.assertEqual(r["texto"], "Oi! Para onde você vai?")
 
 

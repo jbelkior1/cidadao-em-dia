@@ -112,13 +112,13 @@ export const api = {
 
 export const MATERIAS_DO_SISTEMA = [
   { cod: "PCP", curto: "Orientações" },
-  { cod: "CS", curto: "Decisão do dia" },
+  { cod: "CS", curto: "Lógica (à parte)" },
   { cod: "DSA", curto: "Catálogo" },
   { cod: "SERS", curto: "Energia" },
   { cod: "MLAM", curto: "Segurança" },
   { cod: "PAI", curto: "Auxilia (IA)" },
-  { cod: "MMC", curto: "Ônibus de apoio" },
-  { cod: "COA", curto: "Sensor de água" },
+  { cod: "MMC", curto: "Frota (à parte)" },
+  { cod: "COA", curto: "Sensor (à parte)" },
 ];
 
 export const CORES_DAS_MATERIAS: Record<string, string> = {
@@ -189,7 +189,15 @@ export type CartaoPlano = {
   minutos: number; atraso_min: number; chegada: string | null;
   seguranca: Partial<Record<"saida" | "chegada", { estacao: string; total: number; faixa: string }>>;
   energia: { km: number; trilho_g: number; carro_kg: number; carro_custo: number; tarifa: number; percentual: number | null } | null;
+  situacao: Record<string, { nome: string; nivel: Nivel; simulado: boolean; status: string }>;
+  avisos: { tipo: "chuva" | "alagamento" | "pico" | "sem_dado"; texto: string }[];
+  problemas: string[];
 };
+export type ItemAlerta = {
+  tipo: "linha" | "chuva" | "alagamento"; nivel: "parada" | "atencao" | "ok"; titulo: string; texto: string; fonte: string; pergunta: string;
+  linha?: { numero: string; cor: string };
+};
+export type Alertas = { lido_em: string; itens: ItemAlerta[]; total: number; parada: boolean };
 export type LinhaCartao = { numero: string; nome: string; cor: string; status: string; nivel: Nivel; simulado: boolean };
 export type CartaoLinhas = { tipo: "linhas"; lido_em: string; linhas: LinhaCartao[] };
 export type CartaoOrientacao = { tipo: "orientacao"; titulo: string; resposta: string; onde: string; canal: string; fonte: string; verificado_em: string };
@@ -213,12 +221,7 @@ export type RespostaAssistente = {
 export type FalaHistorico = { papel: "pessoa" | "plano"; texto: string };
 
 export const assistente = {
-  inicio: (casa: string | null, simular?: string) => {
-    const q = new URLSearchParams();
-    if (casa) q.set("casa", casa);
-    if (simular) q.set("simular", simular);
-    return pedir<RespostaAssistente>(`/api/assistente/inicio?${q}`);
-  },
+  alertas: (simular?: string) => pedir<Alertas>(`/api/assistente/alertas${simular ? `?simular=${simular}` : ""}`),
   responder: (texto: string, historico: FalaHistorico[], contexto: { casa: string | null; ultima_viagem: Viagem | null }, simular?: string) =>
     pedir<RespostaAssistente>("/api/assistente", { method: "POST", body: JSON.stringify({ texto, historico, contexto, simular: simular || null }) }),
 };

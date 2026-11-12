@@ -1,9 +1,10 @@
-import { Check, ChevronDown, Clock, CloudLightning, Copy, Droplets, ExternalLink, Footprints, Leaf, MessageSquareText, Phone, Repeat, Shield, TrainFront } from "lucide-react";
+import { Check, CheckCircle2, ChevronDown, Clock, CloudLightning, Copy, Droplets, ExternalLink, Info, Leaf, MessageSquareText, Phone, Repeat, Shield, TrainFront, Users, XCircle } from "lucide-react";
 import { useState } from "react";
 
 import type {
-  Cartao, CartaoAlertas, CartaoLinhas, CartaoMensagem, CartaoOrientacao, CartaoPanorama, CartaoPlano, CartaoSeguranca, EtapaCartao, RotaCartao,
+  Cartao, CartaoAlertas, CartaoLinhas, CartaoMensagem, CartaoOrientacao, CartaoPanorama, CartaoPlano, CartaoSeguranca, RotaCartao,
 } from "../lib/api";
+import { useConversa } from "./conversa";
 import { SeloLinha, SituacaoLinha, hora } from "./Linha";
 
 /* Cartões que a Auxilia põe dentro da conversa. Pensados para a largura de um celular. */
@@ -14,83 +15,171 @@ const FAIXA_FRASE: Record<string, string> = { madrugada: "de madrugada", manha: 
 const kg = (v: number) => (v < 1 ? `${Math.round(v * 1000)} g` : `${v.toLocaleString("pt-BR")} kg`);
 const reais = (v: number) => `R$ ${v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-/** Etapas do caminho; avisa a troca de linha mesmo quando ela acontece na mesma parada. */
-export function EtapasCompactas({ rota }: { rota: RotaCartao }) {
-  const itens: (EtapaCartao | { troca: string; para: string })[] = [];
-  rota.etapas.forEach((e, i) => {
-    const anterior = rota.etapas[i - 1];
-    if (anterior && anterior.via !== "a pé" && e.via !== "a pé" && anterior.via !== e.via) itens.push({ troca: e.de, para: e.via });
-    itens.push(e);
-  });
+type NoCaminho =
+  | { tipo: "estacao"; nome: string; nota: string; cor: string; fim?: boolean }
+  | { tipo: "trecho"; linha: string; cor: string; paradas: number; min: number }
+  | { tipo: "caminhada"; min: number };
+
+/** Transforma as etapas da rota numa linha do tempo: estação, trecho, estação de troca, trecho... */
+function linhaDoTempo(rota: RotaCartao): NoCaminho[] {
+  const etapas = rota.etapas;
+  const nos: NoCaminho[] = [];
+  const primeira = etapas.findIndex((e) => e.via !== "a pé");
+  if (primeira < 0) return nos;
+  nos.push({ tipo: "estacao", nome: etapas[primeira].de, nota: "embarque", cor: etapas[primeira].cor ?? "#556A6A" });
+  for (let i = primeira; i < etapas.length; i++) {
+    const e = etapas[i];
+    if (e.via === "a pé") continue;
+    nos.push({ tipo: "trecho", linha: e.via, cor: e.cor ?? "#888888", paradas: e.paradas, min: e.min });
+    const prox = etapas[i + 1];
+    if (!prox) {
+      nos.push({ tipo: "estacao", nome: e.ate, nota: "desembarque", cor: e.cor ?? "#556A6A", fim: true });
+    } else if (prox.via === "a pé" && prox.de === prox.ate) {
+      const depois = etapas[i + 2];
+      nos.push({ tipo: "estacao", nome: e.ate, nota: depois ? `troque para a ${depois.via}, ${prox.min} min a pé` : "desembarque", cor: depois?.cor ?? e.cor ?? "#556A6A" });
+    } else if (prox.via === "a pé") {
+      nos.push({ tipo: "estacao", nome: e.ate, nota: `saia e ande ${prox.min} min`, cor: "#556A6A" });
+      nos.push({ tipo: "caminhada", min: prox.min });
+      nos.push({ tipo: "estacao", nome: prox.ate, nota: "chegada", cor: "#12292B", fim: true });
+      i++;
+    } else {
+      nos.push({ tipo: "estacao", nome: e.ate, nota: `troque para a ${prox.via}`, cor: prox.cor ?? "#556A6A" });
+    }
+  }
+  return nos;
+}
+
+const NIVEL_CURTO: Record<string, { rotulo: string; classe: string }> = {
+  normal: { rotulo: "✓ Normal", classe: "bg-ok-suave text-ok" },
+  atencao: { rotulo: "! Atenção", classe: "bg-alerta-suave text-alerta" },
+  parada: { rotulo: "✕ Parada", classe: "bg-erro-suave text-erro" },
+  encerrada: { rotulo: "Encerrada", classe: "bg-fundo text-apagado ring-1 ring-linha" },
+  sem_dado: { rotulo: "Sem informação", classe: "bg-fundo text-apagado ring-1 ring-linha" },
+};
+
+/** O caminho como linha do tempo, com a situação de cada linha no próprio trecho. */
+export function Caminho({ rota, situacao, notaDoPrimeiro }: { rota: RotaCartao; situacao: CartaoPlano["situacao"]; notaDoPrimeiro?: string }) {
+  const nos = linhaDoTempo(rota);
+  let primeiroTrecho = true;
   return (
-    <ol className="space-y-1.5">
-      {itens.map((e, i) =>
-        "troca" in e ? (
-          <li key={i} className="flex items-center gap-2 pl-0.5 text-[12px] text-apagado"><Repeat className="size-4 shrink-0" aria-hidden />Troque para a Linha {e.para} em {e.troca}</li>
-        ) : e.via === "a pé" ? (
-          <li key={i} className="flex items-center gap-2 pl-0.5 text-[12px] text-apagado">
-            <Footprints className="size-4 shrink-0" aria-hidden />
-            {e.de === e.ate ? `Troque de linha em ${e.de} (${e.min} min a pé)` : `A pé até ${e.ate} (${e.min} min)`}
-          </li>
-        ) : (
-          <li key={i} className="flex items-center gap-2">
-            <SeloLinha numero={e.via} cor={e.cor ?? "#888"} tamanho="sm" />
-            <span className="min-w-0 text-[13px] leading-tight">
-              <span className="font-semibold">{e.de} → {e.ate}</span>
-              <span className="text-apagado"> · {e.paradas} {e.paradas === 1 ? "parada" : "paradas"}, {e.min} min</span>
+    <ol className="grid grid-cols-[22px_minmax(0,1fr)] gap-x-2.5">
+      {nos.map((n, i) => {
+        if (n.tipo === "estacao") {
+          return (
+            <li key={i} className="contents">
+              <span className={`mx-auto mt-[3px] size-3.5 rounded-full ${n.fim ? "" : "border-[3px] bg-superficie"}`} style={n.fim ? { background: n.cor } : { borderColor: n.cor }} aria-hidden />
+              <span className="pb-0.5 text-[14px] leading-tight font-bold">{n.nome} <span className="font-medium text-apagado">· {n.nota}</span></span>
+            </li>
+          );
+        }
+        if (n.tipo === "caminhada") {
+          return (
+            <li key={i} className="contents">
+              <span className="mx-auto h-4 border-l-2 border-dashed border-apagado" aria-hidden />
+              <span><span className="sr-only">Caminhada de {n.min} minutos</span></span>
+            </li>
+          );
+        }
+        const s = situacao[n.linha];
+        const nivel = NIVEL_CURTO[s?.nivel ?? "sem_dado"] ?? NIVEL_CURTO.sem_dado;
+        const nota = primeiroTrecho && notaDoPrimeiro ? notaDoPrimeiro : "";
+        primeiroTrecho = false;
+        return (
+          <li key={i} className="contents">
+            <span className="mx-auto w-1.5 rounded-full" style={{ background: n.cor }} aria-hidden />
+            <span className="flex items-center gap-2 py-1.5">
+              <SeloLinha numero={n.linha} cor={n.cor} tamanho="sm" />
+              <span className="min-w-0 flex-1 text-[12px] leading-snug">
+                <span className="font-semibold">Linha {n.linha}{s ? `-${s.nome}` : ""}</span> · {n.paradas} {n.paradas === 1 ? "parada" : "paradas"} · {n.min} min
+                {nota && <span className="block text-apagado">{nota}</span>}
+              </span>
+              <span className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-bold ${nivel.classe}`}>{nivel.rotulo}</span>
             </span>
           </li>
-        ),
-      )}
+        );
+      })}
     </ol>
   );
 }
 
+const FAIXA_DECISAO = {
+  pode_ir: { fundo: "bg-ok-suave", texto: "text-ok", Icone: CheckCircle2 },
+  mais_cedo: { fundo: "bg-alerta-suave", texto: "text-alerta", Icone: Clock },
+  plano_b: { fundo: "bg-erro-suave", texto: "text-erro", Icone: Repeat },
+};
+const ICONE_AVISO = { chuva: CloudLightning, alagamento: Droplets, pico: Users, sem_dado: Info };
+
 function Plano({ c }: { c: CartaoPlano }) {
+  const { enviar, esperando } = useConversa();
   const [detalhes, setDetalhes] = useState(false);
+  const faixa = FAIXA_DECISAO[c.veredito.codigo];
   const temDetalhes = Object.keys(c.seguranca).length > 0 || !!c.energia;
+  const desviando = !!c.desvio?.rota;
+  const rota = c.desvio?.rota ?? c.rota;
+  const linhaParada = c.linhas.some((l) => l.nivel === "parada");
   return (
-    <div className="space-y-3">
-      <div className="flex items-start justify-between gap-2">
+    <div>
+      <div className={`flex items-center justify-between gap-3 px-4 py-3 ${faixa.fundo}`}>
         <div className="min-w-0">
-          <p className="text-[12px] font-semibold tracking-wide text-apagado uppercase">{c.origem} → {c.destino}</p>
-          <span className={`mt-1 inline-block rounded-full px-3 py-1 text-[15px] font-bold ${VEREDITO[c.veredito.codigo]}`}>{c.veredito.texto}</span>
+          <p className={`flex items-center gap-1.5 text-[19px] leading-tight font-extrabold ${faixa.texto}`}><faixa.Icone className="size-5 shrink-0" aria-hidden />{c.veredito.texto}</p>
+          <p className="mt-0.5 truncate text-[12px] text-tinta/75">{c.origem} → {c.destino}</p>
         </div>
-        <div className="shrink-0 text-right">
-          <p className="flex items-center justify-end gap-1 text-[11px] font-semibold text-apagado uppercase"><Clock className="size-3" aria-hidden />chegada</p>
-          <p className="text-2xl leading-none font-bold tabular-nums">{c.chegada ?? "--:--"}</p>
-          <p className="text-[11px] text-apagado">{c.minutos} min{c.atraso_min ? ` · +${c.atraso_min}` : ""}</p>
+        <div className="shrink-0 text-right leading-none">
+          <p className="text-[11px] font-bold tracking-wide text-tinta/70 uppercase">Chegada</p>
+          <p className="mt-1 text-[28px] font-extrabold tracking-tight tabular-nums">{c.chegada ?? "--:--"}</p>
+          <p className={`mt-1 text-[12px] ${c.atraso_min ? `font-bold ${faixa.texto}` : "text-tinta/70"}`}>{c.atraso_min ? `+${c.atraso_min} min` : c.chegada ? `${c.minutos} min de viagem` : "sem previsão"}</p>
         </div>
       </div>
-      <div className="flex flex-wrap gap-2">
-        {c.linhas.map((l) => (
-          <span key={l.numero} className="inline-flex items-center gap-1.5">
-            <SeloLinha numero={l.numero} cor={l.cor} tamanho="sm" />
-            <SituacaoLinha nivel={l.nivel} />
-          </span>
-        ))}
-      </div>
-      {c.motivos.length > 0 && (
-        <ul className="space-y-1 text-[13px] text-tinta/85">
-          {c.motivos.slice(0, 3).map((m) => <li key={m} className="flex gap-1.5"><span aria-hidden>•</span>{m}</li>)}
-        </ul>
-      )}
-      {c.desvio ? (
-        <div className="space-y-2 rounded-xl border-2 border-marca/60 bg-marca-suave/40 p-3">
-          <p className="text-[12px] font-bold tracking-wide text-marca-forte uppercase">Outro caminho · {c.desvio.recomendacao === "desviar" ? "desvie" : "espere"}</p>
-          <p className="text-[13px]">{c.desvio.texto}</p>
-          {c.desvio.rota && <EtapasCompactas rota={c.desvio.rota} />}
+
+      {c.problemas.length > 0 && (
+        <div className="mx-4 mt-3 flex gap-2 rounded-xl border border-erro/25 bg-erro-suave/50 px-3 py-2.5">
+          <XCircle className="mt-0.5 size-4 shrink-0 text-erro" aria-hidden />
+          <p className="text-[13px] leading-snug">
+            <span className="font-bold">{c.problemas[0]}</span>
+            {c.desvio && <span className="block text-apagado">{desviando ? "O caminho de sempre não está disponível agora." : c.desvio.texto}</span>}
+          </p>
         </div>
-      ) : (
-        <EtapasCompactas rota={c.rota} />
       )}
+
+      <div className="px-4 pt-3">
+        <p className="mb-2 text-[12px] font-bold tracking-wide text-apagado uppercase">{desviando ? "Faça assim" : "Seu caminho"}</p>
+        <Caminho rota={rota} situacao={c.situacao} notaDoPrimeiro={desviando && linhaParada ? "só se o trecho estiver andando" : undefined} />
+      </div>
+
+      {c.avisos.length > 0 && (
+        <div className="mx-4 mt-3 border-t border-linha pt-3">
+          <p className="mb-2 text-[12px] font-bold tracking-wide text-apagado uppercase">Fique atento</p>
+          <ul className="space-y-1.5">
+            {c.avisos.map((a, i) => {
+              const Icone = ICONE_AVISO[a.tipo] ?? Info;
+              return (
+                <li key={i} className={`flex items-start gap-2 rounded-xl px-3 py-2 text-[13px] leading-snug ${a.tipo === "pico" || a.tipo === "sem_dado" ? "bg-fundo text-tinta" : "bg-alerta-suave text-[#7a3e04]"}`}>
+                  <Icone className="mt-0.5 size-4 shrink-0" aria-hidden />{a.texto}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+
+      {c.veredito.codigo !== "pode_ir" && (
+        <div className="mt-3 flex gap-2 border-t border-linha px-4 py-3">
+          <button type="button" disabled={esperando} onClick={() => enviar("Avisa que vou atrasar")}
+            className="h-10 flex-1 rounded-full bg-marca text-[13px] font-bold text-white hover:bg-marca-forte disabled:opacity-50">Avisar que vou atrasar</button>
+          {c.problemas.length > 0 && (
+            <a href="https://www.metro.sp.gov.br/pt_BR/sua-viagem/declaracao-ocorrencias/" target="_blank" rel="noreferrer"
+              className="flex items-center rounded-full px-4 text-[13px] font-bold text-marca-forte ring-1 ring-marca ring-inset hover:bg-marca-suave">Declaração</a>
+          )}
+        </div>
+      )}
+
       {temDetalhes && (
-        <div className="border-t border-linha pt-2">
-          <button type="button" onClick={() => setDetalhes(!detalhes)} className="flex w-full items-center justify-between text-[12px] font-semibold text-marca-forte">
-            Segurança e energia da viagem<ChevronDown className={`size-4 transition-transform ${detalhes ? "rotate-180" : ""}`} aria-hidden />
+        <div className={`border-t border-linha ${c.veredito.codigo === "pode_ir" ? "mt-3" : ""}`}>
+          <button type="button" aria-expanded={detalhes} onClick={() => setDetalhes(!detalhes)} className="flex w-full items-center justify-between px-4 py-3 text-[13px] font-bold text-marca-forte">
+            Segurança nas estações e energia<ChevronDown className={`size-4 transition-transform ${detalhes ? "rotate-180" : ""}`} aria-hidden />
           </button>
           {detalhes && (
-            <div className="mt-2 space-y-2 text-[12px]">
+            <div className="space-y-2 px-4 pb-3 text-[12px]">
               {(["saida", "chegada"] as const).map((lado) => {
                 const s = c.seguranca[lado];
                 return s ? (
@@ -242,7 +331,7 @@ function Mensagem({ c }: { c: CartaoMensagem }) {
 
 export function CartaoDaAuxilia({ cartao }: { cartao: Cartao }) {
   return (
-    <div className="rounded-2xl border border-linha bg-superficie p-3.5 shadow-sm">
+    <div className={`overflow-hidden rounded-2xl border border-linha bg-superficie shadow-sm ${cartao.tipo === "plano" ? "" : "p-3.5"}`}>
       {cartao.tipo === "plano" && <Plano c={cartao} />}
       {cartao.tipo === "linhas" && <Linhas c={cartao} />}
       {cartao.tipo === "panorama" && <Panorama c={cartao} />}

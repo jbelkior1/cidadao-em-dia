@@ -85,9 +85,10 @@ class PedidoAssistente(BaseModel):
     simular: str | None = None
 
 
-@app.get("/api/assistente/inicio")
-def assistente_inicio(casa: str | None = None, simular: str | None = None) -> dict:
-    return assistente.abertura({"casa": casa}, simular)
+@app.get("/api/assistente/alertas")
+def assistente_alertas(simular: str | None = None) -> dict:
+    """O sinal de alerta do canto da tela: linhas com problema, chuva (INMET) e alagamento (CGE)."""
+    return assistente.alertas_agora(simular)
 
 
 @app.post("/api/assistente")

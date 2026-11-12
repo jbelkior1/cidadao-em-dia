@@ -6,23 +6,14 @@ import { CORES_DAS_MATERIAS, mobilidade, type LinhaInfo, type Passo } from "../l
 import { AvisoNoAparelho } from "./Auxilia";
 import { useMenu } from "./Casca";
 import { ProvedorConversa, useConversa } from "./conversa";
-import LayoutConversa from "./layouts/Conversa";
-import LayoutCopiloto from "./layouts/Copiloto";
-import LayoutPainel from "./layouts/Painel";
-import type { PropsLayout } from "./layouts/comum";
+import Chat from "./Chat";
 
 /*
- * A página do sistema: a Auxilia em um dos 3 layouts, vista como notebook ou dentro do
- * desenho de um celular (no celular de verdade, tela cheia). Com o modo banca, o painel
+ * A página do sistema: o chat da Auxilia, visto como notebook ou dentro do desenho de um
+ * celular (no celular de verdade, tela cheia). Com o modo banca, o painel
  * "Por trás da tela" mostra quem fez cada parte e tem os controles da demonstração.
- * A conversa fica no ProvedorConversa: trocar de vista ou de layout não a perde.
+ * A conversa fica no ProvedorConversa: trocar de vista não a perde.
  */
-
-const LAYOUTS: { id: string; nome: string; descricao: string; Componente: (p: PropsLayout) => React.JSX.Element }[] = [
-  { id: "conversa", nome: "Conversa", descricao: "o chat é a tela, com os cartões dentro das falas", Componente: LayoutConversa },
-  { id: "copiloto", nome: "Copiloto", descricao: "o chat com um painel vivo da viagem e da cidade", Componente: LayoutCopiloto },
-  { id: "painel", nome: "Painel", descricao: "a viagem em destaque, com ações rápidas e o chat embaixo", Componente: LayoutPainel },
-];
 
 function useLargura(consulta: string): boolean {
   const [casa, setCasa] = useState(() => window.matchMedia(consulta).matches);
@@ -53,7 +44,6 @@ function gravarPreferencia(chave: string, valor: string) {
 
 const PADRAO: Passo[] = [
   { materia: "PAI", titulo: "Conversa com IA", detalhe: "o modelo só afirma o que as ferramentas trazem" },
-  { materia: "CS", titulo: "Decide a viagem", detalhe: "falha, chuva, alagamento e pico" },
   { materia: "PCP", titulo: "Orientações oficiais", detalhe: "busca por pontos" },
   { materia: "DSA", titulo: "Canal de atendimento", detalhe: "lista encadeada" },
   { materia: "MLAM", titulo: "Segurança nas estações", detalhe: "SSP-SP por estação" },
@@ -136,27 +126,23 @@ function Seletor<T extends string>({ rotulo, opcoes, valor, aoMudar }: { rotulo:
 }
 
 type Vista = "notebook" | "celular";
-type IdLayout = "conversa" | "copiloto" | "painel";
 
 function Tela() {
   const { modoBanca } = useApp();
   const { abrirMenu } = useMenu();
   const computador = useLargura("(min-width: 1024px)");
   const [vista, setVista] = useState<Vista>(() => lerPreferencia<Vista>("auxilia-vista", ["notebook", "celular"], "celular"));
-  const [layout, setLayout] = useState<IdLayout>(() => lerPreferencia<IdLayout>("auxilia-layout", ["conversa", "copiloto", "painel"], "conversa"));
   const [linhasInfo, setLinhasInfo] = useState<Record<string, LinhaInfo>>({});
 
   useEffect(() => {
     mobilidade.estacoes().then((r) => setLinhasInfo(Object.fromEntries(r.linhas.map((l) => [l.numero, l])))).catch(() => {});
   }, []);
 
-  const Atual = (LAYOUTS.find((l) => l.id === layout) ?? LAYOUTS[0]).Componente;
-
   if (!computador) {
     return (
       <div className="relative flex h-full flex-col bg-fundo">
         <AvisoNoAparelho />
-        <Atual celular aoAbrirMenu={abrirMenu} />
+        <Chat aoAbrirMenu={abrirMenu} />
       </div>
     );
   }
@@ -165,9 +151,6 @@ function Tela() {
     <div className="flex h-full gap-8 bg-[radial-gradient(circle_at_30%_20%,#e3efeb,transparent_60%)] px-6">
       <div className="flex min-w-0 flex-1 flex-col items-center py-4">
         <div className="mb-3 flex shrink-0 flex-wrap items-center justify-center gap-2">
-          <Seletor<IdLayout> rotulo="Layout" valor={layout}
-            aoMudar={(v) => { setLayout(v); gravarPreferencia("auxilia-layout", v); }}
-            opcoes={LAYOUTS.map((l, i) => ({ id: l.id as IdLayout, nome: `${i + 1} · ${l.nome}`, titulo: l.descricao }))} />
           <Seletor<Vista> rotulo="Ver como" valor={vista}
             aoMudar={(v) => { setVista(v); gravarPreferencia("auxilia-vista", v); }}
             opcoes={[{ id: "notebook", nome: "Notebook", icone: <Laptop className="size-4" aria-hidden /> }, { id: "celular", nome: "Celular", icone: <Smartphone className="size-4" aria-hidden /> }]} />
@@ -175,10 +158,10 @@ function Tela() {
         <div style={vista === "celular" ? { maxHeight: 860 } : undefined}
           className={vista === "celular"
             ? "relative flex min-h-0 w-[392px] flex-1 flex-col overflow-hidden rounded-[46px] border-[10px] border-tinta bg-superficie shadow-2xl"
-            : "relative flex min-h-0 w-full max-w-5xl flex-1 flex-col overflow-hidden rounded-2xl border border-linha bg-superficie shadow-xl"}>
+            : "relative flex min-h-0 w-full max-w-4xl flex-1 flex-col overflow-hidden rounded-2xl border border-linha bg-superficie shadow-xl"}>
           {vista === "celular" && <BarraDeStatus />}
           <AvisoNoAparelho flutuante={vista === "notebook"} />
-          <div className="min-h-0 flex-1"><Atual celular={vista === "celular"} /></div>
+          <div className="min-h-0 flex-1"><Chat /></div>
           {vista === "celular" && <span className="mx-auto mt-1 mb-1.5 h-1 w-28 shrink-0 rounded-full bg-tinta/80" aria-hidden />}
         </div>
       </div>

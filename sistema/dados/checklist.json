@@ -1837,7 +1837,7 @@
           "fonte": "enunciado CS p.1; PDF geral p.20",
           "quem": "grupo",
           "onde": "",
-          "como": "No app, as quatro entradas (falha, chuva, alagamento e pico) já existem e uma regra provisória decide. O módulo da entrega, com a expressão simplificada pelo grupo, ainda não foi feito.",
+          "como": "Entrega à parte. O produto usa uma regra própria com as mesmas quatro entradas (falha, chuva, alagamento e pico); o módulo da entrega, com a expressão simplificada pelo grupo, ainda não foi feito.",
           "status": "A fazer"
         },
         {
@@ -1903,7 +1903,7 @@
           "fonte": "enunciado CS p.1, item 6",
           "quem": "grupo",
           "onde": "",
-          "como": "O teste da matéria no app aceita as quatro entradas e mostra a decisão, uma combinação por vez. Falta trocar a regra provisória pela expressão do grupo e fazer o programa da entrega.",
+          "como": "Entrega à parte: falta o programa da CS. O teste na página da matéria mostra a regra do produto, uma combinação por vez.",
           "status": "A fazer"
         },
         {
@@ -1969,7 +1969,7 @@
           "fonte": "enunciado CS p.2",
           "quem": "grupo",
           "onde": "",
-          "como": "O app chama sistema/mobilidade/decisao.py: decidir. Quando o grupo tiver a expressão simplificada, basta trocar o corpo dessa função e desligar REGRA_PROVISORIA.",
+          "como": "Opcional. A CS ficou fora do sistema por decisão do grupo; se quiser integrar, basta trocar o corpo de sistema/mobilidade/decisao.py: decidir pela expressão do grupo.",
           "status": "A fazer"
         },
         {

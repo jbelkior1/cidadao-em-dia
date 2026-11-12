@@ -92,7 +92,7 @@ FERRAMENTAS = [
 
 MATERIA_DA_FERRAMENTA = {
     "ver_trajeto": [("Sistema", "Calculou o caminho e a chegada", "rede do GTFS, Dijkstra e desvio até a próxima troca"),
-                    ("CS", "Decidiu a viagem", "4 entradas: falha, chuva, alagamento e pico"),
+                    ("Sistema", "Decidiu a viagem", "falha, chuva, alagamento e pico"),
                     ("MLAM", "Trouxe a segurança das estações", "base da SSP-SP por estação"),
                     ("SERS", "Calculou a energia da viagem", "trilho, ônibus e carro")],
     "ver_linhas": [("Sistema", "Leu a situação das linhas", "agregador público das operadoras")],
@@ -276,12 +276,24 @@ def cartao_do_plano(p: dict, agora: datetime) -> dict:
         energia = {"km": p["energia"]["km"], "trilho_g": round(trilho["co2_kg"] * 1000), "carro_kg": carro["co2_kg"],
                    "carro_custo": carro["custo_rs"], "tarifa": trilho["custo_rs"], "percentual": p["energia"]["trilho_vs_carro"]}
     espera_desconhecida = bool(pb and pb["recomendacao"] == "esperar")
+    numeros = list(p["rota"]["linhas"])
+    if desvio and desvio["rota"]:
+        numeros += [e["via"] for e in desvio["rota"]["etapas"] if e["via"] != "a pé"]
+    situacao = {l["numero"]: {"nome": l["nome"], "nivel": l["nivel"], "simulado": l["simulado"], "status": l["status"]}
+                for l in plano._linhas_com_situacao(numeros, fontes.situacao_linhas(), p["simulacao"])}
+    avisos = [{"tipo": m["tipo"], "texto": m["texto"]} for m in p["motivos"] if m["tipo"] in ("chuva", "pico", "sem_dado")]
+    # alagamento: das estações do caminho que a pessoa vai fazer (o desvio, quando houver)
+    alvo_rota = (pb["parcial"]["rota"] if pb and pb.get("parcial") else pb.get("alternativa") if pb else None) or p["rota"]
+    for al in rede.alagamentos_na_rota(alvo_rota.get("estacoes", [])):
+        pontos = "1 ponto de alagamento" if al["ocorrencias"] == 1 else f"{al['ocorrencias']} pontos de alagamento"
+        avisos.append({"tipo": "alagamento", "texto": f"{al['estacao']}: {pontos} a menos de 500 m"})
+    problemas = [m["texto"] for m in p["motivos"] if m["tipo"] == "falha"]
     return {"tipo": "plano", "chave": f"{p['origem']}>{p['destino']}", "origem": p["origem"], "destino": p["destino"],
             "veredito": p["veredito"], "motivos": [m["texto"] for m in p["motivos"]][:4], "rota": _rota_para_cartao(p["rota"]),
             "linhas": [{k: l[k] for k in ("numero", "cor", "nivel", "simulado")} for l in p["linhas"]], "simulacao": p["simulacao"],
             "desvio": desvio, "minutos": minutos, "atraso_min": atraso,
             "chegada": None if espera_desconhecida else (agora + timedelta(minutes=minutos)).strftime("%H:%M"),
-            "seguranca": seguranca, "energia": energia}
+            "seguranca": seguranca, "energia": energia, "situacao": situacao, "avisos": avisos, "problemas": problemas}
 
 
 def texto_de_atraso(p: dict, c: dict, para_quem: str = "") -> str:
@@ -477,44 +489,35 @@ def _ultima_viagem(sessao: Sessao) -> dict | None:
     return {"origem": a["id"], "destino": b["id"]} if a and b else None
 
 
-# ------------------------------------------------------------------ abertura (a Auxilia fala primeiro)
+# ------------------------------------------------------------------ alertas do canto da tela
 
-def _cumprimento(agora: datetime) -> str:
-    return "Bom dia" if 5 <= agora.hour < 12 else "Boa tarde" if agora.hour < 18 else "Boa noite"
+def alertas_agora(simular: str | None = None) -> dict:
+    """O que aparece no sinal de alerta do canto: linhas com problema, chuva do INMET e alagamento do CGE.
 
-
-def panorama(simular: str | None = None) -> dict:
-    """Retrato da cidade agora: linhas com problema, chuva e alagamento."""
+    `total` conta só o que pede atenção; o CGE sem alerta entra como informação, para a pessoa saber
+    que foi conferido.
+    """
     situacao, tempo, cge = fontes.situacao_linhas(), fontes.avisos_tempo(), fontes.alertas_cge()
-    linhas = plano._linhas_com_situacao(list(rede.carregar()["linhas"]), situacao, simular)
-    problemas = [{k: l[k] for k in ("numero", "nome", "cor", "status", "nivel", "simulado")} for l in linhas if l["nivel"] in ("parada", "atencao")]
-    return {"tipo": "panorama", "chave": "agora", "lido_em": situacao["lido_em"], "problemas": problemas,
-            "normais": sum(1 for l in linhas if l["nivel"] == "normal"),
-            "inmet": [a for a in tempo["avisos"] if a["quando"] == "hoje"][:1], "cge_estado": cge.get("estado"), "cge_ativos": cge.get("ativos")}
-
-
-def abertura(contexto: dict | None = None, simular: str | None = None, agora: datetime | None = None) -> dict:
-    """Primeira fala, montada com a situação real (sem gastar chamada de IA)."""
-    agora = agora or datetime.now()
-    contexto = contexto or {}
-    sessao = Sessao(simular, agora)
-    sessao.marcar("ver_linhas")
-    sessao.marcar("alertas_da_cidade")
-    p = panorama(simular)
-    sessao.cartao(p)
-    if p["problemas"]:
-        l = p["problemas"][0]
-        agora_txt = f"A Linha {l['numero']}-{l['nome']} está com problema agora{' (simulação)' if l['simulado'] else ''}."
-    elif p["cge_estado"]:
-        agora_txt = f"As linhas estão normais, mas o CGE informou: {p['cge_estado']['titulo'].lower()}."
-    elif p["inmet"]:
-        agora_txt = f"As linhas estão normais, mas tem aviso de {p['inmet'][0]['tipo'].lower()} do INMET para hoje."
-    else:
-        agora_txt = "As linhas estão normais agora."
-    casa = _nome_da_estacao(contexto.get("casa"))
-    pergunta = f"Vai sair de {casa}? Me diga para onde vai." if casa else "Vai sair agora? Me diga para onde vai e de qual estação sai."
-    texto = f"{_cumprimento(agora)}! Eu sou a {NOME}. {agora_txt} {pergunta}"
-    resposta = _resposta(texto, sessao, contexto)
-    resposta["sugestoes"] = (["Estou saindo de casa agora", "Vou para a Paulista"] if casa else ["Estou saindo de casa agora", "Vou do Grajaú para a Paulista"]) + \
-                            ["Tem alerta de alagamento?", "O trem parou, e agora?"]
-    return resposta
+    itens = []
+    for l in plano._linhas_com_situacao(list(rede.carregar()["linhas"]), situacao, simular):
+        if l["nivel"] in ("parada", "atencao"):
+            itens.append({"tipo": "linha", "nivel": l["nivel"], "titulo": f"Linha {l['numero']}-{l['nome']}",
+                          "texto": l["status"] + (" (simulação)" if l["simulado"] and "simula" not in l["status"].lower() else ""),
+                          "fonte": "operadora", "linha": {"numero": l["numero"], "cor": l["cor"]},
+                          "pergunta": f"A Linha {l['numero']} está com problema. Isso afeta a minha viagem?"})
+    for a in [a for a in tempo["avisos"] if a["quando"] == "hoje"][:2]:
+        itens.append({"tipo": "chuva", "nivel": "atencao", "titulo": f"{a['tipo']} até {a['fim'][-5:]}",
+                      "texto": f"Aviso para a cidade de São Paulo ({a['severidade'].lower()}).", "fonte": "INMET",
+                      "pergunta": f"Tem aviso de {a['tipo'].lower()}. Como fica a minha viagem?"})
+    ativos = cge.get("ativos_lista") or []
+    if cge.get("estado") or ativos:
+        itens.append({"tipo": "alagamento", "nivel": "atencao", "titulo": cge["estado"]["titulo"] if cge.get("estado") else f"{len(ativos)} pontos de alagamento ativos",
+                      "texto": ", ".join(f"{x['bairro']}: {x['via'].lower()}" for x in ativos[:3]) or "Estado de atenção da Defesa Civil municipal.",
+                      "fonte": "CGE da Prefeitura", "pergunta": "Tem alagamento perto do meu caminho?"})
+    elif cge.get("ok"):
+        ultimo = next((a["titulo"] for a in cge.get("avisos", []) if "rmino" in a["titulo"]), "")
+        itens.append({"tipo": "alagamento", "nivel": "ok", "titulo": "Sem alerta de alagamento",
+                      "texto": f"0 pontos ativos agora. {ultimo}." if ultimo else "0 pontos ativos agora.", "fonte": "CGE da Prefeitura",
+                      "pergunta": "Tem alagamento perto do meu caminho?"})
+    return {"lido_em": situacao["lido_em"] or tempo.get("lido_em", ""), "itens": itens,
+            "total": sum(1 for i in itens if i["nivel"] != "ok"), "parada": any(i["nivel"] == "parada" for i in itens)}

@@ -34,7 +34,7 @@ Os testes do sistema não dependem da internet: a situação das linhas e os avi
 
 | Parte | O que tem |
 |---|---|
-| O sistema | A Auxilia em 3 layouts que se trocam na tela: **1 · Conversa** (o chat é a tela), **2 · Copiloto** (chat com painel vivo da viagem e da cidade) e **3 · Painel** (a viagem em destaque, ações rápidas e a conversa embaixo). Cada um pode ser visto como **notebook** ou dentro de um **celular**; no celular de verdade, tela cheia |
+| O sistema | O chat da Auxilia: começa pronto (saudação e quatro atalhos), com o sinal de alerta no canto superior direito (linhas com problema, chuva do INMET, alagamento do CGE). As respostas de viagem mostram a decisão e a chegada, o caminho passo a passo com a situação de cada linha no trecho e o que pede atenção. Dá para ver como **notebook** ou dentro de um **celular**; no celular de verdade, tela cheia |
 | A sociedade | Dez passageiros simulados vivem uma situação do dia (linha parada no pico, temporal, volta à noite, dia normal); a conversa de cada um vem do sistema de verdade |
 | As matérias | **Case norteador** (o que o caso pede, o roteiro do pitch, o que cada matéria faz dentro e fora do sistema), Painel da equipe e uma página por matéria com **Entenda**, **Teste** e **Checklist da entrega** |
 
@@ -45,7 +45,7 @@ O **modo banca** abre o painel "Por trás da tela": quem fez cada parte da últi
 | Matéria | O que faz na Auxilia | Onde está |
 |---|---|---|
 | PCP | Orientações por busca de pontos (linha parada, chuva, segurança, direitos, gratuidades) | `entregas/pcp/citizen-assist-ai/` (repositório próprio na entrega) |
-| CS | A decisão do dia a partir de 4 entradas: falha (F), chuva (C), alagamento (A) e pico (P) | `sistema/mobilidade/decisao.py` (regra provisória até o grupo fazer a parte de CS) |
+| CS | Fora do sistema: tabela-verdade, Karnaugh e circuito feitos à mão (integração opcional pelo enunciado). O produto tem a própria regra para "pode ir, saia mais cedo, mude o caminho" | entrega à parte |
 | DSA | Catálogo de serviços ao passageiro numa lista encadeada própria | `entregas/dsa/` |
 | SERS | A mesma viagem de trem ou metrô, ônibus a diesel e carro: energia, CO₂ e custo | `sistema/mobilidade/energia.py`, `pesquisa/energia_modos.json` |
 | MLAM | Ocorrências da SSP-SP por estação (janeiro a setembro de 2026, raio de 300 m) | `entregas/mlam/` |
@@ -53,9 +53,9 @@ O **modo banca** abre o painel "Por trás da tela": quem fez cada parte da últi
 | MMC | Fora do sistema: modelo matricial da frota e política de redistribuição | entrega à parte |
 | COA | Fora do sistema: sensor de nível de água num ponto de alagamento | entrega à parte, no Wokwi |
 
-**CS:** tabela-verdade, Karnaugh e circuito são feitos pelo grupo, à mão. Usar IA nessas partes tira 4 pontos. O teste da matéria no app mostra uma combinação por vez, sem montar a tabela.
+**CS:** tabela-verdade, Karnaugh e circuito são feitos pelo grupo, à mão, e entregues à parte. Usar IA nessas partes tira 4 pontos. O teste na página da matéria mostra a regra do produto, uma combinação por vez, sem montar a tabela.
 
-COA e MMC não fazem sentido dentro da conversa, então seguem só o que o enunciado pede, à parte. Continuam com página, teste e checklist no sistema, mas sem ligação com a Auxilia.
+CS, COA e MMC não fazem sentido dentro da conversa, então seguem só o que o enunciado pede, à parte. Continuam com página, teste e checklist no sistema, mas sem ligação com a Auxilia.
 
 ## Pastas
 

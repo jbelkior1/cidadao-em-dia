@@ -1,7 +1,6 @@
 import { ArrowUp, X } from "lucide-react";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 
-import type { Cartao } from "../lib/api";
 import { CartaoDaAuxilia } from "./Cartoes";
 import { useConversa, type Notificacao } from "./conversa";
 
@@ -33,28 +32,67 @@ export function Digitando() {
   );
 }
 
-/**
- * Lista de falas. `semCartoes` mostra só o texto; `ocultarTipos` esconde só alguns tipos de cartão
- * (por exemplo ["plano", "panorama"], quando o layout mostra a viagem e a cidade num painel fixo).
- */
-export function Mensagens({ semCartoes = false, ocultarTipos = [], className = "" }: { semCartoes?: boolean; ocultarTipos?: Cartao["tipo"][]; className?: string }) {
+const ATALHOS: { titulo: string; sub: string; mensagem: string; icone: ReactNode }[] = [
+  { titulo: "Estou saindo agora", sub: "caminho e hora de chegada", mensagem: "Estou saindo agora",
+    icone: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12h12" /><path d="m11 6 6 6-6 6" /><path d="M21 4v16" /></svg> },
+  { titulo: "Como estão as linhas?", sub: "trem e metrô agora", mensagem: "Como estão as linhas agora?",
+    icone: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="14" rx="3" /><path d="M5 11h14" /><path d="m8 21 2-4" /><path d="m16 21-2-4" /></svg> },
+  { titulo: "Vai chover ou alagar?", sub: "INMET e Defesa Civil (CGE)", mensagem: "Vai chover ou alagar no caminho?",
+    icone: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 16a5 5 0 1 1 1-9.9A6 6 0 0 1 19.5 9 4 4 0 0 1 18 17H7z" /><path d="M8 20l1-2" /><path d="M12 21l1-2" /><path d="M16 20l1-2" /></svg> },
+  { titulo: "O trem parou", sub: "o que fazer e seus direitos", mensagem: "O trem parou, e agora?",
+    icone: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M9 9h6v6H9z" /></svg> },
+];
+
+/** A saudação de sempre e, enquanto a conversa está vazia, os atalhos para começar. */
+function Inicio() {
+  const { falas, esperando, enviar } = useConversa();
+  return (
+    <>
+      <div className="entrar flex items-end gap-2">
+        <Avatar tamanho="sm" />
+        <p className="max-w-[88%] rounded-2xl rounded-bl-md bg-superficie px-3.5 py-2.5 text-[15px] leading-snug shadow-sm ring-1 ring-linha">
+          Oi! Como posso te auxiliar na sua viagem hoje? Me diga de onde você sai e para onde vai, ou escolha um atalho.
+        </p>
+      </div>
+      {falas.length === 0 && (
+        <div className="entrar ml-9 space-y-2">
+          <p className="text-[12px] font-bold tracking-wide text-apagado uppercase">Comece por aqui</p>
+          <div className="grid grid-cols-2 gap-2.5 @2xl:grid-cols-4">
+            {ATALHOS.map((a) => (
+              <button key={a.titulo} type="button" disabled={esperando} onClick={() => enviar(a.mensagem)}
+                className="flex min-h-[108px] flex-col items-start gap-2 rounded-2xl border border-linha bg-superficie p-3.5 text-left transition-colors hover:border-marca hover:bg-marca-suave/40 disabled:opacity-50">
+                <span className="flex size-9 items-center justify-center rounded-xl bg-marca-suave text-marca-forte">{a.icone}</span>
+                <span className="text-[15px] leading-tight font-bold">{a.titulo}</span>
+                <span className="text-[12px] leading-snug text-apagado">{a.sub}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+/** Lista de falas, com a saudação e os atalhos no começo. */
+export function Mensagens({ className = "" }: { className?: string }) {
   const { falas, esperando, erro } = useConversa();
   const fim = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    fim.current?.scrollIntoView({ block: "end", behavior: "smooth" });
+    if (falas.length) fim.current?.scrollIntoView({ block: "end", behavior: "smooth" });
   }, [falas, esperando]);
   return (
     <div className={`min-h-0 flex-1 overflow-y-auto px-3 py-4 @2xl:px-6 ${className}`} aria-live="polite">
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-3">
+        <Inicio />
         {falas.map((f) =>
           f.de === "pessoa" ? (
             <p key={f.id} className="entrar max-w-[82%] self-end rounded-2xl rounded-br-md bg-marca px-3.5 py-2.5 text-[15px] leading-snug whitespace-pre-wrap text-white">{f.texto}</p>
           ) : (
-            <div key={f.id} className="entrar flex items-end gap-2">
+            <div key={f.id} className="entrar flex items-start gap-2">
               <Avatar tamanho="sm" />
-              <div className="flex min-w-0 max-w-[88%] flex-col gap-2">
-                <p className="rounded-2xl rounded-bl-md bg-superficie px-3.5 py-2.5 text-[15px] leading-snug shadow-sm ring-1 ring-linha">{f.texto}</p>
-                {!semCartoes && f.cartoes.filter((c) => !ocultarTipos.includes(c.tipo)).map((c, i) => <CartaoDaAuxilia key={i} cartao={c} />)}
+              <div className="flex min-w-0 max-w-[90%] flex-1 flex-col gap-2">
+                <p className="w-fit rounded-2xl rounded-bl-md bg-superficie px-3.5 py-2.5 text-[15px] leading-snug shadow-sm ring-1 ring-linha">{f.texto}</p>
+                {f.cartoes.map((c, i) => <CartaoDaAuxilia key={i} cartao={c} />)}
                 {f.aviso && <p className="text-[11px] text-apagado">{f.aviso}</p>}
               </div>
             </div>
@@ -69,7 +107,7 @@ export function Mensagens({ semCartoes = false, ocultarTipos = [], className = "
 }
 
 /** Sugestões e caixa de texto. */
-export function Entrada({ placeholder = "Ex.: estou saindo de casa agora", semSugestoes = false }: { placeholder?: string; semSugestoes?: boolean }) {
+export function Entrada({ placeholder = "Ex.: estou no Capão Redondo e vou para o Campo Limpo", semSugestoes = false }: { placeholder?: string; semSugestoes?: boolean }) {
   const { sugestoes, esperando, enviar } = useConversa();
   const [texto, setTexto] = useState("");
   const aoEnviar = (evento: FormEvent) => {

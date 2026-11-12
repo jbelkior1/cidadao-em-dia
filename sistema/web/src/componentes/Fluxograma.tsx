@@ -9,27 +9,26 @@ type No = { id: string; rotulo: string; sub?: string; x: number; y: number; w: n
 type Ligacao = { de: string; para: string; rotulo?: string; tracejada?: boolean };
 
 const NOS: No[] = [
-  { id: "cidadao", rotulo: "Passageiro", sub: "\"estou saindo de casa\"", x: 16, y: 140, w: 150, h: 60, tipo: "pessoa" },
-  { id: "auxilia", rotulo: "Auxilia", sub: "conversa e conduz", x: 214, y: 130, w: 170, h: 80, tipo: "tela" },
-  { id: "fontes", rotulo: "Fontes ao vivo", sub: "linhas, INMET, CGE", x: 430, y: 300, w: 190, h: 60, tipo: "tela" },
-  { id: "CS", rotulo: "CS", sub: "decisão da viagem", x: 730, y: 12, w: 168, h: 46, tipo: "materia" },
-  { id: "SERS", rotulo: "SERS", sub: "energia da viagem", x: 730, y: 64, w: 168, h: 46, tipo: "materia" },
-  { id: "MLAM", rotulo: "MLAM", sub: "segurança (SSP-SP)", x: 730, y: 116, w: 168, h: 46, tipo: "materia" },
-  { id: "PCP", rotulo: "PCP", sub: "orientações oficiais", x: 730, y: 168, w: 168, h: 46, tipo: "materia" },
-  { id: "DSA", rotulo: "DSA", sub: "canal de atendimento", x: 730, y: 220, w: 168, h: 46, tipo: "materia" },
-  { id: "PAI", rotulo: "PAI", sub: "IA com ferramentas", x: 730, y: 272, w: 168, h: 46, tipo: "materia" },
+  { id: "cidadao", rotulo: "Passageiro", sub: "\"estou saindo de casa\"", x: 16, y: 120, w: 150, h: 60, tipo: "pessoa" },
+  { id: "auxilia", rotulo: "Auxilia", sub: "conversa e conduz", x: 214, y: 110, w: 170, h: 80, tipo: "tela" },
+  { id: "fontes", rotulo: "Fontes ao vivo", sub: "linhas, INMET, CGE", x: 430, y: 236, w: 190, h: 60, tipo: "tela" },
+  { id: "SERS", rotulo: "SERS", sub: "energia da viagem", x: 730, y: 12, w: 168, h: 46, tipo: "materia" },
+  { id: "MLAM", rotulo: "MLAM", sub: "segurança (SSP-SP)", x: 730, y: 64, w: 168, h: 46, tipo: "materia" },
+  { id: "PCP", rotulo: "PCP", sub: "orientações oficiais", x: 730, y: 116, w: 168, h: 46, tipo: "materia" },
+  { id: "DSA", rotulo: "DSA", sub: "canal de atendimento", x: 730, y: 168, w: 168, h: 46, tipo: "materia" },
+  { id: "PAI", rotulo: "PAI", sub: "IA com ferramentas", x: 730, y: 220, w: 168, h: 46, tipo: "materia" },
   // entregues à parte: sem ligação com o sistema
-  { id: "COA", rotulo: "COA", sub: "sensor de água · Wokwi", x: 730, y: 388, w: 168, h: 46, tipo: "materia" },
-  { id: "MMC", rotulo: "MMC", sub: "frota de ônibus · modelo", x: 908, y: 388, w: 160, h: 46, tipo: "materia" },
+  { id: "CS", rotulo: "CS", sub: "lógica · à mão", x: 560, y: 360, w: 156, h: 46, tipo: "materia" },
+  { id: "COA", rotulo: "COA", sub: "sensor · Wokwi", x: 728, y: 360, w: 156, h: 46, tipo: "materia" },
+  { id: "MMC", rotulo: "MMC", sub: "frota · modelo", x: 896, y: 360, w: 156, h: 46, tipo: "materia" },
 ];
 
 /** Molduras de agrupamento (desenhadas atrás dos nós, sem setas). */
-const GRUPOS = [{ x: 716, y: 348, w: 360, h: 98, rotulo: "Entregues à parte, fora do sistema" }];
+const GRUPOS = [{ x: 546, y: 320, w: 520, h: 98, rotulo: "Entregues à parte, fora do sistema" }];
 
 const LIGACOES: Ligacao[] = [
   { de: "cidadao", para: "auxilia" },
   { de: "auxilia", para: "fontes", rotulo: "consulta" },
-  { de: "auxilia", para: "CS", rotulo: "decide" },
   { de: "auxilia", para: "SERS" },
   { de: "auxilia", para: "MLAM" },
   { de: "auxilia", para: "PCP", rotulo: "orienta" },
@@ -54,7 +53,7 @@ export default function Fluxograma({ destaque }: { destaque?: string }) {
 
   return (
     <div className="overflow-x-auto rounded-xl border border-linha bg-superficie p-3">
-      <svg viewBox="0 0 1080 452" className="min-w-[760px]" role="img"
+      <svg viewBox="0 0 1080 424" className="min-w-[760px]" role="img"
         aria-label={destaque ? `Fluxograma do sistema com a matéria ${destaque} em destaque` : "Fluxograma do sistema"}>
         <defs>
           {["normal", "foco", "cinza"].map((tipo) => (
