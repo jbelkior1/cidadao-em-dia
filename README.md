@@ -9,7 +9,7 @@ Cada mensagem passa pelo modelo de IA configurado (Gemini, Groq ou Ollama, em Co
 ## Estado e próximos passos
 
 - **Pronto:** nome e cores (laranja e branco), casca de 4 abas, mapa, feed (em memória, com repositório trocável), SOS, perfil local e a ferramenta da Lia que lê os relatos.
-- **Depende do banco (Supabase), ainda não ligado:** relatos persistentes e em tempo real pelo banco, rotinas e aviso antes de sair, simulação da sociedade com Gemini guardada, cota de IA por pessoa.
+- **Banco (Supabase):** os relatos já ficam no banco, no esquema próprio `datempo` (SQL em `banco/migracoes/`). Só o servidor acessa, com a chave do `.env` (fora do git); sem `.env`, os relatos ficam em memória. Ainda faltam no banco: rotinas e aviso antes de sair, simulação da sociedade com Gemini, cota de IA por pessoa.
 - **Fora por enquanto:** WhatsApp, foto, GPS, MiroFish. Ordem e motivos em `docs/decisoes/0002-da-tempo-escopo-e-prioridades.md`.
 
 ## Como rodar

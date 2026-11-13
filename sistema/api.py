@@ -12,13 +12,25 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from sistema import assistente, checklist, config, conversa, ia, laboratorio, materias, testes
-from sistema import mapa, relatos, sos
+from sistema import banco, mapa, relatos, sos
 from sistema.adaptadores import dsa, pcp
 from sistema.mobilidade import decisao, fontes, plano, rede
 
 
+def ligar_banco() -> str:
+    """Com SUPABASE_URL e SUPABASE_SECRET_KEY no .env, os relatos passam a ficar no Supabase; sem, em memória."""
+    banco.carregar_env()
+    cred = banco.credenciais()
+    if not cred:
+        return "memoria"
+    from sistema.relatos_supabase import RepositorioSupabase
+    relatos.usar_repositorio(RepositorioSupabase(*cred))
+    return "supabase"
+
+
 @asynccontextmanager
 async def ciclo_de_vida(_app):
+    print(f"Relatos: {ligar_banco()}")
     fontes.coletar_em_segundo_plano()      # grava a situação das linhas a cada 2 minutos enquanto a API estiver ligada
     yield
 
