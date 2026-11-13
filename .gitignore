@@ -9,3 +9,6 @@ uso_ia.local.json
 node_modules/
 sistema/web/dist/
 sistema/dados/historico_linhas.local.jsonl
+
+# enunciados baixados do portal da FIAP: material dos professores, não redistribuir
+../enunciados_gs2026_2/
