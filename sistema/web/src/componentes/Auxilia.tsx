@@ -15,7 +15,7 @@ import { useConversa, type Notificacao } from "./conversa";
 export function Avatar({ tamanho = "md" }: { tamanho?: "sm" | "md" | "lg" }) {
   const medida = tamanho === "sm" ? "size-7 text-[12px]" : tamanho === "lg" ? "size-12 text-[18px]" : "size-9 text-[14px]";
   return (
-    <span className={`flex shrink-0 items-center justify-center rounded-full bg-marca font-black tracking-tighter text-white ${medida}`} aria-hidden>
+    <span className={`flex shrink-0 items-center justify-center rounded-full bg-laranja font-black tracking-tighter text-tinta ${medida}`} aria-hidden>
       L
     </span>
   );
@@ -134,8 +134,8 @@ export function Entrada({ placeholder = "Ex.: estou no Capão Redondo e vou para
           <input id="mensagem-auxilia" value={texto} onChange={(e) => setTexto(e.target.value)} maxLength={1000} autoComplete="off" placeholder={placeholder}
             className="h-[52px] min-w-0 flex-1 rounded-full bg-cinza px-5 text-[16px] font-medium placeholder:font-normal placeholder:text-apagado focus:bg-superficie focus:ring-2 focus:ring-tinta focus:outline-none" />
           <button type="submit" disabled={esperando || !texto.trim()} aria-label="Enviar"
-            className="flex size-[52px] shrink-0 items-center justify-center rounded-full bg-tinta text-white hover:bg-tinta/85 disabled:bg-cinza-forte disabled:text-apagado">
-            <ArrowUp className="size-5" aria-hidden />
+            className="flex size-[52px] shrink-0 items-center justify-center rounded-full bg-laranja text-tinta hover:brightness-95 disabled:bg-cinza-forte disabled:text-apagado">
+            <ArrowUp className="size-5" strokeWidth={2.6} aria-hidden />
           </button>
         </form>
         <p className="text-center text-[11px] text-apagado">Não escreva CPF, telefone, endereço nem senha. Não é canal oficial das operadoras.</p>

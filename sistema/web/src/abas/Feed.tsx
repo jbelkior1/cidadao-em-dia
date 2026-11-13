@@ -563,14 +563,14 @@ export default function Feed({ aoIr, aoSos }: { aoIr?: (aba: IdAba, focarConvers
                 {alertas.map((a) => {
                   const t = TIPO_POR_CODIGO[a.tipo_principal] ?? TIPO_POR_CODIGO.normal;
                   return (
-                    <li key={a.linha} className="flex w-[172px] shrink-0 snap-start flex-col gap-3 rounded-2xl bg-cinza p-3.5">
+                    <li key={a.linha} className="flex w-[172px] shrink-0 snap-start flex-col gap-3 rounded-[20px] bg-tinta p-3.5 text-white">
                       <div className="flex items-center justify-between">
                         <SeloLinha numero={a.linha} cor={corDa(a.linha)} tamanho="lg" />
                         <span className={`flex size-9 items-center justify-center rounded-full bg-superficie ${t.cor}`}><t.Icone className="size-[18px]" aria-hidden /></span>
                       </div>
                       <div>
-                        <p className="text-[18px] leading-tight font-bold">{t.rotulo}</p>
-                        <p className="truncate text-[13px] text-apagado">{nomeDa(a.linha) ? `${nomeDa(a.linha)}, ` : ""}{a.n_autores === 1 ? "1 pessoa" : `${a.n_autores} pessoas`}</p>
+                        <p className="text-[18px] leading-tight font-extrabold">{t.rotulo}</p>
+                        <p className="truncate text-[13px] text-[#B8BDC5]">{nomeDa(a.linha) ? `${nomeDa(a.linha)}, ` : ""}{a.n_autores === 1 ? "1 pessoa relatou" : `${a.n_autores} pessoas relataram`}</p>
                       </div>
                     </li>
                   );
@@ -670,8 +670,8 @@ export default function Feed({ aoIr, aoSos }: { aoIr?: (aba: IdAba, focarConvers
           </p>
         )}
         <button type="button" onClick={() => setFolha(true)}
-          className="pointer-events-auto inline-flex h-14 items-center justify-center gap-2 rounded-full bg-tinta pr-7 pl-5 text-[17px] font-bold text-superficie shadow-flutua hover:bg-tinta/85">
-          <Plus className="size-6" strokeWidth={2.6} aria-hidden />
+          className="pointer-events-auto inline-flex h-14 items-center justify-center gap-2 rounded-full bg-laranja pr-7 pl-5 text-[17px] font-extrabold text-tinta shadow-[0_8px_20px_rgb(255_92_0/0.35)] hover:brightness-95">
+          <Plus className="size-6" strokeWidth={2.8} aria-hidden />
           Relatar
         </button>
       </div>

@@ -4,6 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 
 import { useApp } from "../App";
 import { CORES_DAS_MATERIAS, MATERIAS_DO_SISTEMA } from "../lib/api";
+import { MarcaDaTempo } from "./Logo";
 
 type Item = { rotulo: string; para: string; icone?: LucideIcon; cor?: string };
 const GRUPOS: { titulo: string; itens: Item[] }[] = [
@@ -43,9 +44,7 @@ function tituloDa(caminho: string): string {
 function Marca() {
   return (
     <div className="flex h-16 shrink-0 items-center gap-3 border-b border-linha px-5">
-      <span className="flex size-9 items-center justify-center rounded-xl bg-marca text-white">
-        <span className="text-[17px] font-black tracking-tight" aria-hidden>D</span>
-      </span>
+      <MarcaDaTempo tamanho={36} />
       <div className="min-w-0 leading-tight">
         <p className="truncate text-[15px] font-bold">Dá Tempo?</p>
         <p className="truncate text-xs text-apagado">GS 2026.2 · FIAP</p>

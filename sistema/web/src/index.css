@@ -1,15 +1,20 @@
 @import "tailwindcss";
-@import "@fontsource-variable/onest";
+@import "@fontsource-variable/inter-tight";
 
 /*
- * Dá Tempo?: tokens de cor e tipografia.
+ * Dá Tempo?: tokens de cor e tipografia (layout "mapa primeiro", aprovado em 13/11).
  * Linguagem dos apps de mobilidade de hoje: branco e preto puro, cinza claro como preenchimento
- * (campos, atalhos, botões secundários), ação principal em preto e o laranja só como marca
- * (logo, a Lia, aba ativa). Letra grande e contraste alto, porque o público inclui idosos.
+ * (campos, atalhos, botões secundários), ação principal em preto e laranja vivo só na marca
+ * (logo, a Lia, enviar, relatar, aba ativa). Letra grande e contraste alto, porque o público inclui idosos.
+ * Laranja vivo (#FF5C00) sempre com texto PRETO em cima (branco não passa no contraste). O laranja
+ * escuro "marca" continua para texto e para botões com letra branca (painel da banca).
  * O amarelo de "atenção" fica separado do laranja e sempre vem com ícone e palavra.
  */
 @theme {
-  --font-sans: "Onest Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Tight Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-laranja: #ff5c00;
+  --color-laranja-suave: #fff4ec;
 
   --color-fundo: #f6f6f6;
   --color-superficie: #ffffff;

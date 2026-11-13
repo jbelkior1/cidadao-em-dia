@@ -7,6 +7,7 @@ import Perfil from "../abas/Perfil";
 import { useApp } from "../App";
 import { Avatar } from "./Auxilia";
 import Chat, { BotaoAlertas, PainelAlertas } from "./Chat";
+import { MarcaDaTempo } from "./Logo";
 import { useConversa } from "./conversa";
 import Sos from "./Sos";
 
@@ -47,13 +48,9 @@ export default function AppAbas({ aoAbrirMenu }: { aoAbrirMenu?: () => void }) {
             <Menu className="size-5" />
           </button>
         )}
-        {aba === "ia" ? (
-          <Avatar />
-        ) : (
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-[11px] bg-marca text-[19px] font-black tracking-tighter text-white" aria-hidden>D</span>
-        )}
+        {aba === "ia" ? <Avatar /> : <MarcaDaTempo tamanho={36} />}
         <div className="min-w-0 flex-1 leading-none">
-          <h2 className="truncate text-[20px] font-bold tracking-tight">{atual.titulo}</h2>
+          <h2 className="truncate text-[21px] font-extrabold tracking-tight">{aba === "home" ? "dá tempo?" : atual.titulo}</h2>
           {aba === "ia" && <p className="mt-1 truncate text-[12px] text-apagado">sua companhia no trem e no metrô</p>}
         </div>
         {simular && <span className="hidden rounded-full bg-erro-suave px-2.5 py-1 text-[11px] font-bold text-erro @sm:inline">simulação L{simular}</span>}
@@ -86,7 +83,7 @@ export default function AppAbas({ aoAbrirMenu }: { aoAbrirMenu?: () => void }) {
           return (
             <button key={id} type="button" aria-current={ativa ? "page" : undefined} onClick={() => ir(id)}
               className={`relative flex flex-col items-center gap-1 pt-2.5 pb-1 text-[12px] ${ativa ? "font-bold text-tinta" : "font-medium text-apagado hover:text-tinta"}`}>
-              <span className={`absolute top-0 h-[3px] w-8 rounded-b-full ${ativa ? "bg-marca" : "bg-transparent"}`} aria-hidden />
+              <span className={`absolute top-0 h-[3px] w-8 rounded-b-full ${ativa ? "bg-laranja" : "bg-transparent"}`} aria-hidden />
               <Icone className="size-[22px]" strokeWidth={ativa ? 2.4 : 1.8} aria-hidden />
               {rotulo}
             </button>
