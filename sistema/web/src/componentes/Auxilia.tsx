@@ -15,7 +15,7 @@ import { useConversa, type Notificacao } from "./conversa";
 export function Avatar({ tamanho = "md" }: { tamanho?: "sm" | "md" | "lg" }) {
   const medida = tamanho === "sm" ? "size-7 text-[12px]" : tamanho === "lg" ? "size-12 text-[18px]" : "size-9 text-[14px]";
   return (
-    <span className={`flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-marca to-marca-forte font-black text-white ${medida}`} aria-hidden>
+    <span className={`flex shrink-0 items-center justify-center rounded-full bg-marca font-black tracking-tighter text-white ${medida}`} aria-hidden>
       L
     </span>
   );
@@ -25,7 +25,7 @@ export function Digitando() {
   return (
     <div className="flex items-end gap-2" aria-label="A Lia está escrevendo">
       <Avatar tamanho="sm" />
-      <span className="flex gap-1 rounded-2xl rounded-bl-md bg-superficie px-4 py-3 shadow-sm ring-1 ring-linha">
+      <span className="flex gap-1 rounded-[20px] rounded-bl-md bg-cinza px-4 py-3.5">
         {[0, 150, 300].map((d) => <span key={d} className="size-2 animate-bounce rounded-full bg-apagado/60" style={{ animationDelay: `${d}ms` }} />)}
       </span>
     </div>
@@ -50,19 +50,19 @@ function Inicio() {
     <>
       <div className="entrar flex items-end gap-2">
         <Avatar tamanho="sm" />
-        <p className="max-w-[88%] rounded-2xl rounded-bl-md bg-superficie px-3.5 py-2.5 text-[15px] leading-snug shadow-sm ring-1 ring-linha">
+        <p className="max-w-[88%] rounded-[20px] rounded-bl-md bg-cinza px-4 py-3 text-[16px] leading-snug">
           Oi! Como posso te auxiliar na sua viagem hoje? Me diga de onde você sai e para onde vai, ou escolha um atalho.
         </p>
       </div>
       {falas.length === 0 && (
         <div className="entrar ml-9 space-y-2">
-          <p className="text-[12px] font-bold tracking-wide text-apagado uppercase">Comece por aqui</p>
+          <p className="pt-1 text-[14px] font-bold">Comece por aqui</p>
           <div className="grid grid-cols-2 gap-2.5 @2xl:grid-cols-4">
             {ATALHOS.map((a) => (
               <button key={a.titulo} type="button" disabled={esperando} onClick={() => enviar(a.mensagem)}
-                className="flex min-h-[108px] flex-col items-start gap-2 rounded-2xl border border-linha bg-superficie p-3.5 text-left transition-colors hover:border-marca hover:bg-marca-suave/40 disabled:opacity-50">
-                <span className="flex size-9 items-center justify-center rounded-xl bg-marca-suave text-marca-forte">{a.icone}</span>
-                <span className="text-[15px] leading-tight font-bold">{a.titulo}</span>
+                className="flex min-h-[112px] flex-col items-start gap-2.5 rounded-2xl bg-cinza p-3.5 text-left hover:bg-cinza-forte disabled:opacity-50">
+                <span className="flex size-10 items-center justify-center rounded-full bg-superficie">{a.icone}</span>
+                <span className="text-[16px] leading-tight font-bold">{a.titulo}</span>
                 <span className="text-[12px] leading-snug text-apagado">{a.sub}</span>
               </button>
             ))}
@@ -86,12 +86,12 @@ export function Mensagens({ className = "" }: { className?: string }) {
         <Inicio />
         {falas.map((f) =>
           f.de === "pessoa" ? (
-            <p key={f.id} className="entrar max-w-[82%] self-end rounded-2xl rounded-br-md bg-marca px-3.5 py-2.5 text-[15px] leading-snug whitespace-pre-wrap text-white">{f.texto}</p>
+            <p key={f.id} className="entrar max-w-[82%] self-end rounded-[20px] rounded-br-md bg-tinta px-4 py-3 text-[16px] leading-snug whitespace-pre-wrap text-white">{f.texto}</p>
           ) : (
             <div key={f.id} className="entrar flex items-start gap-2">
               <Avatar tamanho="sm" />
               <div className="flex min-w-0 max-w-[90%] flex-1 flex-col gap-2">
-                <p className="w-fit rounded-2xl rounded-bl-md bg-superficie px-3.5 py-2.5 text-[15px] leading-snug shadow-sm ring-1 ring-linha">{f.texto}</p>
+                <p className="w-fit rounded-[20px] rounded-bl-md bg-cinza px-4 py-3 text-[16px] leading-snug">{f.texto}</p>
                 {f.cartoes.map((c, i) => <CartaoDaAuxilia key={i} cartao={c} />)}
                 {f.aviso && <p className="text-[11px] text-apagado">{f.aviso}</p>}
               </div>
@@ -99,7 +99,7 @@ export function Mensagens({ className = "" }: { className?: string }) {
           ),
         )}
         {esperando && <Digitando />}
-        {erro && <p className="rounded-xl bg-erro-suave px-3 py-2 text-[14px] text-erro">{erro}</p>}
+        {erro && <p className="rounded-2xl bg-erro-suave px-4 py-3 text-[14px] text-erro">{erro}</p>}
         <div ref={fim} />
       </div>
     </div>
@@ -117,13 +117,13 @@ export function Entrada({ placeholder = "Ex.: estou no Capão Redondo e vou para
     setTexto("");
   };
   return (
-    <div className="shrink-0 border-t border-linha bg-superficie px-3 pt-2 pb-3 @2xl:px-6">
+    <div className="shrink-0 bg-superficie px-3 pt-2 pb-3 @2xl:px-6">
       <div className="mx-auto w-full max-w-2xl space-y-2">
         {!semSugestoes && sugestoes.length > 0 && !esperando && (
           <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-0.5 [scrollbar-width:none]">
             {sugestoes.map((s) => (
               <button key={s} type="button" onClick={() => enviar(s)}
-                className="shrink-0 rounded-full bg-marca-suave px-3 py-1.5 text-[13px] font-semibold whitespace-nowrap text-marca-forte hover:bg-marca hover:text-white">
+                className="h-9 shrink-0 rounded-full bg-cinza px-4 text-[14px] font-bold whitespace-nowrap hover:bg-cinza-forte">
                 {s}
               </button>
             ))}
@@ -132,9 +132,9 @@ export function Entrada({ placeholder = "Ex.: estou no Capão Redondo e vou para
         <form onSubmit={aoEnviar} className="flex items-center gap-2">
           <label htmlFor="mensagem-auxilia" className="sr-only">Mensagem para a Lia</label>
           <input id="mensagem-auxilia" value={texto} onChange={(e) => setTexto(e.target.value)} maxLength={1000} autoComplete="off" placeholder={placeholder}
-            className="h-11 min-w-0 flex-1 rounded-full border border-linha bg-fundo px-4 text-[15px] placeholder:text-apagado focus:border-marca focus:outline-none" />
+            className="h-[52px] min-w-0 flex-1 rounded-full bg-cinza px-5 text-[16px] font-medium placeholder:font-normal placeholder:text-apagado focus:bg-superficie focus:ring-2 focus:ring-tinta focus:outline-none" />
           <button type="submit" disabled={esperando || !texto.trim()} aria-label="Enviar"
-            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-marca text-white hover:bg-marca-forte disabled:opacity-40">
+            className="flex size-[52px] shrink-0 items-center justify-center rounded-full bg-tinta text-white hover:bg-tinta/85 disabled:bg-cinza-forte disabled:text-apagado">
             <ArrowUp className="size-5" aria-hidden />
           </button>
         </form>
@@ -153,10 +153,10 @@ export function AvisoNoAparelho({ flutuante = false }: { flutuante?: boolean }) 
 
 function CaixaDeAviso({ n, aoAbrir, aoFechar, flutuante }: { n: Notificacao; aoAbrir: () => void; aoFechar: () => void; flutuante: boolean }) {
   return (
-    <div role="alert" className={`entrar z-30 flex items-start gap-3 rounded-2xl bg-superficie/95 p-3 shadow-xl ring-1 ring-linha backdrop-blur ${flutuante ? "fixed top-20 right-6 w-80" : "absolute inset-x-3 top-11"}`}>
+    <div role="alert" className={`entrar z-30 flex items-start gap-3 rounded-3xl bg-superficie/95 p-3.5 shadow-flutua backdrop-blur ${flutuante ? "fixed top-20 right-6 w-80" : "absolute inset-x-3 top-11"}`}>
       <Avatar />
       <button type="button" className="min-w-0 flex-1 text-left" onClick={aoAbrir}>
-        <span className="flex items-center justify-between text-[11px] text-apagado"><span className="font-semibold">AUXILIA</span><span>agora</span></span>
+        <span className="flex items-center justify-between text-[11px] text-apagado"><span className="font-semibold">Dá Tempo?</span><span>agora</span></span>
         <span className="block text-[14px] font-semibold">{n.titulo}</span>
         <span className="block text-[13px] text-tinta/80">{n.texto}</span>
       </button>

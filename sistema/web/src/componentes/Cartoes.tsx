@@ -125,7 +125,7 @@ function Plano({ c }: { c: CartaoPlano }) {
           <p className="mt-0.5 truncate text-[12px] text-tinta/75">{c.origem} → {c.destino}</p>
         </div>
         <div className="shrink-0 text-right leading-none">
-          <p className="text-[11px] font-bold tracking-wide text-tinta/70 uppercase">Chegada</p>
+          <p className="text-[12px] font-bold text-tinta/70">Chegada</p>
           <p className="mt-1 text-[28px] font-extrabold tracking-tight tabular-nums">{c.chegada ?? "--:--"}</p>
           <p className={`mt-1 text-[12px] ${c.atraso_min ? `font-bold ${faixa.texto}` : "text-tinta/70"}`}>{c.atraso_min ? `+${c.atraso_min} min` : c.chegada ? `${c.minutos} min de viagem` : "sem previsão"}</p>
         </div>
@@ -142,13 +142,13 @@ function Plano({ c }: { c: CartaoPlano }) {
       )}
 
       <div className="px-4 pt-3">
-        <p className="mb-2 text-[12px] font-bold tracking-wide text-apagado uppercase">{desviando ? "Faça assim" : "Seu caminho"}</p>
+        <p className="mb-2 text-[12px] font-bold text-apagado">{desviando ? "Faça assim" : "Seu caminho"}</p>
         <Caminho rota={rota} situacao={c.situacao} notaDoPrimeiro={desviando && linhaParada ? "só se o trecho estiver andando" : undefined} />
       </div>
 
       {c.avisos.length > 0 && (
         <div className="mx-4 mt-3 border-t border-linha pt-3">
-          <p className="mb-2 text-[12px] font-bold tracking-wide text-apagado uppercase">Fique atento</p>
+          <p className="mb-2 text-[12px] font-bold text-apagado">Fique atento</p>
           <ul className="space-y-1.5">
             {c.avisos.map((a, i) => {
               const Icone = ICONE_AVISO[a.tipo] ?? Info;
@@ -165,17 +165,17 @@ function Plano({ c }: { c: CartaoPlano }) {
       {c.veredito.codigo !== "pode_ir" && (
         <div className="mt-3 flex gap-2 border-t border-linha px-4 py-3">
           <button type="button" disabled={esperando} onClick={() => enviar("Avisa que vou atrasar")}
-            className="h-10 flex-1 rounded-full bg-marca text-[13px] font-bold text-white hover:bg-marca-forte disabled:opacity-50">Avisar que vou atrasar</button>
+            className="h-11 flex-1 rounded-full bg-tinta text-[14px] font-bold text-white hover:bg-tinta/85 disabled:opacity-50">Avisar que vou atrasar</button>
           {c.problemas.length > 0 && (
             <a href="https://www.metro.sp.gov.br/pt_BR/sua-viagem/declaracao-ocorrencias/" target="_blank" rel="noreferrer"
-              className="flex items-center rounded-full px-4 text-[13px] font-bold text-marca-forte ring-1 ring-marca ring-inset hover:bg-marca-suave">Declaração</a>
+              className="flex items-center rounded-full bg-cinza px-4 text-[14px] font-bold hover:bg-cinza-forte">Declaração</a>
           )}
         </div>
       )}
 
       {temDetalhes && (
         <div className={`border-t border-linha ${c.veredito.codigo === "pode_ir" ? "mt-3" : ""}`}>
-          <button type="button" aria-expanded={detalhes} onClick={() => setDetalhes(!detalhes)} className="flex w-full items-center justify-between px-4 py-3 text-[13px] font-bold text-marca-forte">
+          <button type="button" aria-expanded={detalhes} onClick={() => setDetalhes(!detalhes)} className="flex w-full items-center justify-between px-4 py-3 text-[14px] font-bold">
             Segurança nas estações e energia<ChevronDown className={`size-4 transition-transform ${detalhes ? "rotate-180" : ""}`} aria-hidden />
           </button>
           {detalhes && (
@@ -227,7 +227,7 @@ function Linhas({ c }: { c: CartaoLinhas }) {
 function Panorama({ c }: { c: CartaoPanorama }) {
   return (
     <div className="space-y-2.5">
-      <p className="flex items-center gap-1.5 text-[12px] font-semibold tracking-wide text-apagado uppercase"><TrainFront className="size-3.5" aria-hidden />São Paulo agora · {hora(c.lido_em)}</p>
+      <p className="flex items-center gap-1.5 text-[12px] font-semibold text-apagado"><TrainFront className="size-3.5" aria-hidden />São Paulo agora · {hora(c.lido_em)}</p>
       {c.problemas.length ? <ListaDeLinhas linhas={c.problemas} /> : <p className="text-[13px]"><span className="font-semibold text-ok">{c.normais} linhas normais.</span> Nenhum problema informado.</p>}
       {c.problemas.length > 0 && <p className="text-[12px] text-apagado">As outras {c.normais} linhas estão normais.</p>}
       {c.inmet.map((a, i) => (
@@ -242,7 +242,7 @@ function Panorama({ c }: { c: CartaoPanorama }) {
 function Alertas({ c }: { c: CartaoAlertas }) {
   return (
     <div className="space-y-2">
-      <p className="text-[12px] font-semibold tracking-wide text-apagado uppercase">Alertas oficiais · {hora(c.lido_em)}</p>
+      <p className="text-[12px] font-semibold text-apagado">Alertas oficiais · {hora(c.lido_em)}</p>
       {c.inmet.length ? c.inmet.map((a, i) => (
         <p key={i} className="flex gap-1.5 text-[13px] text-alerta"><CloudLightning className="mt-0.5 size-4 shrink-0" aria-hidden />
           <span><span className="font-semibold">INMET:</span> {a.tipo.toLowerCase()} ({a.severidade.toLowerCase()}) até {a.fim.slice(-5)}</span></p>
@@ -313,7 +313,7 @@ function Mensagem({ c }: { c: CartaoMensagem }) {
   };
   return (
     <div className="space-y-2.5">
-      <p className="flex items-center gap-1.5 text-[12px] font-semibold tracking-wide text-apagado uppercase"><MessageSquareText className="size-3.5" aria-hidden />Mensagem pronta{c.para_quem ? ` · ${c.para_quem}` : ""}</p>
+      <p className="flex items-center gap-1.5 text-[12px] font-semibold text-apagado"><MessageSquareText className="size-3.5" aria-hidden />Mensagem pronta{c.para_quem ? ` · ${c.para_quem}` : ""}</p>
       <p className="rounded-xl rounded-tl-sm bg-[#e7f6e9] px-3 py-2 text-[14px] leading-snug text-tinta">{c.texto}</p>
       <div className="flex flex-wrap gap-2">
         <button type="button" onClick={copiar} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] font-semibold text-marca-forte ring-1 ring-marca/40 ring-inset hover:bg-marca-suave">
@@ -327,7 +327,7 @@ function Mensagem({ c }: { c: CartaoMensagem }) {
 
 export function CartaoDaAuxilia({ cartao }: { cartao: Cartao }) {
   return (
-    <div className={`overflow-hidden rounded-2xl border border-linha bg-superficie shadow-sm ${cartao.tipo === "plano" ? "" : "p-3.5"}`}>
+    <div className={`overflow-hidden rounded-[22px] border border-linha bg-superficie ${cartao.tipo === "plano" ? "" : "p-3.5"}`}>
       {cartao.tipo === "plano" && <Plano c={cartao} />}
       {cartao.tipo === "linhas" && <Linhas c={cartao} />}
       {cartao.tipo === "panorama" && <Panorama c={cartao} />}

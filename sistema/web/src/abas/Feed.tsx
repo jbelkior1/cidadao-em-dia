@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
-  ArrowLeft, Check, CircleCheck, CloudRain, Flag, FlaskConical, MapPin, Megaphone, OctagonX, RefreshCw, ShieldAlert,
-  ThumbsUp, UserRound, UsersRound, Waves, Wrench, X,
+  ArrowLeft, Check, CircleCheck, CloudRain, Flag, FlaskConical, Map as MapaIcone, Megaphone, OctagonX, Plus, RefreshCw, Search,
+  ShieldAlert, Siren, ThumbsUp, TrainFront, UsersRound, Waves, Wrench, X,
 } from "lucide-react";
 
+import type { IdAba } from "../componentes/AppAbas";
+import { Avatar } from "../componentes/Auxilia";
 import { SeloLinha } from "../componentes/Linha";
+import { useConversa } from "../componentes/conversa";
 import { mobilidade, type EstacaoEscolha, type LinhaInfo } from "../lib/api";
 
 /* ------------------------------------------------------------------ tipos de dado */
@@ -25,14 +28,14 @@ const ATUALIZA_A_CADA_MS = 5000;
 const COR_SEM_DADO = "#888888";
 
 /** O que a pessoa pode ver. Sempre ícone + palavra, e a cor só reforça. */
-const TIPOS: { codigo: TipoCodigo; rotulo: string; Icone: typeof UsersRound; classe: string }[] = [
-  { codigo: "lotado", rotulo: "Lotado", Icone: UsersRound, classe: "bg-alerta-suave text-alerta" },
-  { codigo: "parado", rotulo: "Parado", Icone: OctagonX, classe: "bg-erro-suave text-erro" },
-  { codigo: "quebrou", rotulo: "Quebrou", Icone: Wrench, classe: "bg-erro-suave text-erro" },
-  { codigo: "chuva", rotulo: "Chuva", Icone: CloudRain, classe: "bg-alerta-suave text-alerta" },
-  { codigo: "alagado", rotulo: "Alagamento", Icone: Waves, classe: "bg-erro-suave text-erro" },
-  { codigo: "seguranca", rotulo: "Segurança", Icone: ShieldAlert, classe: "bg-erro-suave text-erro" },
-  { codigo: "normal", rotulo: "Tudo certo", Icone: CircleCheck, classe: "bg-ok-suave text-ok" },
+const TIPOS: { codigo: TipoCodigo; rotulo: string; Icone: typeof UsersRound; classe: string; cor: string }[] = [
+  { codigo: "lotado", rotulo: "Lotado", Icone: UsersRound, classe: "bg-alerta-suave text-alerta", cor: "text-alerta" },
+  { codigo: "parado", rotulo: "Parado", Icone: OctagonX, classe: "bg-erro-suave text-erro", cor: "text-erro" },
+  { codigo: "quebrou", rotulo: "Quebrou", Icone: Wrench, classe: "bg-erro-suave text-erro", cor: "text-erro" },
+  { codigo: "chuva", rotulo: "Chuva", Icone: CloudRain, classe: "bg-alerta-suave text-alerta", cor: "text-alerta" },
+  { codigo: "alagado", rotulo: "Alagamento", Icone: Waves, classe: "bg-erro-suave text-erro", cor: "text-erro" },
+  { codigo: "seguranca", rotulo: "Segurança", Icone: ShieldAlert, classe: "bg-erro-suave text-erro", cor: "text-erro" },
+  { codigo: "normal", rotulo: "Tudo certo", Icone: CircleCheck, classe: "bg-ok-suave text-ok", cor: "text-ok" },
 ];
 const TIPO_POR_CODIGO = Object.fromEntries(TIPOS.map((t) => [t.codigo, t])) as Record<TipoCodigo, (typeof TIPOS)[number]>;
 
@@ -140,8 +143,8 @@ function useRede() {
 function Tipo({ codigo, pequeno }: { codigo: TipoCodigo; pequeno?: boolean }) {
   const t = TIPO_POR_CODIGO[codigo] ?? TIPO_POR_CODIGO.normal;
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full font-semibold ${t.classe} ${pequeno ? "px-2.5 py-0.5 text-[13px]" : "px-3 py-1 text-sm"}`}>
-      <t.Icone className="size-4 shrink-0" aria-hidden />
+    <span className={`inline-flex items-center gap-1.5 rounded-full font-bold ${t.classe} ${pequeno ? "px-2.5 py-0.5 text-[12px]" : "px-3 py-1 text-[13px]"}`}>
+      <t.Icone className="size-3.5 shrink-0" aria-hidden />
       {t.rotulo}
     </span>
   );
@@ -150,7 +153,7 @@ function Tipo({ codigo, pequeno }: { codigo: TipoCodigo; pequeno?: boolean }) {
 /** Grade de selos para escolher linhas. `marcadas` deixa escolher várias; sem ela, um toque escolhe. */
 function GradeDeLinhas({ linhas, marcadas, onEscolher }: { linhas: LinhaInfo[]; marcadas?: string[]; onEscolher: (numero: string) => void }) {
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(4.25rem,1fr))] gap-2">
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(4.5rem,1fr))] gap-2">
       {linhas.map((l) => {
         const ligada = marcadas?.includes(l.numero) ?? false;
         return (
@@ -160,14 +163,14 @@ function GradeDeLinhas({ linhas, marcadas, onEscolher }: { linhas: LinhaInfo[]; 
             onClick={() => onEscolher(l.numero)}
             aria-pressed={marcadas ? ligada : undefined}
             aria-label={`Linha ${l.numero} ${l.nome}`}
-            className={`relative flex min-h-[4.25rem] flex-col items-center justify-center gap-1 rounded-xl border px-1 py-1.5 ${
-              ligada ? "border-marca bg-marca-suave ring-2 ring-marca" : "border-linha bg-superficie hover:bg-fundo"
+            className={`relative flex min-h-[4.75rem] flex-col items-center justify-center gap-1.5 rounded-2xl px-1 py-2 ${
+              ligada ? "bg-superficie ring-2 ring-tinta" : "bg-cinza hover:bg-cinza-forte"
             }`}
           >
             <SeloLinha numero={l.numero} cor={l.cor} tamanho="lg" />
-            <span className="max-w-full truncate text-xs text-apagado">{l.nome}</span>
+            <span className="max-w-full truncate text-[12px] font-medium text-apagado">{l.nome}</span>
             {ligada && (
-              <span className="absolute -top-1.5 -right-1.5 flex size-5 items-center justify-center rounded-full bg-marca text-superficie">
+              <span className="absolute -top-1.5 -right-1.5 flex size-5 items-center justify-center rounded-full bg-tinta text-superficie">
                 <Check className="size-3.5" aria-hidden />
               </span>
             )}
@@ -250,47 +253,41 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
 
   return (
     <div className="absolute inset-0 z-30 flex items-end justify-center @md:items-center">
-      <div className="absolute inset-0 bg-tinta/40" onClick={onFechar} aria-hidden />
+      <div className="absolute inset-0 bg-tinta/45" onClick={onFechar} aria-hidden />
       <div
         ref={painel}
         role="dialog"
         aria-modal="true"
         aria-labelledby="titulo-folha"
         tabIndex={-1}
-        className="relative max-h-[92%] w-full overflow-y-auto rounded-t-2xl bg-superficie p-4 shadow-xl outline-none @md:max-w-md @md:rounded-2xl"
+        className="subir relative max-h-[92%] w-full overflow-y-auto rounded-t-[28px] bg-superficie px-5 pb-6 shadow-folha outline-none @md:max-w-md @md:rounded-[28px]"
       >
-        <div className="mb-3 flex items-center gap-2">
-          {linha && !enviado && (
-            <button type="button" onClick={() => { setLinha(null); setErro(null); setEstacaoId(""); }}
-              className="-ml-2 inline-flex min-h-11 items-center gap-1 rounded-lg px-2 text-sm font-semibold text-marca-forte">
-              <ArrowLeft className="size-4" aria-hidden />
-              Trocar linha
-            </button>
-          )}
-          <h2 id="titulo-folha" className="flex-1 text-lg font-bold">
+        <span className="alca @md:hidden" aria-hidden />
+        <div className="mt-3 mb-4 flex items-center gap-2">
+          <h2 id="titulo-folha" className="flex-1 text-[24px] leading-tight font-bold tracking-tight">
             {enviado ? "Relato enviado" : linha ? "O que você está vendo?" : "Em qual linha você está?"}
           </h2>
           <button type="button" onClick={onFechar} aria-label="Fechar"
-            className="-mr-2 inline-flex size-11 items-center justify-center rounded-lg text-apagado hover:bg-fundo">
+            className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-cinza hover:bg-cinza-forte">
             <X className="size-5" aria-hidden />
           </button>
         </div>
 
         {enviado ? (
           <div role="status" className="flex flex-col items-center gap-2 py-6 text-center">
-            <CircleCheck className="size-10 text-ok" aria-hidden />
-            <p className="text-base font-semibold">Obrigado! Seu relato já está no feed.</p>
-            <p className="text-sm text-apagado">Ele fica visível por 2 horas.</p>
+            <span className="flex size-16 items-center justify-center rounded-full bg-ok-suave text-ok"><Check className="size-8" strokeWidth={3} aria-hidden /></span>
+            <p className="mt-2 text-[18px] font-bold">Seu relato já está no feed.</p>
+            <p className="text-[14px] text-apagado">Ele fica visível por 2 horas.</p>
             <button type="button" onClick={onFechar}
-              className="mt-2 min-h-11 rounded-xl bg-marca px-5 font-semibold text-superficie hover:bg-marca-forte">
+              className="mt-4 h-14 w-full rounded-2xl bg-tinta text-[17px] font-bold text-superficie hover:bg-tinta/85">
               Fechar
             </button>
           </div>
         ) : !linha ? (
           erroLinhas ? (
-            <div role="alert" className="rounded-xl bg-erro-suave p-3 text-sm text-erro">
+            <div role="alert" className="rounded-2xl bg-erro-suave p-4 text-[14px] text-erro">
               Não foi possível carregar as linhas.
-              <button type="button" onClick={recarregarLinhas} className="ml-2 min-h-11 font-semibold underline">Tentar de novo</button>
+              <button type="button" onClick={recarregarLinhas} className="ml-2 min-h-11 font-bold underline">Tentar de novo</button>
             </div>
           ) : linhas.length === 0 ? (
             <p role="status" className="py-6 text-center text-apagado">Carregando linhas…</p>
@@ -298,28 +295,33 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
             <GradeDeLinhas linhas={linhas} onEscolher={setLinha} />
           )
         ) : (
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2 text-sm text-apagado">
-              {info && <SeloLinha numero={info.numero} cor={info.cor} tamanho="sm" />}
-              <span>Linha {linha}{info ? ` ${info.nome}` : ""}</span>
+          <div className="flex flex-col gap-5">
+            <div className="flex items-center gap-3 rounded-2xl bg-cinza p-3">
+              {info && <SeloLinha numero={info.numero} cor={info.cor} />}
+              <span className="min-w-0 flex-1 truncate text-[16px] font-bold">Linha {linha}{info ? ` ${info.nome}` : ""}</span>
+              <button type="button" onClick={() => { setLinha(null); setErro(null); setEstacaoId(""); }}
+                className="inline-flex h-9 items-center gap-1 rounded-full bg-superficie px-3 text-[13px] font-bold hover:bg-cinza-forte">
+                <ArrowLeft className="size-4" aria-hidden />
+                Trocar
+              </button>
             </div>
 
             <div>
-              <label htmlFor="estacao-relato" className="mb-1 block text-sm font-semibold">Estação (opcional)</label>
+              <label htmlFor="estacao-relato" className="mb-1.5 block text-[14px] font-bold">Estação (opcional)</label>
               <select id="estacao-relato" value={estacaoId} onChange={(e) => setEstacaoId(e.target.value)}
-                className="min-h-11 w-full rounded-xl border border-linha bg-superficie px-3 text-base">
+                className="h-12 w-full rounded-2xl bg-cinza px-4 text-[16px] font-medium focus:bg-superficie focus:ring-2 focus:ring-tinta focus:outline-none">
                 <option value="">Não informar</option>
                 {daLinha.map((e) => <option key={e.id} value={e.id}>{e.nome}</option>)}
               </select>
             </div>
 
             <div>
-              <p className="mb-2 text-sm font-semibold">Toque no que está vendo para enviar</p>
+              <p className="mb-2 text-[14px] font-bold">Toque no que está vendo para enviar</p>
               <div className="grid grid-cols-2 gap-2">
                 {TIPOS.map((t) => (
                   <button key={t.codigo} type="button" disabled={enviando} onClick={() => enviar(t.codigo)}
-                    className="flex min-h-16 items-center gap-3 rounded-xl border border-linha bg-superficie px-3 py-2 text-left text-base font-semibold hover:bg-fundo disabled:opacity-60">
-                    <span className={`flex size-10 shrink-0 items-center justify-center rounded-lg ${t.classe}`}>
+                    className="flex min-h-[68px] items-center gap-3 rounded-2xl bg-cinza px-3 py-2 text-left text-[16px] font-bold hover:bg-cinza-forte disabled:opacity-60">
+                    <span className={`flex size-10 shrink-0 items-center justify-center rounded-full bg-superficie ${t.cor}`}>
                       <t.Icone className="size-5" aria-hidden />
                     </span>
                     {t.rotulo}
@@ -328,8 +330,8 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
               </div>
             </div>
 
-            {erro && <p role="alert" className="rounded-xl bg-erro-suave p-3 text-sm font-medium text-erro">{erro}</p>}
-            <p className="text-xs text-apagado">Sem texto livre e sem foto: só o que está na lista. {AVISO_FIXO}</p>
+            {erro && <p role="alert" className="rounded-2xl bg-erro-suave p-3 text-[14px] font-medium text-erro">{erro}</p>}
+            <p className="text-[12px] text-apagado">Sem texto livre e sem foto: só o que está na lista. {AVISO_FIXO}</p>
           </div>
         )}
       </div>
@@ -337,70 +339,64 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
   );
 }
 
-/* ------------------------------------------------------------------ cartão de um relato */
+/* ------------------------------------------------------------------ um relato na lista */
 
 function Cartao({ r, cor, ocupado, onVotar, onSinalizar }: {
   r: Relato; cor: string; ocupado: boolean; onVotar: (r: Relato, v: Voto) => void; onSinalizar: (r: Relato) => void;
 }) {
   const [confirmando, setConfirmando] = useState(false);
+  const t = TIPO_POR_CODIGO[r.tipo] ?? TIPO_POR_CODIGO.normal;
   const votou = r.meu_voto !== null;
   const botao = (v: Voto, texto: string, n: number, Icone: typeof ThumbsUp) => {
     const escolhido = r.meu_voto === v;
     return (
       <button type="button" onClick={() => onVotar(r, v)} disabled={r.meu || votou || ocupado} aria-pressed={r.meu ? undefined : escolhido}
-        className={`inline-flex min-h-11 items-center gap-1.5 rounded-xl border px-3 text-sm font-semibold disabled:cursor-default ${
-          escolhido ? "border-marca bg-marca-suave text-marca-forte" : "border-linha bg-superficie hover:bg-fundo disabled:text-apagado disabled:hover:bg-superficie"
+        className={`inline-flex h-9 items-center gap-1.5 rounded-full px-3.5 text-[13px] font-bold disabled:cursor-default ${
+          escolhido ? "bg-tinta text-superficie" : "bg-cinza hover:bg-cinza-forte disabled:text-apagado disabled:hover:bg-cinza"
         }`}>
         {escolhido ? <Check className="size-4" aria-hidden /> : <Icone className="size-4" aria-hidden />}
-        {texto} ({n})
+        {texto}
+        <span className={`tabular-nums ${escolhido ? "" : "text-apagado"}`}>{n}</span>
       </button>
     );
   };
+  const sobre = [r.estacao_nome, `${r.apelido}${r.meu ? " (você)" : ""}`].filter(Boolean).join(", ");
 
   return (
-    <li className="rounded-xl border border-linha bg-superficie p-3">
-      <div className="flex flex-wrap items-center gap-2">
-        <SeloLinha numero={r.linha} cor={cor} />
-        <Tipo codigo={r.tipo} />
-        <span className="ml-auto text-sm text-apagado">{haTempo(r.ha_min)}</span>
-      </div>
-      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-apagado">
-        {r.estacao_nome && (
-          <span className="inline-flex items-center gap-1 font-medium text-tinta">
-            <MapPin className="size-4 shrink-0" aria-hidden />
-            {r.estacao_nome}
-          </span>
-        )}
-        <span className="inline-flex items-center gap-1">
-          <UserRound className="size-4 shrink-0" aria-hidden />
-          {r.apelido}{r.meu ? " (você)" : ""}
-        </span>
+    <li className="flex gap-3.5 border-b border-linha py-4 last:border-b-0">
+      <SeloLinha numero={r.linha} cor={cor} tamanho="lg" />
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2">
+          <t.Icone className={`size-[18px] shrink-0 ${t.cor}`} aria-hidden />
+          <p className="min-w-0 flex-1 truncate text-[17px] leading-tight font-bold">{t.rotulo}</p>
+          <span className="shrink-0 text-[13px] text-apagado">{haTempo(r.ha_min)}</span>
+        </div>
+        <p className="mt-0.5 truncate text-[14px] text-apagado">{sobre}</p>
         {r.demo && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-fundo px-2 py-0.5 text-xs font-semibold ring-1 ring-linha ring-inset">
+          <span className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-cinza px-2 py-0.5 text-[11px] font-bold text-apagado">
             <FlaskConical className="size-3.5" aria-hidden />
             demonstração
           </span>
         )}
-      </div>
-      <div className="mt-2 flex flex-wrap items-center gap-2">
-        {botao("ainda", "Ainda está assim", r.confirmacoes, ThumbsUp)}
-        {botao("acabou", "Já acabou", r.contestacoes, Check)}
-        {confirmando ? (
-          <span className="ml-auto inline-flex items-center gap-1 text-sm">
-            <span className="text-apagado">Sinalizar?</span>
-            <button type="button" onClick={() => { setConfirmando(false); onSinalizar(r); }}
-              className="min-h-11 rounded-lg px-3 font-semibold text-erro hover:bg-erro-suave">Sim</button>
-            <button type="button" onClick={() => setConfirmando(false)}
-              className="min-h-11 rounded-lg px-3 font-semibold text-apagado hover:bg-fundo">Não</button>
-          </span>
-        ) : (
-          <button type="button" onClick={() => setConfirmando(true)} disabled={r.meu}
-            aria-label="Sinalizar este relato como inadequado ou falso"
-            className="ml-auto inline-flex min-h-11 items-center gap-1 rounded-lg px-3 text-sm text-apagado hover:bg-fundo disabled:invisible">
-            <Flag className="size-3.5" aria-hidden />
-            Sinalizar
-          </button>
-        )}
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          {botao("ainda", "Continua", r.confirmacoes, ThumbsUp)}
+          {botao("acabou", "Já acabou", r.contestacoes, Check)}
+          {confirmando ? (
+            <span className="ml-auto inline-flex items-center gap-1 text-[13px]">
+              <span className="text-apagado">Sinalizar?</span>
+              <button type="button" onClick={() => { setConfirmando(false); onSinalizar(r); }}
+                className="h-9 rounded-full px-3 font-bold text-erro hover:bg-erro-suave">Sim</button>
+              <button type="button" onClick={() => setConfirmando(false)}
+                className="h-9 rounded-full px-3 font-bold text-apagado hover:bg-cinza">Não</button>
+            </span>
+          ) : (
+            <button type="button" onClick={() => setConfirmando(true)} disabled={r.meu} title="Sinalizar"
+              aria-label="Sinalizar este relato como inadequado ou falso"
+              className="ml-auto inline-flex size-9 items-center justify-center rounded-full text-apagado hover:bg-cinza disabled:invisible">
+              <Flag className="size-4" aria-hidden />
+            </button>
+          )}
+        </div>
       </div>
     </li>
   );
@@ -409,11 +405,12 @@ function Cartao({ r, cor, ocupado, onVotar, onSinalizar }: {
 /* ------------------------------------------------------------------ a aba */
 
 function Painel({ children, alerta }: { children: ReactNode; alerta?: boolean }) {
-  return <div role={alerta ? "alert" : "status"} className="rounded-xl border border-linha bg-superficie p-6 text-center">{children}</div>;
+  return <div role={alerta ? "alert" : "status"} className="rounded-2xl bg-cinza p-6 text-center">{children}</div>;
 }
 
-export default function Feed() {
+export default function Feed({ aoIr, aoSos }: { aoIr?: (aba: IdAba, focarConversa?: boolean) => void; aoSos?: () => void } = {}) {
   const { linhas, estacoes, erro: erroLinhas, carregar: recarregarLinhas } = useRede();
+  const { enviar } = useConversa();
   const [relatos, setRelatos] = useState<Relato[] | null>(null);
   const [estimativa, setEstimativa] = useState<LinhaEstimada[]>([]);
   const [erro, setErro] = useState<string | null>(null);
@@ -427,6 +424,7 @@ export default function Feed() {
   const temporizadorAviso = useRef<number | undefined>(undefined);
 
   const corDa = useCallback((numero: string) => linhas.find((l) => l.numero === numero)?.cor ?? COR_SEM_DADO, [linhas]);
+  const nomeDa = useCallback((numero: string) => linhas.find((l) => l.numero === numero)?.nome ?? "", [linhas]);
 
   const atualizar = useCallback(async () => {
     const minha = ++seq.current;
@@ -506,123 +504,164 @@ export default function Feed() {
     }
   }
 
-  const alertas = useMemo(() => estimativa.filter((e) => e.nivel === "alerta").slice(0, 3), [estimativa]);
+  const alertas = useMemo(() => estimativa.filter((e) => e.nivel === "alerta").slice(0, 6), [estimativa]);
   const visiveis = useMemo(() => {
     if (!relatos) return [];
     return filtro === "minhas" ? relatos.filter((r) => minhas.includes(r.linha)) : relatos;
   }, [relatos, filtro, minhas]);
 
-  return (
-    <div className="@container relative flex h-full flex-col bg-fundo text-tinta">
-      <div className="flex-1 overflow-y-auto">
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-4 px-4 pt-4 pb-[72px]">
-          {/* 1. Agora nas linhas */}
-          <section aria-labelledby="titulo-agora" className="rounded-xl border border-linha bg-superficie p-4">
-            <h2 id="titulo-agora" className="text-lg font-bold">Agora nas linhas</h2>
-            {alertas.length ? (
-              <ul className="mt-2 grid gap-2 @md:grid-cols-2">
-                {alertas.map((a) => (
-                  <li key={a.linha} className="flex flex-wrap items-center gap-2 rounded-lg bg-fundo p-2">
-                    <SeloLinha numero={a.linha} cor={corDa(a.linha)} />
-                    <Tipo codigo={a.tipo_principal} pequeno />
-                    <span className="text-sm text-apagado">{a.n_autores} pessoas relataram</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-apagado">
-                <UsersRound className="size-4" aria-hidden />
-                Nenhum alerta dos passageiros agora
-              </p>
-            )}
-            <p className="mt-2 text-xs text-apagado">{AVISO_FIXO}</p>
-          </section>
+  const atalhos: { rotulo: string; Icone: typeof Plus; acao: () => void }[] = [
+    { rotulo: "Relatar", Icone: Megaphone, acao: () => setFolha(true) },
+    { rotulo: "Mapa", Icone: MapaIcone, acao: () => aoIr?.("mapa") },
+    { rotulo: "Linhas", Icone: TrainFront, acao: () => { aoIr?.("ia"); enviar("Como estão as linhas agora?"); } },
+    { rotulo: "SOS", Icone: Siren, acao: () => aoSos?.() },
+  ];
 
-          {/* 2. Filtro */}
-          <div>
-            <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filtro do feed">
-              {([["todas", "Todas"], ["minhas", "Minhas linhas"]] as const).map(([valor, rotulo]) => (
-                <button key={valor} type="button" aria-pressed={filtro === valor} onClick={() => escolherFiltro(valor)}
-                  className={`inline-flex min-h-11 items-center gap-1.5 rounded-full border px-4 text-sm font-semibold ${
-                    filtro === valor ? "border-marca bg-marca text-superficie" : "border-linha bg-superficie hover:bg-fundo"
-                  }`}>
-                  {filtro === valor && <Check className="size-4" aria-hidden />}
+  return (
+    <div className="@container relative flex h-full flex-col bg-superficie text-tinta">
+      <div className="flex-1 overflow-y-auto">
+        <div className="mx-auto flex w-full max-w-3xl flex-col gap-7 px-4 pt-1 pb-28">
+          {/* a pergunta que o app responde: tocar leva para a conversa com a Lia */}
+          <section className="space-y-3">
+            <button type="button" onClick={() => aoIr?.("ia", true)}
+              className="flex h-[60px] w-full items-center gap-3 rounded-full bg-cinza pr-2 pl-5 text-left hover:bg-cinza-forte">
+              <Search className="size-[22px] shrink-0" strokeWidth={2.4} aria-hidden />
+              <span className="min-w-0 flex-1 truncate text-[19px] font-bold tracking-tight">Para onde você vai?</span>
+              <span className="flex h-11 shrink-0 items-center gap-2 rounded-full bg-superficie pr-4 pl-1.5 text-[14px] font-bold shadow-sm">
+                <Avatar tamanho="sm" />Lia
+              </span>
+            </button>
+            <div className="grid grid-cols-4 gap-2.5">
+              {atalhos.map(({ rotulo, Icone, acao }) => (
+                <button key={rotulo} type="button" onClick={acao}
+                  className="flex aspect-[1/0.92] flex-col items-center justify-center gap-2 rounded-2xl bg-cinza text-[13px] font-bold hover:bg-cinza-forte">
+                  <Icone className={`size-7 ${rotulo === "SOS" ? "text-erro" : ""}`} strokeWidth={1.9} aria-hidden />
                   {rotulo}
                 </button>
               ))}
-              {filtro === "minhas" && (
-                <button type="button" onClick={() => setEscolhendo((v) => !v)} aria-expanded={escolhendo}
-                  className="min-h-11 rounded-lg px-2 text-sm font-semibold text-marca-forte underline">
-                  {escolhendo ? "Pronto" : minhas.length ? `Editar linhas (${minhas.length})` : "Escolher linhas"}
-                </button>
-              )}
             </div>
+          </section>
+
+          {/* Agora nas linhas: o que os passageiros estão relatando juntos */}
+          <section aria-labelledby="titulo-agora">
+            <div className="mb-3 flex items-baseline justify-between gap-2">
+              <h2 id="titulo-agora" className="text-[22px] font-bold tracking-tight">Agora nas linhas</h2>
+              <span className="text-[12px] text-apagado">por relatos</span>
+            </div>
+            {alertas.length ? (
+              <ul className="sem-barra -mx-4 flex snap-x gap-2.5 overflow-x-auto px-4 pb-1">
+                {alertas.map((a) => {
+                  const t = TIPO_POR_CODIGO[a.tipo_principal] ?? TIPO_POR_CODIGO.normal;
+                  return (
+                    <li key={a.linha} className="flex w-[172px] shrink-0 snap-start flex-col gap-3 rounded-2xl bg-cinza p-3.5">
+                      <div className="flex items-center justify-between">
+                        <SeloLinha numero={a.linha} cor={corDa(a.linha)} tamanho="lg" />
+                        <span className={`flex size-9 items-center justify-center rounded-full bg-superficie ${t.cor}`}><t.Icone className="size-[18px]" aria-hidden /></span>
+                      </div>
+                      <div>
+                        <p className="text-[18px] leading-tight font-bold">{t.rotulo}</p>
+                        <p className="truncate text-[13px] text-apagado">{nomeDa(a.linha) ? `${nomeDa(a.linha)}, ` : ""}{a.n_autores} pessoas</p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <p className="flex items-center gap-3 rounded-2xl bg-cinza p-4 text-[15px] font-medium">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-superficie text-ok"><CircleCheck className="size-5" aria-hidden /></span>
+                Nenhum alerta dos passageiros agora
+              </p>
+            )}
+            <p className="mt-2 text-[12px] text-apagado">{AVISO_FIXO}</p>
+          </section>
+
+          {/* Relatos recentes */}
+          <section aria-labelledby="titulo-relatos">
+            <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+              <h2 id="titulo-relatos" className="text-[22px] font-bold tracking-tight">Relatos recentes</h2>
+              <div className="inline-flex rounded-full bg-cinza p-1" role="group" aria-label="Filtro do feed">
+                {([["todas", "Todas"], ["minhas", "Minhas linhas"]] as const).map(([valor, rotulo]) => (
+                  <button key={valor} type="button" aria-pressed={filtro === valor} onClick={() => escolherFiltro(valor)}
+                    className={`h-9 rounded-full px-3.5 text-[13px] ${filtro === valor ? "bg-superficie font-bold shadow-sm" : "font-semibold text-apagado hover:text-tinta"}`}>
+                    {rotulo}
+                  </button>
+                ))}
+              </div>
+            </div>
+            {filtro === "minhas" && (
+              <button type="button" onClick={() => setEscolhendo((v) => !v)} aria-expanded={escolhendo}
+                className="mt-1 min-h-10 text-[14px] font-bold underline underline-offset-4">
+                {escolhendo ? "Pronto" : minhas.length ? `Editar linhas (${minhas.length})` : "Escolher linhas"}
+              </button>
+            )}
             {filtro === "minhas" && escolhendo && (
-              <div className="mt-3 rounded-xl border border-linha bg-superficie p-3">
-                <p className="mb-2 text-sm font-semibold">Marque as linhas que você usa</p>
+              <div className="mt-2 mb-2 rounded-2xl border border-linha p-3">
+                <p className="mb-2 text-[14px] font-bold">Marque as linhas que você usa</p>
                 {erroLinhas ? (
-                  <p role="alert" className="text-sm text-erro">
+                  <p role="alert" className="text-[14px] text-erro">
                     Não foi possível carregar as linhas.
-                    <button type="button" onClick={recarregarLinhas} className="ml-2 min-h-11 font-semibold underline">Tentar de novo</button>
+                    <button type="button" onClick={recarregarLinhas} className="ml-2 min-h-11 font-bold underline">Tentar de novo</button>
                   </p>
                 ) : linhas.length === 0 ? (
-                  <p role="status" className="text-sm text-apagado">Carregando linhas…</p>
+                  <p role="status" className="text-[14px] text-apagado">Carregando linhas…</p>
                 ) : (
                   <GradeDeLinhas linhas={linhas} marcadas={minhas} onEscolher={alternarLinha} />
                 )}
               </div>
             )}
-          </div>
 
-          {/* 4/7. Lista e estados */}
-          {erro && relatos === null ? (
-            <Painel alerta>
-              <p className="font-semibold text-erro">Não foi possível carregar os relatos.</p>
-              <p className="mt-1 text-sm text-apagado">{erro}</p>
-              <button type="button" onClick={atualizar}
-                className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-xl bg-marca px-5 font-semibold text-superficie hover:bg-marca-forte">
-                <RefreshCw className="size-4" aria-hidden />
-                Tentar de novo
-              </button>
-            </Painel>
-          ) : relatos === null ? (
-            <Painel><p className="text-apagado">Carregando relatos…</p></Painel>
-          ) : (
-            <>
-              {erro && (
-                <p role="alert" className="flex flex-wrap items-center gap-2 rounded-xl bg-alerta-suave p-3 text-sm font-medium text-alerta">
-                  Sem atualização do servidor. Mostrando o que já chegou.
-                  <button type="button" onClick={atualizar} className="min-h-11 font-semibold underline">Tentar de novo</button>
-                </p>
-              )}
-              {relatos.length === 0 ? (
-                <Painel><p className="text-base font-semibold">Ninguém relatou nada ainda. Seja o primeiro.</p></Painel>
-              ) : filtro === "minhas" && minhas.length === 0 ? (
-                <Painel><p className="text-apagado">Escolha ao menos uma linha para ver só os relatos dela.</p></Painel>
-              ) : visiveis.length === 0 ? (
-                <Painel><p className="text-apagado">Nenhum relato nas suas linhas agora.</p></Painel>
-              ) : (
-                <ul className="grid gap-3 @md:grid-cols-2">
-                  {visiveis.map((r) => (
-                    <Cartao key={r.id} r={r} cor={corDa(r.linha)} ocupado={ocupado} onVotar={votar} onSinalizar={sinalizar} />
-                  ))}
-                </ul>
-              )}
-            </>
-          )}
+            {erro && relatos === null ? (
+              <Painel alerta>
+                <p className="font-bold text-erro">Não foi possível carregar os relatos.</p>
+                <p className="mt-1 text-[14px] text-apagado">{erro}</p>
+                <button type="button" onClick={atualizar}
+                  className="mt-4 inline-flex h-12 items-center gap-2 rounded-full bg-tinta px-6 font-bold text-superficie hover:bg-tinta/85">
+                  <RefreshCw className="size-4" aria-hidden />
+                  Tentar de novo
+                </button>
+              </Painel>
+            ) : relatos === null ? (
+              <Painel><p className="text-apagado">Carregando relatos…</p></Painel>
+            ) : (
+              <>
+                {erro && (
+                  <p role="alert" className="my-2 flex flex-wrap items-center gap-2 rounded-2xl bg-alerta-suave p-3 text-[14px] font-medium text-alerta">
+                    Sem atualização do servidor. Mostrando o que já chegou.
+                    <button type="button" onClick={atualizar} className="min-h-11 font-bold underline">Tentar de novo</button>
+                  </p>
+                )}
+                {relatos.length === 0 ? (
+                  <Painel>
+                    <p className="text-[16px] font-bold">Ninguém relatou nada ainda.</p>
+                    <p className="mt-1 text-[14px] text-apagado">Viu algo na sua linha? Toque em Relatar.</p>
+                  </Painel>
+                ) : filtro === "minhas" && minhas.length === 0 ? (
+                  <Painel><p className="text-apagado">Escolha ao menos uma linha para ver só os relatos dela.</p></Painel>
+                ) : visiveis.length === 0 ? (
+                  <Painel><p className="text-apagado">Nenhum relato nas suas linhas agora.</p></Painel>
+                ) : (
+                  <ul className="grid @md:grid-cols-2 @md:gap-x-8">
+                    {visiveis.map((r) => (
+                      <Cartao key={r.id} r={r} cor={corDa(r.linha)} ocupado={ocupado} onVotar={votar} onSinalizar={sinalizar} />
+                    ))}
+                  </ul>
+                )}
+              </>
+            )}
+          </section>
         </div>
       </div>
 
-      {/* 3. Botão Relatar, fixo no fim da aba (a barra de abas fica abaixo desta área) */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-2 z-10 flex flex-col items-center gap-2 px-4">
+      {/* Relatar: botão preto flutuante, sempre à mão (a barra de abas fica abaixo desta área) */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-4 z-10 flex flex-col items-center gap-2 px-4">
         {aviso && (
-          <p role="status" className={`pointer-events-auto max-w-full rounded-xl px-4 py-2 text-sm font-medium shadow-md ${aviso.erro ? "bg-erro-suave text-erro" : "bg-tinta text-superficie"}`}>
+          <p role="status" className={`entrar pointer-events-auto max-w-full rounded-2xl px-4 py-3 text-[14px] font-semibold shadow-flutua ${aviso.erro ? "bg-erro text-superficie" : "bg-tinta text-superficie"}`}>
             {aviso.texto}
           </p>
         )}
         <button type="button" onClick={() => setFolha(true)}
-          className="pointer-events-auto inline-flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-marca px-6 text-lg font-bold text-superficie shadow-lg hover:bg-marca-forte @md:w-auto @md:min-w-64">
-          <Megaphone className="size-5" aria-hidden />
+          className="pointer-events-auto inline-flex h-14 items-center justify-center gap-2 rounded-full bg-tinta pr-7 pl-5 text-[17px] font-bold text-superficie shadow-flutua hover:bg-tinta/85">
+          <Plus className="size-6" strokeWidth={2.6} aria-hidden />
           Relatar
         </button>
       </div>

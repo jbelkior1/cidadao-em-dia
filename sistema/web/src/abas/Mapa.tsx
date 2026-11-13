@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check, ChevronUp } from "lucide-react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -96,7 +96,7 @@ function textoDom(...linhas: string[]): HTMLElement {
 }
 
 function estiloLinha(l: LinhaMapa): L.PolylineOptions {
-  const base: L.PolylineOptions = { color: l.cor, pane: "linhas", lineCap: "round", lineJoin: "round", weight: 4, opacity: 1 };
+  const base: L.PolylineOptions = { color: l.cor, pane: "linhas", lineCap: "round", lineJoin: "round", weight: 5, opacity: 1 };
   if (l.nivel === "parada") return { ...base, weight: 7, dashArray: "12 8", lineCap: "butt" };      // tracejada e mais grossa
   if (l.nivel === "atencao") return { ...base, dashArray: "1 8" };                                  // pontilhada
   if (l.nivel === "encerrada" || l.nivel === "sem_dado") return { ...base, weight: 3, opacity: 0.45 };
@@ -124,6 +124,7 @@ export default function Mapa({ simular }: { simular?: string } = {}) {
   const [erro, setErro] = useState("");
   const [ligadas, setLigadas] = useState<Record<Chave, boolean>>({ linhas: true, alagamentos: false, seguranca: false, relatos: false });
   const [relatos, setRelatos] = useState<Relato[]>([]);
+  const [resumoAberto, setResumoAberto] = useState(false);
 
   const corPorLinha = useMemo(() => Object.fromEntries((dados?.linhas ?? []).map((l) => [l.numero, l.cor])), [dados]);
   const estacaoPorId = useMemo(() => new Map((dados?.estacoes ?? []).map((e) => [e.id, e])), [dados]);
@@ -135,7 +136,8 @@ export default function Mapa({ simular }: { simular?: string } = {}) {
     const mapa = L.map(alvo, { center: CENTRO, zoom: ZOOM_INICIAL, zoomControl: false, attributionControl: true });
     mapa.attributionControl.setPrefix(false);
     L.control.zoom({ position: "topright" }).addTo(mapa);
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap" }).addTo(mapa);
+    // fundo em cinza (filtro só nos ladrilhos, classe mapa-cinza no CSS): as linhas coloridas aparecem mais
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap", className: "mapa-cinza" }).addTo(mapa);
     const camadasZ: [string, number][] = [["alagamentos", 410], ["linhas", 420], ["seguranca", 430], ["estacoes", 440], ["relatos", 450]];
     for (const [nome, z] of camadasZ) mapa.createPane(nome).style.zIndex = String(z);
     const g = {
@@ -357,61 +359,71 @@ export default function Mapa({ simular }: { simular?: string } = {}) {
         cge.ativos != null ? `${cge.ativos} ${cge.ativos === 1 ? "ponto de alagamento ativo" : "pontos de alagamento ativos"}` : null,
       ].filter(Boolean).join(", ") + ".";
 
-  return (
-    <div className="flex h-full min-h-0 w-full flex-col bg-fundo">
-      <div role="group" aria-label="Camadas do mapa" className="flex shrink-0 gap-2 overflow-x-auto border-b border-linha bg-superficie px-3 py-2">
-        {CHIPS.map(({ chave, rotulo }) => {
-          const on = ligadas[chave];
-          return (
-            <button
-              key={chave}
-              type="button"
-              aria-pressed={on}
-              onClick={() => alternar(chave)}
-              className={`inline-flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[14px] font-semibold ring-1 ring-inset ${
-                on ? "bg-marca-suave text-marca-forte ring-marca" : "bg-superficie text-apagado ring-linha"
-              }`}
-            >
-              {on && <Check className="size-3.5" aria-hidden />}
-              {rotulo}
-            </button>
-          );
-        })}
-      </div>
+  const titulo = !dados
+    ? erro || "Carregando o mapa..."
+    : comProblema.length === 0 ? "Todas as linhas normais" : `${comProblema.length} ${comProblema.length === 1 ? "linha com problema" : "linhas com problema"}`;
 
-      <div className="relative isolate min-h-[180px] flex-1">
+  return (
+    <div className="relative isolate flex h-full min-h-0 w-full flex-col bg-fundo">
+      <div className="relative min-h-[180px] flex-1">
         <div
           ref={recipiente}
           role="region"
           aria-label="Mapa de trens e metrô de São Paulo, com as linhas e as camadas escolhidas. O resumo em texto abaixo traz as mesmas informações."
           className="absolute inset-0"
         />
+        <div role="group" aria-label="Camadas do mapa" className="sem-barra pointer-events-none absolute inset-x-0 top-0 z-[500] flex gap-2 overflow-x-auto py-3 pr-16 pl-3">
+          {CHIPS.map(({ chave, rotulo }) => {
+            const on = ligadas[chave];
+            return (
+              <button
+                key={chave}
+                type="button"
+                aria-pressed={on}
+                onClick={() => alternar(chave)}
+                className={`pointer-events-auto inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full px-4 text-[14px] font-bold shadow-flutua ${
+                  on ? "bg-tinta text-superficie" : "bg-superficie text-tinta hover:bg-cinza"
+                }`}
+              >
+                {on && <Check className="size-4" strokeWidth={3} aria-hidden />}
+                {rotulo}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      <div role="region" aria-label="Resumo do mapa em texto" className="max-h-[30%] shrink-0 overflow-y-auto border-t border-linha bg-superficie px-3 py-2 text-[14px] text-tinta">
-        {!dados && <p role="status" className="text-apagado">{erro || "Carregando o mapa..."}</p>}
+      <div role="region" aria-label="Resumo do mapa em texto"
+        className={`relative z-[600] -mt-6 shrink-0 overflow-y-auto rounded-t-[28px] bg-superficie px-5 pb-4 shadow-folha ${resumoAberto ? "max-h-[70%]" : "max-h-[34%]"}`}>
+        <button type="button" onClick={() => setResumoAberto((v) => !v)} aria-expanded={resumoAberto}
+          className="sticky top-0 -mx-5 flex w-[calc(100%+2.5rem)] flex-col bg-superficie px-5 pb-2 text-left">
+          <span className="alca" aria-hidden />
+          <span className="mt-3 flex items-center gap-3">
+            <span className={`size-3 shrink-0 rounded-full ${!dados ? "bg-cinza-forte" : comProblema.some((l) => l.nivel === "parada") ? "bg-erro" : comProblema.length ? "bg-alerta" : "bg-ok"}`} aria-hidden />
+            <span className="min-w-0 flex-1 text-[20px] leading-tight font-bold tracking-tight">{titulo}</span>
+            <ChevronUp className={`size-5 shrink-0 text-apagado transition-transform ${resumoAberto ? "rotate-180" : ""}`} aria-hidden />
+          </span>
+          {dados && <span className="mt-1 text-[13px] text-apagado">Leitura das {hora(dados.lido_em)}, atualiza a cada 2 minutos{erro ? `. ${erro}` : ""}</span>}
+        </button>
         {dados && (
-          <>
-            {notas.length > 0 && (
-              <ul className="mb-1 space-y-0.5 text-[12px] text-apagado">
-                {notas.map((n) => <li key={n}>{n}</li>)}
+          <div className="space-y-3 pt-1 text-[14px]">
+            {comProblema.length > 0 && (
+              <ul className="space-y-2">
+                {comProblema.map((l) => (
+                  <li key={l.numero} className="flex items-center gap-3 rounded-2xl bg-cinza p-2.5">
+                    <SeloLinha numero={l.numero} cor={l.cor} />
+                    <span className="min-w-0 flex-1 truncate font-bold">{l.nome}</span>
+                    <SituacaoLinha nivel={l.nivel} />
+                  </li>
+                ))}
               </ul>
             )}
-            <p className="font-semibold">
-              {comProblema.length === 0 ? "Nenhuma linha com problema" : `${comProblema.length} ${comProblema.length === 1 ? "linha" : "linhas"} com problema`}
-              {comProblema.length > 0 && (
-                <span className="font-normal text-apagado">
-                  {": "}
-                  {comProblema.map((l) => `${l.numero} ${l.nome} (${ROTULO_NIVEL[l.nivel].toLowerCase()})`).join(", ")}
-                </span>
-              )}
-            </p>
             {simuladas.length > 0 && (
-              <p className="text-erro">Simulação de falha na linha {simuladas.map((l) => `${l.numero} ${l.nome}`).join(", ")}.</p>
+              <p className="rounded-2xl bg-erro-suave px-3 py-2 font-semibold text-erro">Simulação de falha na linha {simuladas.map((l) => `${l.numero} ${l.nome}`).join(", ")}.</p>
             )}
             <p>
-              <span className="font-semibold">CGE: </span>
-              {textoCge}
+              <span className="font-bold">Alagamentos (CGE): </span>
+              <span className="text-apagado">{textoCge}</span>
             </p>
             {pontosCge.length > 0 && (
               <ul className="ml-4 list-disc text-[13px] text-apagado">
@@ -421,12 +433,13 @@ export default function Mapa({ simular }: { simular?: string } = {}) {
                 {pontosCge.length > 3 && <li>e mais {pontosCge.length - 3}</li>}
               </ul>
             )}
-            <p className="text-[12px] text-apagado">
-              Leitura das {hora(dados.lido_em)}. Atualiza sozinho a cada 2 minutos.
-              {erro && <span className="text-alerta"> {erro}</span>}
-            </p>
-            <details className="mt-1">
-              <summary className="cursor-pointer text-[13px] font-semibold text-marca-forte">Situação por linha e legenda</summary>
+            {notas.length > 0 && (
+              <ul className="space-y-0.5 text-[12px] text-apagado">
+                {notas.map((n) => <li key={n}>{n}</li>)}
+              </ul>
+            )}
+            <details>
+              <summary className="cursor-pointer py-1 text-[14px] font-bold underline underline-offset-4">Todas as linhas e legenda</summary>
               <p className="mt-1 text-[12px] text-apagado">
                 No mapa: traço contínuo é normal, pontilhado é atenção, tracejado grosso é parada, traço claro é encerrada ou sem informação.
               </p>
@@ -440,7 +453,7 @@ export default function Mapa({ simular }: { simular?: string } = {}) {
                 ))}
               </ul>
             </details>
-          </>
+          </div>
         )}
       </div>
     </div>

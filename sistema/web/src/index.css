@@ -1,20 +1,23 @@
 @import "tailwindcss";
-@import "@fontsource-variable/figtree";
+@import "@fontsource-variable/onest";
 
 /*
  * Dá Tempo?: tokens de cor e tipografia.
- * Tema claro em laranja e branco (sem modo escuro, como sistema público), letra grande e contraste
- * alto, porque o público inclui idosos e quem usa pouco o celular. O laranja da marca é o escuro
- * (#c2410c: passa 4,5:1 com texto branco); o amarelo de "atenção" fica separado e sempre vem com ícone e palavra.
+ * Linguagem dos apps de mobilidade de hoje: branco e preto puro, cinza claro como preenchimento
+ * (campos, atalhos, botões secundários), ação principal em preto e o laranja só como marca
+ * (logo, a Lia, aba ativa). Letra grande e contraste alto, porque o público inclui idosos.
+ * O amarelo de "atenção" fica separado do laranja e sempre vem com ícone e palavra.
  */
 @theme {
-  --font-sans: "Figtree Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Onest Variable", ui-sans-serif, system-ui, sans-serif;
 
-  --color-fundo: #faf7f4;
+  --color-fundo: #f6f6f6;
   --color-superficie: #ffffff;
-  --color-tinta: #1c1917;
-  --color-apagado: #57534e;
-  --color-linha: #e7e2dc;
+  --color-cinza: #efefef;
+  --color-cinza-forte: #e2e2e2;
+  --color-tinta: #000000;
+  --color-apagado: #5e5e5e;
+  --color-linha: #e8e8e8;
 
   --color-marca: #c2410c;
   --color-marca-forte: #9a3412;
@@ -22,10 +25,13 @@
 
   --color-alerta: #8a5a00;
   --color-alerta-suave: #fdf0c9;
-  --color-ok: #196f43;
+  --color-ok: #146c3c;
   --color-ok-suave: #ddf1e5;
-  --color-erro: #a3261d;
-  --color-erro-suave: #f9e0dd;
+  --color-erro: #b3261e;
+  --color-erro-suave: #fbe3e0;
+
+  --shadow-flutua: 0 4px 16px rgb(0 0 0 / 0.12), 0 1px 3px rgb(0 0 0 / 0.08);
+  --shadow-folha: 0 -8px 32px rgb(0 0 0 / 0.14);
 }
 
 html,
@@ -46,6 +52,8 @@ body {
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum" 0;
 }
 
 :focus-visible {
@@ -67,7 +75,71 @@ body {
   animation: entrar 0.22s ease-out both;
 }
 
+/* Folha que sobe de baixo (SOS, relatar): responde ao toque, por isso pode animar. */
+@keyframes subir {
+  from {
+    transform: translateY(24px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.subir {
+  animation: subir 0.26s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* A alça da folha, como nos apps de mobilidade. */
+.alca {
+  display: block;
+  width: 40px;
+  height: 5px;
+  margin: 8px auto 0;
+  border-radius: 999px;
+  background: var(--color-cinza-forte);
+}
+
+.sem-barra {
+  scrollbar-width: none;
+}
+.sem-barra::-webkit-scrollbar {
+  display: none;
+}
+
+/* Controles do Leaflet no mesmo desenho dos botões flutuantes. */
+.leaflet-container {
+  font-family: var(--font-sans);
+  background: #f2f2f0;
+}
+.mapa-cinza {
+  filter: grayscale(1) brightness(1.06) contrast(0.88);
+}
+.leaflet-bar {
+  border: none !important;
+  border-radius: 14px !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-flutua) !important;
+}
+.leaflet-bar a {
+  width: 40px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  color: var(--color-tinta) !important;
+  font-size: 20px !important;
+  border-bottom-color: var(--color-linha) !important;
+}
+.leaflet-popup-content-wrapper,
+.leaflet-tooltip {
+  border-radius: 14px;
+  box-shadow: var(--shadow-flutua);
+}
+.leaflet-control-attribution {
+  font-size: 10px;
+  border-radius: 8px 0 0 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .subir,
   .entrar {
     animation: none;
   }

@@ -12,23 +12,23 @@ import { useConversa } from "./conversa";
  */
 
 const COR_NIVEL = {
-  parada: "border-erro/30 bg-erro-suave/60",
-  atencao: "border-alerta/30 bg-alerta-suave/60",
-  ok: "border-linha bg-superficie",
+  parada: "bg-erro-suave/70 hover:bg-erro-suave",
+  atencao: "bg-alerta-suave/70 hover:bg-alerta-suave",
+  ok: "bg-cinza hover:bg-cinza-forte",
 };
 const TEXTO_NIVEL = { parada: "Parada", atencao: "Atenção", ok: "Normal" };
 
 function IconeAlerta({ item }: { item: ItemAlerta }) {
   if (item.tipo === "linha" && item.linha) {
     return (
-      <span className="flex size-9 shrink-0 items-center justify-center rounded-xl text-[14px] font-extrabold" style={{ background: item.linha.cor, color: corDoTexto(item.linha.cor) }} aria-label={`Linha ${item.linha.numero}`}>
+      <span className="flex size-10 shrink-0 items-center justify-center rounded-[11px] text-[15px] font-extrabold" style={{ background: item.linha.cor, color: corDoTexto(item.linha.cor) }} aria-label={`Linha ${item.linha.numero}`}>
         {item.linha.numero}
       </span>
     );
   }
   const Icone = item.nivel === "ok" ? CheckCircle2 : item.tipo === "chuva" ? CloudLightning : Droplets;
-  const cor = item.nivel === "ok" ? "bg-ok-suave text-ok" : item.nivel === "parada" ? "bg-erro-suave text-erro" : "bg-alerta-suave text-alerta";
-  return <span className={`flex size-9 shrink-0 items-center justify-center rounded-xl ${cor}`}><Icone className="size-[18px]" aria-hidden /></span>;
+  const cor = item.nivel === "ok" ? "bg-superficie text-ok" : item.nivel === "parada" ? "bg-superficie text-erro" : "bg-superficie text-alerta";
+  return <span className={`flex size-10 shrink-0 items-center justify-center rounded-full ${cor}`}><Icone className="size-5" aria-hidden /></span>;
 }
 
 /** Painel que abre pelo sinal de alerta. Tocar num alerta pergunta à Lia como ele afeta a viagem. */
@@ -41,19 +41,19 @@ export function PainelAlertas({ aoFechar, aoPerguntar }: { aoFechar: () => void;
   }, [aoFechar]);
   return (
     <>
-      <button type="button" aria-label="Fechar alertas" onClick={aoFechar} className="absolute inset-x-0 top-14 bottom-0 z-20 cursor-default bg-tinta/30" />
-      <section aria-label="Alertas agora" className="entrar absolute top-16 right-3 left-3 z-30 mx-auto max-w-md space-y-2.5 rounded-2xl border border-linha bg-superficie p-4 shadow-2xl">
+      <button type="button" aria-label="Fechar alertas" onClick={aoFechar} className="absolute inset-x-0 top-[60px] bottom-0 z-20 cursor-default bg-tinta/35" />
+      <section aria-label="Alertas agora" className="entrar absolute top-[64px] right-3 left-3 z-30 mx-auto max-w-md space-y-2 rounded-[28px] bg-superficie p-4 shadow-flutua">
         <div className="flex items-baseline justify-between">
-          <h3 className="text-[18px] font-extrabold">Alertas agora</h3>
+          <h3 className="text-[22px] font-bold tracking-tight">Alertas agora</h3>
           <span className="text-[12px] text-apagado">{alertas?.lido_em ? `lidos às ${hora(alertas.lido_em)}` : "lendo..."}</span>
         </div>
         {alertas?.itens.length === 0 && <p className="text-[14px] text-apagado">Nada fora do normal agora.</p>}
         {alertas?.itens.map((item, i) => (
           <button key={i} type="button" onClick={() => { aoPerguntar(); enviar(item.pergunta); aoFechar(); }}
-            className={`flex w-full items-start gap-3 rounded-xl border p-3 text-left hover:border-marca ${COR_NIVEL[item.nivel]}`}>
+            className={`flex w-full items-start gap-3 rounded-2xl p-3 text-left ${COR_NIVEL[item.nivel]}`}>
             <IconeAlerta item={item} />
             <span className="flex min-w-0 flex-col gap-0.5">
-              <span className="text-[15px] font-bold">{item.titulo}</span>
+              <span className="text-[16px] leading-tight font-bold">{item.titulo}</span>
               <span className="text-[13px] text-apagado">{item.texto}</span>
               <span className={`text-[12px] font-bold ${item.nivel === "ok" ? "text-ok" : item.nivel === "parada" ? "text-erro" : "text-alerta"}`}>
                 {TEXTO_NIVEL[item.nivel]} · {item.fonte}
@@ -71,10 +71,10 @@ export function PainelAlertas({ aoFechar, aoPerguntar }: { aoFechar: () => void;
 export function BotaoAlertas({ aberto, aoAlternar }: { aberto: boolean; aoAlternar: () => void }) {
   const { alertas } = useConversa();
   const total = alertas?.total ?? 0;
-  const cor = !total ? "bg-fundo text-apagado ring-1 ring-linha" : alertas?.parada ? "bg-erro-suave text-erro" : "bg-alerta-suave text-alerta";
+  const cor = !total ? "bg-cinza text-apagado" : alertas?.parada ? "bg-erro-suave text-erro" : "bg-alerta-suave text-alerta";
   return (
     <button type="button" onClick={aoAlternar} aria-expanded={aberto} aria-label={total ? `${total} ${total === 1 ? "alerta" : "alertas"} agora` : "Sem alertas agora"}
-      className={`flex h-10 items-center gap-1.5 rounded-full px-3 text-[14px] font-bold ${cor} ${aberto ? "ring-2 ring-current" : ""}`}>
+      className={`flex h-10 min-w-10 items-center justify-center gap-1.5 rounded-full px-3 text-[14px] font-bold ${cor} ${aberto ? "ring-2 ring-current" : ""}`}>
       {total ? <AlertTriangle className="size-[18px]" aria-hidden /> : <CheckCircle2 className="size-[18px]" aria-hidden />}
       {total || ""}
     </button>
