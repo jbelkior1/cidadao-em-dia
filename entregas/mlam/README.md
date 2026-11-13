@@ -71,8 +71,8 @@ interpretações), `resultados.json` (os números, para montar o relatório da q
   R² = 0,219, Teste F com p-valor 6,1 × 10⁻⁹.
 - **05** — Com distância, nº de linhas e latitude: R² sobe para 0,394 (ajustado 0,380), F(3, 135) = 29,2.
   Nº de linhas é o maior efeito (+243,6 ocorrências por linha); latitude não é significativa.
-- **06** — Logística para "estação acima da mediana": acurácia 70,5%, AUC 0,744. Cada linha a mais
-  multiplica por 2,84 a chance de a estação ser de alta ocorrência.
+- **06** — Logística para "estação acima da mediana": acurácia 70.5% contra um piso de 51.1%
+  (classe majoritária), AUC 0.744. Só a distância é significativa a 5%: o nº de linhas tem p = 0.0674.
 
 ## Limitações (valem para o relatório da questão 07)
 
@@ -85,8 +85,13 @@ interpretações), `resultados.json` (os números, para montar o relatório da q
 4. **Sobra variação sem explicar:** 60,6% na regressão múltipla. Falta na base o que mais pesaria —
    fluxo de passageiros, comércio no entorno, policiamento e hora do dia.
 5. **Os modelos foram avaliados na mesma base em que foram ajustados.** Com 139 linhas e 3 variáveis o
-   sobreajuste é pequeno, mas a acurácia de 70,5% descreve esta base, não uma cidade nova.
-6. **13,2% dos registros do município foram descartados por coordenada inválida** e 48 estações ficaram
+   sobreajuste é pequeno, mas a acurácia de 70.5% descreve esta base, não uma cidade nova.
+6. **O número de linhas tem poucos casos no alto da escala:** 121 estações têm 1 linha, 14 têm 2 e só 4 têm
+   3 ou mais. O coeficiente dessa variável é instável, não é significativo a 5% na logística
+   (p = 0.0674), e os cenários de previsão com 3 linhas são extrapolação.
+7. **Os raios de 300 m se sobrepõem** entre estações próximas, então as observações não são totalmente
+   independentes, como o `dados/LEIA-ME.md` registra.
+8. **13,2% dos registros do município foram descartados por coordenada inválida** e 48 estações ficaram
    de fora por não serem do município (critério aproximado, descrito no `LEIA-ME.md`).
 
 ## Entrega no portal (questão 08)

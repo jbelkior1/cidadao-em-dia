@@ -53,7 +53,7 @@ def resolver(df=None) -> dict:
         registros e estações centrais com poucos.
         A dispersão abre em leque perto do centro (heterocedasticidade): entre 0 e 5 km os valores vão
         de pouco mais de 100 a 2.100, enquanto acima de 20 km quase todos ficam abaixo de 300.
-        Os pontos no alto à esquerda são as estações de maior circulação (República, Sé, Luz).
+        Os pontos no alto à esquerda são as estações de maior circulação; o gráfico rotula as três maiores.
     """)
 
     comum.item("b", "Covariância e correlação linear de Pearson")

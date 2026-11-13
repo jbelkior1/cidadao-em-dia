@@ -141,6 +141,9 @@ def resolver(df=None) -> dict:
         A previsão vale como comparação entre perfis de estação ("baldeação central registra mais que ponta
         de linha"), nunca como número esperado para uma estação nomeada. Entre as estações parecidas, os
         valores reais vão de {parecidas[Y].min()} a {parecidas[Y].max()}.
+        Ressalva importante: pedir 3 linhas é extrapolar. Na base, 121 estações têm 1 linha, 14 têm 2 e só
+        4 têm 3 ou mais. O coeficiente de `qtd_linhas` se apoia nessas poucas estações, então a previsão
+        deste cenário é frágil.
     """)
 
     _graficos(dados, correlacao, df)

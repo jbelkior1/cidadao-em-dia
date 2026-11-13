@@ -1,4 +1,4 @@
-MLAM — Global Solution 2026.2 — análises rodadas em 13/11/2026 11:11
+MLAM — Global Solution 2026.2 — análises rodadas em 13/11/2026 11:14
 Base: ocorrencias_estacoes_2026.csv (139 estações, SSP-SP, jan–set/2026)
 
 ==============================================================================
@@ -95,7 +95,7 @@ Interpretação:
   registros e estações centrais com poucos.
   A dispersão abre em leque perto do centro (heterocedasticidade): entre 0 e 5 km os valores vão
   de pouco mais de 100 a 2.100, enquanto acima de 20 km quase todos ficam abaixo de 300.
-  Os pontos no alto à esquerda são as estações de maior circulação (República, Sé, Luz).
+  Os pontos no alto à esquerda são as estações de maior circulação; o gráfico rotula as três maiores.
 
 --- b) Covariância e correlação linear de Pearson
 Covariância amostral = -939.34 (km × ocorrências)
@@ -274,6 +274,9 @@ Interpretação:
   A previsão vale como comparação entre perfis de estação ("baldeação central registra mais que ponta
   de linha"), nunca como número esperado para uma estação nomeada. Entre as estações parecidas, os
   valores reais vão de 773 a 1637.
+  Ressalva importante: pedir 3 linhas é extrapolar. Na base, 121 estações têm 1 linha, 14 têm 2 e só
+  4 têm 3 ou mais. O coeficiente de `qtd_linhas` se apoia nessas poucas estações, então a previsão
+  deste cenário é frágil.
 
 Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q05a_dispersao.png
 Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q05c_correlacao.png
@@ -308,8 +311,14 @@ Interpretação:
   Distância: razão 0.882. Cada quilômetro a mais do centro
   reduz em
   11.8% a chance de a estação ser de alta ocorrência.
-  Quantidade de linhas: razão 2.840. Cada linha a mais multiplica a chance por
-  2.84, mantendo o resto igual: é o efeito mais forte.
+  Quantidade de linhas: razão 2.840, mas com p-valor
+  0.0674, acima de 5%, e intervalo de confiança que cruza o 1
+  ([0.93 ; 8.69]).
+  O efeito aparenta ser grande, mas NÃO é estatisticamente significativo a 5%: não dá para afirmar
+  que ele existe na população. A razão é a base: só 4 das 139 estações têm 3 linhas ou mais
+  (1 com 3, 2 com 4 e 1 com 5), e 121 têm uma linha só. Com tão poucos casos no alto da escala,
+  o coeficiente é instável.
+  Só a distância é significativa aqui (p-valor 0.0006).
   A latitude não é significativa (p-valor 0.868), como na questão 05: depois da
   distância ao centro, a posição norte-sul não acrescenta. Ficou no modelo porque o enunciado pede
   pelo menos três variáveis quantitativas, e sua presença está registrada aqui como limitação.
@@ -329,9 +338,10 @@ Revocação (das estações de alta, quantas o modelo pegou) = 0.6912
 AUC = 0.7444
 
 Interpretação:
-  O modelo acerta 70.5% das 139 estações. Como as classes estão quase empatadas por
-  construção (corte na mediana), o chute de sempre responder "normal" acertaria cerca de 50%: o
-  modelo ganha 21 pontos percentuais desse piso.
+  O modelo acerta 70.5% das 139 estações. O piso de comparação é a classe
+  majoritária: responder sempre "normal" acertaria 51.1% (as 71
+  estações da classe maior). O modelo ganha 19.4 pontos percentuais
+  sobre esse piso.
   Os erros: 20 estações previstas como alta que não são (falso positivo) e 21 estações de alta que
   passaram como normais (falso negativo).
   Para um app que avisa o passageiro, o falso negativo é o erro caro: dizer que está tranquilo onde
@@ -357,6 +367,9 @@ Interpretação:
   Os dois perfis extremos saem em lados opostos, com probabilidades de
   0.94 e 0.14: o modelo separa
   bem o que já se esperava.
+  Ressalva: o cenário de 3 linhas é extrapolação. Só 4 estações da base têm 3 linhas ou mais, e o
+  coeficiente de `qtd_linhas` não é significativo a 5%. A probabilidade de 0,94 vem sobretudo da
+  proximidade do centro, que é a variável significativa.
   No app, isso vira um aviso de atenção no entorno da estação, nunca um rótulo de "estação perigosa".
   O que o modelo prevê é a chance de haver MUITO REGISTRO DE BO num raio de 300 m, e registro
   acompanha movimento de gente. Sem o fluxo de passageiros na base, não dá para transformar isso em

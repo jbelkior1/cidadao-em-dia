@@ -57,8 +57,14 @@ def resolver(df=None) -> dict:
         Distância: razão {razoes['dist_marco_zero_km']:.3f}. Cada quilômetro a mais do centro
         {'reduz' if razoes['dist_marco_zero_km'] < 1 else 'aumenta'} em
         {abs(1 - razoes['dist_marco_zero_km']) * 100:.1f}% a chance de a estação ser de alta ocorrência.
-        Quantidade de linhas: razão {razoes['qtd_linhas']:.3f}. Cada linha a mais multiplica a chance por
-        {razoes['qtd_linhas']:.2f}, mantendo o resto igual: é o efeito mais forte.
+        Quantidade de linhas: razão {razoes['qtd_linhas']:.3f}, mas com p-valor
+        {modelo.pvalues['qtd_linhas']:.4f}, acima de 5%, e intervalo de confiança que cruza o 1
+        ([{np.exp(modelo.conf_int().loc['qtd_linhas', 0]):.2f} ; {np.exp(modelo.conf_int().loc['qtd_linhas', 1]):.2f}]).
+        O efeito aparenta ser grande, mas NÃO é estatisticamente significativo a 5%: não dá para afirmar
+        que ele existe na população. A razão é a base: só 4 das 139 estações têm 3 linhas ou mais
+        (1 com 3, 2 com 4 e 1 com 5), e 121 têm uma linha só. Com tão poucos casos no alto da escala,
+        o coeficiente é instável.
+        Só a distância é significativa aqui (p-valor {modelo.pvalues['dist_marco_zero_km']:.4f}).
         A latitude não é significativa (p-valor {modelo.pvalues['lat']:.3f}), como na questão 05: depois da
         distância ao centro, a posição norte-sul não acrescenta. Ficou no modelo porque o enunciado pede
         pelo menos três variáveis quantitativas, e sua presença está registrada aqui como limitação.
@@ -73,6 +79,7 @@ def resolver(df=None) -> dict:
     mc = confusion_matrix(y, previsto)
     (vn, fp), (fn, vp) = mc
     acuracia = float(accuracy_score(y, previsto))
+    maior_classe = max(vn + fp, fn + vp) / len(y)          # piso honesto: acertar sempre a classe maior
     precisao = vp / (vp + fp) if (vp + fp) else 0.0
     revocacao = vp / (vp + fn) if (vp + fn) else 0.0
     auc = float(roc_auc_score(y, probabilidade))
@@ -85,9 +92,10 @@ def resolver(df=None) -> dict:
     print(f"Revocação (das estações de alta, quantas o modelo pegou) = {revocacao:.4f}")
     print(f"AUC = {auc:.4f}")
     comum.interpretacao(f"""
-        O modelo acerta {acuracia * 100:.1f}% das 139 estações. Como as classes estão quase empatadas por
-        construção (corte na mediana), o chute de sempre responder "normal" acertaria cerca de 50%: o
-        modelo ganha {acuracia * 100 - 50:.0f} pontos percentuais desse piso.
+        O modelo acerta {acuracia * 100:.1f}% das 139 estações. O piso de comparação é a classe
+        majoritária: responder sempre "normal" acertaria {maior_classe * 100:.1f}% (as {int(max(vn + fp, fn + vp))}
+        estações da classe maior). O modelo ganha {(acuracia - maior_classe) * 100:.1f} pontos percentuais
+        sobre esse piso.
         Os erros: {fp} estações previstas como alta que não são (falso positivo) e {fn} estações de alta que
         passaram como normais (falso negativo).
         Para um app que avisa o passageiro, o falso negativo é o erro caro: dizer que está tranquilo onde
@@ -115,6 +123,9 @@ def resolver(df=None) -> dict:
         Os dois perfis extremos saem em lados opostos, com probabilidades de
         {classificacoes[0]['probabilidade']:.2f} e {classificacoes[1]['probabilidade']:.2f}: o modelo separa
         bem o que já se esperava.
+        Ressalva: o cenário de 3 linhas é extrapolação. Só 4 estações da base têm 3 linhas ou mais, e o
+        coeficiente de `qtd_linhas` não é significativo a 5%. A probabilidade de 0,94 vem sobretudo da
+        proximidade do centro, que é a variável significativa.
         No app, isso vira um aviso de atenção no entorno da estação, nunca um rótulo de "estação perigosa".
         O que o modelo prevê é a chance de haver MUITO REGISTRO DE BO num raio de 300 m, e registro
         acompanha movimento de gente. Sem o fluxo de passageiros na base, não dá para transformar isso em
@@ -127,7 +138,7 @@ def resolver(df=None) -> dict:
             "p_valores": {k: float(v) for k, v in modelo.pvalues.items()},
             "pseudo_r2_mcfadden": float(modelo.prsquared), "llr_p_valor": float(modelo.llr_pvalue),
             "matriz_confusao": {"vn": int(vn), "fp": int(fp), "fn": int(fn), "vp": int(vp)},
-            "acuracia": acuracia, "precisao": float(precisao), "revocacao": float(revocacao), "auc": auc,
+            "acuracia": acuracia, "piso_classe_majoritaria": float(maior_classe), "precisao": float(precisao), "revocacao": float(revocacao), "auc": auc,
             "classificacoes": classificacoes}
 
 

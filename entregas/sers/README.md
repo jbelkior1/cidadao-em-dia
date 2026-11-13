@@ -53,7 +53,8 @@ Resultado para uma viagem de 15 km, por pessoa, só a ida (números de 12/11/202
 | Ônibus a diesel | sem fonte de consumo | 1,19 kg | R$ 5,30 | não |
 | Carro a gasolina, sozinho | 10,1 kWh | 1,96 a 2,52 kg | R$ 7,16 | não |
 
-O trilho emite **2,6% do CO₂ do carro** nessa distância, com custo parecido com o do ônibus.
+O trilho emite cerca de **2,5% do CO₂ do carro** nessa distância (2,0% se comparado ao teto de 2,52 kg),
+com custo parecido com o do ônibus.
 
 ### Por que o trilho conta como alternativa renovável
 
@@ -80,8 +81,7 @@ MCTI, 46,1 g de CO₂ por kWh, que já embute essa matriz.
 - **Viabilidade:** a alternativa renovável já existe e já está construída. Não se trata de instalar
   nada: trata-se de usar melhor uma rede que roda hoje. Por isso a recomendação do app é de uso, não
   de investimento.
-- **Impacto ambiental:** a diferença de CO₂ entre trilho e carro é de duas ordens de grandeza na mesma
-  viagem. O limite dessa conta é que ela ignora a emissão de construir e manter a infraestrutura, que
+- **Impacto ambiental:** na mesma viagem, o trilho emite cerca de 40 vezes menos CO₂ que o carro. O limite dessa conta é que ela ignora a emissão de construir e manter a infraestrutura, que
   não está nas fontes consultadas.
 
 ## Limitações (não tratar estimativa como resultado garantido)
@@ -107,4 +107,5 @@ MCTI, 46,1 g de CO₂ por kWh, que já embute essa matriz.
 
 Listadas uma a uma em `pesquisa/ENERGIA_FONTES.md` e repetidas na saída do
 `comparar_energia.py`: MCTI/SIRENE, Relatório Integrado 2025 do Metrô, INMETRO (PBE Veicular),
-ANP (preços), SPTrans e Agência SP (tarifas), Ministério dos Transportes.
+ANP (preços), SPTrans e Agência SP (tarifas), Ministério dos Transportes e EPE (Balanço Energético Nacional,
+de onde vêm os 86,8% de renováveis e os 32,2 MJ por litro de gasolina).

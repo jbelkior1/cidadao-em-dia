@@ -792,8 +792,8 @@
           "peso": "60 (Fundamentação e coerência técnica)",
           "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos",
           "quem": "grupo",
-          "onde": "sistema/mobilidade/energia.py (docstring); README da SERS (a criar)",
-          "como": "O público e a necessidade estão no código e na tela de energia, mas o grupo ainda não confirmou nem escreveu isso.",
+          "onde": "entregas/sers/README.md (seção Contexto); sistema/mobilidade/energia.py",
+          "como": "O README da SERS já traz público, necessidade energética e como as orientações ajudam. Falta o grupo confirmar e assinar.",
           "status": "Falta conferir"
         },
         {
@@ -815,18 +815,18 @@
           "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos e Desafio",
           "quem": "código",
           "onde": "sistema/mobilidade/energia.py: comparar",
-          "como": "Compara trilho elétrico (renovável: 86,8% da eletricidade do país em 2025), ônibus a diesel e carro a gasolina para a mesma viagem, com energia, CO₂ e custo. Falta revisar as premissas (ocupação do carro, lotação do ônibus) e escrever as limitações.",
+          "como": "Compara trilho elétrico (renovável), ônibus a diesel e carro a gasolina, com energia, CO₂ e custo. O README tem justificativas (custo, viabilidade, impacto) e 5 limitações. Falta a equipe revisar as premissas.",
           "status": "Falta conferir"
         },
         {
           "id": "SERS-04",
           "requisito": "Comparação de modos (trilho, ônibus, carro) no cálculo e na tela",
-          "detalhe": "Desconto de 100% no consumo de até 80 kWh por mês, nas contas emitidas a partir de 5 de julho de 2025; o que passa disso não tem desconto. Valor em reais é estimativa pelo preço médio da conta.",
+          "detalhe": "Comparação dos três modos no cálculo e na tela. Hoje o cartão da viagem mostra só trilho e carro; o ônibus aparece no teste da matéria e no script da entrega.",
           "peso": "60 (Fundamentação e coerência técnica)",
-          "fonte": "pesquisa/dados_tarifa_social.json (página da Aneel lida em 12/11/2026)",
+          "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos",
           "quem": "código",
-          "onde": "sistema/mobilidade/energia.py; sistema/testes.py: sers_testar; tela Antes de sair",
-          "como": "O Antes de sair mostra a comparação para a distância de cada trajeto, com premissas e o aviso de estimativa. O teste da matéria mostra cada conta passo a passo. Falta o grupo conferir os números.",
+          "onde": "sistema/mobilidade/energia.py: comparar; entregas/sers/comparar_energia.py; sistema/testes.py: sers_testar",
+          "como": "Os três modos estão no cálculo e no script da entrega. No cartão da Lia aparecem só trilho e carro: decidir se inclui o ônibus.",
           "status": "Falta conferir"
         },
         {
@@ -836,8 +836,8 @@
           "peso": "30 (Aplicação e utilidade)",
           "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos; PDF geral p.25",
           "quem": "código",
-          "onde": "sistema/web/src/paginas/AntesDeSair.tsx (quadro de energia)",
-          "como": "A comparação aparece no Antes de sair, em linguagem simples, com as premissas e o aviso de estimativa. Falta validar o texto com usuários.",
+          "onde": "sistema/assistente.py (passa energia ao cartão); sistema/web/src/componentes/Cartoes.tsx; entregas/sers/comparar_energia.py",
+          "como": "A comparação chega ao cartão da Lia com o aviso de estimativa. As premissas e as fontes completas ficam no teste da matéria e no script da entrega, não no cartão. Falta decidir se leva ao cartão e validar com usuários.",
           "status": "Falta conferir"
         },
         {
@@ -847,7 +847,7 @@
           "peso": "60 (Fundamentação e coerência técnica)",
           "fonte": "enunciado SERS (portal), Requisitos técnicos mínimos",
           "quem": "código",
-          "onde": "sistema/conversa.py: _luz_resultado",
+          "onde": "sistema/mobilidade/energia.py: ROTULO; sistema/web/src/componentes/Cartoes.tsx; entregas/sers/comparar_energia.py",
           "como": "A tela diz \"Estimativa a partir de médias oficiais, não medição da sua viagem\" e lista as premissas; as fontes aparecem no teste da matéria. Falta conferir as fontes.",
           "status": "Falta conferir"
         },
@@ -869,9 +869,9 @@
           "peso": "",
           "fonte": "enunciado SERS (portal), Entregáveis 1",
           "quem": "grupo",
-          "onde": "",
-          "como": "Escrever o README da parte de energia.",
-          "status": "A fazer"
+          "onde": "entregas/sers/README.md",
+          "como": "README escrito, com integrantes, público, problema, funcionalidades e como executar. Falta preencher nome e RM.",
+          "status": "Falta conferir"
         },
         {
           "id": "SERS-09",
@@ -880,9 +880,9 @@
           "peso": "",
           "fonte": "enunciado SERS (portal), Entregáveis 1",
           "quem": "grupo",
-          "onde": "sistema/mobilidade/energia.py; pesquisa/energia_modos.json; pesquisa/ENERGIA_FONTES.md",
-          "como": "Código, dados com origem e fontes já existem. Faltam as justificativas e as referências no README.",
-          "status": "A fazer"
+          "onde": "entregas/sers/README.md; sistema/mobilidade/energia.py; pesquisa/energia_modos.json; pesquisa/ENERGIA_FONTES.md",
+          "como": "Código, dados com origem, cálculos, comparação, justificativas e referências estão no README. Falta o grupo conferir os números.",
+          "status": "Falta conferir"
         },
         {
           "id": "SERS-10",
@@ -891,9 +891,9 @@
           "peso": "",
           "fonte": "enunciado SERS (portal), Entregáveis 1",
           "quem": "grupo",
-          "onde": "",
-          "como": "Indicar no README quais arquivos e telas são da SERS.",
-          "status": "A fazer"
+          "onde": "entregas/sers/README.md (seção Onde está cada coisa); entregas/README.md",
+          "como": "O README da SERS lista os arquivos e as telas da matéria dentro do repositório compartilhado.",
+          "status": "Feito"
         },
         {
           "id": "SERS-11",
@@ -1571,7 +1571,7 @@
           "fonte": "portal MLAM questão 05f",
           "quem": "código",
           "onde": "entregas/mlam/questao05_multivariada.py; saidas/relatorio.txt e saidas/resultados.json",
-          "como": "Previsão com as 3 explicativas (baldeação a 4 km, 3 linhas) = 748 ocorrências, com IC e conferência. Falta o grupo conferir a leitura e assinar.",
+          "como": "Previsão com as 3 explicativas (baldeação a 4 km, 3 linhas) = 898 ocorrências, IC 95% [754 ; 1043], com a ressalva de que 3 linhas é extrapolação (só 4 estações têm 3+). Falta o grupo conferir.",
           "status": "Falta conferir"
         },
         {
@@ -1582,7 +1582,7 @@
           "fonte": "portal MLAM questão 06a",
           "quem": "código",
           "onde": "entregas/mlam/questao06_logistica.py; saidas/relatorio.txt e saidas/resultados.json",
-          "como": "logito = -13,3295 - 0,1250×dist + 1,0437×qtd_linhas - 0,5626×lat, com razões de chance. Falta o grupo conferir a leitura e assinar.",
+          "como": "logito = -13,3295 - 0,1250×dist + 1,0437×qtd_linhas - 0,5626×lat, com razões de chance. O texto registra que só a distância é significativa a 5% (qtd_linhas p = 0,0674).",
           "status": "Falta conferir"
         },
         {
@@ -1593,7 +1593,7 @@
           "fonte": "portal MLAM questão 06b",
           "quem": "código",
           "onde": "entregas/mlam/questao06_logistica.py; saidas/relatorio.txt e saidas/resultados.json",
-          "como": "Matriz de confusão (51/20/21/47), acurácia 70,5%, precisão, revocação e AUC 0,744, interpretadas. Falta o grupo conferir a leitura e assinar.",
+          "como": "Matriz de confusão (51/20/21/47), acurácia 70.5% contra o piso da classe majoritária de 51.1%, precisão, revocação e AUC 0.744.",
           "status": "Falta conferir"
         },
         {
