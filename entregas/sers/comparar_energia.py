@@ -1,0 +1,81 @@
+"""SERS — comparação de energia, custo e CO₂ da mesma viagem em três modos.
+
+Roda a comparação que está no app "Dá Tempo?" e mostra cada conta passo a passo, com a origem
+de cada número. É este arquivo que o professor roda para ver a parte da SERS funcionando.
+
+    python comparar_energia.py            # viagem de 15 km (casa-trabalho média)
+    python comparar_energia.py 8.5        # outra distância
+
+O cálculo não é reescrito aqui: ele vem de `sistema/mobilidade/energia.py`, o mesmo módulo que o
+app usa. Assim não existe uma versão da matéria e outra do produto, que poderiam divergir.
+Os fatores vêm de `pesquisa/energia_modos.json`, com fonte, unidade, ano e premissa em cada um.
+"""
+import sys
+from pathlib import Path
+
+RAIZ = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(RAIZ))
+
+from sistema.mobilidade import energia  # noqa: E402
+
+PADRAO_KM = 15.0
+
+
+def real(valor: float) -> str:
+    return f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+
+def br(numero: float, casas: int = 2) -> str:
+    """Número no formato do Brasil, sem zero à toa no fim."""
+    return (f"{numero:.{casas}f}".rstrip("0").rstrip(".") or "0").replace(".", ",")
+
+
+def main(km: float) -> int:
+    r = energia.comparar(km)
+    print(f"\n{'=' * 76}")
+    print(f"SERS — a energia da viagem · {br(r['km'], 1)} km, por pessoa, só a ida")
+    print(f"{'=' * 76}")
+    print(f"Necessidade energética: deslocamento casa-trabalho de quem usa trem e metrô em São Paulo.")
+    print(f"Alternativas comparadas para a MESMA necessidade e o MESMO período (uma viagem):\n")
+
+    print(f"{'Modo':<18}{'Energia':>12}{'CO₂':>14}{'Custo':>12}   Renovável")
+    print("-" * 76)
+    for m in r["modos"]:
+        kwh = f"{br(m['energia_kwh'])} kWh" if m["energia_kwh"] is not None else "sem fonte"
+        co2 = f"{br(m['co2_kg'])} kg" + (f"–{br(m['co2_kg_max'])}" if m["co2_kg_max"] else "")
+        print(f"{m['modo']:<18}{kwh:>12}{co2:>14}{real(m['custo_rs']):>12}   {'sim' if m['renovavel'] else 'não'}")
+    print("-" * 76)
+
+    print("\nNotas de cada modo:")
+    for m in r["modos"]:
+        print(f"  {m['modo']}: {m['nota']}")
+
+    if r["trilho_vs_carro"] is not None:
+        print(f"\nResultado: o trilho emite {br(r['trilho_vs_carro'], 1)}% do CO₂ do carro nesta distância "
+              f"(uma redução de {br(100 - r['trilho_vs_carro'], 1)}%).")
+
+    print("\nPremissas (toda estimativa depende delas):")
+    for p in r["premissas"]:
+        print(f"  - {p}")
+
+    print("\nFontes consultadas:")
+    for f in r["fontes"]:
+        print(f"  - {f}")
+
+    print(f"\nDados levantados em {r['consultado_em']}. {r['rotulo']}")
+    print("Limitações: a lotação média do ônibus não tem fonte oficial, por isso o CO₂ dele vem do")
+    print("indicador por passageiro-km publicado pelo Metrô; o carro é considerado com uma pessoa e")
+    print("o custo é só o combustível, sem estacionamento, manutenção nem depreciação.\n")
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        distancia = float(sys.argv[1].replace(",", ".")) if len(sys.argv) > 1 else PADRAO_KM
+    except ValueError:
+        print(f"Distância inválida: {sys.argv[1]!r}. Use um número, por exemplo 15 ou 8,5.")
+        raise SystemExit(2)
+    if distancia <= 0:
+        print("A distância precisa ser maior que zero.")
+        raise SystemExit(2)
+    raise SystemExit(main(distancia))

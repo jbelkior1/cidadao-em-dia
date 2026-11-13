@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Checklist from "../componentes/Checklist";
 import Fluxograma from "../componentes/Fluxograma";
 import { TesteCs, TesteDsa, TesteEmConstrucao, TesteMlam, TestePcp, TesteSers } from "../componentes/Testes";
-import { api, type DadosMateria } from "../lib/api";
+import { api, type DadosMateria, type ResumoChecklist } from "../lib/api";
 
 const PARTES = ["Entenda", "Teste", "Checklist da entrega"] as const;
 type Parte = (typeof PARTES)[number];
@@ -93,6 +93,48 @@ function Teste({ dados }: { dados: DadosMateria }) {
   );
 }
 
+const VAZIO = { total: 0, prontos: 0, faltam: 0, percentual: 0 };
+
+/** Duas barras separadas: o código (escrito no repositório) e o que só a equipe faz. Um número só
+ *  engana: uma matéria com o código inteiro pronto aparecia pela metade por causa de vídeo e RM. */
+function Andamento({ resumo }: { resumo: ResumoChecklist }) {
+  const { codigo, grupo } = resumo.por_quem ?? { codigo: VAZIO, grupo: VAZIO };   // API antiga não manda por_quem
+  const barras = [
+    { rotulo: "Código no repositório", dado: codigo, cor: "bg-ok" },
+    { rotulo: "Equipe (vídeo, testes, RM, envio)", dado: grupo, cor: "bg-marca" },
+  ].filter((b) => b.dado.total > 0);
+  if (!barras.length) {
+    return (
+      <p className="text-[14px] text-apagado">
+        Checklist: <span className="font-semibold text-tinta">{resumo.percentual}%</span> · {resumo.por_status.Feito} de {resumo.total}
+      </p>
+    );
+  }
+  return (
+    <div className="space-y-2">
+      <p className="text-[14px] text-apagado">
+        Checklist da entrega: <span className="font-semibold text-tinta">{resumo.total} itens</span> do enunciado
+      </p>
+      <div className="grid max-w-xl gap-1.5">
+        {barras.map(({ rotulo, dado, cor }) => (
+          <div key={rotulo} className="flex items-center gap-2.5">
+            <span className="w-56 shrink-0 text-[13px] text-apagado">{rotulo}</span>
+            <span className="h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-cinza">
+              <span className={`block h-full rounded-full ${cor}`} style={{ width: `${dado.percentual}%` }} />
+            </span>
+            <span className="w-16 shrink-0 text-right text-[13px] font-semibold tabular-nums">
+              {dado.prontos}/{dado.total}
+            </span>
+          </div>
+        ))}
+      </div>
+      {codigo.total > 0 && codigo.faltam === 0 && (
+        <p className="text-[13px] text-ok">O código desta matéria está escrito e rodando. O que falta é da equipe.</p>
+      )}
+    </div>
+  );
+}
+
 export default function Materia() {
   const { cod = "" } = useParams();
   const [dados, setDados] = useState<DadosMateria | null>(null);
@@ -116,11 +158,7 @@ export default function Materia() {
       <header className="space-y-3 border-l-4 pl-4" style={{ borderColor: m.cor }}>
         <p className="text-[13px] font-semibold tracking-wide text-apagado uppercase">{m.nome} ({m.cod})</p>
         <h2 className="text-3xl leading-tight font-bold">{m.curto}</h2>
-        {resumo && (
-          <p className="text-[14px] text-apagado">
-            Checklist: <span className="font-semibold text-tinta">{resumo.percentual}%</span> · {resumo.por_status.Feito} feitos de {resumo.total}
-          </p>
-        )}
+        {resumo && <Andamento resumo={resumo} />}
       </header>
 
       <div className="flex flex-wrap gap-1 rounded-xl bg-superficie p-1 ring-1 ring-linha ring-inset sm:inline-flex" role="tablist" aria-label="Partes da página">

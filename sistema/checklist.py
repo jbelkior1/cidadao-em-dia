@@ -26,15 +26,29 @@ def _gravar(dados: dict) -> None:
     ARQUIVO.write_text(json.dumps(dados, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def _escritos(itens: list[dict]) -> dict:
+    """Quantos itens já existem (qualquer status menos "A fazer") e quantos faltam."""
+    feitos = sum(1 for i in itens if i.get("status", "A fazer") != "A fazer")
+    return {"total": len(itens), "prontos": feitos, "faltam": len(itens) - feitos,
+            "percentual": round(100 * feitos / len(itens)) if itens else 0}
+
+
 def contar(itens: list[dict]) -> dict:
-    """Quantos itens em cada status e o percentual (Feito vale 1, Falta conferir vale meio)."""
+    """Quantos itens em cada status e o percentual (Feito vale 1, Falta conferir vale meio).
+
+    `por_quem` separa o que é código, que esta sessão escreve, do que só a equipe faz (vídeo,
+    teste com usuários, nomes e RM, envio no portal). Sem essa separação a tela mostra um número
+    só, e uma matéria com o código inteiro pronto aparece pela metade.
+    """
     contagem = {s: 0 for s in STATUS}
     for item in itens:
         contagem[item.get("status", "A fazer")] = contagem.get(item.get("status", "A fazer"), 0) + 1
     total = len(itens)
     pontos = sum(VALOR.get(i.get("status", "A fazer"), 0) for i in itens)
     return {"total": total, "por_status": contagem, "percentual": round(100 * pontos / total) if total else 0,
-            "do_grupo": sum(1 for i in itens if i.get("quem") == "grupo" and i.get("status") != "Feito")}
+            "do_grupo": sum(1 for i in itens if i.get("quem") == "grupo" and i.get("status") != "Feito"),
+            "por_quem": {"codigo": _escritos([i for i in itens if i.get("quem") == "código"]),
+                         "grupo": _escritos([i for i in itens if i.get("quem") == "grupo"])}}
 
 
 def da_materia(cod: str) -> dict | None:

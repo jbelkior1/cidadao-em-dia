@@ -26,7 +26,11 @@ export type Status = "Feito" | "Falta conferir" | "A fazer";
 export type ItemChecklist = {
   id: string; requisito: string; detalhe: string; peso: string; fonte: string; quem: "código" | "grupo"; onde: string; como: string; status: Status;
 };
-export type ResumoChecklist = { total: number; por_status: Record<Status, number>; percentual: number; do_grupo: number };
+export type Andamento = { total: number; prontos: number; faltam: number; percentual: number };
+export type ResumoChecklist = {
+  total: number; por_status: Record<Status, number>; percentual: number; do_grupo: number;
+  por_quem: { codigo: Andamento; grupo: Andamento };
+};
 export type ChecklistMateria = {
   nome: string; formato_entrega: string; prazo: string; rubrica?: { criterio: string; pontos: string }[]; itens: ItemChecklist[]; resumo: ResumoChecklist;
 };
