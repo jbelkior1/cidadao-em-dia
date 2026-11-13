@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 
 import { assistente, mobilidade, type Alertas, type Cartao, type FalaHistorico, type Passo, type RespostaAssistente, type Viagem } from "../lib/api";
+import { conta, lerToken } from "../lib/conta";
 
 /*
  * Estado da conversa com a Lia, fora das telas: trocar de vista (notebook ou celular)
@@ -25,6 +26,8 @@ type Contexto = {
   casa: string | null;
   /** Esquece tudo da conversa em memória e a casa gravada: usado por "Apagar os dados deste aparelho". */
   esquecer: () => void;
+  /** Troca a estação de casa (Perfil ou conta). null apaga. */
+  definirCasa: (id: string | null) => void;
   alertas: Alertas | null;
   rastro: Passo[];
   simular: string;
@@ -110,8 +113,11 @@ export function ProvedorConversa({ children }: { children: ReactNode }) {
     setSugestoes(r.sugestoes);
     if (r.rastro.length) setRastro(r.rastro);
     if (r.memoria?.casa) {
-      gravarCasa(r.memoria.casa);
-      setCasa(r.memoria.casa);
+      const nova = r.memoria.casa;
+      gravarCasa(nova);
+      setCasa(nova);
+      // com conta, a casa que a Lia guardou vai também para a conta (as linhas ficam como estão)
+      if (lerToken()) conta.eu().then((p) => conta.preferencias(p.linhas, nova)).catch(() => {});
     }
     if (r.ultima_viagem) setUltimaViagem(r.ultima_viagem);
   }, []);
@@ -150,6 +156,16 @@ export function ProvedorConversa({ children }: { children: ReactNode }) {
     }
   }, [reiniciar]);
 
+  const definirCasa = useCallback((id: string | null) => {
+    setCasa(id);
+    try {
+      if (id) localStorage.setItem(CHAVE_CASA, id);
+      else localStorage.removeItem(CHAVE_CASA);
+    } catch {
+      /* sem armazenamento */
+    }
+  }, []);
+
   const notificar = useCallback((n: Notificacao) => {
     setAviso(n);
     window.clearTimeout(temporizador.current);
@@ -177,7 +193,7 @@ export function ProvedorConversa({ children }: { children: ReactNode }) {
 
   return (
     <ContextoConversa.Provider value={{
-      falas, sugestoes, esperando, erro, enviar, reiniciar, casa, esquecer, alertas, rastro, simular, setSimular, ultimaViagem,
+      falas, sugestoes, esperando, erro, enviar, reiniciar, casa, esquecer, definirCasa, alertas, rastro, simular, setSimular, ultimaViagem,
       aviso, fecharAviso, abrirAviso, simularAviso,
     }}>
       {children}

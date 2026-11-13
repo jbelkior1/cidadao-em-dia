@@ -27,7 +27,7 @@ const ABAS: { id: IdAba; rotulo: string; titulo: string; Icone: LucideIcon }[] =
 
 export default function AppAbas({ aoAbrirMenu }: { aoAbrirMenu?: () => void }) {
   const { ia } = useApp();
-  const { simular, reiniciar, falas } = useConversa();
+  const { simular, reiniciar, falas, enviar } = useConversa();
   const [aba, setAba] = useState<IdAba>("home");
   const [alertas, setAlertas] = useState(false);
   const [sos, setSos] = useState(false);
@@ -74,7 +74,7 @@ export default function AppAbas({ aoAbrirMenu }: { aoAbrirMenu?: () => void }) {
         {aba === "home" && <Feed aoIr={ir} aoSos={abrirSos} />}
         {aba === "mapa" && <Mapa simular={simular || undefined} />}
         {aba === "ia" && <Chat />}
-        {aba === "perfil" && <Perfil />}
+        {aba === "perfil" && <Perfil aoConferir={(texto) => { ir("ia"); enviar(texto); }} />}
       </div>
 
       <nav className="grid shrink-0 grid-cols-4 border-t border-linha bg-superficie pb-[max(env(safe-area-inset-bottom),8px)]" aria-label="Abas do app">

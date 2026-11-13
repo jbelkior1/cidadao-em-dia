@@ -13,7 +13,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from sistema import assistente, checklist, config, conversa, ia, laboratorio, materias, testes
-from sistema import banco, mapa, relatos, sos
+from sistema import banco, contas, mapa, relatos, sos
 from sistema.adaptadores import dsa, pcp
 from sistema.mobilidade import decisao, fontes, plano, rede
 from sistema.relatos_supabase import BancoIndisponivel
@@ -25,8 +25,10 @@ def ligar_banco() -> str:
     cred = banco.credenciais()
     if not cred:
         return "memoria"
+    from sistema.contas_supabase import RepositorioSupabaseContas
     from sistema.relatos_supabase import RepositorioSupabase
     relatos.usar_repositorio(RepositorioSupabase(*cred))
+    contas.usar_repositorio(RepositorioSupabaseContas(*cred))
     return "supabase"
 
 
@@ -51,16 +53,17 @@ async def ciclo_de_vida(_app):
 app = FastAPI(title="Dá Tempo?", docs_url="/api/docs", openapi_url="/api/openapi.json", lifespan=ciclo_de_vida)
 app.include_router(mapa.router)
 app.include_router(relatos.router)
+app.include_router(contas.router)
 
 
 def _banco_fora_do_ar(_pedido, _erro) -> JSONResponse:
     """Supabase com erro ou sem rede: 503 com mensagem em português, em vez de 500 sem explicação.
 
-    Hoje só o repositório de relatos deixa erro do httpx chegar até aqui (fontes, IA e PAI capturam o
-    deles). Rota nova que use httpx sem capturar vai cair aqui com a mensagem de relatos: capture antes.
+    Hoje só os repositórios de relatos e de contas deixam erro do httpx chegar até aqui (fontes, IA e PAI
+    capturam o deles). Rota nova que use httpx sem capturar vai cair aqui com esta mensagem: capture antes.
     """
     return JSONResponse(status_code=503, headers={"Retry-After": "30"},
-                        content={"detail": "Os relatos dos passageiros estão indisponíveis agora. Tente de novo em instantes."})
+                        content={"detail": "Os relatos e as contas estão indisponíveis agora. Tente de novo em instantes."})
 
 
 app.add_exception_handler(BancoIndisponivel, _banco_fora_do_ar)
