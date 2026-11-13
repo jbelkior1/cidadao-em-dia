@@ -160,7 +160,7 @@
           "fonte": "enunciado PCP seção 4",
           "quem": "código",
           "onde": "entregas/pcp/citizen-assist-ai/data/base_conhecimento.json; orientacao.py: Orientacao.de_dict",
-          "como": "Os 13 registros têm os 9 campos (mais um campo extra, conferido_pela_equipe, que o carregador aceita e ignora). Testes test_campos_obrigatorios_preenchidos e test_ids_unicos passam.",
+          "como": "Os 16 registros têm os 9 campos (mais um campo extra, conferido_pela_equipe, que o carregador aceita e ignora). Testes test_campos_obrigatorios_preenchidos e test_ids_unicos passam.",
           "status": "Feito"
         },
         {
@@ -182,7 +182,7 @@
           "fonte": "enunciado PCP seção 4",
           "quem": "grupo",
           "onde": "entregas/pcp/citizen-assist-ai/data/base_conhecimento.json (campos fonte, verificado_em, conferido_pela_equipe)",
-          "como": "As 13 vieram de páginas oficiais lidas em 12/11/2026 e todas têm conferido_pela_equipe=false. O grupo precisa abrir cada fonte, conferir o texto e atualizar verificado_em. Escrever com palavras próprias (bases idênticas entre equipes podem ter desconto).",
+          "como": "As 16 vieram de páginas oficiais lidas em 12/11/2026 e todas têm conferido_pela_equipe=false. O grupo precisa abrir cada fonte, conferir o texto e atualizar verificado_em. Escrever com palavras próprias (bases idênticas entre equipes podem ter desconto).",
           "status": "Falta conferir"
         },
         {
@@ -684,7 +684,7 @@
           "fonte": "enunciado DSA seção 8",
           "quem": "código",
           "onde": "entregas/dsa/docs/DOCUMENTACAO.md; README.md",
-          "como": "As seções 1 a 5 cobrem os cinco pontos. Falta só o nome e RM dos integrantes (item próprio).",
+          "como": "Documentação com Big-O conferida contra o código (cadastrar O(n), inserir_fim O(1), remover O(n), merge sort O(n log n)) e a contagem corrigida para 15 serviços. Falta só o nome e o RM (item próprio).",
           "status": "Feito"
         },
         {
@@ -706,18 +706,18 @@
           "fonte": "enunciado DSA seções 7 e 8",
           "quem": "grupo",
           "onde": "entregas/dsa/docs/EVIDENCIAS.md",
-          "como": "A tabela tem 28 cenários, inclusive lista vazia, mas foi gerada com os 6 registros antigos e não tem prints. O grupo precisa refazer com os 13 serviços atuais e colar prints do próprio terminal.",
+          "como": "A tabela foi refeita em 13/11/2026 rodando `python main.py` de verdade com os 15 serviços atuais: 16 cenários, inclusive lista vazia, id repetido, entrada vazia e opção inexistente, cada um com a saída real do terminal. Falta só o grupo repetir na própria máquina e colar os prints.",
           "status": "Falta conferir"
         },
         {
           "id": "DSA-18",
-          "requisito": "Dados iniciais (13 serviços) conferidos pelo grupo nas fontes oficiais",
+          "requisito": "Dados iniciais (15 serviços) conferidos pelo grupo nas fontes oficiais",
           "detalhe": "Os serviços vieram de páginas oficiais lidas em 12/11/2026; o case pede conjunto verificável de informações.",
           "peso": "",
           "fonte": "PDF geral p.10",
           "quem": "grupo",
           "onde": "entregas/dsa/dados/servicos.json",
-          "como": "Abrir cada fonte, conferir o texto e atualizar verificado_em.",
+          "como": "Abrir cada fonte, conferir o texto e atualizar verificado_em nos 15 serviços (SRV-001 a SRV-015).",
           "status": "Falta conferir"
         },
         {

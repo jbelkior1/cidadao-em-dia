@@ -4,7 +4,7 @@ Assistente de terminal, em Python, que responde dúvidas do cidadão **somente c
 
 Trabalho da Global Solution 2026.2 (FIAP), tema CitizenTech, matéria Pensamento Computacional e Automação com Python.
 
-> **ATENÇÃO: a base de conhecimento ainda está em conferência.** As 13 orientações vieram de uma pesquisa em páginas oficiais feita em 12/11/2026 (pasta `pesquisa/` do projeto Cidadão em Dia). Antes de entregar, a equipe precisa abrir cada fonte, confirmar o texto e atualizar a data em `verificado_em`. Cada registro conferido perde o campo `conferido_pela_equipe: false`.
+> **ATENÇÃO: a base de conhecimento ainda está em conferência.** As 16 orientações vieram de uma pesquisa em páginas oficiais feita em 12/11/2026 (pasta `pesquisa/` do projeto Cidadão em Dia). Antes de entregar, a equipe precisa abrir cada fonte, confirmar o texto e atualizar a data em `verificado_em`. Cada registro conferido perde o campo `conferido_pela_equipe: false`.
 
 ## Integrantes
 
@@ -145,7 +145,7 @@ A PREENCHER PELO GRUPO. O enunciado pede pelo menos 3 pessoas de fora da equipe,
 
 ## Limitações
 
-- A base tem 13 orientações; o assistente só conhece o que está nela.
+- A base tem 16 orientações; o assistente só conhece o que está nela.
 - A busca é por regras: não entende sinônimos nem erros de digitação que não estejam nas palavras-chave.
 - O tempo medido inclui o tempo de digitação da pessoa.
 - Cada atendimento guarda só a última pergunta digitada.

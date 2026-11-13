@@ -1,4 +1,4 @@
-MLAM — Global Solution 2026.2 — análises rodadas em 13/11/2026 10:51
+MLAM — Global Solution 2026.2 — análises rodadas em 13/11/2026 11:11
 Base: ocorrencias_estacoes_2026.csv (139 estações, SSP-SP, jan–set/2026)
 
 ==============================================================================
