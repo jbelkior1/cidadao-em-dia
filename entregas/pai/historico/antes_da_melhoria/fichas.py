@@ -6,7 +6,7 @@ de construção. As fichas novas seguem a mesma estrutura das de Aurora, mas com
 cada fato saiu de página oficial (Metrô, CPTM, concessionárias, SPTrans, Artesp, Defesa Civil), e a
 URL está no campo **Fonte** de cada ficha. As fichas de Aurora ficaram em `historico/aurora/`.
 
-Cada arquivo `.md` tem um título `# FT-0X — Assunto` e blocos `**Campo:** valor`, alguns com lista
+Cada arquivo `.md` tem um título `# FT-0X: Assunto` e blocos `**Campo:** valor`, alguns com lista
 numerada. Este módulo transforma isso em registros com o que o enunciado manda preservar: id,
 assunto, palavras-chave, os campos de conteúdo, passo a passo, onde e a fonte com a data.
 
@@ -103,7 +103,7 @@ def _partir_campos(corpo: str) -> dict[str, str]:
 
 def _ler(arquivo: Path, prefixo: str) -> Ficha | None:
     texto = arquivo.read_text(encoding="utf-8").strip()
-    cabecalho = re.match(rf"#\s*({prefixo}-\d{{2}})\s*[—–-]\s*(.+)", texto)
+    cabecalho = re.match(rf"#\s*({prefixo}-\d{{2}})\s*[—–:-]\s*(.+)", texto)
     if not cabecalho:
         return None
     campos = _partir_campos(texto)

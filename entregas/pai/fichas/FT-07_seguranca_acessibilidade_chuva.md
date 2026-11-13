@@ -1,4 +1,4 @@
-# FT-07 — Segurança, acessibilidade, chuva e celular roubado
+# FT-07: Segurança, acessibilidade, chuva e celular roubado
 
 **Palavras-chave:** assédio, importunação, denúncia, denunciar, segurança, sms segurança, abuso, acessibilidade, cadeirante, mobilidade reduzida, elevador, táxi acessível, atendimento preferencial, chuva, alagamento, enchente, defesa civil, 199, celular roubado, celular perdido, roubaram, boletim de ocorrência
 

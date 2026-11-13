@@ -1,4 +1,5 @@
-"""Questão 03 (1,0) — Teste de hipótese para a média, com desvio padrão de referência conhecido.
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
+"""Questão 03 (1,0): Teste de hipótese para a média, com desvio padrão de referência conhecido.
 
     a) média amostral MENOR que a de referência; significância 6%; n = 20;
     b) média amostral MAIOR que a de referência; significância 9%; n = 25.
@@ -7,8 +8,8 @@ Em ambos, o desvio padrão de referência é o desvio padrão populacional da ba
 então o teste é o z para a média (e não o t).
 
 As amostras não são sorteadas: cada uma responde a uma pergunta do problema-tema.
-  a) as 20 estações MAIS DISTANTES do Marco Zero — a periferia da rede registra menos ocorrências?
-  b) as 25 estações MAIS PRÓXIMAS do Marco Zero — o centro registra mais?
+  a) as 20 estações MAIS DISTANTES do Marco Zero: a periferia da rede registra menos ocorrências?
+  b) as 25 estações MAIS PRÓXIMAS do Marco Zero: o centro registra mais?
 Amostra dirigida é escolha de recorte, não sorteio: as conclusões valem para esses grupos de estações,
 não para uma estação qualquer. Isso está dito nas interpretações e nas limitações do relatório.
 
@@ -60,14 +61,14 @@ def resolver(df=None) -> dict:
     mu0 = float(x.mean())
     sigma = float(x.std(ddof=0))
 
-    comum.titulo("QUESTÃO 03 — Teste de hipótese para a média (teste z)")
+    comum.titulo("QUESTÃO 03: Teste de hipótese para a média (teste z)")
     print(f"Variável: {comum.nome(comum.RESPOSTA)}")
     print(f"Média populacional de referência μ0 = {mu0:.2f} (as 139 estações)")
     print(f"Desvio padrão de referência σ = {sigma:.2f} (desvio padrão populacional, como pede o enunciado)")
 
     # ---- a) n = 20, α = 6%, unilateral à esquerda
     longe = df.nlargest(20, "dist_marco_zero_km")
-    comum.item("a", "Média amostral MENOR que a de referência — α = 6%, n = 20")
+    comum.item("a", "Média amostral MENOR que a de referência: α = 6%, n = 20")
     print(f"Amostra: as 20 estações mais distantes do Marco Zero "
           f"(de {longe.dist_marco_zero_km.min():.1f} km a {longe.dist_marco_zero_km.max():.1f} km)")
     r_a = _teste_z(longe[comum.RESPOSTA], mu0, sigma, 0.06, "menor")
@@ -75,7 +76,7 @@ def resolver(df=None) -> dict:
     comum.interpretacao(f"""
         A média das 20 estações mais distantes é {r_a['media_amostral']:.1f}, contra {mu0:.1f} da rede inteira.
         Com z = {r_a['z']:.3f} abaixo do crítico {r_a['z_critico']:.3f} e p-valor {r_a['p_valor']:.4f}, o
-        procedimento rejeita H0 a 6% — mas por pouco: a 5% o resultado já seria outro.
+        procedimento rejeita H0 a 6%, mas por pouco: a 5% o resultado já seria outro.
         Cuidado com a leitura: este grupo não foi sorteado, foi escolhido pelos extremos de distância e faz
         parte da própria população de referência. Nesse caso o p-valor não mede "acaso de amostragem"; o
         teste descreve que esse grupo de ponta de linha tem média de registros abaixo da rede, não prova
@@ -86,7 +87,7 @@ def resolver(df=None) -> dict:
 
     # ---- b) n = 25, α = 9%, unilateral à direita
     perto = df.nsmallest(25, "dist_marco_zero_km")
-    comum.item("b", "Média amostral MAIOR que a de referência — α = 9%, n = 25")
+    comum.item("b", "Média amostral MAIOR que a de referência: α = 9%, n = 25")
     print(f"Amostra: as 25 estações mais próximas do Marco Zero "
           f"(de {perto.dist_marco_zero_km.min():.1f} km a {perto.dist_marco_zero_km.max():.1f} km)")
     r_b = _teste_z(perto[comum.RESPOSTA], mu0, sigma, 0.09, "maior")
@@ -97,7 +98,7 @@ def resolver(df=None) -> dict:
         rejeita H0 a 9% com folga.
         Vale o mesmo cuidado da letra a: o grupo foi escolhido pela distância, não sorteado, então o
         resultado descreve o centro expandido e não é inferência para a rede. Os dois testes mostram a mesma
-        tendência por lados opostos, o que motiva olhar a distância nas questões 04 e 05 — onde a relação é
+        tendência por lados opostos, o que motiva olhar a distância nas questões 04 e 05, onde a relação é
         medida com a base inteira, sem recorte.
     """)
 

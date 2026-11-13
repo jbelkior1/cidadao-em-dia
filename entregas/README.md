@@ -28,11 +28,11 @@ Além da pasta própria, o código de cada matéria aparece no app:
 
 | matéria | no sistema |
 |---|---|
-| PCP | `sistema/adaptadores/pcp.py`, `sistema/conversa.py` — as orientações nos cartões da Lia |
-| DSA | `sistema/adaptadores/dsa.py` — o canal de atendimento que acompanha cada orientação |
-| SERS | `sistema/mobilidade/energia.py`, `pesquisa/energia_modos.json` — o bloco de energia da viagem |
-| MLAM | `sistema/dados/seguranca_estacoes.json` — a camada de segurança do mapa e do cartão de viagem |
-| PAI | `sistema/adaptadores/pai.py` e a ferramenta `perguntar_fichas` em `sistema/assistente.py` — a Lia chama o agente da PAI (ver abaixo) |
+| PCP | `sistema/adaptadores/pcp.py`, `sistema/conversa.py`: as orientações nos cartões da Lia |
+| DSA | `sistema/adaptadores/dsa.py`: o canal de atendimento que acompanha cada orientação |
+| SERS | `sistema/mobilidade/energia.py`, `pesquisa/energia_modos.json`: o bloco de energia da viagem |
+| MLAM | `sistema/dados/seguranca_estacoes.json`: a camada de segurança do mapa e do cartão de viagem |
+| PAI | `sistema/adaptadores/pai.py` e a ferramenta `perguntar_fichas` em `sistema/assistente.py`: a Lia chama o agente da PAI (ver abaixo) |
 
 ## Atenção na PAI
 

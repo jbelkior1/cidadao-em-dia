@@ -1,6 +1,6 @@
-# Evidências de testes — DSA (Citizen Assist AI)
+# Evidências de testes: DSA (Citizen Assist AI)
 
-Integrantes / RM: **A PREENCHER PELO GRUPO**
+Integrantes / RM: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 
 Saídas obtidas em 13/11/2026 rodando `python main.py` com os 15 serviços de `dados/servicos.json`
 (SRV-001 a SRV-015). Cada cenário é uma execução nova do programa. O bloco **Observado** é a

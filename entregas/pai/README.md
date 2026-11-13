@@ -1,7 +1,12 @@
-# PAI · Global Solution 2026.2 — agente de orientação ao passageiro (Dá Tempo?)
+# PAI · Global Solution 2026.2: agente de orientação ao passageiro (Dá Tempo?)
 
-Integrantes: **A PREENCHER PELO GRUPO** (nome completo de todos, no início do trabalho, como o
-enunciado exige).
+Integrantes:
+
+| Nome completo | RM |
+|---|---|
+| João Vitor Belchior Domingos Leite | 572478 |
+| João Pedro Pereira Teixeira | 569937 |
+| Thiago de Oliveira Coelho Souza | 568783 |
 
 Assistente que responde dúvidas de quem usa metrô, trem e ônibus em São Paulo (declaração de atraso,
 linha parada e PAESE, reclamação e ouvidoria, gratuidades, achados e perdidos, tarifa e integração,
@@ -257,7 +262,6 @@ aplicado**: os campos estão vazios de propósito, para a equipe preencher com o
 
 ## O que falta à equipe (não é código)
 
-- [ ] Nome completo de todos no início do trabalho.
 - [ ] Aplicar os testes com 5 pessoas e preencher `TESTES_USUARIOS.md`.
 - [ ] Conferir à mão uma amostra dos julgamentos do juiz (tabela no mesmo arquivo).
 - [ ] Conferir as fichas nas páginas oficiais antes de entregar (telefones e horários mudam).

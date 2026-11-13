@@ -1,4 +1,4 @@
-# FT-04 — Gratuidades: pessoa idosa e pessoa com deficiência
+# FT-04: Gratuidades: pessoa idosa e pessoa com deficiência
 
 **Palavras-chave:** gratuidade, gratuito, de graça, não pago, isenção, idoso, pessoa idosa, 60 anos, 65 anos, deficiência, pcd, bilhete especial, passe livre, estatuto da pessoa idosa
 

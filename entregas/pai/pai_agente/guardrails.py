@@ -25,7 +25,7 @@ PADROES_PESSOAIS: list[tuple[str, re.Pattern]] = [
 ]
 #: Oferta de dado pessoal sem número nenhum (golden #23).
 #: Atenção: "meu RG" e "meu CPF" NÃO entram aqui. São assunto das fichas (achados e perdidos), e quem
-#: escreve "perdi meu RG" não está informando dado pessoal — o número, se vier, cai nos padrões acima.
+#: escreve "perdi meu RG" não está informando dado pessoal: o número, se vier, cai nos padrões acima.
 #: Pelo mesmo motivo, "meu celular" sozinho é o aparelho ("roubaram meu celular"), não o número: só conta
 #: quando vem seguido de "é", "eh", ":" ou "=" (melhoria da rodada "depois", caso #104 do golden). Sem acento,
 #: "e" também conta, menos quando emenda outro objeto ("roubaram meu celular e a carteira").

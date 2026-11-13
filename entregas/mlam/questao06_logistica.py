@@ -1,4 +1,5 @@
-"""Questão 06 (2,0) — Regressão logística binária com três variáveis quantitativas.
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
+"""Questão 06 (2,0): Regressão logística binária com três variáveis quantitativas.
 
 A resposta vira sim ou não: a estação está entre as de MAIOR número de ocorrências registradas
 no entorno? "Maior" é acima da mediana das 139 estações, o que parte a base ao meio e deixa as
@@ -33,7 +34,7 @@ def resolver(df=None) -> dict:
     corte = float(df[comum.RESPOSTA].median())
     y = (df[comum.RESPOSTA] > corte).astype(int)
 
-    comum.titulo("QUESTÃO 06 — Regressão logística binária")
+    comum.titulo("QUESTÃO 06: Regressão logística binária")
     print(f"Variável resposta criada: alta_ocorrencia = 1 se total > {corte:.0f} (mediana), senão 0")
     print(f"Classes: {int(y.sum())} estações com 1 e {int((1 - y).sum())} com 0, de {len(y)}")
     print(f"Explicativas: {', '.join(X)}")

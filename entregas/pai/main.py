@@ -1,4 +1,4 @@
-"""Assistente de orientação do Dá Tempo? (fichas de transporte FT-01 a FT-07) — uso pelo terminal.
+"""Assistente de orientação do Dá Tempo? (fichas de transporte FT-01 a FT-07), uso pelo terminal.
 
     python main.py
 
@@ -7,7 +7,7 @@ texto, as duas no mesmo lugar. Tudo funciona só com o teclado, as linhas são c
 resposta vem com a fonte e o aviso de que não é canal oficial.
 
 Nada é gravado: nem a pergunta, nem a resposta, nem histórico. É a forma mais simples de cumprir
-a seção 3 do enunciado (não guardar dado pessoal) — o que não existe não vaza.
+a seção 3 do enunciado (não guardar dado pessoal): o que não existe não vaza.
 """
 import sys
 from pathlib import Path
@@ -41,7 +41,7 @@ def quebrar(texto: str, recuo: str = "") -> None:
 def abertura() -> None:
     cfg = config()
     risca("=")
-    print("DÁ TEMPO? — orientação sobre metrô, trem e ônibus em São Paulo")
+    print("DÁ TEMPO?: orientação sobre metrô, trem e ônibus em São Paulo")
     risca("=")
     quebrar("Protótipo educacional da Global Solution 2026.2. As fichas foram montadas a partir de "
             "páginas oficiais lidas em 12/11/2026, mas regras e telefones mudam. Este assistente não é "

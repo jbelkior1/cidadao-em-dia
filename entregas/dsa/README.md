@@ -1,8 +1,8 @@
-# DSA — Citizen Assist AI (lista encadeada em Python)
+# DSA: Citizen Assist AI (lista encadeada em Python)
 
 Sistema de terminal para cadastrar, consultar, atualizar, excluir, pesquisar e ordenar serviços e orientações ao cidadão. Armazenamento em lista encadeada feita pela equipe; busca linear e merge sort escritos à mão.
 
-Integrantes / RM: A PREENCHER PELO GRUPO
+Integrantes / RM: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 
 ## Como executar
 

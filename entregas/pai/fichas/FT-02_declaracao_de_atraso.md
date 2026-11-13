@@ -1,4 +1,4 @@
-# FT-02 — Declaração de atraso (Metrô, concessionárias e CPTM)
+# FT-02: Declaração de atraso (Metrô, concessionárias e CPTM)
 
 **Palavras-chave:** declaração, declaração de atraso, declaração de ocorrência, comprovante de atraso, justificar atraso, cheguei atrasado, atrasei, atestado de atraso
 

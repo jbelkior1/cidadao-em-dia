@@ -1,4 +1,5 @@
-"""Questão 02 (1,0) — Probabilidade com distribuição normal.
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
+"""Questão 02 (1,0): Probabilidade com distribuição normal.
 
 Variável escolhida: `total`, as ocorrências registradas no entorno de cada estação.
 
@@ -24,7 +25,7 @@ def resolver(df=None) -> dict:
     desvio = x.std(ddof=0)                      # desvio padrão populacional: a base é a população das 139 estações
     normal = stats.norm(loc=media, scale=desvio)
 
-    comum.titulo("QUESTÃO 02 — Probabilidade assumindo distribuição normal")
+    comum.titulo("QUESTÃO 02: Probabilidade assumindo distribuição normal")
     print(f"Variável: {comum.nome(comum.RESPOSTA)}")
     print(f"n = {len(x)} estações | média = {media:.2f} | mediana = {mediana:.2f} | "
           f"desvio padrão populacional = {desvio:.2f}")

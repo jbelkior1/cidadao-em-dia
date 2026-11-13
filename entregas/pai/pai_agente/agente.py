@@ -100,7 +100,7 @@ def no_guardrails(estado: Estado) -> Estado:
         saida["motivo"] = "entrada vazia"
     elif v.entrada_invalida == "sem sentido":
         saida["resposta"] = ("Não entendi sua mensagem. Pode reformular? Posso ajudar com " + ASSUNTOS +
-                             " — por exemplo: \"a linha parou, tem ônibus de apoio?\". " + AVISO)
+                             ", por exemplo: \"a linha parou, tem ônibus de apoio?\". " + AVISO)
         saida["motivo"] = "entrada sem sentido"
     elif v.entrada_invalida == "longa demais":
         saida["resposta"] = ("Sua mensagem é muito longa para eu entender. Resuma em uma pergunta curta, "

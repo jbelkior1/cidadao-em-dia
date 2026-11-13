@@ -1,4 +1,5 @@
-"""Questão 04 (2,0) — Análise bivariada entre duas variáveis quantitativas.
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
+"""Questão 04 (2,0): Análise bivariada entre duas variáveis quantitativas.
 
 Par escolhido: distância da estação até o Marco Zero (km) × ocorrências no entorno.
 A pergunta do produto é direta: a posição da estação na cidade ajuda a explicar quantas
@@ -32,7 +33,7 @@ def resolver(df=None) -> dict:
     df = comum.carregar() if df is None else df
     x, y = df[X], df[Y]
 
-    comum.titulo("QUESTÃO 04 — Análise bivariada (2 variáveis quantitativas)")
+    comum.titulo("QUESTÃO 04: Análise bivariada (2 variáveis quantitativas)")
     print(f"X = {comum.nome(X)}\nY = {comum.nome(Y)}\nn = {len(df)} estações")
 
     # ---- b) covariância e correlação (calculadas antes para entrarem no gráfico da letra a)
@@ -51,7 +52,7 @@ def resolver(df=None) -> dict:
     longe_c = y[x > 20]
     comum.interpretacao(f"""
         A nuvem desce da esquerda para a direita: quanto mais longe do centro, menos ocorrências
-        registradas no entorno. A relação existe, mas é frouxa — há estações distantes com muitos
+        registradas no entorno. A relação existe, mas é frouxa: há estações distantes com muitos
         registros e estações centrais com poucos.
         A dispersão abre em leque perto do centro (heterocedasticidade): entre 0 e 5 km os valores vão
         de {perto_c.min()} a {perto_c.max()}, enquanto acima de 20 km {int((longe_c < 300).sum())} das

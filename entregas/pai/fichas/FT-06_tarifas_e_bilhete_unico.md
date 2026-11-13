@@ -1,4 +1,4 @@
-# FT-06 — Tarifas e integração do Bilhete Único
+# FT-06: Tarifas e integração do Bilhete Único
 
 **Palavras-chave:** tarifa, passagem, integração, bilhete único, bilhete unitário, crédito comum, preço da passagem, custa o metrô, custa o trem, custa o ônibus
 

@@ -8,11 +8,11 @@ Trabalho da Global Solution 2026.2 (FIAP), tema CitizenTech, matéria Pensamento
 
 ## Integrantes
 
-A PREENCHER PELO GRUPO: nome e RM de cada integrante.
-
 | Nome | RM |
 |------|----|
-| A PREENCHER PELO GRUPO | A PREENCHER PELO GRUPO |
+| João Vitor Belchior Domingos Leite | 572478 |
+| João Pedro Pereira Teixeira | 569937 |
+| Thiago de Oliveira Coelho Souza | 568783 |
 
 ## Público e problema escolhidos
 
@@ -26,9 +26,9 @@ A PREENCHER PELO GRUPO: nome e RM de cada integrante.
 
 > Proposta; **o grupo confirma**.
 
-- **ODS 11 — Cidades e comunidades sustentáveis:** meta 11.2, acesso a sistemas de transporte seguros, acessíveis e sustentáveis.
-- **ODS 10 — Redução das desigualdades:** as orientações de gratuidade e acessibilidade atendem pessoa idosa e pessoa com deficiência.
-- **ODS 16 — Paz, justiça e instituições eficazes:** acesso à informação e aos canais de reclamação e ouvidoria.
+- **ODS 11 (Cidades e comunidades sustentáveis):** meta 11.2, acesso a sistemas de transporte seguros, acessíveis e sustentáveis.
+- **ODS 10 (Redução das desigualdades):** as orientações de gratuidade e acessibilidade atendem pessoa idosa e pessoa com deficiência.
+- **ODS 16 (Paz, justiça e instituições eficazes):** acesso à informação e aos canais de reclamação e ouvidoria.
 
 ## Como executar
 

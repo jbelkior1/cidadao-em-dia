@@ -27,7 +27,7 @@ fora dele.
 Critérios, cada um true ou false:
 - "pontos_esperados": a resposta contém o conteúdo esperado e não contradiz nem inventa nada.
   Avalie o conteúdo, não a forma nem o tamanho. ATENÇÃO: informação CORRETA A MAIS, vinda das
-  fichas de transporte (FT-01 a FT-07), NÃO é erro — só conte como erro o que contradiz o
+  fichas de transporte (FT-01 a FT-07), NÃO é erro; só conte como erro o que contradiz o
   esperado ou o que não existe nas fichas. Resposta mais completa que a esperada continua certa.
 - "cita_ficha": a resposta cita a ficha de origem (FT-01 a FT-07). Só vale para perguntas do tipo
   "Escopo"; nos outros tipos devolva true.

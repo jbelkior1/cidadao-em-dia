@@ -1,7 +1,7 @@
-# Documentação técnica — DSA (Citizen Assist AI)
+# Documentação técnica: DSA (Citizen Assist AI)
 
 Global Solution 2026.2 · CitizenTech · Disciplina: Data Structures and Algorithms (DSA)
-Grupo / integrantes / RM: A PREENCHER PELO GRUPO
+Grupo / integrantes / RM: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 
 ## 1. Objetivo e linguagem
 

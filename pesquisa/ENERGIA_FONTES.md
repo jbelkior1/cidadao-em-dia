@@ -1,4 +1,4 @@
-# Fontes da pesquisa de energia (SERS) — consultado em 12/11/2026
+# Fontes da pesquisa de energia (SERS): consultado em 12/11/2026
 
 Regra seguida: só entra número lido em página ou arquivo oficial nesta sessão. Busca na web serviu só para achar o endereço. Os dados estruturados estão em `energia_modos.json`.
 

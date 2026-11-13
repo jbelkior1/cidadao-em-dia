@@ -1,4 +1,4 @@
-# PAI — testes com usuários (roteiro e registro)
+# PAI: testes com usuários (roteiro e registro)
 
 > **Este arquivo é para a equipe preencher.** Nada abaixo foi testado ainda: os campos de resultado
 > estão vazios de propósito. Não invente números: o enunciado pede o relatório do teste de verdade.

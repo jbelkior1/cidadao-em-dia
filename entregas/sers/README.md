@@ -1,6 +1,12 @@
-# SERS · Global Solution 2026.2 — a energia da viagem
+# SERS · Global Solution 2026.2: a energia da viagem
 
-Integrantes: **A PREENCHER PELO GRUPO** (nome completo e RM de cada um).
+Integrantes:
+
+| Nome completo | RM |
+|---|---|
+| João Vitor Belchior Domingos Leite | 572478 |
+| João Pedro Pereira Teixeira | 569937 |
+| Thiago de Oliveira Coelho Souza | 568783 |
 
 > Este repositório é compartilhado entre as matérias da Global Solution. O enunciado da SERS pede
 > que a contribuição dela esteja claramente identificada: é o que a seção **Onde está cada coisa**
@@ -95,12 +101,12 @@ informação não foi lida.
 
 ## Premissas (toda estimativa depende delas)
 
-- Eletricidade a 46,1 g de CO₂/kWh — média do país em 2025 (MCTI/SIRENE).
-- Metrô a 0,0717 kWh por passageiro-km — Relatório Integrado 2025 do Metrô de São Paulo. O trem usa o
+- Eletricidade a 46,1 g de CO₂/kWh: média do país em 2025 (MCTI/SIRENE).
+- Metrô a 0,0717 kWh por passageiro-km: Relatório Integrado 2025 do Metrô de São Paulo. O trem usa o
   mesmo valor, porque a CPTM não publicou o dela.
 - Carro popular a gasolina, 13,3 km/L na cidade (INMETRO/PBE Veicular), **com uma pessoa dentro**.
   Gasolina a R$ 6,35 (ANP, síntese semanal). Custo só do combustível.
-- Ônibus a 79 g de CO₂ por passageiro-km — indicador publicado pelo Metrô. Esse número já considera
+- Ônibus a 79 g de CO₂ por passageiro-km: indicador publicado pelo Metrô. Esse número já considera
   uma lotação média que não é publicada em separado.
 - Tarifas: R$ 5,40 no trilho e R$ 5,30 no ônibus, valores vigentes em São Paulo.
 
@@ -130,7 +136,6 @@ informação não foi lida.
 
 - [ ] Conferir cada número nas fontes, principalmente os lidos de PDF, e o teor de etanol.
 - [ ] Testar com usuários e preencher `TESTES_USUARIOS.md` (roteiro pronto: situações, registro e ajustes, sem dado pessoal).
-- [ ] Preencher nome completo e RM de todos.
 - [ ] Gravar o vídeo no YouTube, não listado, de até 3 minutos.
 - [ ] Enviar no portal **apenas o .txt** com nomes, RM, link do repositório e link do vídeo.
 

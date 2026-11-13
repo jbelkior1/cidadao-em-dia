@@ -1,4 +1,4 @@
-# Fichas de transporte do Dá Tempo? — documentos de referência da PAI
+# Fichas de transporte do Dá Tempo?: documentos de referência da PAI
 
 Estas 7 fichas são a **única fonte de verdade** do assistente da PAI. Se a resposta para uma pergunta
 não está nelas, o assistente não inventa: diz que não encontrou e orienta a procurar o canal oficial.

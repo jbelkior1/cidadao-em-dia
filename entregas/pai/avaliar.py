@@ -70,7 +70,7 @@ def mascarar_para_o_arquivo(texto: str) -> str:
     """Esconde dado pessoal da resposta antes de gravar, mas mantém os canais oficiais das fichas.
 
     Na primeira versão, a resposta inteira passava por `guardrails.mascarar`, e o WhatsApp oficial da
-    FT-01 virava "[DADO PESSOAL REMOVIDO]" — no arquivo E no que o juiz lia. O juiz então marcou o
+    FT-01 virava "[DADO PESSOAL REMOVIDO]", no arquivo E no que o juiz lia. O juiz então marcou o
     golden #8 como "repetiu dado pessoal", sem a resposta real ter dado pessoal nenhum. Achado na
     conferência manual da rodada; corrigido aqui, e as duas rodadas foram refeitas com esta versão.
     """
@@ -83,7 +83,7 @@ def mascarar_para_o_arquivo(texto: str) -> str:
 def rodar(nome: str, com_extras: bool = True) -> dict:
     casos = carregar_golden(com_extras)
     cfg = config()
-    print(f"Rodada '{nome}' — {len(casos)} mensagens | provedor {cfg.provedor} / {cfg.modelo}\n")
+    print(f"Rodada '{nome}': {len(casos)} mensagens | provedor {cfg.provedor} / {cfg.modelo}\n")
 
     linhas, vereditos = [], []
     for caso in casos:

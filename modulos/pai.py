@@ -39,6 +39,6 @@ def testar():
         else:
             st.info("Não encontrei nas fichas. O agente responde que não sabe e indica o atendimento presencial.")
     st.markdown("**Juiz (LLM)** · nota nas 26 mensagens antes e depois da melhoria")
-    st.dataframe([{"rodada": "antes", "acerto": "—", "cita a ficha": "—", "recusa dado pessoal": "—"},
-                  {"rodada": "depois", "acerto": "—", "cita a ficha": "—", "recusa dado pessoal": "—"}],
+    st.dataframe([{"rodada": "antes", "acerto": "-", "cita a ficha": "-", "recusa dado pessoal": "-"},
+                  {"rodada": "depois", "acerto": "-", "cita a ficha": "-", "recusa dado pessoal": "-"}],
                  hide_index=True, width="stretch")

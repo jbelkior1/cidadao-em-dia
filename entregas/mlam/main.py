@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """Roda as questões 02 a 06 na ordem, grava a saída em texto e os números em JSON.
 
     python main.py
@@ -28,7 +29,7 @@ def main() -> int:
     df = comum.carregar()
     resultados, saida = {}, io.StringIO()
     with redirect_stdout(saida):
-        print(f"MLAM — Global Solution 2026.2 — análises rodadas em "
+        print(f"MLAM: Global Solution 2026.2, análises rodadas em "
               f"{datetime.now().strftime('%d/%m/%Y %H:%M')}")
         print(f"Base: {comum.BASE.name} ({len(df)} estações, SSP-SP, jan–set/2026)")
         for chave, modulo in QUESTOES:

@@ -74,7 +74,6 @@
     "MMC: o enunciado não traz rubrica nem formato de entrega; a política de redistribuição deve ser criada pela equipe.",
     "As bases do sistema (16 orientações do PCP, 15 serviços da DSA, fatores de energia da SERS e ocorrências da SSP-SP da MLAM) vieram de fontes oficiais lidas em 12/11/2026 e ainda não foram conferidas pela equipe. Nenhuma data deve ser tratada como conferida até o grupo abrir cada fonte.",
     "A tabela de evidências da DSA (EVIDENCIAS.md) já usa os 15 serviços atuais, com a saída real do terminal; os prints de tela ainda são da equipe. O historico.json e o CSV do PCP ficam vazios até o teste com pessoas.",
-    "Integrantes e RM estão como \"A PREENCHER PELO GRUPO\" nos READMEs e na documentação.",
     "O PDF geral tem 28 páginas e as páginas 1, 8, 9, 12 e 28 não têm texto extraído (imagens, sem OCR); pode haver regra ali, principalmente nas p.8 e 9 (seção DESAFIOS). O PDF geral também tem texto de outros semestres (p.3 Future at Work, p.14 GS2026.1).",
     "PAI: o professor autorizou em 13/11/2026 trocar as fichas de Aurora pelo tema do grupo, mantendo as regras. As fichas FT-01 a FT-07 (transporte, de páginas oficiais lidas em 12/11) estão em entregas/pai/fichas; as de Aurora ficaram em entregas/pai/historico/aurora."
   ],
@@ -729,9 +728,9 @@
           "peso": "",
           "fonte": "PDF geral p.17",
           "quem": "grupo",
-          "onde": "entregas/dsa/README.md; docs/DOCUMENTACAO.md; docs/EVIDENCIAS.md",
-          "como": "Preencher os três arquivos.",
-          "status": "A fazer"
+          "onde": "entregas/dsa/README.md, docs/DOCUMENTACAO.md e docs/EVIDENCIAS.md",
+          "como": "Nome completo e RM dos três integrantes preenchidos em 13/11/2026.",
+          "status": "Feito"
         },
         {
           "id": "DSA-20",
@@ -1000,9 +999,9 @@
           "peso": "",
           "fonte": "enunciado PAI (.docx), topo e seção 5",
           "quem": "grupo",
-          "onde": "",
-          "como": "Notebook e relatório começam com os nomes.",
-          "status": "A fazer"
+          "onde": "entregas/pai/README.md (início)",
+          "como": "Nome completo e RM dos três integrantes preenchidos em 13/11/2026.",
+          "status": "Feito"
         },
         {
           "id": "PAI-02",
@@ -1682,9 +1681,9 @@
           "peso": "",
           "fonte": "portal MLAM orientações gerais",
           "quem": "grupo",
-          "onde": "",
-          "como": "Falta preencher no README da MLAM e na capa do relatório (hoje diz A PREENCHER PELO GRUPO).",
-          "status": "A fazer"
+          "onde": "entregas/mlam/README.md, cabeçalho de todos os .py e capa do PDF (comum.INTEGRANTES)",
+          "como": "Nome completo e RM dos três integrantes preenchidos em 13/11/2026.",
+          "status": "Feito"
         },
         {
           "id": "MLAM-26",

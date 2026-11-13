@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """Peças comuns às questões 02 a 06: leitura da base, variáveis escolhidas e saída dos resultados.
 
 Base: uma linha por estação de trem ou metrô de São Paulo, com a contagem de ocorrências
@@ -25,7 +26,9 @@ SAIDAS = PASTA / "saidas"
 # O enunciado pede nome completo e RM de todos os integrantes em todos os arquivos.
 # Preencha aqui uma vez: o relatório PDF (questão 07) lê esta lista.
 INTEGRANTES = [
-    ("A PREENCHER PELO GRUPO — nome completo", "RM ?"),
+    ("João Vitor Belchior Domingos Leite", "572478"),
+    ("João Pedro Pereira Teixeira", "569937"),
+    ("Thiago de Oliveira Coelho Souza", "568783"),
 ]
 
 RESPOSTA = "total"

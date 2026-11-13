@@ -1,6 +1,12 @@
-# MLAM · Global Solution 2026.2 — análise estatística das ocorrências no entorno das estações
+# MLAM · Global Solution 2026.2: análise estatística das ocorrências no entorno das estações
 
-Integrantes: **A PREENCHER PELO GRUPO** (nome completo e RM de cada um, como o portal exige).
+Integrantes:
+
+| Nome completo | RM |
+|---|---|
+| João Vitor Belchior Domingos Leite | 572478 |
+| João Pedro Pereira Teixeira | 569937 |
+| Thiago de Oliveira Coelho Souza | 568783 |
 
 ## O problema
 
@@ -11,7 +17,7 @@ ocorrências e até onde dá para prever.
 
 ## A base (questão 01)
 
-`dados/ocorrencias_estacoes_2026.csv` — 139 linhas, uma por estação de trem ou metrô de São Paulo.
+`dados/ocorrencias_estacoes_2026.csv`: 139 linhas, uma por estação de trem ou metrô de São Paulo.
 
 - **Fonte:** SPDados / SSP-SP, planilha `SPDadosCriminais_2026.xlsx`, abas JAN-JUN e JUL-DEZ de 2026,
   baixada em 12/11/2026. Base pública e real; nada foi gerado artificialmente.
@@ -62,31 +68,31 @@ o cliente, tabelas, gráficos, medidas, interpretações, insights e limitaçõe
 | arquivo | questão |
 |---|---|
 | `comum.py` | leitura da base, escolha das variáveis e conferências |
-| `questao02_probabilidade.py` | 02 — P(X < média) e P(X > mediana), com classificação |
-| `questao03_testes_hipotese.py` | 03 — testes z para a média (α = 6% com n = 20; α = 9% com n = 25) |
-| `questao04_bivariada.py` | 04 — dispersão, covariância, Pearson, regressão simples, R², Teste F, previsão |
-| `questao05_multivariada.py` | 05 — matrizes, regressão múltipla, R², Teste F, VIF, previsão |
-| `questao06_logistica.py` | 06 — regressão logística, matriz de confusão, acurácia, classificação |
-| `questao07_relatorio.py` | 07 — monta o relatório em PDF (`saidas/relatorio_mlam_gs2026.pdf`) a partir de `resultados.json` e dos gráficos |
+| `questao02_probabilidade.py` | 02: P(X < média) e P(X > mediana), com classificação |
+| `questao03_testes_hipotese.py` | 03: testes z para a média (α = 6% com n = 20; α = 9% com n = 25) |
+| `questao04_bivariada.py` | 04: dispersão, covariância, Pearson, regressão simples, R², Teste F, previsão |
+| `questao05_multivariada.py` | 05: matrizes, regressão múltipla, R², Teste F, VIF, previsão |
+| `questao06_logistica.py` | 06: regressão logística, matriz de confusão, acurácia, classificação |
+| `questao07_relatorio.py` | 07: monta o relatório em PDF (`saidas/relatorio_mlam_gs2026.pdf`) a partir de `resultados.json` e dos gráficos |
 | `main.py` | roda tudo e grava as saídas |
 | `preparar_base.py` | monta a base a partir da planilha da SSP-SP e do GTFS |
 
 ## Resultados em uma linha cada
 
-- **02** — Assumindo normal, P(X < média) = 0,5000 (equiprovável, por simetria) e P(X > mediana) = 0,6341
+- **02**: Assumindo normal, P(X < média) = 0,5000 (equiprovável, por simetria) e P(X > mediana) = 0,6341
   (provável). A distância entre média (341,78) e mediana (228) mostra a assimetria à direita da base.
-- **03** — As 20 estações mais distantes do centro têm média abaixo da referência (z = −1,684;
+- **03**: As 20 estações mais distantes do centro têm média abaixo da referência (z = −1,684;
   p = 0,046; rejeita H0 a 6%, por pouco) e as 25 mais próximas, acima (z = 5,741; rejeita H0 a 9%).
   Os grupos foram escolhidos pela distância, então o teste descreve esses grupos; a checagem com amostras
   sorteadas (semente 42) não rejeita H0 em nenhum dos dois casos, como se espera de uma amostra aleatória.
-- **04** — Distância × ocorrências: r = −0,468, equação `total = 587,85 − 25,92 × distância_km`,
+- **04**: Distância × ocorrências: r = −0,468, equação `total = 587,85 − 25,92 × distância_km`,
   R² = 0,219, Teste F com p-valor 6,1 × 10⁻⁹. Breusch-Pagan p = 0,005 (variância desigual); com erro
   padrão robusto (HC3) a inclinação continua significativa.
-- **05** — Com distância, nº de linhas e latitude: R² sobe para 0,394 (ajustado 0,380), F(3, 135) = 29,2.
+- **05**: Com distância, nº de linhas e latitude: R² sobe para 0,394 (ajustado 0,380), F(3, 135) = 29,2.
   Nº de linhas é o maior efeito (+243,6 ocorrências por linha). A latitude não acrescenta: sem ela o R²
   ajustado é 0,385, maior. A previsão do cenário (898) fica abaixo da média real das 4 estações parecidas
   (1.232, fora do IC de 95%).
-- **06** — Logística para "estação acima da mediana": acurácia 70,5% contra um piso de 51,1%
+- **06**: Logística para "estação acima da mediana": acurácia 70,5% contra um piso de 51,1%
   (classe majoritária), AUC 0,744. Só a distância é significativa a 5%: o nº de linhas tem p = 0,0674.
   No cenário central (p = 0,94), trocar para 1 linha leva a 0,67 e afastar para 22 km leva a 0,57.
 
@@ -102,7 +108,7 @@ o cliente, tabelas, gráficos, medidas, interpretações, insights e limitaçõe
 4. **Os pressupostos da regressão linear não se cumprem por inteiro:** Breusch-Pagan indica variância
    desigual dos resíduos (p = 0,005 na Q04 e 0,019 na Q05) e os resíduos são assimétricos. O Teste F e os
    p-valores são aproximados; os p-valores com erro padrão robusto (HC3) confirmam as mesmas conclusões.
-5. **Sobra variação sem explicar:** 60,6% na regressão múltipla. Falta na base o que mais pesaria —
+5. **Sobra variação sem explicar:** 60,6% na regressão múltipla. Falta na base o que mais pesaria:
    fluxo de passageiros, comércio no entorno, policiamento e hora do dia.
 6. **Os modelos foram avaliados na mesma base em que foram ajustados.** Com 139 linhas e 3 variáveis o
    sobreajuste é pequeno, mas a acurácia de 70,5% descreve esta base, não uma cidade nova.

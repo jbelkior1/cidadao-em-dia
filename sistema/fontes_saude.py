@@ -214,7 +214,7 @@ def checar_tudo() -> dict:
 if __name__ == "__main__":
     r = checar_tudo()
     marca = {"ok": "[ok]    ", "vazio": "[vazio] ", "falhou": "[FALHOU]"}
-    print(f"Fontes de dados — {r['gerado_em']}")
+    print(f"Fontes de dados: {r['gerado_em']}")
     print(f"ok: {r['resumo']['ok']} | vazio: {r['resumo']['vazio']} | falhou: {r['resumo']['falhou']}\n")
     for f in r["fontes"]:
         print(f"{marca[f['estado']]} {f['nome']}  ({f['tipo']}, {f['ms']} ms)")

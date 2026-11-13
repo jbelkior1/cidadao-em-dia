@@ -1,4 +1,5 @@
-"""Questão 05 (2,0) — Análise multivariada com regressão linear múltipla.
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
+"""Questão 05 (2,0): Análise multivariada com regressão linear múltipla.
 
 Quatro variáveis quantitativas: ocorrências no entorno (resposta) explicadas por distância até o
 Marco Zero, quantidade de linhas na estação e latitude.
@@ -33,10 +34,10 @@ def resolver(df=None) -> dict:
     colunas = [Y, *X]
     dados = df[colunas]
 
-    comum.titulo("QUESTÃO 05 — Análise multivariada (regressão linear múltipla)")
-    print(f"Resposta:     {Y} — {comum.nome(Y)}")
+    comum.titulo("QUESTÃO 05: Análise multivariada (regressão linear múltipla)")
+    print(f"Resposta:     {Y}: {comum.nome(Y)}")
     for c in X:
-        print(f"Explicativa:  {c} — {comum.nome(c)}")
+        print(f"Explicativa:  {c}: {comum.nome(c)}")
     print(f"n = {len(df)} estações")
     print("\nNão entram como explicativas: roubo, furto, outros e as faixas de horário. Cada um desses")
     print("grupos soma exatamente `total`, então seriam a própria resposta reescrita.")

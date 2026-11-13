@@ -1,4 +1,4 @@
-"""SERS — comparação de energia, custo e CO₂ da mesma viagem em três modos.
+"""SERS: comparação de energia, custo e CO₂ da mesma viagem em três modos.
 
 Roda a comparação que está no app "Dá Tempo?" e mostra cada conta passo a passo, com a origem
 de cada número. É este arquivo que o professor roda para ver a parte da SERS funcionando.
@@ -34,7 +34,7 @@ def br(numero: float, casas: int = 2) -> str:
 def main(km: float) -> int:
     r = energia.comparar(km)
     print(f"\n{'=' * 76}")
-    print(f"SERS — a energia da viagem · {br(r['km'], 1)} km, por pessoa, só a ida")
+    print(f"SERS: a energia da viagem · {br(r['km'], 1)} km, por pessoa, só a ida")
     print(f"{'=' * 76}")
     print(f"Necessidade energética: deslocamento casa-trabalho de quem usa trem e metrô em São Paulo.")
     print(f"Alternativas comparadas para a MESMA necessidade e o MESMO período (uma viagem):\n")

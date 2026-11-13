@@ -1,4 +1,4 @@
-# FT-03 — Reclamação, ouvidorias e Artesp
+# FT-03: Reclamação, ouvidorias e Artesp
 
 **Palavras-chave:** reclamação, reclamar, queixa, ouvidoria, artesp, protocolo, fale conosco, não me responderam, sem resposta, lei 13.460
 

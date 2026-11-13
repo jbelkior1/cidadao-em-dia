@@ -1,4 +1,5 @@
-"""Questão 07 (2,0) — Relatório estatístico em PDF, apresentado ao cliente.
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
+"""Questão 07 (2,0): Relatório estatístico em PDF, apresentado ao cliente.
 
 O cliente é a equipe de produto do app "Dá Tempo?", que quer saber onde há mais registro de ocorrência
 no entorno das estações e o quanto dá para prever isso. O relatório junta as tabelas, os gráficos, as
@@ -10,7 +11,7 @@ script mudar, basta rodar de novo e o PDF acompanha.
     python main.py                  # gera resultados.json e os gráficos
     python questao07_relatorio.py   # gera saidas/relatorio_mlam_gs2026.pdf
 
-Nome completo e RM dos integrantes: preencher em comum.INTEGRANTES.
+Nome completo e RM dos integrantes: vêm de comum.INTEGRANTES.
 """
 import json
 from datetime import date
@@ -107,7 +108,7 @@ def _rodape(canvas, doc) -> None:
     canvas.saveState()
     canvas.setFont("Texto", 7.5)
     canvas.setFillColor(SUAVE)
-    canvas.drawString(2 * cm, 1.2 * cm, "MLAM · Global Solution 2026.2 · Dá Tempo? — ocorrências no entorno das estações")
+    canvas.drawString(2 * cm, 1.2 * cm, "MLAM · Global Solution 2026.2 · Dá Tempo?: ocorrências no entorno das estações")
     canvas.drawRightString(A4[0] - 2 * cm, 1.2 * cm, f"página {doc.page}")
     canvas.restoreState()
 
@@ -170,8 +171,8 @@ def montar(r: dict) -> list:
                      ["média de ocorrências por estação", br(q2["media"])],
                      ["mediana", br(q2["mediana"], 0)],
                      ["desvio padrão (populacional)", br(q2["desvio_populacional"])],
-                     ["P(X < média), assumindo normal", f"{br(q2['a_P_menor_que_media'], 4)} — {q2['a_classificacao']}"],
-                     ["P(X > mediana), assumindo normal", f"{br(q2['b_P_maior_que_mediana'], 4)} — {q2['b_classificacao']}"],
+                     ["P(X < média), assumindo normal", f"{br(q2['a_P_menor_que_media'], 4)}, {q2['a_classificacao']}"],
+                     ["P(X > mediana), assumindo normal", f"{br(q2['b_P_maior_que_mediana'], 4)}, {q2['b_classificacao']}"],
                      ["estações reais abaixo da média", pct(q2["proporcao_real_abaixo_da_media"])]], [8, 9]),
              Spacer(1, 6),
              *figura("q02_probabilidade.png", 16, "Histograma real contra a curva normal assumida, e as áreas das letras a e b."),
@@ -322,7 +323,7 @@ def main() -> int:
     resultados = json.loads(arquivo_resultados.read_text(encoding="utf-8"))
     doc = SimpleDocTemplate(str(ARQUIVO), pagesize=A4, leftMargin=2 * cm, rightMargin=2 * cm,
                             topMargin=1.8 * cm, bottomMargin=1.8 * cm,
-                            title="MLAM — Global Solution 2026.2", author="Grupo Dá Tempo?")
+                            title="MLAM: Global Solution 2026.2", author="Grupo Dá Tempo?")
     doc.build(montar(resultados), onFirstPage=_rodape, onLaterPages=_rodape)
     print(f"Relatório gravado em {ARQUIVO}")
     return 0

@@ -55,7 +55,7 @@ def desenhar() -> Path:
                                          linestyle="--" if aresta.conditional else "-", color="#374151"))
     ax.set_xlim(0, 1.15)
     ax.set_ylim(0, 1)
-    ax.set_title("Agente da PAI (LangGraph) — orientação de transporte pelas fichas FT-01 a FT-07", fontsize=10.5)
+    ax.set_title("Agente da PAI (LangGraph): orientação de transporte pelas fichas FT-01 a FT-07", fontsize=10.5)
     arquivo = PASTA / "grafo_agente.png"
     fig.savefig(arquivo, dpi=150, bbox_inches="tight")
     plt.close(fig)

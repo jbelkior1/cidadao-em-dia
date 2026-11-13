@@ -1,8 +1,8 @@
-MLAM — Global Solution 2026.2 — análises rodadas em 13/11/2026 13:47
+MLAM: Global Solution 2026.2, análises rodadas em 13/11/2026 15:39
 Base: ocorrencias_estacoes_2026.csv (139 estações, SSP-SP, jan–set/2026)
 
 ==============================================================================
-QUESTÃO 02 — Probabilidade assumindo distribuição normal
+QUESTÃO 02: Probabilidade assumindo distribuição normal
 ==============================================================================
 Variável: Ocorrências no entorno da estação (jan–set/2026)
 n = 139 estações | média = 341.78 | mediana = 228.00 | desvio padrão populacional = 332.04
@@ -40,13 +40,13 @@ Interpretação:
 Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q02_probabilidade.png
 
 ==============================================================================
-QUESTÃO 03 — Teste de hipótese para a média (teste z)
+QUESTÃO 03: Teste de hipótese para a média (teste z)
 ==============================================================================
 Variável: Ocorrências no entorno da estação (jan–set/2026)
 Média populacional de referência μ0 = 341.78 (as 139 estações)
 Desvio padrão de referência σ = 332.04 (desvio padrão populacional, como pede o enunciado)
 
---- a) Média amostral MENOR que a de referência — α = 6%, n = 20
+--- a) Média amostral MENOR que a de referência: α = 6%, n = 20
 Amostra: as 20 estações mais distantes do Marco Zero (de 16.6 km a 26.3 km)
 H0: μ = 341.78   (a média do grupo é igual à de referência)
 H1: μ < 341.78   (a periferia da rede registra menos ocorrências)
@@ -58,7 +58,7 @@ Decisão: REJEITA H0 (p-valor < α)
 Interpretação:
   A média das 20 estações mais distantes é 216.8, contra 341.8 da rede inteira.
   Com z = -1.684 abaixo do crítico -1.555 e p-valor 0.0461, o
-  procedimento rejeita H0 a 6% — mas por pouco: a 5% o resultado já seria outro.
+  procedimento rejeita H0 a 6%, mas por pouco: a 5% o resultado já seria outro.
   Cuidado com a leitura: este grupo não foi sorteado, foi escolhido pelos extremos de distância e faz
   parte da própria população de referência. Nesse caso o p-valor não mede "acaso de amostragem"; o
   teste descreve que esse grupo de ponta de linha tem média de registros abaixo da rede, não prova
@@ -66,7 +66,7 @@ Interpretação:
   Atenção ao que o dado é: contagem de registros de BO, não risco por passageiro. Essas estações também
   movimentam menos gente, e a base não traz o fluxo de passageiros para dividir uma coisa pela outra.
 
---- b) Média amostral MAIOR que a de referência — α = 9%, n = 25
+--- b) Média amostral MAIOR que a de referência: α = 9%, n = 25
 Amostra: as 25 estações mais próximas do Marco Zero (de 0.1 km a 3.8 km)
 H0: μ = 341.78   (a média do grupo é igual à de referência)
 H1: μ > 341.78   (o centro expandido registra mais ocorrências)
@@ -81,7 +81,7 @@ Interpretação:
   rejeita H0 a 9% com folga.
   Vale o mesmo cuidado da letra a: o grupo foi escolhido pela distância, não sorteado, então o
   resultado descreve o centro expandido e não é inferência para a rede. Os dois testes mostram a mesma
-  tendência por lados opostos, o que motiva olhar a distância nas questões 04 e 05 — onde a relação é
+  tendência por lados opostos, o que motiva olhar a distância nas questões 04 e 05, onde a relação é
   medida com a base inteira, sem recorte.
 
 --- checagem) As mesmas contas com amostras sorteadas (semente fixa, para dar para repetir)
@@ -100,7 +100,7 @@ Interpretação:
 Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q03_testes_hipotese.png
 
 ==============================================================================
-QUESTÃO 04 — Análise bivariada (2 variáveis quantitativas)
+QUESTÃO 04: Análise bivariada (2 variáveis quantitativas)
 ==============================================================================
 X = Distância até o Marco Zero (km)
 Y = Ocorrências no entorno da estação (jan–set/2026)
@@ -111,7 +111,7 @@ Cada ponto é uma estação. Ver o arquivo q04a_dispersao.png.
 
 Interpretação:
   A nuvem desce da esquerda para a direita: quanto mais longe do centro, menos ocorrências
-  registradas no entorno. A relação existe, mas é frouxa — há estações distantes com muitos
+  registradas no entorno. A relação existe, mas é frouxa: há estações distantes com muitos
   registros e estações centrais com poucos.
   A dispersão abre em leque perto do centro (heterocedasticidade): entre 0 e 5 km os valores vão
   de 94 a 2100, enquanto acima de 20 km 8 das
@@ -192,12 +192,12 @@ Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-g
 Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q04c_correlacao.png
 
 ==============================================================================
-QUESTÃO 05 — Análise multivariada (regressão linear múltipla)
+QUESTÃO 05: Análise multivariada (regressão linear múltipla)
 ==============================================================================
-Resposta:     total — Ocorrências no entorno da estação (jan–set/2026)
-Explicativa:  dist_marco_zero_km — Distância até o Marco Zero (km)
-Explicativa:  qtd_linhas — Linhas que passam na estação
-Explicativa:  lat — Latitude da estação (sul → norte)
+Resposta:     total: Ocorrências no entorno da estação (jan–set/2026)
+Explicativa:  dist_marco_zero_km: Distância até o Marco Zero (km)
+Explicativa:  qtd_linhas: Linhas que passam na estação
+Explicativa:  lat: Latitude da estação (sul → norte)
 n = 139 estações
 
 Não entram como explicativas: roubo, furto, outros e as faixas de horário. Cada um desses
@@ -321,7 +321,7 @@ Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-g
 Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q05c_correlacao.png
 
 ==============================================================================
-QUESTÃO 06 — Regressão logística binária
+QUESTÃO 06: Regressão logística binária
 ==============================================================================
 Variável resposta criada: alta_ocorrencia = 1 se total > 228 (mediana), senão 0
 Classes: 68 estações com 1 e 71 com 0, de 139

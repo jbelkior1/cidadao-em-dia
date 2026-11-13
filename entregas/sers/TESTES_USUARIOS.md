@@ -1,4 +1,4 @@
-# SERS — testes com usuários (roteiro e registro)
+# SERS: testes com usuários (roteiro e registro)
 
 > **Este arquivo é para a equipe preencher.** Nada abaixo foi testado ainda: os campos de resultado
 > estão vazios de propósito. Não invente respostas: o enunciado pede o registro do teste de verdade.
