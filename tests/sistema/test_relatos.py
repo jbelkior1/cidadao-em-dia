@@ -265,13 +265,30 @@ class Dominio(unittest.TestCase):
         self.assertEqual(relatos.estimativa_por_linha(self.repo.listar(), AGORA + timedelta(hours=2, minutes=1)), [])
 
     # ---- demonstração
-    def test_semeia_3_relatos_de_demonstracao_sem_duplicar(self):
+    def test_semeia_a_cena_de_demonstracao_sem_duplicar(self):
         criados = relatos.semear_demo(agora=AGORA, repositorio=self.repo)
-        self.assertEqual(len(criados), 3)
+        self.assertEqual(len(criados), len(relatos.DEMO_RELATOS))
         self.assertTrue(all(r.demo for r in criados))
-        self.assertEqual(len(relatos.semear_demo(agora=AGORA, repositorio=self.repo)), 3)
-        self.assertEqual(len(self.repo.listar()), 3)
+        self.assertEqual(len(relatos.semear_demo(agora=AGORA, repositorio=self.repo)), len(relatos.DEMO_RELATOS))
+        self.assertEqual(len(self.repo.listar()), len(relatos.DEMO_RELATOS))
         self.assertEqual(self.est()["3"]["nivel"], "alerta")
+
+    def test_a_cena_de_demonstracao_enche_o_feed_com_variedade(self):
+        """A demonstração precisa mostrar alerta, relato isolado, votos e estações no mapa."""
+        relatos.semear_demo(agora=AGORA, repositorio=self.repo)
+        est = self.est()
+        self.assertGreaterEqual(sum(1 for e in est.values() if e["nivel"] == "alerta"), 4)
+        self.assertTrue(any(e["nivel"] == "relato" for e in est.values()))
+        self.assertEqual(est["4"]["nivel"], "normal")
+        ativos = relatos.listar_ativos(agora=AGORA, repositorio=self.repo)
+        self.assertTrue(all(r.estacao_id for r in ativos))          # todos aparecem no mapa
+        self.assertTrue(any(r.confirmacoes for r in ativos))
+        self.assertTrue(any(r.contestacoes for r in ativos))
+
+    def test_limpar_demonstracao_esvazia_o_feed(self):
+        relatos.semear_demo(agora=AGORA, repositorio=self.repo)
+        self.assertEqual(relatos.limpar_demo(repositorio=self.repo), len(relatos.DEMO_RELATOS))
+        self.assertEqual(relatos.listar_ativos(agora=AGORA, repositorio=self.repo), [])
 
 
 class Endpoints(unittest.TestCase):
@@ -380,16 +397,19 @@ class Endpoints(unittest.TestCase):
         self.assertEqual(r.status_code, 403)
         self.assertEqual(self.repo.listar(), [])
 
-    def test_demo_com_a_variavel_semeia_3_relatos_marcados(self):
+    def test_demo_com_a_variavel_semeia_a_cena_marcada(self):
         with mock.patch.dict(os.environ, {"DEMO_RELATOS": "1"}):
             r = self.http.post("/api/relatos/demo")
             self.assertEqual(r.status_code, 200)
-            self.assertEqual(len(r.json()["relatos"]), 3)
-            self.assertEqual(len(self.http.post("/api/relatos/demo").json()["relatos"]), 3)    # sem duplicar
+            self.assertEqual(len(r.json()["relatos"]), len(relatos.DEMO_RELATOS))
+            self.assertEqual(len(self.http.post("/api/relatos/demo").json()["relatos"]), len(relatos.DEMO_RELATOS))  # sem duplicar
         lista = self.http.get("/api/relatos").json()["relatos"]
-        self.assertEqual(len(lista), 3)
+        self.assertEqual(len(lista), len(relatos.DEMO_RELATOS))
         self.assertTrue(all(x["demo"] for x in lista))
         self.assertEqual(self.http.get("/api/relatos/estimativa").json()["linhas"][0]["linha"], "3")
+        with mock.patch.dict(os.environ, {"DEMO_RELATOS": "1"}):
+            self.assertEqual(self.http.delete("/api/relatos/demo").json()["removidos"], len(relatos.DEMO_RELATOS))
+        self.assertEqual(self.http.get("/api/relatos").json()["total"], 0)
 
     def test_repositorio_pode_ser_trocado(self):
         outro = RepositorioMemoria()

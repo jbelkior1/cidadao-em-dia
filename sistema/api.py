@@ -28,9 +28,20 @@ def ligar_banco() -> str:
     return "supabase"
 
 
+def semear_demonstracao() -> str:
+    """Com DEMO_RELATOS=1, o feed sobe com a cena de demonstração (relatos marcados como tal)."""
+    import os
+    if os.environ.get("DEMO_RELATOS") != "1":
+        return "sem demonstração"
+    try:
+        return f"{len(relatos.semear_demo())} relatos de demonstração"
+    except Exception as e:                       # banco fora do ar não pode impedir a API de subir
+        return f"demonstração falhou ({e})"
+
+
 @asynccontextmanager
 async def ciclo_de_vida(_app):
-    print(f"Relatos: {ligar_banco()}")
+    print(f"Relatos: {ligar_banco()}, {semear_demonstracao()}")
     fontes.coletar_em_segundo_plano()      # grava a situação das linhas a cada 2 minutos enquanto a API estiver ligada
     yield
 
@@ -66,6 +77,13 @@ def _estado_ia() -> dict:
 @app.get("/api/saude")
 def saude() -> dict:
     return {"ok": True, "pcp": pcp.situacao(), "dsa": dsa.situacao(), "ia_ligada": ia.ligada()}
+
+
+@app.get("/api/fontes")
+def fontes_de_dados() -> dict:
+    """Checa cada API externa e cada base: estado, tempo de resposta e uma amostra do dado real."""
+    from sistema import fontes_saude
+    return fontes_saude.checar_tudo()
 
 
 @app.get("/api/chat/inicio")

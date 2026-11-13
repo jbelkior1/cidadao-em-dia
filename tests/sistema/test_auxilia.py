@@ -189,7 +189,7 @@ class RelatosNaLia(SemInternet):
     def test_dois_aparelhos_viram_alerta_com_o_aviso_de_estimativa(self):
         relatos.semear_demo(repositorio=self.repo)
         r = assistente.Sessao(None, AGORA).relatos_dos_passageiros("3")
-        self.assertEqual(r["total_de_relatos"], 2)
+        self.assertEqual(r["total_de_relatos"], sum(1 for d in relatos.DEMO_RELATOS if d[1] == "3"))
         self.assertEqual(r["estimativa_por_linha"][0]["nivel"], "alerta")
         self.assertIn("não dado oficial", r["aviso"])
 

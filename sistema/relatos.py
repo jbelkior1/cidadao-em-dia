@@ -356,28 +356,68 @@ def para_json(r: Relato, agora: datetime, id_aparelho: str | None = None) -> dic
 
 # ------------------------------------------------------------------ demonstração
 
-DEMO_RELATOS = (        # (aparelho fictício, linha, tipo, minutos atrás): duas pessoas na Linha 3 viram alerta
-    ("demo-aparelho-a", "3", "lotado", 8),
-    ("demo-aparelho-b", "3", "lotado", 4),
-    ("demo-aparelho-c", "11", "parado", 12),
+#: Uma manhã de pico com chuva na zona leste, para o sistema não aparecer vazio em demonstração.
+#: (aparelho fictício, linha, tipo, estação, minutos atrás, votos de outros aparelhos)
+#: As estações são reais (ids do rede.json), para os relatos aparecerem também no mapa.
+DEMO_RELATOS: tuple[tuple[str, str, str, str | None, int, tuple[tuple[str, str], ...]], ...] = (
+    # Linha 3-Vermelha: três pessoas, vira alerta de lotação
+    ("demo-ana", "3", "lotado", "18869", 6, (("demo-caio", "ainda"), ("demo-bia", "ainda"))),      # Sé
+    ("demo-bia", "3", "lotado", "1010054", 13, (("demo-ana", "ainda"),)),                          # Brás
+    ("demo-caio", "3", "lotado", "6714561", 27, ()),                                               # República
+    # Linha 11-Coral: duas pessoas, trem parado
+    ("demo-duda", "11", "parado", "18895", 9, (("demo-eli", "ainda"), ("demo-ana", "ainda"))),     # Guaianases
+    ("demo-eli", "11", "parado", "18940", 21, ()),                                                 # Luz
+    # Linha 9-Esmeralda: alagamento perto da estação
+    ("demo-fabio", "9", "alagado", "18906", 16, (("demo-gi", "ainda"),)),                           # Santo Amaro
+    ("demo-gi", "9", "alagado", "18966", 34, ()),                                                   # Pinheiros
+    # Linha 10-Turquesa: porta quebrada
+    ("demo-hugo", "10", "quebrou", "18927", 24, (("demo-ivo", "ainda"),)),                          # Tamanduateí
+    ("demo-ivo", "10", "quebrou", "1010053", 41, ()),                                               # Brás
+    # Linhas com um relato só: aparecem no feed, mas não viram alerta
+    ("demo-joana", "8", "lotado", "18960", 11, ()),                                                 # Osasco
+    ("demo-kaue", "1", "seguranca", "18882", 38, ()),                                               # Tucuruvi
+    ("demo-lia", "12", "chuva", "18987", 19, (("demo-joana", "ainda"),)),                           # Brás
+    ("demo-nina", "2", "lotado", "18861", 62, (("demo-kaue", "acabou"), ("demo-hugo", "acabou"))),  # Paraíso, já passou
+    # Linha 4-Amarela: quem passou por lá diz que está tudo certo
+    ("demo-ot", "4", "normal", "2600672", 8, ()),                                                   # Paulista
+    ("demo-paulo", "4", "normal", "6311287", 29, ()),                                               # Pinheiros
 )
 
 
+def relatos_de_demo(agora: datetime, repositorio: Repositorio | None = None) -> list[Relato]:
+    return [x for x in _repo(repositorio).listar() if x.demo and esta_ativo(x, agora)]
+
+
+def limpar_demo(*, repositorio: Repositorio | None = None) -> int:
+    """Tira do feed os relatos de demonstração (sinaliza até sumirem). Devolve quantos saíram."""
+    r = _repo(repositorio)
+    fora = 0
+    for x in r.listar():
+        if not x.demo:
+            continue
+        for n in range(LIMITE_SINALIZACOES):
+            r.registrar_sinalizacao(x.id, f"ffffffffff{n:02d}")      # autor de limpeza (12 hex, como os outros)
+        fora += 1
+    return fora
+
+
 def semear_demo(*, agora: datetime | None = None, repositorio: Repositorio | None = None) -> list[Relato]:
-    """Cria 3 relatos marcados como demonstração. Não duplica se os de demonstração ainda estão ativos."""
+    """Enche o feed com a cena de demonstração. Não duplica enquanto os relatos de demo estão ativos."""
     agora = agora or agora_utc()
     r = _repo(repositorio)
     r.remover_expirados(agora)
-    existentes = [x for x in r.listar() if x.demo and esta_ativo(x, agora)]
+    existentes = relatos_de_demo(agora, repositorio)
     if existentes:
         return existentes
     criados = []
-    for aparelho, linha, tipo, atras in DEMO_RELATOS:
+    for aparelho, linha, tipo, estacao, atras, votos in DEMO_RELATOS:
         criado = agora - timedelta(minutes=atras)
-        novo = Relato(id=secrets.token_hex(6), linha=linha, estacao_id=None, tipo=tipo, criado_em=criado,
+        novo = Relato(id=secrets.token_hex(6), linha=linha, estacao_id=estacao, tipo=tipo, criado_em=criado,
                       expira_em=criado + VALIDADE, autor_hash=autor_hash(aparelho), demo=True)
         r.inserir(novo)
-        criados.append(novo)
+        for votante, valor in votos:
+            r.registrar_voto(novo.id, autor_hash(votante), valor)
+        criados.append(r.obter(novo.id) or novo)
     return criados
 
 
@@ -444,13 +484,23 @@ def estimativa() -> dict:
     return {"linhas": estimativa_por_linha(repo.listar(), agora), "gerado_em": agora.isoformat(timespec="seconds"), "aviso": AVISO}
 
 
-@router.post("/demo")
-def demo() -> dict:
+def _demo_ligada() -> None:
     if os.environ.get("DEMO_RELATOS") != "1":
         raise HTTPException(403, "Os relatos de demonstração estão desligados neste servidor.")
+
+
+@router.post("/demo")
+def demo() -> dict:
+    _demo_ligada()
     agora = _agora()
     relatos = semear_demo(agora=agora)
     return {"relatos": [para_json(r, agora) for r in relatos], "aviso": AVISO}
+
+
+@router.delete("/demo")
+def apagar_demo() -> dict:
+    _demo_ligada()
+    return {"removidos": limpar_demo()}
 
 
 @router.post("/{relato_id}/confirmar")
