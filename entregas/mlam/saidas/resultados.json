@@ -1,0 +1,213 @@
+{
+  "questao_02": {
+    "n": 139,
+    "media": 341.7841726618705,
+    "mediana": 228.0,
+    "desvio_populacional": 332.04062251672445,
+    "a_P_menor_que_media": 0.5,
+    "a_classificacao": "evento equiprovável (exatamente 50%)",
+    "b_P_maior_que_mediana": 0.634080952385764,
+    "b_classificacao": "evento provável (mais de 50%)",
+    "b_z": -0.3426814821615369
+  },
+  "questao_03": {
+    "referencia": {
+      "mu0": 341.7841726618705,
+      "sigma": 332.04062251672445
+    },
+    "a": {
+      "n": 20,
+      "media_amostral": 216.75,
+      "mu0": 341.7841726618705,
+      "sigma": 332.04062251672445,
+      "erro_padrao": 74.24654032387431,
+      "z": -1.6840403891744058,
+      "z_critico": -1.5547735945968535,
+      "alfa": 0.06,
+      "p_valor": 0.04608693169750207,
+      "rejeita_h0": true,
+      "lado": "menor"
+    },
+    "b": {
+      "n": 25,
+      "media_amostral": 723.04,
+      "mu0": 341.7841726618705,
+      "sigma": 332.04062251672445,
+      "erro_padrao": 66.4081245033449,
+      "z": 5.741102164674536,
+      "z_critico": 1.3407550336902165,
+      "alfa": 0.09,
+      "p_valor": 4.70311591529504e-09,
+      "rejeita_h0": true,
+      "lado": "maior"
+    }
+  },
+  "questao_04": {
+    "x": "dist_marco_zero_km",
+    "y": "total",
+    "covariancia": -939.3357232822436,
+    "pearson_r": -0.46828423997832047,
+    "pearson_p": 6.128066035893928e-09,
+    "intercepto": 587.8509945328902,
+    "inclinacao": -25.924858670100544,
+    "equacao": "total = 587.85 − 25.92 × distância_km",
+    "r2": 0.21929012941207315,
+    "r2_ajustado": 0.21359151721800063,
+    "F": 38.48132175763299,
+    "F_p_valor": 6.128066035893995e-09,
+    "previsao_km": 5.0,
+    "previsao": 458.2267011823875,
+    "previsao_ic95": [
+      396.3035212957444,
+      520.1498810690306
+    ],
+    "media_real_na_faixa": 432.22222222222223
+  },
+  "questao_05": {
+    "explicativas": [
+      "dist_marco_zero_km",
+      "qtd_linhas",
+      "lat"
+    ],
+    "covariancia": {
+      "total": {
+        "total": 111049.8951,
+        "dist_marco_zero_km": -939.3357,
+        "qtd_linhas": 99.2508,
+        "lat": 2.6353
+      },
+      "dist_marco_zero_km": {
+        "total": -939.3357,
+        "dist_marco_zero_km": 36.233,
+        "qtd_linhas": -0.7695,
+        "lat": -0.0804
+      },
+      "qtd_linhas": {
+        "total": 99.2508,
+        "dist_marco_zero_km": -0.7695,
+        "qtd_linhas": 0.3416,
+        "lat": 0.0025
+      },
+      "lat": {
+        "total": 2.6353,
+        "dist_marco_zero_km": -0.0804,
+        "qtd_linhas": 0.0025,
+        "lat": 0.0037
+      }
+    },
+    "correlacao": {
+      "total": {
+        "total": 1.0,
+        "dist_marco_zero_km": -0.4683,
+        "qtd_linhas": 0.5096,
+        "lat": 0.1301
+      },
+      "dist_marco_zero_km": {
+        "total": -0.4683,
+        "dist_marco_zero_km": 1.0,
+        "qtd_linhas": -0.2187,
+        "lat": -0.2198
+      },
+      "qtd_linhas": {
+        "total": 0.5096,
+        "dist_marco_zero_km": -0.2187,
+        "qtd_linhas": 1.0,
+        "lat": 0.0707
+      },
+      "lat": {
+        "total": 0.1301,
+        "dist_marco_zero_km": -0.2198,
+        "qtd_linhas": 0.0707,
+        "lat": 1.0
+      }
+    },
+    "coeficientes": {
+      "const": 2624.8874451599067,
+      "dist_marco_zero_km": -20.52794438802163,
+      "qtd_linhas": 243.58528932262226,
+      "lat": 100.86036221210742
+    },
+    "equacao": "total = 2624.89 − 20.53×dist_marco_zero_km  + 243.59×qtd_linhas  + 100.86×lat",
+    "p_valores": {
+      "const": 0.7678491901862377,
+      "dist_marco_zero_km": 5.058715948698385e-07,
+      "qtd_linhas": 5.853434062246103e-09,
+      "lat": 0.7893349395947659
+    },
+    "r2": 0.39373710645477367,
+    "r2_ajustado": 0.3802645977093242,
+    "r2_do_modelo_simples": 0.21929012941207315,
+    "F": 29.2252255236252,
+    "F_p_valor": 1.2633677222354183e-14,
+    "vif": {
+      "dist_marco_zero_km": 1.099,
+      "qtd_linhas": 1.051,
+      "lat": 1.051
+    },
+    "cenario": {
+      "dist_marco_zero_km": 4.0,
+      "qtd_linhas": 3,
+      "lat": -23.55
+    },
+    "previsao": 898.2700054805573,
+    "previsao_ic95": [
+      753.9387987305362,
+      1042.6012122305783
+    ],
+    "media_real_parecidas": 1232.0
+  },
+  "questao_06": {
+    "corte_mediana": 228.0,
+    "classes": {
+      "alta": 68,
+      "normal": 71
+    },
+    "coeficientes": {
+      "const": -13.329488022912955,
+      "dist_marco_zero_km": -0.12503061125474782,
+      "qtd_linhas": 1.0437020611636365,
+      "lat": -0.5625891479735431
+    },
+    "razoes_de_chance": {
+      "dist_marco_zero_km": 0.8824698886605634,
+      "qtd_linhas": 2.8397103603036555,
+      "lat": 0.5697320320108062
+    },
+    "p_valores": {
+      "const": 0.8667163092043496,
+      "dist_marco_zero_km": 0.0005671808882050066,
+      "qtd_linhas": 0.06740232081016716,
+      "lat": 0.8675466053961242
+    },
+    "pseudo_r2_mcfadden": 0.12342156196640108,
+    "llr_p_valor": 2.783665622090983e-05,
+    "matriz_confusao": {
+      "vn": 51,
+      "fp": 20,
+      "fn": 21,
+      "vp": 47
+    },
+    "acuracia": 0.7050359712230215,
+    "precisao": 0.7014925373134329,
+    "revocacao": 0.6911764705882353,
+    "auc": 0.744407622203811,
+    "classificacoes": [
+      {
+        "dist_marco_zero_km": 2.0,
+        "qtd_linhas": 3,
+        "lat": -23.54,
+        "nome": "Baldeação central (3 linhas, 2 km)",
+        "probabilidade": 0.9423999042552921,
+        "classe": "ALTA ocorrência"
+      },
+      {
+        "dist_marco_zero_km": 22.0,
+        "qtd_linhas": 1,
+        "lat": -23.48,
+        "nome": "Ponta de linha (1 linha, 22 km)",
+        "probabilidade": 0.13861201954355798,
+        "classe": "ocorrência normal"
+      }
+    ]
+  }
+}
