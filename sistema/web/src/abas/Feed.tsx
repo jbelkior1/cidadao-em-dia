@@ -534,7 +534,7 @@ export default function Feed({ aoIr, aoSos }: { aoIr?: (aba: IdAba, focarConvers
             <div className="grid grid-cols-4 gap-2.5">
               {atalhos.map(({ rotulo, Icone, acao }) => (
                 <button key={rotulo} type="button" onClick={acao}
-                  className="flex aspect-[1/0.92] flex-col items-center justify-center gap-2 rounded-2xl bg-cinza text-[13px] font-bold hover:bg-cinza-forte">
+                  className="flex h-[84px] flex-col items-center justify-center gap-2 rounded-2xl bg-cinza text-[13px] font-bold hover:bg-cinza-forte">
                   <Icone className={`size-7 ${rotulo === "SOS" ? "text-erro" : ""}`} strokeWidth={1.9} aria-hidden />
                   {rotulo}
                 </button>

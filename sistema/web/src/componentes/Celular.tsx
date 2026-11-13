@@ -1,8 +1,8 @@
-import { BatteryFull, Bell, Laptop, Signal, Smartphone, Wifi } from "lucide-react";
+import { BatteryFull, Laptop, Signal, Smartphone, Wifi } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { useApp } from "../App";
-import { CORES_DAS_MATERIAS, mobilidade, type LinhaInfo, type Passo } from "../lib/api";
+import { CORES_DAS_MATERIAS, type Passo } from "../lib/api";
 import { AvisoNoAparelho } from "./Auxilia";
 import { useMenu } from "./Casca";
 import { ProvedorConversa, useConversa } from "./conversa";
@@ -11,7 +11,7 @@ import AppAbas from "./AppAbas";
 /*
  * A página do sistema: o chat da Lia, visto como notebook ou dentro do desenho de um
  * celular (no celular de verdade, tela cheia). Com o modo banca, o painel
- * "Por trás da tela" mostra quem fez cada parte e tem os controles da demonstração.
+ * "Por trás da tela" mostra quem fez cada parte da última resposta.
  * A conversa fica no ProvedorConversa: trocar de vista não a perde.
  */
 
@@ -69,33 +69,11 @@ function BarraDeStatus() {
   );
 }
 
-function PorTrasDaTela({ linhasInfo }: { linhasInfo: Record<string, LinhaInfo> }) {
-  const { rastro, simular, setSimular, simularAviso } = useConversa();
-  const [enviando, setEnviando] = useState(false);
+function PorTrasDaTela() {
+  const { rastro } = useConversa();
   const passos = rastro.length ? rastro : PADRAO;
-  const avisar = async () => {
-    setEnviando(true);
-    try {
-      await simularAviso();
-    } finally {
-      setEnviando(false);
-    }
-  };
   return (
     <aside className="hidden w-80 shrink-0 flex-col gap-6 overflow-y-auto py-6 pr-6 xl:flex" aria-label="Por trás da tela">
-      <div className="space-y-3 rounded-2xl border border-linha bg-superficie p-4">
-        <p className="text-[15px] font-bold">Demonstração</p>
-        <label htmlFor="simular-falha" className="block text-[13px] font-semibold text-apagado">Simular falha numa linha</label>
-        <select id="simular-falha" value={simular} onChange={(e) => setSimular(e.target.value)} className="w-full rounded-lg border border-linha bg-superficie px-2.5 py-2 text-[14px]">
-          <option value="">Nenhuma (situação real)</option>
-          {Object.values(linhasInfo).filter((l) => l.numero !== "7").map((l) => <option key={l.numero} value={l.numero}>Linha {l.numero}-{l.nome}</option>)}
-        </select>
-        <button type="button" onClick={avisar} disabled={enviando}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-marca px-3 py-2.5 text-[14px] font-semibold text-white hover:bg-marca-forte disabled:opacity-50">
-          <Bell className="size-4" aria-hidden />Simular o aviso antes de sair
-        </button>
-        <p className="text-[12px] text-apagado">O aviso usa a última viagem conferida na conversa. No app de verdade, chegaria no horário de saída, sem a pessoa abrir o app.</p>
-      </div>
       <div className="space-y-3">
         <p className="text-[15px] font-bold">{rastro.length ? "Quem fez esta resposta" : "Quem trabalha por trás"}</p>
         <ol className="space-y-3">
@@ -132,11 +110,6 @@ function Tela() {
   const { abrirMenu } = useMenu();
   const computador = useLargura("(min-width: 1024px)");
   const [vista, setVista] = useState<Vista>(() => lerPreferencia<Vista>("auxilia-vista", ["notebook", "celular"], "celular"));
-  const [linhasInfo, setLinhasInfo] = useState<Record<string, LinhaInfo>>({});
-
-  useEffect(() => {
-    mobilidade.estacoes().then((r) => setLinhasInfo(Object.fromEntries(r.linhas.map((l) => [l.numero, l])))).catch(() => {});
-  }, []);
 
   if (!computador) {
     return (
@@ -165,7 +138,7 @@ function Tela() {
           {vista === "celular" && <span className="mx-auto mt-1 mb-1.5 h-1 w-28 shrink-0 rounded-full bg-tinta/80" aria-hidden />}
         </div>
       </div>
-      {modoBanca && <PorTrasDaTela linhasInfo={linhasInfo} />}
+      {modoBanca && <PorTrasDaTela />}
     </div>
   );
 }
