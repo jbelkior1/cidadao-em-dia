@@ -116,7 +116,7 @@ export const MATERIAS_DO_SISTEMA = [
   { cod: "DSA", curto: "Catálogo" },
   { cod: "SERS", curto: "Energia" },
   { cod: "MLAM", curto: "Segurança" },
-  { cod: "PAI", curto: "Auxilia (IA)" },
+  { cod: "PAI", curto: "Lia (IA)" },
   { cod: "MMC", curto: "Frota (à parte)" },
   { cod: "COA", curto: "Sensor (à parte)" },
 ];

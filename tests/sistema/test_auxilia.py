@@ -1,4 +1,4 @@
-"""Testes da Auxilia (a agente), da leitura do CGE e da sociedade usando o sistema.
+"""Testes da Lia (a agente), da leitura do CGE e da sociedade usando o sistema.
 
 O modelo de IA é trocado por respostas fixas: os testes não gastam chamada nem dependem
 da internet. Rodar da raiz: uv run python -m unittest discover -s tests/sistema -v
@@ -16,7 +16,7 @@ if str(RAIZ) not in sys.path:
 
 from fastapi.testclient import TestClient  # noqa: E402
 
-from sistema import assistente, ia, laboratorio  # noqa: E402
+from sistema import assistente, ia, laboratorio, relatos  # noqa: E402
 from sistema.api import app  # noqa: E402
 from sistema.mobilidade import fontes  # noqa: E402
 
@@ -108,7 +108,7 @@ class Conversa(SemInternet):
             oi = assistente.responder("oi", agora=AGORA)
             viagem = assistente.responder("vou do grajaú para a paulista", agora=AGORA)
             saindo = assistente.responder("estou saindo de casa", agora=AGORA)
-        self.assertIn("Auxilia", oi["texto"])
+        self.assertIn("Lia", oi["texto"])
         self.assertEqual(oi["ia"]["aviso"], "sem cota")
         self.assertEqual(viagem["cartoes"][0]["tipo"], "plano")
         self.assertIn("Para onde", saindo["texto"])
@@ -168,6 +168,48 @@ class Sociedade(SemInternet):
             marcos = next(p for p in laboratorio.PERSONAS if p["id"] == "marcos")
             c = laboratorio.conversa_da_persona(marcos, "Dia normal", hoje=AGORA)
         self.assertEqual(c["decisao"], "pode_ir")
+
+
+class RelatosNaLia(SemInternet):
+    """A Lia lê os relatos dos passageiros: só campos prontos, e sem relato não diz que está tudo certo."""
+
+    def setUp(self):
+        super().setUp()
+        self.repo = relatos.RepositorioMemoria()
+        relatos.usar_repositorio(self.repo)
+
+    def tearDown(self):
+        relatos.usar_repositorio(relatos.RepositorioMemoria())
+        super().tearDown()
+
+    def test_toda_ferramenta_tem_rastro(self):
+        nomes = {f["function"]["name"] for f in assistente.FERRAMENTAS}
+        self.assertEqual(nomes - set(assistente.MATERIA_DA_FERRAMENTA), set())
+
+    def test_dois_aparelhos_viram_alerta_com_o_aviso_de_estimativa(self):
+        relatos.semear_demo(repositorio=self.repo)
+        r = assistente.Sessao(None, AGORA).relatos_dos_passageiros("3")
+        self.assertEqual(r["total_de_relatos"], 2)
+        self.assertEqual(r["estimativa_por_linha"][0]["nivel"], "alerta")
+        self.assertIn("não dado oficial", r["aviso"])
+
+    def test_sem_relato_nao_diz_que_esta_tudo_certo(self):
+        r = assistente.Sessao(None, AGORA).relatos_dos_passageiros("9")
+        self.assertEqual(r["total_de_relatos"], 0)
+        self.assertIn("ninguém relatou", r["observacao"])
+
+    def test_nada_de_texto_de_terceiros_vai_ao_modelo(self):
+        relatos.semear_demo(repositorio=self.repo)
+        texto = json.dumps(assistente.Sessao(None, AGORA).relatos_dos_passageiros(), ensure_ascii=False)
+        for proibido in ("apelido", "Passageiro ", "autor", "device"):
+            self.assertNotIn(proibido, texto)
+
+    def test_o_modelo_chama_a_ferramenta(self):
+        relatos.semear_demo(repositorio=self.repo)
+        respostas = [chamada("relatos_dos_passageiros", {"linha": "3"}), final("Passageiros relataram a Linha 3 lotada.")]
+        with mock.patch.object(ia, "chamar_com_ferramentas", side_effect=respostas):
+            r = assistente.responder("a linha 3 está lotada?", agora=AGORA)
+        self.assertIn("Leu os relatos dos passageiros", [p["titulo"] for p in r["rastro"]])
 
 
 class Api(SemInternet):

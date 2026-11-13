@@ -12,6 +12,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from sistema import assistente, checklist, config, conversa, ia, laboratorio, materias, testes
+from sistema import mapa, relatos, sos
 from sistema.adaptadores import dsa, pcp
 from sistema.mobilidade import decisao, fontes, plano, rede
 
@@ -22,7 +23,9 @@ async def ciclo_de_vida(_app):
     yield
 
 
-app = FastAPI(title="Auxilia", docs_url="/api/docs", openapi_url="/api/openapi.json", lifespan=ciclo_de_vida)
+app = FastAPI(title="Dá Tempo?", docs_url="/api/docs", openapi_url="/api/openapi.json", lifespan=ciclo_de_vida)
+app.include_router(mapa.router)
+app.include_router(relatos.router)
 
 
 class Mensagem(BaseModel):
@@ -83,6 +86,12 @@ class PedidoAssistente(BaseModel):
     historico: list[FalaHistorico] = []
     contexto: ContextoAssistente = ContextoAssistente()
     simular: str | None = None
+
+
+@app.get("/api/sos")
+def sos_canais(linha: str | None = None, estacao: str | None = None) -> dict:
+    """O canal certo para pedir ajuda ou denunciar, a partir do catálogo da DSA. O app não envia nada sozinho."""
+    return sos.canais(linha, estacao)
 
 
 @app.get("/api/assistente/alertas")

@@ -5,19 +5,19 @@ import { Link } from "react-router-dom";
 import Fluxograma from "../componentes/Fluxograma";
 import { api, type Materias } from "../lib/api";
 
-/* Case norteador: o que o caso pede, como a Auxilia responde e o que cada matéria faz dentro e fora do sistema. */
+/* Case norteador: o que o caso pede, como a Lia responde e o que cada matéria faz dentro e fora do sistema. */
 
 const PEDIDOS = [
-  { pedido: "Orientar o cidadão no dia a dia", resposta: "A Auxilia acompanha a ida e a volta de trem e metrô e diz o que fazer quando algo dá errado." },
+  { pedido: "Orientar o cidadão no dia a dia", resposta: "A Lia acompanha a ida e a volta de trem e metrô e diz o que fazer quando algo dá errado." },
   { pedido: "Toda orientação com fonte", resposta: "Cada cartão traz de onde veio a informação e a hora da leitura: operadoras, INMET, CGE, SSP-SP, sites oficiais." },
-  { pedido: "Avisar as limitações", resposta: "A Auxilia diz quando não sabe, avisa que não é canal oficial e que o aviso da estação vale mais." },
+  { pedido: "Avisar as limitações", resposta: "A Lia diz quando não sabe, avisa que não é canal oficial e que o aviso da estação vale mais." },
   { pedido: "Sem dados pessoais", resposta: "Sem conta, sem nome, sem localização. CPF, telefone ou endereço são barrados antes de chegar ao modelo de IA." },
 ];
 
 const ROTEIRO = [
   { pessoa: "Estou saindo de casa agora.", auxilia: "Para onde você vai?" },
   { pessoa: "Para a Paulista. Saio do Grajaú.", auxilia: "Linha 9 parada (simulação). Vá pela 9 só até Santo Amaro e troque para a 5. Chegada às 20:49." },
-  { pessoa: "Avisa o pessoal do trabalho que vou atrasar.", auxilia: "Pronto: \"Oi, pessoal! Vou chegar uns 20 minutos atrasado...\". Copiar ou abrir no WhatsApp." },
+  { pessoa: "Avisa o pessoal do trabalho que vou atrasar.", auxilia: "Pronto: \"Oi, pessoal! Vou chegar uns 20 minutos atrasado...\". Copiar e enviar." },
 ];
 
 export default function ComoFunciona() {
@@ -30,10 +30,10 @@ export default function ComoFunciona() {
     <div className="mx-auto w-full max-w-4xl space-y-10 px-4 py-8 lg:px-8">
       <header className="space-y-3">
         <p className="text-[13px] font-semibold tracking-wide text-marca-forte uppercase">Global Solution 2026.2 · CitizenTech · Citizen Assist AI</p>
-        <h2 className="text-3xl leading-tight font-bold">Auxilia: a agente que segura o sua companhia no trem e no metrô</h2>
+        <h2 className="text-3xl leading-tight font-bold">Dá Tempo? A Lia acompanha você no trem e no metrô</h2>
         <p className="text-lg text-apagado">
           O case pede um assistente que oriente o cidadão com fonte, avise as limitações e não use dados pessoais. A nossa resposta é uma
-          conversa só: a pessoa diz que está saindo, a Auxilia confere linhas, chuva, alagamento e caminho e diz o que fazer.
+          conversa só: a pessoa diz que está saindo, a Lia confere linhas, chuva, alagamento e caminho e diz o que fazer.
         </p>
         <Link to="/" className="inline-flex items-center gap-2 rounded-full bg-marca px-5 py-2.5 text-[15px] font-semibold text-white hover:bg-marca-forte">
           Abrir o sistema<ArrowRight className="size-4" aria-hidden />
@@ -78,7 +78,7 @@ export default function ComoFunciona() {
       <section className="space-y-4">
         <h3 className="text-xl font-bold">O que cada matéria faz, dentro e fora do sistema</h3>
         <p className="text-[17px] leading-relaxed">
-          Dentro do sistema, cada matéria é uma ferramenta que a Auxilia chama. Fora dele, cada professor recebe a entrega no formato do
+          Dentro do sistema, cada matéria é uma ferramenta que a Lia chama. Fora dele, cada professor recebe a entrega no formato do
           enunciado. Na página de cada matéria ficam a explicação, o teste individual e o checklist da entrega.
         </p>
         <ul className="space-y-3">
@@ -142,9 +142,9 @@ export default function ComoFunciona() {
         <h3 className="text-xl font-bold">Combinados</h3>
         <ul className="list-disc space-y-1.5 pl-5 text-[17px] leading-relaxed">
           <li>Não é canal oficial das operadoras nem da Defesa Civil, e avisa isso.</li>
-          <li>A Auxilia só afirma o que as ferramentas trouxeram; o que não sabe, diz que não sabe.</li>
+          <li>A Lia só afirma o que as ferramentas trouxeram; o que não sabe, diz que não sabe.</li>
           <li>A única lembrança é a estação de casa, guardada no aparelho da pessoa.</li>
-          <li>A mensagem de atraso é montada pelo sistema, mas quem envia é a pessoa, pelo WhatsApp dela.</li>
+          <li>A mensagem de atraso é montada pelo sistema, mas quem envia é a pessoa, pelo canal que preferir.</li>
         </ul>
         <Link to="/sociedade" className="inline-flex rounded-full px-5 py-2.5 text-[15px] font-semibold text-marca-forte ring-1 ring-marca/40 ring-inset hover:bg-marca-suave">
           Ver a sociedade usando o sistema

@@ -1,10 +1,16 @@
-# Auxilia · GS 2026.2
+# Dá Tempo? · GS 2026.2
 
 Saiba antes de sair se o seu trem vai te deixar na mão. Projeto da Global Solution 2026.2 da FIAP (CitizenTech).
 
-O sistema é uma conversa com a **Auxilia**, agente que acompanha a pessoa no trem e no metrô de São Paulo. A pessoa escreve "estou saindo de casa"; a Auxilia pergunta para onde ela vai, confere situação das linhas, aviso de chuva do INMET, alagamentos ao vivo do CGE, áreas de risco do GeoSampa e ocorrências da SSP-SP perto das estações, e responde com a decisão ("Pode ir", "Saia mais cedo" ou "Mude o caminho"), a previsão de chegada e o desvio quando uma linha para. Se for atrasar, ela monta a mensagem para a pessoa mandar pelo WhatsApp dela.
+O **Dá Tempo?** é um app de trem e metrô de São Paulo com 4 abas: **Home** (feed de relatos dos passageiros), **Mapa** (linhas, alagamentos, segurança e relatos), **IA** (a **Lia**, agente que acompanha a pessoa) e **Perfil**. Em todas as abas há o botão **SOS** e o sinal de alerta (linhas com problema, chuva do INMET, alagamento do CGE). Na aba IA, a pessoa escreve "estou saindo de casa"; a Lia pergunta para onde ela vai, confere linhas, chuva, alagamento, segurança e o que os passageiros relataram, e responde com a decisão ("Pode ir", "Saia mais cedo" ou "Mude o caminho"), a chegada prevista e o desvio quando uma linha para. Se for atrasar, monta a mensagem para a pessoa copiar e enviar.
 
-Cada mensagem passa pelo modelo de IA configurado (Gemini, Groq ou Ollama, em Configurações de IA), que só afirma o que as ferramentas do sistema devolvem. Dado pessoal é barrado antes de chegar ao modelo. Se a IA falhar na hora, a Auxilia responde pelas regras e pela base.
+Cada mensagem passa pelo modelo de IA configurado (Gemini, Groq ou Ollama, em Configurações de IA), que só afirma o que as ferramentas do sistema devolvem. Dado pessoal é barrado antes de chegar ao modelo. Se a IA falhar na hora, a Lia responde pelas regras e pela base.
+
+## Estado e próximos passos
+
+- **Pronto:** nome e cores (laranja e branco), casca de 4 abas, mapa, feed (em memória, com repositório trocável), SOS, perfil local e a ferramenta da Lia que lê os relatos.
+- **Depende do banco (Supabase), ainda não ligado:** relatos persistentes e em tempo real pelo banco, rotinas e aviso antes de sair, simulação da sociedade com Gemini guardada, cota de IA por pessoa.
+- **Fora por enquanto:** WhatsApp, foto, GPS, MiroFish. Ordem e motivos em `docs/decisoes/0002-da-tempo-escopo-e-prioridades.md`.
 
 ## Como rodar
 
@@ -34,7 +40,7 @@ Os testes do sistema não dependem da internet: a situação das linhas e os avi
 
 | Parte | O que tem |
 |---|---|
-| O sistema | O chat da Auxilia: começa pronto (saudação e quatro atalhos), com o sinal de alerta no canto superior direito (linhas com problema, chuva do INMET, alagamento do CGE). As respostas de viagem mostram a decisão e a chegada, o caminho passo a passo com a situação de cada linha no trecho e o que pede atenção. Dá para ver como **notebook** ou dentro de um **celular**; no celular de verdade, tela cheia |
+| O sistema (app de 4 abas) | **Home**: feed de relatos em tempo real (relato em 2 toques, campos prontos, sem texto livre nem foto; estimativa por relatos, não dado oficial). **Mapa**: linhas coloridas pelo status, alagamentos (GeoSampa), segurança (SSP-SP) e relatos. **IA**: a Lia, com saudação, atalhos e cartões de viagem. **Perfil**: minhas linhas e privacidade (rotinas entram com o banco). **SOS**: abre o SMS ou a ligação já preenchidos (não envia nada). Dá para ver como **notebook** ou dentro de um **celular**; no celular de verdade, tela cheia |
 | A sociedade | Dez passageiros simulados vivem uma situação do dia (linha parada no pico, temporal, volta à noite, dia normal); a conversa de cada um vem do sistema de verdade |
 | As matérias | **Case norteador** (o que o caso pede, o roteiro do pitch, o que cada matéria faz dentro e fora do sistema), Painel da equipe e uma página por matéria com **Entenda**, **Teste** e **Checklist da entrega** |
 
@@ -42,7 +48,7 @@ O **modo banca** abre o painel "Por trás da tela": quem fez cada parte da últi
 
 ## As 8 matérias no produto
 
-| Matéria | O que faz na Auxilia | Onde está |
+| Matéria | O que faz na Lia | Onde está |
 |---|---|---|
 | PCP | Orientações por busca de pontos (linha parada, chuva, segurança, direitos, gratuidades) | `entregas/pcp/citizen-assist-ai/` (repositório próprio na entrega) |
 | CS | Fora do sistema: tabela-verdade, Karnaugh e circuito feitos à mão (integração opcional pelo enunciado). O produto tem a própria regra para "pode ir, saia mais cedo, mude o caminho" | entrega à parte |
@@ -55,16 +61,18 @@ O **modo banca** abre o painel "Por trás da tela": quem fez cada parte da últi
 
 **CS:** tabela-verdade, Karnaugh e circuito são feitos pelo grupo, à mão, e entregues à parte. Usar IA nessas partes tira 4 pontos. O teste na página da matéria mostra a regra do produto, uma combinação por vez, sem montar a tabela.
 
-CS, COA e MMC não fazem sentido dentro da conversa, então seguem só o que o enunciado pede, à parte. Continuam com página, teste e checklist no sistema, mas sem ligação com a Auxilia.
+CS, COA e MMC não fazem sentido dentro da conversa, então seguem só o que o enunciado pede, à parte. Continuam com página, teste e checklist no sistema, mas sem ligação com a Lia.
 
 ## Pastas
 
 | Pasta | O que tem |
 |---|---|
-| `sistema/assistente.py` | A Auxilia: instruções, ferramentas (viagem, linhas, alertas, orientação, segurança, duração das falhas, mensagem de atraso, estação de casa), o laço com o modelo e as regras para quando a IA falha |
+| `sistema/assistente.py` | A Lia: instruções, ferramentas (viagem, linhas, alertas, orientação, segurança, duração das falhas, mensagem de atraso, estação de casa), o laço com o modelo e as regras para quando a IA falha |
 | `sistema/mobilidade/` | Rede (Dijkstra com custo de baldeação e desvio até a próxima troca), fontes ao vivo (linhas, INMET e CGE, com cache e histórico local), decisão do dia, energia e a montagem da viagem |
 | `sistema/` | API, barreira de dado pessoal, camada de IA, busca por regras (`conversa.py`), testes das matérias, sociedade (`laboratorio.py`) e checklist |
-| `sistema/web/` | As telas (React, Vite e Tailwind) |
+| `sistema/relatos.py` | Feed de relatos: campos prontos, limite de 10 min por linha, validade de 2 h, confirmações e estimativa por linha (repositório trocável; hoje em memória) |
+| `sistema/mapa.py` e `sistema/sos.py` | Dados das camadas do mapa; canais do SOS tirados do catálogo da DSA |
+| `sistema/web/` | As telas (React, Vite e Tailwind): `componentes/AppAbas.tsx` é a casca das 4 abas e `abas/` tem Feed, Mapa e Perfil |
 | `sistema/dados/` | `rede.json` (do GTFS), `seguranca_estacoes.json` (da SSP-SP), `personas.json` e `checklist.json` |
 | `scripts/montar_rede.py` | Monta `rede.json` a partir do GTFS da SPTrans e dos alagamentos do GeoSampa |
 | `pesquisa/` | Bases levantadas em fontes oficiais em 12/11/2026 (orientações, serviços e energia) e `montar_bases.py`, que gera os dados do PCP e da DSA |
@@ -104,4 +112,4 @@ Detalhes em `docs/decisoes/0001-o-nucleo-e-a-entrega.md`.
 
 ## Versão anterior
 
-O esqueleto em Streamlit do tema anterior (Cidadão em Dia: `app.py`, `paginas/`, `modulos/`, `nucleo/`, `servicos/`, `data/`) continua na raiz só para manter a vitrine antiga em https://jbelkior1.github.io/cidadao-em-dia/. Não faz parte da Auxilia.
+O esqueleto em Streamlit do tema anterior (Cidadão em Dia: `app.py`, `paginas/`, `modulos/`, `nucleo/`, `servicos/`, `data/`) continua na raiz só para manter a vitrine antiga em https://jbelkior1.github.io/cidadao-em-dia/. Não faz parte da Lia.

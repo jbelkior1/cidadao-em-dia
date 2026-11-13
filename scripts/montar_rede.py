@@ -1,4 +1,4 @@
-"""Monta a rede de trem e metrô da Auxilia: estações, linhas, tempos e baldeações.
+"""Monta a rede de trem e metrô do Dá Tempo?: estações, linhas, tempos e baldeações.
 
     uv run python scripts/montar_rede.py [caminho_do_gtfs.zip]
 

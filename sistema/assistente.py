@@ -1,6 +1,6 @@
-"""Auxilia: a agente que acompanha a pessoa no trem e no metrô de São Paulo.
+"""Lia: a agente do Dá Tempo? que acompanha a pessoa no trem e no metrô de São Paulo.
 
-A conversa é o sistema inteiro. A pessoa escreve "estou saindo de casa", a Auxilia
+A conversa é o sistema inteiro. A pessoa escreve "estou saindo de casa", a Lia
 pergunta para onde ela vai, confere tudo e responde com a conclusão e cartões
 (caminho, linhas, chuva, alagamento, orientação oficial, segurança, mensagem de atraso).
 
@@ -14,7 +14,7 @@ afirmar o que as ferramentas do sistema devolvem:
 - quanto as falhas costumam durar (histórico local).
 
 Antes de tudo, a barreira de dado pessoal: com CPF, telefone, e-mail ou endereço, a
-mensagem nem chega ao modelo. Se a IA falhar na hora (cota, internet), a Auxilia avisa
+mensagem nem chega ao modelo. Se a IA falhar na hora (cota, internet), a Lia avisa
 e responde pelas regras e pela base, para o app não travar.
 
 Nada do que a pessoa escreve é gravado. A única lembrança é a estação de casa, que
@@ -30,7 +30,7 @@ from sistema.adaptadores import dsa, pcp
 from sistema.conversa import SERVICO_DA_ORIENTACAO
 from sistema.mobilidade import fontes, plano, rede
 
-NOME = "Auxilia"
+NOME = "Lia"
 MAX_RODADAS = 5
 MAX_HISTORICO = 10
 MAX_CARTOES = 4
@@ -82,6 +82,10 @@ FERRAMENTAS = [
        {"estacao": {"type": "string"}}, ["estacao"]),
     _f("duracao_das_falhas", "Quanto as falhas de uma linha costumam durar, pelo histórico que o sistema coleta.",
        {"linha": {"type": "string"}}, ["linha"]),
+    _f("relatos_dos_passageiros",
+       "O que outros passageiros relataram agora no app (lotado, parado, quebrou, chuva, alagado, segurança). "
+       "É estimativa por relatos, não dado oficial. Use para 'como está a Linha 3?' ou 'está lotado?', junto com a situação oficial.",
+       {"linha": {"type": "string", "description": "número da linha; sem número, devolve todas com relato"}}),
     _f("mensagem_de_atraso",
        "Monta uma mensagem pronta para a pessoa avisar alguém (trabalho, escola, família) que vai atrasar, com o motivo e a nova previsão. "
        "Use depois de ver_trajeto, quando a pessoa pedir ou aceitar.",
@@ -96,6 +100,7 @@ MATERIA_DA_FERRAMENTA = {
                     ("MLAM", "Trouxe a segurança das estações", "base da SSP-SP por estação"),
                     ("SERS", "Calculou a energia da viagem", "trilho, ônibus e carro")],
     "ver_linhas": [("Sistema", "Leu a situação das linhas", "agregador público das operadoras")],
+    "relatos_dos_passageiros": [("Sistema", "Leu os relatos dos passageiros", "estimativa por relatos, não dado oficial")],
     "alertas_da_cidade": [("Sistema", "Leu os alertas oficiais", "INMET e CGE da Prefeitura")],
     "buscar_orientacao": [("PCP", "Achou a orientação oficial", "busca por pontos"), ("DSA", "Trouxe o canal de atendimento", "lista encadeada")],
     "seguranca_estacao": [("MLAM", "Trouxe a segurança da estação", "base da SSP-SP por estação")],
@@ -207,6 +212,21 @@ class Sessao:
     def duracao_das_falhas(self, linha: str) -> dict:
         return {"linha": linha, **fontes.duracao_tipica(re.sub(r"\D", "", str(linha)))}
 
+    def relatos_dos_passageiros(self, linha: str | None = None) -> dict:
+        """Só campos prontos (tipo, quantidade, estimativa): nenhum texto de terceiros chega ao modelo."""
+        from sistema import relatos
+        numero = re.sub(r"\D", "", str(linha or "")) or None
+        agora = relatos.agora_utc()
+        ativos = relatos.listar_ativos(linha=numero, agora=agora)
+        estimativa = relatos.estimativa_por_linha(ativos, agora)
+        por_tipo: dict[str, int] = {}
+        for r in ativos:
+            por_tipo[relatos.TIPOS[r.tipo].rotulo] = por_tipo.get(relatos.TIPOS[r.tipo].rotulo, 0) + 1
+        return {"aviso": relatos.AVISO, "linha": numero, "total_de_relatos": len(ativos), "relatos_por_tipo": por_tipo,
+                "estimativa_por_linha": [{"linha": e["linha"], "nivel": e["nivel"], "tipo_principal": e["tipo_rotulo"],
+                                          "pessoas": e["n_autores"], "ultimo_relato": e["ultimo_em"]} for e in estimativa],
+                "observacao": "sem relato não quer dizer que está tudo certo: ninguém relatou" if not ativos else ""}
+
     def mensagem_de_atraso(self, para_quem: str = "") -> dict:
         ultima = self.contexto.get("ultima_viagem") or {}
         if not self.plano and ultima.get("origem") in rede.carregar()["por_id"] and ultima.get("destino") in rede.carregar()["por_id"]:
@@ -217,7 +237,7 @@ class Sessao:
         c = cartao_do_plano(self.plano, self.agora)
         texto = texto_de_atraso(self.plano, c, para_quem)
         self.cartao({"tipo": "mensagem", "chave": "atraso", "texto": texto, "para_quem": para_quem})
-        return {"mensagem": texto, "observacao": "a pessoa envia pelo próprio WhatsApp; o sistema não envia nada"}
+        return {"mensagem": texto, "observacao": "a pessoa copia e envia como preferir; o sistema não envia nada"}
 
     def lembrar_casa(self, estacao: str) -> dict:
         e = resolver_estacao(estacao)
@@ -297,7 +317,7 @@ def cartao_do_plano(p: dict, agora: datetime) -> dict:
 
 
 def texto_de_atraso(p: dict, c: dict, para_quem: str = "") -> str:
-    """Mensagem curta, só com o que o sistema calculou (a pessoa copia ou manda pelo WhatsApp dela)."""
+    """Mensagem curta, só com o que o sistema calculou (a pessoa copia e envia como preferir)."""
     falha = next((l for l in p["linhas"] if l["nivel"] in ("parada", "atencao")), None)
     if falha:
         motivo = f"a Linha {falha['numero']}-{falha['nome']} está com problema"
@@ -322,7 +342,7 @@ def _instrucoes(contexto: dict, simular: str | None, agora: datetime) -> str:
     if _nome_da_estacao(ultima.get("origem")) and _nome_da_estacao(ultima.get("destino")):
         ultima_txt = f"Última viagem conferida nesta conversa: de {_nome_da_estacao(ultima['origem'])} para {_nome_da_estacao(ultima['destino'])}."
     dia = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"][agora.weekday()]
-    return f"""Você é a {NOME}, agente que acompanha a pessoa no trem e no metrô de São Paulo, no dia a dia. Agora são {agora:%H:%M} de {dia}, {agora:%d/%m/%Y}.
+    return f"""Você é a {NOME}, agente do app Dá Tempo? que acompanha a pessoa no trem e no metrô de São Paulo, no dia a dia. Agora são {agora:%H:%M} de {dia}, {agora:%d/%m/%Y}.
 {"Estação perto de casa (guardada no aparelho dela): " + casa + "." if casa else "Você ainda não sabe a estação perto de casa."}
 {ultima_txt}
 {f"ATENÇÃO: há uma simulação de falha na Linha {simular} ligada (demonstração para a banca). Diga que é simulação quando citar." if simular else ""}
@@ -338,6 +358,8 @@ Como responder:
 - Português do Brasil, caloroso e direto. No máximo 3 frases curtas. Sem listas, sem markdown, sem emoji.
 - A tela mostra cartões com os detalhes do que as ferramentas trouxeram (caminho, linhas, alertas, orientação, mensagem). Diga a conclusão e o próximo passo; não repita o cartão nem o texto da mensagem pronta.
 - Diga a previsão de chegada quando ver_trajeto trouxer.
+- Quando a pergunta for sobre como está uma linha, chame ver_linhas (situação oficial) e relatos_dos_passageiros (o que a gente viu), e diga as duas coisas separadas.
+- Relatos dos passageiros são estimativa, não dado oficial: diga sempre "passageiros relataram", nunca afirme como fato. Sem relato, não diga que está tudo certo.
 - Fatos sobre linhas, caminhos, chuva, alagamento, segurança, direitos e canais só vêm das ferramentas. Se não veio, diga que não sabe. Nunca invente horário, telefone, estação, aplicativo ou regra.
 - Cite a hora da leitura só quando a pergunta for sobre a situação das linhas.
 - Segurança: é contagem de registros da SSP-SP, não risco. Não assuste.
@@ -479,7 +501,7 @@ def _resposta(texto: str, sessao: Sessao, contexto: dict, recusa: bool = False, 
     return {"texto": texto, "recusa": recusa, "cartoes": sessao.cartoes[-MAX_CARTOES:], "rastro": sessao.rastro,
             "sugestoes": sugestoes(sessao, contexto), "ia": {"usada": ia_usada, "aviso": aviso},
             "memoria": sessao.memoria, "ultima_viagem": _ultima_viagem(sessao) or None,
-            "aviso": "A Auxilia não é canal oficial. Confirme com a operadora."}
+            "aviso": "A Lia não é canal oficial. Confirme com a operadora."}
 
 
 def _ultima_viagem(sessao: Sessao) -> dict | None:

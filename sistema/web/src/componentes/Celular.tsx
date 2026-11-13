@@ -6,10 +6,10 @@ import { CORES_DAS_MATERIAS, mobilidade, type LinhaInfo, type Passo } from "../l
 import { AvisoNoAparelho } from "./Auxilia";
 import { useMenu } from "./Casca";
 import { ProvedorConversa, useConversa } from "./conversa";
-import Chat from "./Chat";
+import AppAbas from "./AppAbas";
 
 /*
- * A página do sistema: o chat da Auxilia, visto como notebook ou dentro do desenho de um
+ * A página do sistema: o chat da Lia, visto como notebook ou dentro do desenho de um
  * celular (no celular de verdade, tela cheia). Com o modo banca, o painel
  * "Por trás da tela" mostra quem fez cada parte e tem os controles da demonstração.
  * A conversa fica no ProvedorConversa: trocar de vista não a perde.
@@ -142,13 +142,13 @@ function Tela() {
     return (
       <div className="relative flex h-full flex-col bg-fundo">
         <AvisoNoAparelho />
-        <Chat aoAbrirMenu={abrirMenu} />
+        <AppAbas aoAbrirMenu={abrirMenu} />
       </div>
     );
   }
 
   return (
-    <div className="flex h-full gap-8 bg-[radial-gradient(circle_at_30%_20%,#e3efeb,transparent_60%)] px-6">
+    <div className="flex h-full gap-8 bg-[radial-gradient(circle_at_30%_20%,#fde8d7,transparent_60%)] px-6">
       <div className="flex min-w-0 flex-1 flex-col items-center py-4">
         <div className="mb-3 flex shrink-0 flex-wrap items-center justify-center gap-2">
           <Seletor<Vista> rotulo="Ver como" valor={vista}
@@ -161,7 +161,7 @@ function Tela() {
             : "relative flex min-h-0 w-full max-w-4xl flex-1 flex-col overflow-hidden rounded-2xl border border-linha bg-superficie shadow-xl"}>
           {vista === "celular" && <BarraDeStatus />}
           <AvisoNoAparelho flutuante={vista === "notebook"} />
-          <div className="min-h-0 flex-1"><Chat /></div>
+          <div className="min-h-0 flex-1"><AppAbas /></div>
           {vista === "celular" && <span className="mx-auto mt-1 mb-1.5 h-1 w-28 shrink-0 rounded-full bg-tinta/80" aria-hidden />}
         </div>
       </div>

@@ -1,16 +1,14 @@
-import { AlertTriangle, CheckCircle2, CloudLightning, Droplets, Menu, RotateCcw } from "lucide-react";
-import { useEffect, useState } from "react";
+import { AlertTriangle, CheckCircle2, CloudLightning, Droplets } from "lucide-react";
+import { useEffect } from "react";
 
-import { useApp } from "../App";
 import { corDoTexto, type ItemAlerta } from "../lib/api";
-import { Avatar, Entrada, Mensagens } from "./Auxilia";
+import { Entrada, Mensagens } from "./Auxilia";
 import { hora } from "./Linha";
 import { useConversa } from "./conversa";
 
 /*
- * O chat da Auxilia: cabeçalho com o sinal de alerta no canto, a conversa (que já começa com a
- * saudação e os atalhos) e a caixa de texto. O mesmo componente roda no desenho do celular,
- * no notebook e no celular de verdade (container queries).
+ * A aba IA: a conversa com a Lia (saudação e atalhos no começo) e a caixa de texto.
+ * O cabeçalho e o sinal de alerta ficam na casca do app (AppAbas), para valerem em todas as abas.
  */
 
 const COR_NIVEL = {
@@ -33,7 +31,8 @@ function IconeAlerta({ item }: { item: ItemAlerta }) {
   return <span className={`flex size-9 shrink-0 items-center justify-center rounded-xl ${cor}`}><Icone className="size-[18px]" aria-hidden /></span>;
 }
 
-function PainelAlertas({ aoFechar }: { aoFechar: () => void }) {
+/** Painel que abre pelo sinal de alerta. Tocar num alerta pergunta à Lia como ele afeta a viagem. */
+export function PainelAlertas({ aoFechar, aoPerguntar }: { aoFechar: () => void; aoPerguntar: () => void }) {
   const { alertas, enviar } = useConversa();
   useEffect(() => {
     const aoTeclar = (e: KeyboardEvent) => e.key === "Escape" && aoFechar();
@@ -50,7 +49,7 @@ function PainelAlertas({ aoFechar }: { aoFechar: () => void }) {
         </div>
         {alertas?.itens.length === 0 && <p className="text-[14px] text-apagado">Nada fora do normal agora.</p>}
         {alertas?.itens.map((item, i) => (
-          <button key={i} type="button" onClick={() => { enviar(item.pergunta); aoFechar(); }}
+          <button key={i} type="button" onClick={() => { aoPerguntar(); enviar(item.pergunta); aoFechar(); }}
             className={`flex w-full items-start gap-3 rounded-xl border p-3 text-left hover:border-marca ${COR_NIVEL[item.nivel]}`}>
             <IconeAlerta item={item} />
             <span className="flex min-w-0 flex-col gap-0.5">
@@ -62,13 +61,14 @@ function PainelAlertas({ aoFechar }: { aoFechar: () => void }) {
             </span>
           </button>
         ))}
-        <p className="text-[12px] text-apagado">Toque num alerta para perguntar à Auxilia como ele afeta a sua viagem. O aviso da estação vale mais.</p>
+        <p className="text-[12px] text-apagado">Toque num alerta para perguntar à Lia como ele afeta a sua viagem. O aviso da estação vale mais.</p>
       </section>
     </>
   );
 }
 
-function BotaoAlertas({ aberto, aoAlternar }: { aberto: boolean; aoAlternar: () => void }) {
+/** O sinal de alerta do canto superior direito: cinza sem alertas, âmbar com atenção, vermelho com linha parada. */
+export function BotaoAlertas({ aberto, aoAlternar }: { aberto: boolean; aoAlternar: () => void }) {
   const { alertas } = useConversa();
   const total = alertas?.total ?? 0;
   const cor = !total ? "bg-fundo text-apagado ring-1 ring-linha" : alertas?.parada ? "bg-erro-suave text-erro" : "bg-alerta-suave text-alerta";
@@ -81,27 +81,9 @@ function BotaoAlertas({ aberto, aoAlternar }: { aberto: boolean; aoAlternar: () 
   );
 }
 
-export default function Chat({ aoAbrirMenu }: { aoAbrirMenu?: () => void }) {
-  const { ia } = useApp();
-  const { simular, reiniciar, falas } = useConversa();
-  const [alertasAbertos, setAlertasAbertos] = useState(false);
+export default function Chat() {
   return (
-    <div className="@container relative flex h-full min-h-0 flex-col bg-fundo">
-      <header className="flex h-14 shrink-0 items-center gap-2.5 border-b border-linha bg-superficie px-3">
-        {aoAbrirMenu && <button type="button" onClick={aoAbrirMenu} aria-label="Abrir o menu do sistema" className="rounded-lg p-1.5 text-apagado hover:bg-fundo"><Menu className="size-5" /></button>}
-        <Avatar />
-        <div className="min-w-0 flex-1 leading-tight">
-          <p className="text-[16px] font-bold">Auxilia</p>
-          <p className="truncate text-[12px] text-apagado">sua companhia no trem e no metrô</p>
-        </div>
-        {simular && <span className="rounded-full bg-erro-suave px-2 py-0.5 text-[11px] font-semibold text-erro">simulação L{simular}</span>}
-        {!ia?.ligada && <span className="rounded-full bg-fundo px-2 py-0.5 text-[11px] font-semibold text-apagado ring-1 ring-linha">sem IA</span>}
-        {falas.length > 0 && (
-          <button type="button" onClick={reiniciar} aria-label="Nova conversa" title="Nova conversa" className="rounded-lg p-1.5 text-apagado hover:bg-fundo"><RotateCcw className="size-4" /></button>
-        )}
-        <BotaoAlertas aberto={alertasAbertos} aoAlternar={() => setAlertasAbertos((v) => !v)} />
-      </header>
-      {alertasAbertos && <PainelAlertas aoFechar={() => setAlertasAbertos(false)} />}
+    <div className="flex h-full min-h-0 flex-col">
       <Mensagens />
       <Entrada />
     </div>

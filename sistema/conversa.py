@@ -1,4 +1,4 @@
-"""Busca por regras da Auxilia (base do PCP com o canal da DSA), usada pela rota /api/chat e pela Auxilia quando a IA falha.
+"""Busca por regras da Lia (base do PCP com o canal da DSA), usada pela rota /api/chat e pela Lia quando a IA falha.
 
 A pessoa escreve o que aconteceu ("a linha parou", "roubaram meu celular") e
 recebe a orientação oficial pela busca por pontos do PCP, com o serviço do
@@ -15,7 +15,7 @@ Nada do que a pessoa escreve é gravado.
 from sistema import privacidade
 from sistema.adaptadores import dsa, pcp
 
-AVISO = "A Auxilia não é canal oficial. Confirme com a operadora ou o órgão responsável."
+AVISO = "A Lia não é canal oficial. Confirme com a operadora ou o órgão responsável."
 TAMANHO_MAXIMO = 1500
 EXEMPLOS = ["A linha parou, e agora?", "Como pego a declaração de atraso?", "Roubaram meu celular no trem", "Está chovendo muito"]
 

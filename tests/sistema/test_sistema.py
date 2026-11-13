@@ -1,4 +1,4 @@
-"""Testes do sistema Auxilia: rede, rota, desvio, decisão, Pergunte, privacidade e API.
+"""Testes do sistema Dá Tempo?: rede, rota, desvio, decisão, Pergunte, privacidade e API.
 
 Rodar da raiz do repositório:
     uv run python -m unittest discover -s tests/sistema -v

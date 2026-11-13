@@ -5,7 +5,7 @@ import { CartaoDaAuxilia } from "./Cartoes";
 import { useConversa, type Notificacao } from "./conversa";
 
 /*
- * Peças da conversa com a Auxilia, para os layouts montarem do jeito deles:
+ * Peças da conversa com a Lia, para os layouts montarem do jeito deles:
  * - <Mensagens />: as falas, com os cartões dentro;
  * - <Entrada />: sugestões e caixa de texto;
  * - <Avatar />, <Digitando />, <AvisoNoAparelho />.
@@ -15,15 +15,15 @@ import { useConversa, type Notificacao } from "./conversa";
 export function Avatar({ tamanho = "md" }: { tamanho?: "sm" | "md" | "lg" }) {
   const medida = tamanho === "sm" ? "size-7 text-[12px]" : tamanho === "lg" ? "size-12 text-[18px]" : "size-9 text-[14px]";
   return (
-    <span className={`flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-marca to-[#14917f] font-black text-white ${medida}`} aria-hidden>
-      A
+    <span className={`flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-marca to-marca-forte font-black text-white ${medida}`} aria-hidden>
+      L
     </span>
   );
 }
 
 export function Digitando() {
   return (
-    <div className="flex items-end gap-2" aria-label="A Auxilia está escrevendo">
+    <div className="flex items-end gap-2" aria-label="A Lia está escrevendo">
       <Avatar tamanho="sm" />
       <span className="flex gap-1 rounded-2xl rounded-bl-md bg-superficie px-4 py-3 shadow-sm ring-1 ring-linha">
         {[0, 150, 300].map((d) => <span key={d} className="size-2 animate-bounce rounded-full bg-apagado/60" style={{ animationDelay: `${d}ms` }} />)}
@@ -130,7 +130,7 @@ export function Entrada({ placeholder = "Ex.: estou no Capão Redondo e vou para
           </div>
         )}
         <form onSubmit={aoEnviar} className="flex items-center gap-2">
-          <label htmlFor="mensagem-auxilia" className="sr-only">Mensagem para a Auxilia</label>
+          <label htmlFor="mensagem-auxilia" className="sr-only">Mensagem para a Lia</label>
           <input id="mensagem-auxilia" value={texto} onChange={(e) => setTexto(e.target.value)} maxLength={1000} autoComplete="off" placeholder={placeholder}
             className="h-11 min-w-0 flex-1 rounded-full border border-linha bg-fundo px-4 text-[15px] placeholder:text-apagado focus:border-marca focus:outline-none" />
           <button type="submit" disabled={esperando || !texto.trim()} aria-label="Enviar"

@@ -37,7 +37,7 @@ function Barras({ linhas, sufixo, maximo, cor }: { linhas: { rotulo: string; val
 export default function Laboratorio() {
   const [opcoes, setOpcoes] = useState<OpcoesLaboratorio | null>(null);
   const [parte, setParte] = useState("Linha parada na hora do pico");
-  const [canais, setCanais] = useState<string[]>(["App e site", "WhatsApp (futuro)"]);
+  const [canais, setCanais] = useState<string[]>(["App e site"]);
   const [n, setN] = useState(3000);
   const [semente, setSemente] = useState(7);
   const [sim, setSim] = useState<Simulacao | null>(null);
@@ -74,7 +74,7 @@ export default function Laboratorio() {
       <header className="space-y-3">
         <h2 className="text-2xl font-bold">A sociedade usando o sistema</h2>
         <p className="max-w-3xl text-[17px] text-apagado">
-          Dez passageiros simulados de São Paulo vivem uma situação do dia com a Auxilia. Cada um tem o seu trajeto, a sua internet e a sua
+          Dez passageiros simulados de São Paulo vivem uma situação do dia com a Lia. Cada um tem o seu trajeto, a sua internet e a sua
           familiaridade com o celular. A conversa de cada um vem do sistema de verdade (rede, desvio, decisão e segurança); a situação e as
           pessoas são simuladas.
         </p>
@@ -114,7 +114,7 @@ export default function Laboratorio() {
           </div>
         </div>
         <div>
-          <p className="text-[15px] font-semibold">Por onde a Auxilia chega</p>
+          <p className="text-[15px] font-semibold">Por onde a Lia chega</p>
           <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label="Canais">
             {(opcoes?.canais ?? canais).map((c) => (
               <button key={c} type="button" aria-pressed={canais.includes(c)} onClick={() => alternarCanal(c)}
@@ -171,7 +171,7 @@ export default function Laboratorio() {
                   </div>
                   <p className="text-[13px] text-apagado">{o.quem}, {o.onde}. Trajeto: {o.trajeto}. Internet: {o.internet}.</p>
                   {o.conversa && (
-                    <div className="space-y-1.5 rounded-xl bg-fundo p-2.5" aria-label={`Conversa de ${o.nome} com a Auxilia`}>
+                    <div className="space-y-1.5 rounded-xl bg-fundo p-2.5" aria-label={`Conversa de ${o.nome} com a Lia`}>
                       <p className="ml-auto w-fit max-w-[90%] rounded-2xl rounded-br-md bg-marca px-3 py-1.5 text-[14px] text-white">{o.conversa.pessoa}</p>
                       <p className="w-fit max-w-[95%] rounded-2xl rounded-bl-md bg-superficie px-3 py-1.5 text-[14px] ring-1 ring-linha">{o.conversa.auxilia}</p>
                     </div>
@@ -189,7 +189,7 @@ export default function Laboratorio() {
             <section className="space-y-3 rounded-xl border border-linha bg-superficie p-5">
               <h3 className="text-lg font-bold">Adesão por perfil</h3>
               <p className="text-[13px] text-apagado">Pessoas sintéticas de cada perfil que usariam o produto.</p>
-              <Barras cor="#0E6B62" sufixo="%" maximo={100} linhas={sim.perfis.map((p) => ({ rotulo: p.perfil, valor: p.adesao, extra: `${p.pessoas.toLocaleString("pt-BR")} pessoas` }))} />
+              <Barras cor="#C2410C" sufixo="%" maximo={100} linhas={sim.perfis.map((p) => ({ rotulo: p.perfil, valor: p.adesao, extra: `${p.pessoas.toLocaleString("pt-BR")} pessoas` }))} />
             </section>
             <section className="space-y-3 rounded-xl border border-linha bg-superficie p-5">
               <h3 className="text-lg font-bold">Por que não usariam</h3>

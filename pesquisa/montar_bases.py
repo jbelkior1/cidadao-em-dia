@@ -1,4 +1,4 @@
-"""Monta as bases das entregas a partir da pesquisa em fontes oficiais (tema da Auxilia).
+"""Monta as bases das entregas a partir da pesquisa em fontes oficiais (tema do Dá Tempo?).
 
     python pesquisa/montar_bases.py
 

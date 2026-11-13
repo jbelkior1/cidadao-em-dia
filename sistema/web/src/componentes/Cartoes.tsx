@@ -7,7 +7,7 @@ import type {
 import { useConversa } from "./conversa";
 import { SeloLinha, SituacaoLinha, hora } from "./Linha";
 
-/* Cartões que a Auxilia põe dentro da conversa. Pensados para a largura de um celular. */
+/* Cartões que a Lia põe dentro da conversa. Pensados para a largura de um celular. */
 
 const VEREDITO = { pode_ir: "bg-ok-suave text-ok", mais_cedo: "bg-alerta-suave text-alerta", plano_b: "bg-erro-suave text-erro" };
 const FAIXAS: Record<string, string> = { madrugada: "Madrugada", manha: "Manhã", tarde: "Tarde", noite: "Noite" };
@@ -319,12 +319,8 @@ function Mensagem({ c }: { c: CartaoMensagem }) {
         <button type="button" onClick={copiar} className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] font-semibold text-marca-forte ring-1 ring-marca/40 ring-inset hover:bg-marca-suave">
           {copiado ? <Check className="size-4" aria-hidden /> : <Copy className="size-4" aria-hidden />}{copiado ? "Copiado" : "Copiar"}
         </button>
-        <a href={`https://wa.me/?text=${encodeURIComponent(c.texto)}`} target="_blank" rel="noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-full bg-[#1f8f4e] px-3 py-1.5 text-[13px] font-semibold text-white hover:bg-[#187a42]">
-          Abrir no WhatsApp
-        </a>
       </div>
-      <p className="text-[11px] text-apagado">Você escolhe para quem enviar. A Auxilia não envia nada sozinha.</p>
+      <p className="text-[11px] text-apagado">Copie e envie pelo canal que preferir. A Lia não envia nada sozinha.</p>
     </div>
   );
 }

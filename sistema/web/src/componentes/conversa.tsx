@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState, ty
 import { assistente, mobilidade, type Alertas, type Cartao, type FalaHistorico, type Passo, type RespostaAssistente, type Viagem } from "../lib/api";
 
 /*
- * Estado da conversa com a Auxilia, fora das telas: trocar de vista (notebook ou celular)
+ * Estado da conversa com a Lia, fora das telas: trocar de vista (notebook ou celular)
  * não perde a conversa. O chat começa pronto (saudação e atalhos, sem chamada ao servidor);
  * os alertas do canto (linhas, chuva, alagamento) são lidos à parte e atualizados a cada 2 min.
  * O que a pessoa escreve não é gravado; só a estação de casa fica no aparelho.
@@ -40,12 +40,12 @@ export function useConversa(): Contexto {
   return c;
 }
 
-const CHAVE_CASA = "auxilia-casa";
+const CHAVE_CASA = "dt-casa";
 const OCULTA = "Mensagem não exibida, porque parecia ter um dado pessoal.";
 
 function lerCasa(): string | null {
   try {
-    return localStorage.getItem(CHAVE_CASA) ?? localStorage.getItem("plano-b-casa");
+    return localStorage.getItem(CHAVE_CASA) ?? localStorage.getItem("auxilia-casa") ?? localStorage.getItem("plano-b-casa");
   } catch {
     return null;
   }
@@ -149,7 +149,7 @@ export function ProvedorConversa({ children }: { children: ReactNode }) {
 
   const simularAviso = useCallback(async () => {
     if (!ultimaViagem) {
-      notificar({ titulo: "Converse com a Auxilia primeiro", texto: "Diga para onde vai; o aviso usa a viagem que ela conferiu.", pedido: "Estou saindo agora" });
+      notificar({ titulo: "Converse com a Lia primeiro", texto: "Diga para onde vai; o aviso usa a viagem que ela conferiu.", pedido: "Estou saindo agora" });
       return;
     }
     const p = await mobilidade.plano(ultimaViagem.origem, ultimaViagem.destino, simular || undefined);

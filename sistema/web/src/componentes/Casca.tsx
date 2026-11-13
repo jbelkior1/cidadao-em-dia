@@ -7,7 +7,7 @@ import { CORES_DAS_MATERIAS, MATERIAS_DO_SISTEMA } from "../lib/api";
 
 type Item = { rotulo: string; para: string; icone?: LucideIcon; cor?: string };
 const GRUPOS: { titulo: string; itens: Item[] }[] = [
-  { titulo: "O sistema", itens: [{ rotulo: "Auxilia", para: "/", icone: MessageCircle }] },
+  { titulo: "O sistema", itens: [{ rotulo: "Dá Tempo?", para: "/", icone: MessageCircle }] },
   { titulo: "A sociedade", itens: [{ rotulo: "Simulação da sociedade", para: "/sociedade", icone: FlaskConical }] },
   {
     titulo: "As matérias",
@@ -20,7 +20,7 @@ const GRUPOS: { titulo: string; itens: Item[] }[] = [
   { titulo: "Configurações", itens: [{ rotulo: "Configurações de IA", para: "/configuracoes", icone: SlidersHorizontal }] },
 ];
 const TITULOS: Record<string, string> = {
-  "/": "O sistema · Auxilia",
+  "/": "O sistema · Dá Tempo?",
   "/sociedade": "A sociedade usando o sistema",
   "/caso": "Case norteador",
   "/materias": "Painel da equipe",
@@ -37,17 +37,17 @@ export const useMenu = () => useContext(ContextoMenu);
 function tituloDa(caminho: string): string {
   if (TITULOS[caminho]) return TITULOS[caminho];
   const cod = caminho.match(/^\/materias\/([a-z]+)/)?.[1]?.toUpperCase();
-  return cod ? `Matéria ${cod}` : "Auxilia";
+  return cod ? `Matéria ${cod}` : "Dá Tempo?";
 }
 
 function Marca() {
   return (
     <div className="flex h-16 shrink-0 items-center gap-3 border-b border-linha px-5">
       <span className="flex size-9 items-center justify-center rounded-xl bg-marca text-white">
-        <span className="text-[17px] font-black tracking-tight" aria-hidden>B</span>
+        <span className="text-[17px] font-black tracking-tight" aria-hidden>D</span>
       </span>
       <div className="min-w-0 leading-tight">
-        <p className="truncate text-[15px] font-bold">Auxilia</p>
+        <p className="truncate text-[15px] font-bold">Dá Tempo?</p>
         <p className="truncate text-xs text-apagado">GS 2026.2 · FIAP</p>
       </div>
     </div>

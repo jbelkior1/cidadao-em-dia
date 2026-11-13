@@ -10,7 +10,7 @@ type Ligacao = { de: string; para: string; rotulo?: string; tracejada?: boolean 
 
 const NOS: No[] = [
   { id: "cidadao", rotulo: "Passageiro", sub: "\"estou saindo de casa\"", x: 16, y: 120, w: 150, h: 60, tipo: "pessoa" },
-  { id: "auxilia", rotulo: "Auxilia", sub: "conversa e conduz", x: 214, y: 110, w: 170, h: 80, tipo: "tela" },
+  { id: "auxilia", rotulo: "Lia", sub: "conversa e conduz", x: 214, y: 110, w: 170, h: 80, tipo: "tela" },
   { id: "fontes", rotulo: "Fontes ao vivo", sub: "linhas, INMET, CGE", x: 430, y: 236, w: 190, h: 60, tipo: "tela" },
   { id: "SERS", rotulo: "SERS", sub: "energia da viagem", x: 730, y: 12, w: 168, h: 46, tipo: "materia" },
   { id: "MLAM", rotulo: "MLAM", sub: "segurança (SSP-SP)", x: 730, y: 64, w: 168, h: 46, tipo: "materia" },

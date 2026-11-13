@@ -1,4 +1,4 @@
-"""A sociedade usando o sistema: passageiros simulados vivendo um dia com a Auxilia (sem IA).
+"""A sociedade usando o sistema: passageiros simulados vivendo um dia com a Lia (sem IA).
 
 Inspirado no TinyTroupe (microsoft/TinyTroupe, MIT): personas descritas em JSON
 vivem uma situação do dia, cada uma com a sua realidade e o seu trajeto.
@@ -9,7 +9,7 @@ Como funciona:
      (sistema/dados/personas.json).
   2. Na situação escolhida (dia normal, linha parada no pico, temporal, volta à noite),
      o sistema de verdade confere o trajeto da persona: rede, desvio, decisão da CS e
-     segurança da SSP-SP. Isso vira a conversa dela com a Auxilia.
+     segurança da SSP-SP. Isso vira a conversa dela com a Lia.
   3. Um modelo logístico calcula a chance de ela usar o sistema: quanto ele ajuda
      naquela situação menos as barreiras de internet, uso do celular e confiança.
   4. A fala de cada persona é montada a partir dos motivos que mais pesaram.
@@ -34,7 +34,7 @@ NECESSIDADE_TEXTO = {"linha_parada": "saber na hora se a linha parou e por onde 
                      "seguranca": "saber em que horário a estação é mais tranquila", "direitos": "conseguir a declaração de atraso e saber meus direitos",
                      "custo": "comparar quanto gasto indo de carro ou de trem"}
 
-# situações do dia: o que a Auxilia resolve nelas, a hora e o que muda na viagem
+# situações do dia: o que a Lia resolve nelas, a hora e o que muda na viagem
 SITUACOES = {
     "Linha parada na hora do pico": {"atende": ["linha_parada", "direitos"], "hora": 18, "falha": True, "chuva": False, "volta": False,
                                      "internet": 0.5, "letramento": 0.5},
@@ -105,10 +105,10 @@ FAIXA_FRASE = {"madrugada": "de madrugada", "manha": "de manhã", "tarde": "à t
 
 
 def conversa_da_persona(p: dict, situacao_nome: str, hoje: datetime | None = None) -> dict | None:
-    """O que a persona escreveria à Auxilia nessa situação e o que o sistema de verdade responderia.
+    """O que a persona escreveria à Lia nessa situação e o que o sistema de verdade responderia.
 
     Usa a rede, o desvio, a decisão da CS e a segurança da SSP-SP. A situação do dia (falha,
-    temporal, horário) é simulada; o resto vem dos mesmos módulos que a Auxilia usa.
+    temporal, horário) é simulada; o resto vem dos mesmos módulos que a Lia usa.
     """
     from sistema.assistente import resolver_estacao
     from sistema.mobilidade import decisao, plano
