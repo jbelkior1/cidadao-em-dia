@@ -105,7 +105,7 @@ export function ProvedorConversa({ children }: { children: ReactNode }) {
     });
     setFalas((atual) => {
       const lista = r.recusa && idDaPergunta ? atual.map((f) => (f.id === idDaPergunta && f.de === "pessoa" ? { ...f, texto: OCULTA } : f)) : atual;
-      return [...lista, { id: ++contador.current, de: "auxilia", texto: r.texto, cartoes, aviso: r.ia.aviso ? "A IA não respondeu agora; respondi pela base do sistema." : "" }];
+      return [...lista, { id: ++contador.current, de: "auxilia", texto: r.texto, cartoes, aviso: r.ia.aviso ? `${r.ia.aviso.replace(/\.$/, "")}. Respondi pela base do sistema.` : "" }];
     });
     setSugestoes(r.sugestoes);
     if (r.rastro.length) setRastro(r.rastro);

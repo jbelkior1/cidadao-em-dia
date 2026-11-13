@@ -63,13 +63,39 @@ def _explicar_erro(e: Exception) -> str:
         if codigo == 404:
             return "Endereço ou modelo não encontrado. Confira o endereço da API e o nome do modelo."
         if codigo == 429:
-            return "O serviço avisou que o limite de uso foi atingido. Tente de novo em alguns minutos."
+            texto = e.response.text.lower()
+            if "per day" in texto or "perday" in texto or "requests per day" in texto:
+                return "A cota de uso de hoje do serviço de IA acabou. Ela volta amanhã."
+            return "O serviço de IA atingiu o limite de uso por minuto. Tente de novo daqui a pouco."
         return f"O serviço respondeu com erro {codigo}."
     if isinstance(e, httpx.ConnectError):
         return "Não consegui conectar. Se for o Ollama, confira se ele está aberto no computador."
     if isinstance(e, httpx.TimeoutException):
         return "O serviço demorou demais para responder."
     return "Não foi possível falar com o serviço de IA."
+
+
+ESPERA_MAXIMA_S = 12      # se o provedor pedir para esperar até isso (limite por minuto), espera e tenta de novo
+
+
+def _postar(cfg: dict, corpo: dict) -> httpx.Response:
+    """POST no provedor. Com 429 e um "tente em N segundos" curto, espera e tenta mais uma vez.
+
+    O Groq gratuito tem 8.000 tokens por minuto, e uma mensagem da Lia gasta 2 ou 3 chamadas: sem isso,
+    a segunda pergunta seguida já caía para as regras. Cota do dia esgotada pede horas, e aí não espera.
+    """
+    url = cfg["base_url"].rstrip("/") + "/chat/completions"
+    r = httpx.post(url, json=corpo, headers=_cabecalhos(cfg), timeout=TEMPO_LIMITE)
+    if r.status_code == 429:
+        try:
+            espera = float(r.headers.get("retry-after", "") or "nan")
+        except ValueError:
+            espera = float("nan")
+        if 0 < espera <= ESPERA_MAXIMA_S:
+            time.sleep(espera + 0.5)
+            r = httpx.post(url, json=corpo, headers=_cabecalhos(cfg), timeout=TEMPO_LIMITE)
+    r.raise_for_status()
+    return r
 
 
 def listar_modelos(cfg: dict | None = None) -> list[str]:
@@ -90,9 +116,7 @@ def conversar(mensagens: list[dict], max_tokens: int = 350, temperatura: float =
         raise IAIndisponivel(f"O limite de {cfg['limite_diario']} chamadas de IA por dia foi atingido.")
     corpo = {"model": cfg["modelo"], "messages": mensagens, "max_tokens": max_tokens, "temperature": temperatura}
     try:
-        r = httpx.post(cfg["base_url"].rstrip("/") + "/chat/completions", json=corpo, headers=_cabecalhos(cfg), timeout=TEMPO_LIMITE)
-        r.raise_for_status()
-        dados = r.json()
+        dados = _postar(cfg, corpo).json()
         texto = dados["choices"][0]["message"].get("content") or ""
     except (httpx.HTTPError, KeyError, IndexError, ValueError) as e:
         raise IAIndisponivel(_explicar_erro(e)) from None
@@ -117,9 +141,7 @@ def chamar_com_ferramentas(mensagens: list[dict], ferramentas: list[dict], max_t
     corpo = {"model": cfg["modelo"], "messages": mensagens, "tools": ferramentas, "tool_choice": "auto",
              "max_tokens": max_tokens, "temperature": temperatura}
     try:
-        r = httpx.post(cfg["base_url"].rstrip("/") + "/chat/completions", json=corpo, headers=_cabecalhos(cfg), timeout=TEMPO_LIMITE)
-        r.raise_for_status()
-        dados = r.json()
+        dados = _postar(cfg, corpo).json()
         mensagem = dados["choices"][0]["message"]
     except (httpx.HTTPError, KeyError, IndexError, ValueError) as e:
         raise IAIndisponivel(_explicar_erro(e)) from None

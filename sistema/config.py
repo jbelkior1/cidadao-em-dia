@@ -12,7 +12,7 @@ ARQUIVO = RAIZ / "config.local.json"
 
 PROVEDORES = {
     "groq": {
-        "nome": "Groq", "base_url": "https://api.groq.com/openai/v1", "modelo": "llama-3.3-70b-versatile",
+        "nome": "Groq", "base_url": "https://api.groq.com/openai/v1", "modelo": "openai/gpt-oss-120b",
         "precisa_chave": True, "nota": "Citado no enunciado da PAI. Costuma ter camada gratuita com limite de uso.",
     },
     "ollama": {

@@ -21,7 +21,7 @@ PROVEDORES = {
                "chave_env": "GEMINI_API_KEY", "modelo": "gemini-3.1-flash-lite",
                "aviso": "provedor pago: o enunciado pede autorização do professor"},
     "groq": {"base_url": "https://api.groq.com/openai/v1", "chave_env": "GROQ_API_KEY",
-             "modelo": "llama-3.3-70b-versatile", "aviso": ""},
+             "modelo": "openai/gpt-oss-120b", "aviso": ""},
     "ollama": {"base_url": "http://localhost:11434/v1", "chave_env": "", "modelo": "llama3.1",
                "aviso": "roda na máquina, sem chave"},
 }
@@ -65,7 +65,21 @@ def chave(provedor: str) -> str:
     return os.environ.get(p["chave_env"], "") or _chave_do_sistema(provedor)
 
 
+#: Quando o agente roda dentro do app, ele usa o mesmo provedor que a pessoa escolheu para a Lia
+#: (Configurações de IA), em vez do .env: uma troca de provedor vale para o app inteiro.
+_DO_APP: dict | None = None
+
+
+def usar_config_do_app(cfg: dict | None) -> None:
+    """Chamado pela ponte do sistema. `cfg` é a configuração do app (provedor, base_url, modelo, chave)."""
+    global _DO_APP
+    _DO_APP = cfg if cfg and cfg.get("provedor") not in (None, "", "nenhum") and cfg.get("modelo") else None
+
+
 def config() -> Config:
+    if _DO_APP:
+        return Config(provedor=_DO_APP["provedor"], modelo=_DO_APP["modelo"], base_url=_DO_APP["base_url"],
+                      tem_chave=bool(_DO_APP.get("chave")) or _DO_APP["provedor"] == "ollama", aviso="")
     carregar_env()
     nome = os.environ.get("PAI_PROVEDOR", "gemini").lower()
     p = PROVEDORES.get(nome) or PROVEDORES["gemini"]
@@ -78,7 +92,7 @@ def criar(temperatura: float = 0.0):
     from langchain_openai import ChatOpenAI
     c = config()
     p = PROVEDORES.get(c.provedor, PROVEDORES["gemini"])
-    k = chave(c.provedor)
+    k = (_DO_APP.get("chave") or ("ollama" if c.provedor == "ollama" else "")) if _DO_APP else chave(c.provedor)
     if not k:
         raise RuntimeError(f"falta {p['chave_env']} no .env (ou a chave do {c.provedor} em config.local.json)")
     return ChatOpenAI(model=c.modelo, base_url=c.base_url, api_key=k,

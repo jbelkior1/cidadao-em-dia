@@ -53,6 +53,9 @@ def perguntar(pergunta: str) -> dict:
         return {"ok": False, "erro": f"agente da PAI indisponível ({_erro})"}
     agente, fichas, _ = mods
     try:
+        from pai_agente import modelo
+        from sistema import config as config_do_app
+        modelo.usar_config_do_app(config_do_app.ler())   # mesmo provedor e chave que a Lia, escolhidos na tela
         r = agente.responder(pergunta)
     except Exception as e:                      # cota, rede, chave: a Lia avisa e segue
         return {"ok": False, "erro": f"o agente das fichas não respondeu agora ({type(e).__name__})"}

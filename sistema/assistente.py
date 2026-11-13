@@ -215,7 +215,10 @@ class Sessao:
         """Chama o agente da PAI. A mensagem já passou pela barreira de dado pessoal da Lia."""
         r = ponte_pai.perguntar(pergunta)
         if not r["ok"]:
-            return {"erro": r["erro"]}
+            # agente fora (cota, rede): a orientação da PCP responde no lugar, para a pessoa não ficar sem nada
+            self.marcar("buscar_orientacao")
+            return {**self.buscar_orientacao(pergunta),
+                    "observacao": "o agente das fichas está indisponível agora; esta é a orientação oficial da base"}
         if not r["encontrou"]:
             return {"encontrou": False, "resposta_do_agente": r["resposta"], "motivo": r["motivo"]}
         self.cartao({"tipo": "orientacao", "chave": "pai-" + "-".join(r["fichas"]),
@@ -435,7 +438,8 @@ def responder(texto: str, historico: list[dict] | None = None, contexto: dict | 
             chamadas = msg.get("tool_calls") or []
             if not chamadas:
                 final = (msg.get("content") or "").strip()
-                sessao.rastro.append({"materia": "PAI", "titulo": "Conversou com IA", "detalhe": "só com o que as ferramentas trouxeram"})
+                # a conversa é da Lia (sistema); a PAI só aparece no rastro quando o agente das fichas é chamado
+                sessao.rastro.append({"materia": "Sistema", "titulo": "Conversou com IA", "detalhe": "só com o que as ferramentas trouxeram"})
                 return _resposta(final or "Não consegui montar a resposta agora. Pode perguntar de novo?", sessao, contexto, ia_usada=True)
             mensagens.append(msg)
             for chamada in chamadas:
