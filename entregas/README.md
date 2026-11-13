@@ -9,7 +9,7 @@ está sua parte no repositório compartilhado, como os enunciados pedem.
 | **DSA** · Data Structures | [`dsa/`](dsa/) | `python main.py` | pronto |
 | **SERS** · Energias Renováveis | [`sers/`](sers/) | `python comparar_energia.py` | pronto |
 | **MLAM** · Modelagem Linear | [`mlam/`](mlam/) | `python main.py` | pronto |
-| **PAI** · Prompt and AI | [`pai/`](pai/) | — | **parado, falta material** |
+| **PAI** · Prompt and AI | [`pai/`](pai/) | `python main.py` · `python avaliar.py` | pronto |
 
 **CS**, **MMC** e **COA** não entregam código neste repositório: são feitas à parte, à mão ou no
 Wokwi, no formato do enunciado de cada uma. Elas continuam com página, teste e checklist no sistema.
@@ -32,12 +32,15 @@ Além da pasta própria, o código de cada matéria aparece no app:
 | DSA | `sistema/adaptadores/dsa.py` — o canal de atendimento que acompanha cada orientação |
 | SERS | `sistema/mobilidade/energia.py`, `pesquisa/energia_modos.json` — o bloco de energia da viagem |
 | MLAM | `sistema/dados/seguranca_estacoes.json` — a camada de segurança do mapa e do cartão de viagem |
-| PAI | `sistema/assistente.py`, `sistema/ia.py`, `sistema/privacidade.py` — a Lia no produto (ver abaixo) |
+| PAI | `sistema/adaptadores/pai.py` e a ferramenta `perguntar_fichas` em `sistema/assistente.py` — a Lia chama o agente da PAI (ver abaixo) |
 
 ## Atenção na PAI
 
-A **Lia do produto** (que conversa, chama as ferramentas e barra dado pessoal) está pronta e
-funcionando — mas ela **não é** a entrega da matéria. O professor fixou outro assistente: documentos
-pessoais, com as 7 fichas FC-01 a FC-07 da Central do Cidadão de Aurora e um golden dataset de 26
-mensagens. São duas bases e dois assistentes diferentes, então o que existe no app não conta para a
-nota da PAI. Detalhes e o que está travando em [`pai/README.md`](pai/README.md).
+O enunciado fixava fichas de documentos pessoais (Central do Cidadão de Aurora). Em 13/11/2026 o
+professor autorizou manter as mesmas regras e trocar o tema pelo do grupo. A entrega é o agente em
+LangGraph de [`pai/`](pai/), que responde só pelas 7 fichas de transporte (FT-01 a FT-07) e cita a
+ficha; o juiz e a rodada antes e depois rodam com ele isolado, como o enunciado pede.
+
+No app são duas coisas que trabalham juntas: a **Lia** conduz a conversa (viagem, linhas, alertas) e,
+quando a dúvida é de regra ou procedimento, **chama o agente da PAI** como ferramenta. Detalhes em
+[`pai/README.md`](pai/README.md).

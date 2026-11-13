@@ -32,7 +32,11 @@ export default function Sos({ aoFechar }: { aoFechar: () => void }) {
     const q = new URLSearchParams();
     if (linha) q.set("linha", linha);
     if (estacao) q.set("estacao", estacao);
-    fetch(`/api/sos?${q}`).then((x) => x.json()).then(setR).catch(() => setR(null));
+    // resposta de erro (4xx/5xx) ou sem a lista de canais não pode derrubar o SOS: os números de emergência ficam
+    fetch(`/api/sos?${q}`)
+      .then((x) => (x.ok ? x.json() : null))
+      .then((d) => setR(d && Array.isArray(d.canais) ? d : null))
+      .catch(() => setR(null));
   }, [linha, estacao]);
 
   const daLinha = useMemo(() => estacoes.filter((e) => !linha || e.linhas.includes(linha)), [estacoes, linha]);

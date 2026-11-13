@@ -108,16 +108,25 @@ def resolver(df=None) -> dict:
     print("\nFator de inflação da variância (VIF), para checar multicolinearidade:")
     print(vif.round(3).to_string(index=False))
     simples = sm.OLS(dados[Y], sm.add_constant(dados[["dist_marco_zero_km"]])).fit()
+    sem_lat = sm.OLS(dados[Y], sm.add_constant(dados[["dist_marco_zero_km", "qtd_linhas"]])).fit()
+    print(f"\nComparação: R² ajustado só com distância = {simples.rsquared_adj:.4f} | "
+          f"distância + linhas = {sem_lat.rsquared_adj:.4f} | as três = {modelo.rsquared_adj:.4f}")
+    bp = comum.checar_pressupostos(modelo)
     comum.interpretacao(f"""
         O Teste F rejeita, com p-valor {modelo.f_pvalue:.1e}: o conjunto das três variáveis explica mais
         que a média simples.
         O R² subiu de {simples.rsquared:.4f} na questão 04 (só distância) para {modelo.rsquared:.4f} aqui.
-        Acrescentar a quantidade de linhas valeu a pena: são {(modelo.rsquared - simples.rsquared) * 100:.1f}
-        pontos percentuais de variação explicada a mais.
-        Olhar o R² ajustado ({modelo.rsquared_adj:.4f}) evita se enganar: ele penaliza variável inútil, e
-        como ficou perto do R², as variáveis acrescentadas se pagam.
+        O R² ajustado mostra de onde vem o ganho, porque penaliza variável que não ajuda: com distância e
+        linhas ele vai a {sem_lat.rsquared_adj:.4f}; acrescentando a latitude, {'cai' if modelo.rsquared_adj < sem_lat.rsquared_adj else 'sobe'} para
+        {modelo.rsquared_adj:.4f}. Ou seja, a quantidade de linhas valeu a pena e a latitude não acrescenta
+        nada (p-valor {modelo.pvalues['lat']:.3f}). Ela fica no modelo porque o enunciado pede três
+        explicativas, não porque melhora o ajuste.
         Todos os VIF estão abaixo de 5, então não há multicolinearidade que atrapalhe a leitura dos
         coeficientes.
+        Pressupostos: Breusch-Pagan com p-valor {bp['breusch_pagan_p']:.4f} indica variância desigual dos
+        resíduos, e a assimetria deles é {bp['assimetria_residuos']:.2f}; o F e os p-valores são aproximados.
+        Com erro padrão robusto (HC3), distância fica com p-valor {bp['p_robusto']['dist_marco_zero_km']:.1e}
+        e linhas com {bp['p_robusto']['qtd_linhas']:.1e}.
         Mesmo assim, {(1 - modelo.rsquared) * 100:.0f}% da variação continua fora do modelo. O que falta é
         fluxo de passageiros, e a base não tem.
     """)
@@ -135,9 +144,13 @@ def resolver(df=None) -> dict:
     parecidas = df[(df.qtd_linhas >= 3) & (df.dist_marco_zero_km <= 6)]
     print(f"Conferência: as {len(parecidas)} estações reais com 3+ linhas até 6 km do centro têm média "
           f"{parecidas[Y].mean():.1f} (de {parecidas[Y].min()} a {parecidas[Y].max()})")
+    media_par = parecidas[Y].mean()
+    dentro = ic[0] <= media_par <= ic[1]
     comum.interpretacao(f"""
-        O modelo prevê {previsao:.0f} ocorrências para uma estação de baldeação próxima do centro, e as
-        estações reais parecidas têm média {parecidas[Y].mean():.0f}: a ordem de grandeza bate.
+        O modelo prevê {previsao:.0f} ocorrências para uma estação de baldeação próxima do centro. As
+        {len(parecidas)} estações reais parecidas têm média {media_par:.0f}, {'dentro' if dentro else 'fora'} do
+        intervalo de 95% [{ic[0]:.0f} ; {ic[1]:.0f}]: {'o modelo acerta esse grupo' if dentro else f'o modelo subestima esse grupo (a média real fica {(media_par / previsao - 1) * 100:.0f}% acima da previsão)'}.
+        E essa conferência usa estações que entraram no próprio ajuste, então não é um teste independente.
         A previsão vale como comparação entre perfis de estação ("baldeação central registra mais que ponta
         de linha"), nunca como número esperado para uma estação nomeada. Entre as estações parecidas, os
         valores reais vão de {parecidas[Y].min()} a {parecidas[Y].max()}.
@@ -152,6 +165,7 @@ def resolver(df=None) -> dict:
             "p_valores": {k: float(v) for k, v in modelo.pvalues.items()},
             "r2": float(modelo.rsquared), "r2_ajustado": float(modelo.rsquared_adj),
             "r2_do_modelo_simples": float(simples.rsquared),
+            "r2_ajustado_sem_latitude": float(sem_lat.rsquared_adj), "pressupostos": bp,
             "F": float(modelo.fvalue), "F_p_valor": float(modelo.f_pvalue),
             "vif": vif.set_index("variavel")["VIF"].round(3).to_dict(),
             "cenario": CENARIO, "previsao": previsao, "previsao_ic95": [float(ic[0]), float(ic[1])],

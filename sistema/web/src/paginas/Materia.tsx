@@ -1,20 +1,68 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Checklist from "../componentes/Checklist";
 import Fluxograma from "../componentes/Fluxograma";
-import { TesteCs, TesteDsa, TesteEmConstrucao, TesteMlam, TestePcp, TesteSers } from "../componentes/Testes";
+import { TesteCs, TesteDsa, TesteEmConstrucao, TesteMlam, TestePai, TestePcp, TesteSers } from "../componentes/Testes";
 import { api, type DadosMateria, type ResumoChecklist } from "../lib/api";
 
 const PARTES = ["Entenda", "Teste", "Checklist da entrega"] as const;
 type Parte = (typeof PARTES)[number];
+
+/** O que o professor abre primeiro: o formato da entrega, como rodar e os arquivos no GitHub. */
+function Entrega({ m }: { m: DadosMateria["materia"] }) {
+  const arquivos = m.arquivos ?? [];
+  return (
+    <section aria-labelledby="titulo-entrega" className="space-y-4 rounded-xl border border-linha bg-superficie p-5">
+      <div className="space-y-1">
+        <h3 id="titulo-entrega" className="text-lg font-bold">A entrega desta matéria</h3>
+        <p className="text-[15px] leading-relaxed">{m.entrega}</p>
+      </div>
+      {m.pasta ? (
+        <p className="text-[14px]">
+          Pasta{" "}
+          <a href={m.pasta_url} target="_blank" rel="noreferrer" className="rounded bg-fundo px-1.5 py-0.5 font-mono text-[13px] text-marca-forte underline">
+            {m.pasta}
+          </a>
+          {m.rodar && (
+            <>
+              {" "}· roda com <code className="rounded bg-fundo px-1.5 py-0.5 text-[13px]">{m.rodar}</code>
+            </>
+          )}
+        </p>
+      ) : (
+        <p className="text-[14px] text-apagado">Entregue à parte, fora deste repositório, no formato do enunciado.</p>
+      )}
+      {arquivos.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-[13px] font-semibold text-apagado">Arquivos no GitHub (ramo sistema-localhost)</p>
+          <ul className="grid gap-1.5 sm:grid-cols-2">
+            {arquivos.map((a) => (
+              <li key={a.caminho}>
+                <a href={a.url} target="_blank" rel="noreferrer"
+                  className="group flex items-start gap-2 rounded-lg px-2.5 py-2 hover:bg-fundo focus-visible:outline-2 focus-visible:outline-marca">
+                  <ExternalLink className="mt-0.5 size-4 shrink-0 text-marca" aria-hidden />
+                  <span className="min-w-0">
+                    <span className="block text-[14px] font-semibold group-hover:underline">{a.rotulo}</span>
+                    <span className="block truncate font-mono text-[12px] text-apagado">{a.caminho}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  );
+}
 
 function Entenda({ dados }: { dados: DadosMateria }) {
   const m = dados.materia;
   const navegar = useNavigate();
   return (
     <div className="space-y-7">
+      <Entrega m={m} />
       <section className="space-y-2">
         <h3 className="text-lg font-bold">O que faz no sistema</h3>
         <p className="text-[17px] leading-relaxed">{m.papel}</p>
@@ -51,12 +99,6 @@ function Entenda({ dados }: { dados: DadosMateria }) {
       <section className="space-y-2 rounded-xl bg-marca-suave p-4">
         <h3 className="text-[15px] font-bold text-marca-forte">Nesta versão</h3>
         <p className="text-[15px]">{m.nesta_versao}</p>
-        {m.pasta && (
-          <p className="text-[14px]">
-            A entrega fica em <code className="rounded bg-superficie px-1.5 py-0.5 text-[13px]">{m.pasta}</code> e roda com{" "}
-            <code className="rounded bg-superficie px-1.5 py-0.5 text-[13px]">{m.rodar}</code>.
-          </p>
-        )}
       </section>
       {!!m.ver_funcionando?.length && (
         <section className="space-y-2">
@@ -88,7 +130,8 @@ function Teste({ dados }: { dados: DadosMateria }) {
       {cod === "DSA" && <TesteDsa />}
       {cod === "SERS" && <TesteSers />}
       {cod === "MLAM" && <TesteMlam />}
-      {(cod === "PAI" || cod === "MMC" || cod === "COA") && <TesteEmConstrucao cod={cod} />}
+      {cod === "PAI" && <TestePai />}
+      {(cod === "MMC" || cod === "COA") && <TesteEmConstrucao cod={cod} />}
     </div>
   );
 }

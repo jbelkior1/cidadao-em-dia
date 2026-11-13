@@ -6,8 +6,9 @@ Se a interface já foi compilada (sistema/web/dist), a API também serve as tela
 """
 from contextlib import asynccontextmanager
 
+import httpx
 from fastapi import FastAPI, HTTPException, Query
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -15,6 +16,7 @@ from sistema import assistente, checklist, config, conversa, ia, laboratorio, ma
 from sistema import banco, mapa, relatos, sos
 from sistema.adaptadores import dsa, pcp
 from sistema.mobilidade import decisao, fontes, plano, rede
+from sistema.relatos_supabase import BancoIndisponivel
 
 
 def ligar_banco() -> str:
@@ -49,6 +51,20 @@ async def ciclo_de_vida(_app):
 app = FastAPI(title="Dá Tempo?", docs_url="/api/docs", openapi_url="/api/openapi.json", lifespan=ciclo_de_vida)
 app.include_router(mapa.router)
 app.include_router(relatos.router)
+
+
+def _banco_fora_do_ar(_pedido, _erro) -> JSONResponse:
+    """Supabase com erro ou sem rede: 503 com mensagem em português, em vez de 500 sem explicação.
+
+    Hoje só o repositório de relatos deixa erro do httpx chegar até aqui (fontes, IA e PAI capturam o
+    deles). Rota nova que use httpx sem capturar vai cair aqui com a mensagem de relatos: capture antes.
+    """
+    return JSONResponse(status_code=503, headers={"Retry-After": "30"},
+                        content={"detail": "Os relatos dos passageiros estão indisponíveis agora. Tente de novo em instantes."})
+
+
+app.add_exception_handler(BancoIndisponivel, _banco_fora_do_ar)
+app.add_exception_handler(httpx.TransportError, _banco_fora_do_ar)
 
 
 class Mensagem(BaseModel):
@@ -292,6 +308,13 @@ def mudar_item(cod: str, item_id: str, m: MudancaItem) -> dict:
 @app.post("/api/teste/pcp")
 def teste_pcp(p: PedidoPCP) -> dict:
     return testes.pcp_testar(p.pergunta[:500])
+
+
+@app.post("/api/teste/pai")
+def teste_pai(p: PedidoPCP) -> dict:
+    """Aba Teste da PAI: a pergunta passa pelo agente das fichas e volta com cada etapa do grafo."""
+    from sistema.adaptadores import pai
+    return pai.testar(p.pergunta[:1200])
 
 
 @app.get("/api/teste/dsa")

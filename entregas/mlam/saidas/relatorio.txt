@@ -1,4 +1,4 @@
-MLAM — Global Solution 2026.2 — análises rodadas em 13/11/2026 11:14
+MLAM — Global Solution 2026.2 — análises rodadas em 13/11/2026 13:47
 Base: ocorrencias_estacoes_2026.csv (139 estações, SSP-SP, jan–set/2026)
 
 ==============================================================================
@@ -15,10 +15,12 @@ Classificação: evento equiprovável (exatamente 50%)
 
 Interpretação:
   O resultado é exatamente 0,5 por construção: a normal é simétrica em torno da média, então
-  metade da massa fica de cada lado. Em palavras, assumindo normalidade, uma estação sorteada
-  tem 50% de chance de ter menos de 342 ocorrências no entorno.
-  Este item serve de prova de consistência do modelo: qualquer valor diferente de 0,5 indicaria
-  erro de cálculo.
+  metade da massa fica de cada lado. Assumindo normalidade, uma estação sorteada teria 50% de
+  chance de ter menos de 342 ocorrências no entorno.
+  O dado real não é simétrico: 65.5% das 139 estações ficam abaixo da média,
+  não 50%. E a normal com σ = 332 coloca 15.2% da probabilidade em
+  valores negativos, que são impossíveis para uma contagem de ocorrências. As duas coisas mostram
+  que a normalidade pedida pelo enunciado é uma aproximação grosseira para esta variável.
 
 --- b) P(X > mediana) = P(X > 228.00)
 z = (228.00 − 341.78) / 332.04 = -0.3427
@@ -55,9 +57,12 @@ Decisão: REJEITA H0 (p-valor < α)
 
 Interpretação:
   A média das 20 estações mais distantes é 216.8, contra 341.8 da rede inteira.
-  Com z = -1.684 abaixo do crítico -1.555, rejeitamos H0 a 6%: a diferença é grande
-  demais para ser acaso de amostragem.
-  Leitura para o produto: as estações de ponta de linha registram significativamente menos ocorrências.
+  Com z = -1.684 abaixo do crítico -1.555 e p-valor 0.0461, o
+  procedimento rejeita H0 a 6% — mas por pouco: a 5% o resultado já seria outro.
+  Cuidado com a leitura: este grupo não foi sorteado, foi escolhido pelos extremos de distância e faz
+  parte da própria população de referência. Nesse caso o p-valor não mede "acaso de amostragem"; o
+  teste descreve que esse grupo de ponta de linha tem média de registros abaixo da rede, não prova
+  nada sobre uma estação qualquer. A checagem com amostra sorteada, logo abaixo, mostra a diferença.
   Atenção ao que o dado é: contagem de registros de BO, não risco por passageiro. Essas estações também
   movimentam menos gente, e a base não traz o fluxo de passageiros para dividir uma coisa pela outra.
 
@@ -72,10 +77,25 @@ Decisão: REJEITA H0 (p-valor < α)
 
 Interpretação:
   A média das 25 estações mais centrais é 723.0, mais que o dobro da referência
-  (341.8). Com z = 5.741, muito acima do crítico 1.341, e p-valor
-  praticamente zero, rejeitamos H0 a 9%.
-  Os dois testes contam a mesma história por lados opostos e sustentam a escolha da distância ao centro
-  como variável explicativa nas questões 04 e 05.
+  (341.8). Com z = 5.741, muito acima do crítico 1.341, o procedimento
+  rejeita H0 a 9% com folga.
+  Vale o mesmo cuidado da letra a: o grupo foi escolhido pela distância, não sorteado, então o
+  resultado descreve o centro expandido e não é inferência para a rede. Os dois testes mostram a mesma
+  tendência por lados opostos, o que motiva olhar a distância nas questões 04 e 05 — onde a relação é
+  medida com a base inteira, sem recorte.
+
+--- checagem) As mesmas contas com amostras sorteadas (semente fixa, para dar para repetir)
+a) n = 20, α = 6%, H1: μ < μ0: média sorteada = 234.8 | z = -1.441 | crítico = -1.555 | p-valor = 0.0748 | NÃO REJEITA H0
+b) n = 25, α = 9%, H1: μ > μ0: média sorteada = 344.2 | z = 0.036 | crítico = 1.341 | p-valor = 0.4857 | NÃO REJEITA H0
+
+Interpretação:
+  Com amostras sorteadas (sementes 42 e 43), que é o que o teste z pressupõe, as médias
+  ficam perto da referência e o resultado muda: não rejeita H0
+  na letra a e não rejeita na letra b. É isso que se espera de
+  uma amostra aleatória da própria população: a média dela flutua em torno de μ0.
+  A comparação deixa claro o que cada leitura significa. Os recortes por distância mostram uma
+  diferença real ENTRE grupos de estações; o sorteio mostra que, sem escolher o grupo, não há motivo para
+  a média de uma amostra fugir da referência.
 
 Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q03_testes_hipotese.png
 
@@ -94,7 +114,8 @@ Interpretação:
   registradas no entorno. A relação existe, mas é frouxa — há estações distantes com muitos
   registros e estações centrais com poucos.
   A dispersão abre em leque perto do centro (heterocedasticidade): entre 0 e 5 km os valores vão
-  de pouco mais de 100 a 2.100, enquanto acima de 20 km quase todos ficam abaixo de 300.
+  de 94 a 2100, enquanto acima de 20 km 8 das
+  11 estações ficam abaixo de 300 (a maior chega a 642).
   Os pontos no alto à esquerda são as estações de maior circulação; o gráfico rotula as três maiores.
 
 --- b) Covariância e correlação linear de Pearson
@@ -106,8 +127,9 @@ Interpretação:
   direções opostas. O valor em si não é comparável com nada, porque depende das unidades
   (quilômetros vezes ocorrências).
   A correlação resolve isso: r = -0.468 é adimensional e fica entre −1 e 1. Em módulo, 0.468
-  indica relação negativa moderada. O p-valor de 6.1e-09 é bem menor que 1%, então a correlação
-  não é obra do acaso nesta base.
+  indica relação negativa moderada. O p-valor de 6.1e-09 é bem menor que 1%. Esse p-valor supõe
+  estações independentes, e os raios de 300 m de estações vizinhas se sobrepõem; mesmo assim, com um
+  p-valor tão pequeno, a direção da relação é clara nesta base.
   Correlação não é causa: a distância não causa ocorrência. Ela está de intermediária para
   circulação de pessoas, comércio e concentração de serviços, que a base não mede.
 
@@ -136,6 +158,8 @@ Interpretação:
 --- e) Adequação do modelo: R² e Teste F
 R² = 0.2193   |   R² ajustado = 0.2136
 Teste F: F(1, 137) = 38.481  |  p-valor = 6.128e-09
+Pressupostos: Breusch-Pagan p-valor = 0.0054 | assimetria dos resíduos = 2.11
+p-valores com erro padrão robusto (HC3): const = 5.530e-15 | dist_marco_zero_km = 2.095e-06
 
 Interpretação:
   O Teste F pergunta se o modelo inteiro explica mais que a média simples de Y. Com p-valor
@@ -146,6 +170,10 @@ Interpretação:
   entorno, policiamento, hora do dia.
   Em R² simples: um modelo pode ser estatisticamente certo e, ainda assim, prever mal uma estação
   específica. É por isso que a questão 05 acrescenta variáveis.
+  Pressupostos: o teste de Breusch-Pagan confirma o leque visto na letra a (p-valor
+  0.0054), e os resíduos são assimétricos (assimetria 2.11).
+  Por isso o Teste F e os p-valores acima são aproximados. Refazendo o p-valor da inclinação com erro
+  padrão robusto (HC3), ele fica em 2.1e-06: a conclusão sobre o sinal não muda.
 
 --- f) Previsão para uma estação a 5 km do Marco Zero
 total previsto = 587.85 − 25.92 × 5 = 458.23 ocorrências
@@ -249,16 +277,25 @@ dist_marco_zero_km 1.099
         qtd_linhas 1.051
                lat 1.051
 
+Comparação: R² ajustado só com distância = 0.2136 | distância + linhas = 0.3845 | as três = 0.3803
+Pressupostos: Breusch-Pagan p-valor = 0.0187 | assimetria dos resíduos = 1.76
+p-valores com erro padrão robusto (HC3): const = 6.776e-01 | dist_marco_zero_km = 1.651e-05 | qtd_linhas = 2.465e-05 | lat = 7.067e-01
+
 Interpretação:
   O Teste F rejeita, com p-valor 1.3e-14: o conjunto das três variáveis explica mais
   que a média simples.
   O R² subiu de 0.2193 na questão 04 (só distância) para 0.3937 aqui.
-  Acrescentar a quantidade de linhas valeu a pena: são 17.4
-  pontos percentuais de variação explicada a mais.
-  Olhar o R² ajustado (0.3803) evita se enganar: ele penaliza variável inútil, e
-  como ficou perto do R², as variáveis acrescentadas se pagam.
+  O R² ajustado mostra de onde vem o ganho, porque penaliza variável que não ajuda: com distância e
+  linhas ele vai a 0.3845; acrescentando a latitude, cai para
+  0.3803. Ou seja, a quantidade de linhas valeu a pena e a latitude não acrescenta
+  nada (p-valor 0.789). Ela fica no modelo porque o enunciado pede três
+  explicativas, não porque melhora o ajuste.
   Todos os VIF estão abaixo de 5, então não há multicolinearidade que atrapalhe a leitura dos
   coeficientes.
+  Pressupostos: Breusch-Pagan com p-valor 0.0187 indica variância desigual dos
+  resíduos, e a assimetria deles é 1.76; o F e os p-valores são aproximados.
+  Com erro padrão robusto (HC3), distância fica com p-valor 1.7e-05
+  e linhas com 2.5e-05.
   Mesmo assim, 61% da variação continua fora do modelo. O que falta é
   fluxo de passageiros, e a base não tem.
 
@@ -269,8 +306,10 @@ Intervalo de 95% para a média prevista: [753.9 ; 1042.6]
 Conferência: as 4 estações reais com 3+ linhas até 6 km do centro têm média 1232.0 (de 773 a 1637)
 
 Interpretação:
-  O modelo prevê 898 ocorrências para uma estação de baldeação próxima do centro, e as
-  estações reais parecidas têm média 1232: a ordem de grandeza bate.
+  O modelo prevê 898 ocorrências para uma estação de baldeação próxima do centro. As
+  4 estações reais parecidas têm média 1232, fora do
+  intervalo de 95% [754 ; 1043]: o modelo subestima esse grupo (a média real fica 37% acima da previsão).
+  E essa conferência usa estações que entraram no próprio ajuste, então não é um teste independente.
   A previsão vale como comparação entre perfis de estação ("baldeação central registra mais que ponta
   de linha"), nunca como número esperado para uma estação nomeada. Entre as estações parecidas, os
   valores reais vão de 773 a 1637.
@@ -363,13 +402,17 @@ Ponta de linha (1 linha, 22 km)
   logito = -1.8269  →  p = 1 / (1 + e^(+1.8269)) = 0.1386
   classificação (corte 0,5): ocorrência normal
 
+Decomposição do cenário central: com 1 linha a 2 km, p = 0.6698; com 3 linhas a 22 km, p = 0.5730
+
 Interpretação:
   Os dois perfis extremos saem em lados opostos, com probabilidades de
   0.94 e 0.14: o modelo separa
   bem o que já se esperava.
-  Ressalva: o cenário de 3 linhas é extrapolação. Só 4 estações da base têm 3 linhas ou mais, e o
-  coeficiente de `qtd_linhas` não é significativo a 5%. A probabilidade de 0,94 vem sobretudo da
-  proximidade do centro, que é a variável significativa.
+  Trocando uma variável de cada vez dá para ver de onde vem o 0.94:
+  com 1 linha só, a 2 km, a probabilidade cai para 0.67; com 3 linhas, mas a 22 km, cai para
+  0.57. As duas variáveis pesam de forma parecida nesse cenário.
+  Ressalva: o peso das linhas é o menos confiável. Só 4 estações da base têm 3 linhas ou mais, e o
+  coeficiente de `qtd_linhas` não é significativo a 5%. A parte sólida da conclusão é a da distância.
   No app, isso vira um aviso de atenção no entorno da estação, nunca um rótulo de "estação perigosa".
   O que o modelo prevê é a chance de haver MUITO REGISTRO DE BO num raio de 300 m, e registro
   acompanha movimento de gente. Sem o fluxo de passageiros na base, não dá para transformar isso em

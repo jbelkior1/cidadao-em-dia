@@ -10,6 +10,7 @@ afirmar o que as ferramentas do sistema devolvem:
 - situação das linhas (agregador público das operadoras);
 - avisos do INMET e alagamentos ao vivo do CGE da Prefeitura;
 - orientações oficiais (PCP) com o canal de atendimento (DSA);
+- o agente de orientação da PAI, que responde pelas fichas de transporte e cita a ficha;
 - segurança perto da estação (SSP-SP, MLAM) e energia da viagem (SERS);
 - quanto as falhas costumam durar (histórico local).
 
@@ -21,14 +22,19 @@ Nada do que a pessoa escreve é gravado. A única lembrança é a estação de c
 fica no aparelho dela e volta em cada pedido.
 """
 import difflib
+import inspect
 import json
+import logging
 import re
 from datetime import datetime, timedelta
 
 from sistema import ia, privacidade
 from sistema.adaptadores import dsa, pcp
+from sistema.adaptadores import pai as ponte_pai
 from sistema.conversa import SERVICO_DA_ORIENTACAO
 from sistema.mobilidade import fontes, plano, rede
+
+log = logging.getLogger("dá_tempo.lia")
 
 NOME = "Lia"
 MAX_RODADAS = 5
@@ -78,6 +84,12 @@ FERRAMENTAS = [
        "Orientação oficial ao passageiro: declaração de atraso, ônibus de apoio (PAESE), trem parado, celular roubado, assédio, "
        "achados e perdidos, reclamação, gratuidades, acessibilidade, tarifas, chuva e Defesa Civil.",
        {"assunto": {"type": "string"}}, ["assunto"]),
+    _f("perguntar_fichas",
+       "Agente de orientação da PAI: responde dúvidas de regra e procedimento (como faço, tenho direito, onde peço, quanto custa) "
+       "sobre declaração de atraso, linha parada e PAESE, reclamação e ouvidoria, gratuidades, achados e perdidos, tarifa e "
+       "integração, assédio, acessibilidade e chuva, consultando as 7 fichas de transporte e citando a ficha (FT-01 a FT-07). "
+       "Passe a pergunta da pessoa como ela escreveu, sem dado pessoal.",
+       {"pergunta": {"type": "string"}}, ["pergunta"]),
     _f("seguranca_estacao", "Ocorrências registradas na SSP-SP perto de uma estação da capital: total, horário e tipo mais comuns.",
        {"estacao": {"type": "string"}}, ["estacao"]),
     _f("duracao_das_falhas", "Quanto as falhas de uma linha costumam durar, pelo histórico que o sistema coleta.",
@@ -103,6 +115,7 @@ MATERIA_DA_FERRAMENTA = {
     "relatos_dos_passageiros": [("Sistema", "Leu os relatos dos passageiros", "estimativa por relatos, não dado oficial")],
     "alertas_da_cidade": [("Sistema", "Leu os alertas oficiais", "INMET e CGE da Prefeitura")],
     "buscar_orientacao": [("PCP", "Achou a orientação oficial", "busca por pontos"), ("DSA", "Trouxe o canal de atendimento", "lista encadeada")],
+    "perguntar_fichas": [("PAI", "Consultou o agente das fichas", "LangGraph: guardrails, busca nas fichas FT e resposta citada")],
     "seguranca_estacao": [("MLAM", "Trouxe a segurança da estação", "base da SSP-SP por estação")],
     "duracao_das_falhas": [("Sistema", "Consultou o histórico de falhas", "coletado enquanto a API está ligada")],
     "mensagem_de_atraso": [("Sistema", "Montou a mensagem de atraso", "com o motivo e a previsão calculados")],
@@ -141,6 +154,8 @@ class Sessao:
         if a["id"] == b["id"]:
             return {"erro": "Saída e chegada são a mesma estação."}
         p = plano.antes_de_sair(a["id"], b["id"], simular_falha=self.simular, agora=self.agora)
+        if not p.get("ok", True):          # sem caminho na rede (ex.: Linha 17-Ouro, ainda isolada no GTFS)
+            return {"erro": p.get("erro") or f"Não achei caminho de {a['nome']} até {b['nome']} pela rede de trilhos."}
         self.plano = p
         c = cartao_do_plano(p, self.agora)
         self.cartao(c)
@@ -196,6 +211,19 @@ class Sessao:
                      "canal": canal, "fonte": o.get("fonte", ""), "verificado_em": o.get("verificado_em", "")})
         return {"titulo": o["titulo"], "resposta": o["resposta"], "onde": o.get("onde", ""), "canal": canal}
 
+    def perguntar_fichas(self, pergunta: str) -> dict:
+        """Chama o agente da PAI. A mensagem já passou pela barreira de dado pessoal da Lia."""
+        r = ponte_pai.perguntar(pergunta)
+        if not r["ok"]:
+            return {"erro": r["erro"]}
+        if not r["encontrou"]:
+            return {"encontrou": False, "resposta_do_agente": r["resposta"], "motivo": r["motivo"]}
+        self.cartao({"tipo": "orientacao", "chave": "pai-" + "-".join(r["fichas"]),
+                     "titulo": f"{r['assuntos'][0]} ({', '.join(r['fichas'])})", "resposta": r["resposta"],
+                     "onde": "", "canal": "", "fonte": r["fonte"], "verificado_em": ponte_pai.LIDO_EM})
+        return {"encontrou": True, "resposta_do_agente": r["resposta"], "fichas": r["fichas"],
+                "citar": f"cite a ficha na resposta, por exemplo 'pela ficha {r['fichas'][0]}'"}
+
     def seguranca_estacao(self, estacao: str) -> dict:
         e = resolver_estacao(estacao)
         if not e:
@@ -231,7 +259,8 @@ class Sessao:
         ultima = self.contexto.get("ultima_viagem") or {}
         if not self.plano and ultima.get("origem") in rede.carregar()["por_id"] and ultima.get("destino") in rede.carregar()["por_id"]:
             # usa a viagem já conferida na conversa, sem repetir o cartão dela
-            self.plano = plano.antes_de_sair(ultima["origem"], ultima["destino"], simular_falha=self.simular, agora=self.agora)
+            p = plano.antes_de_sair(ultima["origem"], ultima["destino"], simular_falha=self.simular, agora=self.agora)
+            self.plano = p if p.get("ok", True) else None
         if not self.plano:
             return {"erro": "Ainda não sei a viagem. Pergunte de onde a pessoa sai e para onde vai."}
         c = cartao_do_plano(self.plano, self.agora)
@@ -252,9 +281,14 @@ class Sessao:
             return {"erro": f"ferramenta desconhecida: {nome}"}
         self.marcar(nome)
         try:
-            return funcao(**argumentos)
-        except TypeError:
+            inspect.signature(funcao).bind(**argumentos)
+        except TypeError:                   # o modelo mandou argumento que a ferramenta não tem
             return {"erro": "argumentos inválidos"}
+        try:
+            return funcao(**argumentos)
+        except Exception:                   # banco fora do ar, rede, fonte externa ou bug: a conversa não pode cair
+            log.exception("ferramenta %s falhou", nome)      # quem desenvolve vê a causa no terminal da API
+            return {"erro": f"a ferramenta {nome} está indisponível agora; diga isso e responda com o que as outras trouxeram"}
 
 
 def _texto_do_caminho(rota: dict | None) -> str:
@@ -360,6 +394,7 @@ Como responder:
 - Diga a previsão de chegada quando ver_trajeto trouxer.
 - Quando a pergunta for sobre como está uma linha, chame ver_linhas (situação oficial) e relatos_dos_passageiros (o que a gente viu), e diga as duas coisas separadas.
 - Relatos dos passageiros são estimativa, não dado oficial: diga sempre "passageiros relataram", nunca afirme como fato. Sem relato, não diga que está tudo certo.
+- Dúvida de regra ou procedimento (declaração de atraso, gratuidade, reclamação, achados e perdidos, tarifa, assédio, acessibilidade): chame perguntar_fichas e diga na resposta de qual ficha veio (por exemplo "pela ficha FT-02"). Se o agente das fichas não encontrar, diga que não encontrou e indique o canal oficial da operadora.
 - Fatos sobre linhas, caminhos, chuva, alagamento, segurança, direitos e canais só vêm das ferramentas. Se não veio, diga que não sabe. Nunca invente horário, telefone, estação, aplicativo ou regra.
 - Cite a hora da leitura só quando a pergunta for sobre a situação das linhas.
 - Segurança: é contagem de registros da SSP-SP, não risco. Não assuste.

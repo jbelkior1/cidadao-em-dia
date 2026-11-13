@@ -16,7 +16,7 @@ const NOS: No[] = [
   { id: "MLAM", rotulo: "MLAM", sub: "segurança (SSP-SP)", x: 730, y: 64, w: 168, h: 46, tipo: "materia" },
   { id: "PCP", rotulo: "PCP", sub: "orientações oficiais", x: 730, y: 116, w: 168, h: 46, tipo: "materia" },
   { id: "DSA", rotulo: "DSA", sub: "canal de atendimento", x: 730, y: 168, w: 168, h: 46, tipo: "materia" },
-  { id: "PAI", rotulo: "PAI", sub: "IA com ferramentas", x: 730, y: 220, w: 168, h: 46, tipo: "materia" },
+  { id: "PAI", rotulo: "PAI", sub: "agente das fichas", x: 730, y: 220, w: 168, h: 46, tipo: "materia" },
   // entregues à parte: sem ligação com o sistema
   { id: "CS", rotulo: "CS", sub: "lógica · à mão", x: 560, y: 360, w: 156, h: 46, tipo: "materia" },
   { id: "COA", rotulo: "COA", sub: "sensor · Wokwi", x: 728, y: 360, w: 156, h: 46, tipo: "materia" },

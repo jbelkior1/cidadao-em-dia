@@ -36,13 +36,17 @@ def _relato(linha: dict) -> Relato:
     )
 
 
+class BancoIndisponivel(RuntimeError):
+    """O Supabase respondeu com erro. A API transforma em 503, e a Lia segue sem os relatos."""
+
+
 class RepositorioSupabase:
     def __init__(self, url: str, chave: str, cliente: httpx.Client | None = None) -> None:
         self._http = cliente or httpx.Client(base_url=f"{url}/rest/v1", headers=_cabecalhos(chave), timeout=10)
 
     def _ok(self, r: httpx.Response) -> httpx.Response:
         if r.status_code >= 400:
-            raise RuntimeError(f"Supabase respondeu {r.status_code}: {r.text[:200]}")
+            raise BancoIndisponivel(f"Supabase respondeu {r.status_code}: {r.text[:200]}")
         return r
 
     def _selecao(self) -> str:

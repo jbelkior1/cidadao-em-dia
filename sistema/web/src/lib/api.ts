@@ -20,6 +20,7 @@ export type Materia = {
   cod: string; nome: string; curto?: string; cor: string; papel: string; no_chat?: string; entrega: string; pasta?: string; rodar?: string;
   regra?: string; ajuda?: string; quando?: string[]; recebe?: string; devolve?: string; nesta_versao?: string; como_testar?: string;
   ver_funcionando?: { rotulo: string; rota: string }[];
+  arquivos?: { rotulo: string; caminho: string; url: string }[]; pasta_url?: string;
 };
 
 export type Status = "Feito" | "Falta conferir" | "A fazer";
@@ -49,7 +50,13 @@ export type TestePCP = {
   resultados: { pontos: number; confianca: string; id: number; titulo: string; categoria: string; palavras_chave: string[]; palavras_titulo: string[] }[];
   base: { id: number; titulo: string; categoria: string; palavras_chave: string[]; em_conferencia: boolean }[];
 };
-export type NoDSA = { id: string; titulo: string; categoria: string; prazo: string; publico_alvo: string; canal: string };
+export type TestePAI = {
+  ok: boolean; erro?: string;
+  guardrails?: { dado_pessoal: string[]; injecao: string[]; entrada_invalida: string; texto_que_segue: string };
+  busca?: { ficha: string; assunto: string; pontos: number }[];
+  encontrou?: boolean; resposta?: string; motivo?: string; fichas?: string[]; fonte?: string; usou_modelo?: boolean; aviso?: string;
+};
+export type NoDSA ={ id: string; titulo: string; categoria: string; prazo: string; publico_alvo: string; canal: string };
 export type EstadoDSA = { ok: boolean; mensagem: string; tamanho: number; nos: NoDSA[]; achados: string[]; cabeca: string | null; cauda: string | null };
 export type TesteSERS = NonNullable<Energia> & { passos: string[]; falta: string };
 export type TesteMLAM = {
@@ -105,6 +112,7 @@ export const api = {
   mudarItem: (cod: string, id: string, mudancas: Partial<Pick<ItemChecklist, "status" | "onde" | "como">>) =>
     pedir<{ item: ItemChecklist; resumo: ResumoChecklist }>(`/api/checklist/${cod}/${id}`, { method: "PATCH", body: JSON.stringify(mudancas) }),
   testePCP: (pergunta: string) => pedir<TestePCP>("/api/teste/pcp", { method: "POST", body: JSON.stringify({ pergunta }) }),
+  testePAI: (pergunta: string) => pedir<TestePAI>("/api/teste/pai", { method: "POST", body: JSON.stringify({ pergunta }) }),
   estadoDSA: () => pedir<EstadoDSA>("/api/teste/dsa"),
   operarDSA: (operacao: string, dados: Record<string, string> = {}) =>
     pedir<EstadoDSA>("/api/teste/dsa", { method: "POST", body: JSON.stringify({ operacao, dados }) }),

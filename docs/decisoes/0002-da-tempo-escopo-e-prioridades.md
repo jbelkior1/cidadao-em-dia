@@ -14,7 +14,8 @@ Data: 13/11/2026. Origem: reunião do grupo de 12/11 (ata do Gemini) e respostas
 | SOS | Abre o SMS ou a ligação já preenchidos. Não envia nada e não é canal de emergência. Os canais vêm do catálogo da DSA. |
 | WhatsApp | **Fora por enquanto**: sem botão, sem automação. A mensagem de atraso só tem "Copiar". |
 | MiroFish | Fica para depois. Primeiro as outras partes do sistema. |
-| Matérias | No sistema: PCP, DSA, SERS, MLAM e PAI. À parte: **CS, COA e MMC** (João Pedro). Conferir a regra de IA de COA e MMC fica para depois. CS proíbe IA na tabela-verdade, no Karnaugh e no circuito (−4 pontos). |
+| Matérias | No sistema: PCP, DSA, SERS, MLAM e PAI. À parte: **CS, COA e MMC** (com outro integrante). CS proíbe IA na tabela-verdade, no Karnaugh e no circuito (−4 pontos). Os enunciados de COA e MMC não falam de IA, nem para proibir nem para permitir (conferido em 13/11). |
+| PAI | O professor autorizou em 13/11 manter as regras do enunciado e trocar as fichas de Aurora pelo tema do grupo: 7 fichas de transporte (FT-01 a FT-07). Na conversa, a Lia chama o agente da PAI como ferramenta. |
 | Cores | Laranja e branco, sem modo escuro. Marca `#c2410c` (passa 4,5:1 com texto branco); o amarelo de "atenção" fica separado. |
 
 ## Ordem de construção (definida por mim, com o critério "o que o pitch e as matérias precisam")
@@ -25,7 +26,10 @@ Data: 13/11/2026. Origem: reunião do grupo de 12/11 (ata do Gemini) e respostas
 1. A Lia usa os relatos (ferramenta nova) e responde "como está a Linha 3?" com o que os passageiros relataram.
 2. Modo de gravação: simular temporal e alagamento (hoje só simula falha de linha) e semear relatos de demonstração, tudo marcado como simulação.
 
-**Depende do banco (Supabase), a conectar quando o João Belchior der o acesso:**
+> Situação em 13/11, fim do dia: os itens 1 e 2 foram feitos, e o banco foi ligado (Supabase, esquema
+> `datempo`). Do item 3, os relatos já persistem; histórico das linhas, simulações e Realtime seguem abertos.
+
+**Depende do banco (Supabase):**
 3. Relatos, histórico das linhas e simulações persistentes; tempo real pelo Realtime.
 4. Rotinas e aviso antes de sair (caixa de entrada + notificação no aparelho).
 5. Simulação da sociedade com Gemini, guardada no banco.
@@ -36,7 +40,7 @@ Data: 13/11/2026. Origem: reunião do grupo de 12/11 (ata do Gemini) e respostas
 ## Em aberto
 
 - **Conta ou nenhuma conta para postar e usar a IA?** Entendi "não precisa de login" como "ler o feed sem conta". Se for nenhuma conta em lugar nenhum, o banco fica mais simples (código aleatório do aparelho em vez de login) e a cota da IA passa a ser por aparelho. A casca já funciona dos dois jeitos.
-- Como o banco será acessado (chaves no `.env` ou login da CLI, nunca no chat).
+- ~~Como o banco será acessado~~ Resolvido: chaves no `.env` (fora do git), pela API REST; nunca no chat.
 
 ## Consequências
 

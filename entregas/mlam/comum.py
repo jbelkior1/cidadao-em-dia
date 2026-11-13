@@ -22,6 +22,12 @@ PASTA = Path(__file__).resolve().parent
 BASE = PASTA / "dados" / "ocorrencias_estacoes_2026.csv"
 SAIDAS = PASTA / "saidas"
 
+# O enunciado pede nome completo e RM de todos os integrantes em todos os arquivos.
+# Preencha aqui uma vez: o relatório PDF (questão 07) lê esta lista.
+INTEGRANTES = [
+    ("A PREENCHER PELO GRUPO — nome completo", "RM ?"),
+]
+
 RESPOSTA = "total"
 EXPLICATIVAS = ["dist_marco_zero_km", "qtd_linhas", "lat"]
 
@@ -73,6 +79,26 @@ def interpretacao(texto: str) -> None:
     print("\nInterpretação:")
     for linha in texto.strip().splitlines():
         print(f"  {linha.strip()}")
+
+
+def checar_pressupostos(modelo) -> dict:
+    """Checagem dos pressupostos da regressão linear (OLS) usada nas questões 04 e 05.
+
+    Breusch-Pagan testa se a variância dos resíduos muda com as explicativas (heterocedasticidade);
+    p-valor baixo quer dizer que muda, e aí o Teste F e os p-valores da OLS ficam aproximados.
+    Os p-valores com erro padrão robusto (HC3) servem de conferência: valem mesmo com o leque.
+    """
+    from scipy import stats
+    from statsmodels.stats.diagnostic import het_breuschpagan
+
+    _, bp_p, _, _ = het_breuschpagan(modelo.resid, modelo.model.exog)
+    robusto = modelo.get_robustcov_results(cov_type="HC3")
+    nomes = list(modelo.params.index)
+    print(f"Pressupostos: Breusch-Pagan p-valor = {bp_p:.4f} | assimetria dos resíduos = {stats.skew(modelo.resid):.2f}")
+    print("p-valores com erro padrão robusto (HC3): "
+          + " | ".join(f"{n} = {p:.3e}" for n, p in zip(nomes, robusto.pvalues)))
+    return {"breusch_pagan_p": float(bp_p), "assimetria_residuos": float(stats.skew(modelo.resid)),
+            "p_robusto": {n: float(p) for n, p in zip(nomes, robusto.pvalues)}}
 
 
 def classificar_probabilidade(p: float) -> str:

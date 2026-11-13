@@ -21,6 +21,10 @@ type Contexto = {
   erro: string;
   enviar: (texto: string) => void;
   reiniciar: () => void;
+  /** Estação de casa guardada neste aparelho (id do GTFS), ou null. */
+  casa: string | null;
+  /** Esquece tudo da conversa em memória e a casa gravada: usado por "Apagar os dados deste aparelho". */
+  esquecer: () => void;
   alertas: Alertas | null;
   rastro: Passo[];
   simular: string;
@@ -136,6 +140,16 @@ export function ProvedorConversa({ children }: { children: ReactNode }) {
     ultimoPlano.current = "";
   }, []);
 
+  const esquecer = useCallback(() => {
+    reiniciar();
+    setCasa(null);
+    try {
+      [CHAVE_CASA, "auxilia-casa", "plano-b-casa"].forEach((c) => localStorage.removeItem(c));
+    } catch {
+      /* sem armazenamento */
+    }
+  }, [reiniciar]);
+
   const notificar = useCallback((n: Notificacao) => {
     setAviso(n);
     window.clearTimeout(temporizador.current);
@@ -163,7 +177,7 @@ export function ProvedorConversa({ children }: { children: ReactNode }) {
 
   return (
     <ContextoConversa.Provider value={{
-      falas, sugestoes, esperando, erro, enviar, reiniciar, alertas, rastro, simular, setSimular, ultimaViagem,
+      falas, sugestoes, esperando, erro, enviar, reiniciar, casa, esquecer, alertas, rastro, simular, setSimular, ultimaViagem,
       aviso, fecharAviso, abrirAviso, simularAviso,
     }}>
       {children}

@@ -47,12 +47,15 @@ def resolver(df=None) -> dict:
 
     comum.item("a", "Gráfico de dispersão")
     print("Cada ponto é uma estação. Ver o arquivo q04a_dispersao.png.")
+    perto_c = y[x <= 5]
+    longe_c = y[x > 20]
     comum.interpretacao(f"""
         A nuvem desce da esquerda para a direita: quanto mais longe do centro, menos ocorrências
         registradas no entorno. A relação existe, mas é frouxa — há estações distantes com muitos
         registros e estações centrais com poucos.
         A dispersão abre em leque perto do centro (heterocedasticidade): entre 0 e 5 km os valores vão
-        de pouco mais de 100 a 2.100, enquanto acima de 20 km quase todos ficam abaixo de 300.
+        de {perto_c.min()} a {perto_c.max()}, enquanto acima de 20 km {int((longe_c < 300).sum())} das
+        {len(longe_c)} estações ficam abaixo de 300 (a maior chega a {longe_c.max()}).
         Os pontos no alto à esquerda são as estações de maior circulação; o gráfico rotula as três maiores.
     """)
 
@@ -64,8 +67,9 @@ def resolver(df=None) -> dict:
         direções opostas. O valor em si não é comparável com nada, porque depende das unidades
         (quilômetros vezes ocorrências).
         A correlação resolve isso: r = {r:.3f} é adimensional e fica entre −1 e 1. Em módulo, {abs(r):.3f}
-        indica relação negativa moderada. O p-valor de {p_r:.1e} é bem menor que 1%, então a correlação
-        não é obra do acaso nesta base.
+        indica relação negativa moderada. O p-valor de {p_r:.1e} é bem menor que 1%. Esse p-valor supõe
+        estações independentes, e os raios de 300 m de estações vizinhas se sobrepõem; mesmo assim, com um
+        p-valor tão pequeno, a direção da relação é clara nesta base.
         Correlação não é causa: a distância não causa ocorrência. Ela está de intermediária para
         circulação de pessoas, comércio e concentração de serviços, que a base não mede.
     """)
@@ -96,6 +100,7 @@ def resolver(df=None) -> dict:
     print(f"R² = {modelo.rsquared:.4f}   |   R² ajustado = {modelo.rsquared_adj:.4f}")
     print(f"Teste F: F({int(modelo.df_model)}, {int(modelo.df_resid)}) = {modelo.fvalue:.3f}  |  "
           f"p-valor = {modelo.f_pvalue:.3e}")
+    bp = comum.checar_pressupostos(modelo)
     comum.interpretacao(f"""
         O Teste F pergunta se o modelo inteiro explica mais que a média simples de Y. Com p-valor
         {modelo.f_pvalue:.1e}, bem abaixo de 1%, a resposta é sim: o modelo é significativo.
@@ -105,6 +110,10 @@ def resolver(df=None) -> dict:
         entorno, policiamento, hora do dia.
         Em R² simples: um modelo pode ser estatisticamente certo e, ainda assim, prever mal uma estação
         específica. É por isso que a questão 05 acrescenta variáveis.
+        Pressupostos: o teste de Breusch-Pagan confirma o leque visto na letra a (p-valor
+        {bp['breusch_pagan_p']:.4f}), e os resíduos são assimétricos (assimetria {bp['assimetria_residuos']:.2f}).
+        Por isso o Teste F e os p-valores acima são aproximados. Refazendo o p-valor da inclinação com erro
+        padrão robusto (HC3), ele fica em {bp['p_robusto'][X]:.1e}: a conclusão sobre o sinal não muda.
     """)
 
     # ---- f) previsão
@@ -129,7 +138,7 @@ def resolver(df=None) -> dict:
     return {"x": X, "y": Y, "covariancia": covariancia, "pearson_r": r, "pearson_p": p_r,
             "intercepto": a, "inclinacao": b, "equacao": equacao,
             "r2": float(modelo.rsquared), "r2_ajustado": float(modelo.rsquared_adj),
-            "F": float(modelo.fvalue), "F_p_valor": float(modelo.f_pvalue),
+            "F": float(modelo.fvalue), "F_p_valor": float(modelo.f_pvalue), "pressupostos": bp,
             "previsao_km": PREVER_KM, "previsao": previsao,
             "previsao_ic95": [float(intervalo[0]), float(intervalo[1])],
             "media_real_na_faixa": float(reais[Y].mean())}

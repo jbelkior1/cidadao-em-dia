@@ -27,7 +27,7 @@ type Camadas = {
   seguranca: PontoSeguranca[];
   cge: { ok: boolean; estado: { titulo: string; quando: string } | null; ativos: number | null; pontos: PontoCge[] };
 };
-type Relato = { id: number | string; linha: string | null; estacao_id: string | null; tipo: string; criado_em: string };
+type Relato = { id: number | string; linha: string | null; estacao_id: string | null; tipo: string; tipo_rotulo?: string; criado_em: string };
 type Chave = "linhas" | "alagamentos" | "seguranca" | "relatos";
 
 const CENTRO: [number, number] = [-23.55, -46.63];
@@ -106,7 +106,8 @@ function estiloLinha(l: LinhaMapa): L.PolylineOptions {
 function resumoRelatos(lista: Relato[]): string[] {
   const por: Record<string, number> = {};
   for (const r of lista) {
-    const tipo = r.tipo || "relato";
+    // o rótulo vem pronto da API ("Lotado", "Trem parado"); o código interno só como último recurso
+    const tipo = r.tipo_rotulo || r.tipo || "relato";
     por[tipo] = (por[tipo] ?? 0) + 1;
   }
   return Object.entries(por).map(([tipo, n]) => `${tipo}: ${n}`);

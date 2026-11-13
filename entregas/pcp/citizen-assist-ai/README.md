@@ -4,7 +4,7 @@ Assistente de terminal, em Python, que responde dúvidas do cidadão **somente c
 
 Trabalho da Global Solution 2026.2 (FIAP), tema CitizenTech, matéria Pensamento Computacional e Automação com Python.
 
-> **ATENÇÃO: a base de conhecimento ainda está em conferência.** As 16 orientações vieram de uma pesquisa em páginas oficiais feita em 12/11/2026 (pasta `pesquisa/` do projeto Cidadão em Dia). Antes de entregar, a equipe precisa abrir cada fonte, confirmar o texto e atualizar a data em `verificado_em`. Cada registro conferido perde o campo `conferido_pela_equipe: false`.
+> **ATENÇÃO: a base de conhecimento ainda está em conferência.** As 16 orientações vieram de uma pesquisa em páginas oficiais feita em 12/11/2026; a URL de cada uma está no campo `fonte`. O campo `verificado_em` guarda a data em que a página foi **lida**, não a da conferência da equipe. Antes de entregar, a equipe precisa abrir cada fonte, confirmar o texto, atualizar `verificado_em` com a data da conferência e apagar o campo `conferido_pela_equipe: false` do registro conferido.
 
 ## Integrantes
 
@@ -16,13 +16,19 @@ A PREENCHER PELO GRUPO: nome e RM de cada integrante.
 
 ## Público e problema escolhidos
 
-A PREENCHER PELO GRUPO: público atendido e o problema que a base resolve.
+> Proposta escrita a partir da base; **o grupo confirma ou ajusta**.
 
-Contexto do enunciado: muita gente perde tempo para descobrir onde tirar um documento, o que levar para fazer o Cartão SUS ou a quem recorrer quando algo dá errado, porque a informação está espalhada, em linguagem técnica e misturada com páginas que parecem oficiais e não são.
+**Público:** quem usa metrô, trem e ônibus em São Paulo no dia a dia, principalmente quem depende do transporte público para chegar ao trabalho ou à escola.
+
+**Problema:** quando a linha para, chove forte ou algo dá errado na viagem, a pessoa não sabe o que fazer nem onde resolver. A informação existe, mas está espalhada entre os sites do Metrô, da CPTM, das concessionárias (ViaQuatro e ViaMobilidade), da SPTrans e da Defesa Civil, cada um com seu canal e sua regra. O assistente junta, num lugar só e em linguagem simples, as orientações das cinco situações mais comuns: falha na linha, chuva e alagamento, segurança, direitos do passageiro e acessibilidade e gratuidades. Cada resposta diz o que fazer, onde, com qual documento e de onde veio a informação.
 
 ## ODS relacionados
 
-A PREENCHER PELO GRUPO (confirmar). Sugestões: ODS 10 (Redução das desigualdades), ODS 16 (Paz, justiça e instituições eficazes) e, conforme o tema da base, ODS 3 (Saúde e bem-estar).
+> Proposta; **o grupo confirma**.
+
+- **ODS 11 — Cidades e comunidades sustentáveis:** meta 11.2, acesso a sistemas de transporte seguros, acessíveis e sustentáveis.
+- **ODS 10 — Redução das desigualdades:** as orientações de gratuidade e acessibilidade atendem pessoa idosa e pessoa com deficiência.
+- **ODS 16 — Paz, justiça e instituições eficazes:** acesso à informação e aos canais de reclamação e ouvidoria.
 
 ## Como executar
 
@@ -91,7 +97,9 @@ Pergunta, palavras-chave e título são normalizados antes de comparar: minúscu
 
 `buscar()` devolve uma lista de tuplas `(pontos, orientacao)`, da maior para a menor pontuação (só entram orientações com pelo menos 1 ponto; em empate vale a ordem do arquivo). O assistente mostra a melhor orientação e até **duas alternativas**, desde que cada alternativa tenha pelo menos 3 pontos (decisão do grupo: alternativa com 1 ou 2 pontos seria só ruído).
 
-Exemplo do enunciado: em "Como faço o cartão do SUS?", a orientação 3 recebe +3 por `cartao do sus`, +3 por `sus` e +1 porque `cartao` está no título: 7 pontos, confiança ALTA. Esse cálculo está num teste automático.
+Exemplo com a base desta entrega: em **"Como peço a declaração de atraso do metrô?"**, a orientação 1 (Declaração de atraso do Metrô) recebe +3 por `declaração` e +3 por `atraso` (palavras-chave) e +1 por cada palavra do título que aparece na pergunta: `declaracao`, `atraso` e `metro`. Total: **9 pontos, confiança ALTA**. As orientações 2 e 3 (declaração nas linhas 4, 5, 8 e 9 e na CPTM) somam 8 pontos e aparecem como alternativas.
+
+O exemplo numérico do próprio enunciado ("Como faço o cartão do SUS?" → 7 pontos, ALTA) continua conferido por um teste automático, com uma base de exemplo, para provar que a regra é exatamente a pedida.
 
 Os pesos e limites estão como constantes no começo de `base_conhecimento.py`; nesta versão são exatamente os do enunciado.
 
@@ -120,19 +128,21 @@ A exportação (opção 4) grava `data/atendimentos.csv` com `csv.DictWriter` (U
 
 ## Integrações com outras disciplinas
 
-Nenhuma nesta versão. A busca por pontuação é a do enunciado. (Preencher aqui se o grupo integrar com as outras disciplinas da GS; o sistema web do projeto reaproveita estas mesmas classes.)
+Este programa é a entrega da PCP e roda sozinho, só com a biblioteca padrão. As mesmas classes (`Assistente`, `BaseConhecimento`, `Orientacao`) e a mesma busca por pontuação são reaproveitadas pelo app **Dá Tempo?**, o projeto da Global Solution do grupo, que mostra estas orientações nos cartões da assistente Lia. O app usa as classes sem gravar no `historico.json` desta entrega. **O grupo decide se declara essa integração no vídeo** (o enunciado deixa opcional); a busca por pontuação avaliada é a deste programa.
 
 ## Fontes consultadas
 
-A base atual usa só endereços de órgãos oficiais, lidos em 12/11/2026 e ainda **em conferência pelo grupo**:
+As 16 orientações usam só páginas oficiais, lidas em 12/11/2026 e ainda **em conferência pelo grupo**:
 
-- https://www.gov.br/aneel/
-- https://www.gov.br/mds/
-- https://www.gov.br/saude
-- https://valoresareceber.bcb.gov.br/
-- https://www.gov.br/pt-br/servicos/
+- Metrô: https://www.metro.sp.gov.br/pt_BR/fale-conosco/faq/, https://www.metro.sp.gov.br/sua-viagem/direto-metro/, https://www.metro.sp.gov.br/2026/09/21/metro-e-corpo-de-bombeiros-realizam-simulados-de-evacuacao-e-resgate-na-linha-17-ouro/
+- CPTM: https://www.cptm.sp.gov.br/cptm/contato/fale-conosco, https://www.cptm.sp.gov.br/cptm/esg-consciente/praticas-de-governanca/canal-de-denuncias, https://www.cptm.sp.gov.br/cptm/sua-viagem/acessibilidade
+- ViaQuatro e ViaMobilidade (portal Motiva Trilhos): https://trilhos.motiva.com.br/linha-4-amarela/declaracao-de-ocorrencias
+- SPTrans e Prefeitura: https://www.sptrans.com.br/tarifas/, https://www.sptrans.com.br/perguntas-e-respostas/?sobre=bilhete-pcd, https://prefeitura.sp.gov.br/web/mobilidade/w/institucional/sptrans/acesso_a_informacao/366625
+- Artesp: https://www.artesp.sp.gov.br/artesp/canais-de-comunicacao/ouvidoria
+- Defesa Civil de SP: https://www.spsemprealerta.sp.gov.br/, https://www.spsemprealerta.sp.gov.br/orientacoes/inundacoes/
+- Governo federal: https://www.gov.br/celularseguro, https://www.planalto.gov.br/ccivil_03/leis/2003/l10.741.htm (Estatuto da Pessoa Idosa)
 
-A PREENCHER PELO GRUPO: lista final das fontes oficiais da base definitiva, com a data em que cada uma foi conferida.
+Algumas informações foram completadas pela Carta de Serviços do Metrô de outubro de 2023 (telefones e horários da Central de Informações e da Ouvidoria). O grupo precisa conferir cada página e atualizar a data de verificação.
 
 ## Resultado do teste com usuários
 
@@ -145,7 +155,8 @@ A PREENCHER PELO GRUPO. O enunciado pede pelo menos 3 pessoas de fora da equipe,
 
 ## Limitações
 
-- A base tem 16 orientações; o assistente só conhece o que está nela.
+- A base tem 16 orientações, de transporte público em São Paulo; o assistente só conhece o que está nela.
+- Algumas orientações registram o que a fonte **não** confirmou (por exemplo, se o ônibus do PAESE é gratuito, ou um passo a passo oficial da CPTM para a declaração de atraso): o assistente repete essa ressalva em vez de completar com suposição.
 - A busca é por regras: não entende sinônimos nem erros de digitação que não estejam nas palavras-chave.
 - O tempo medido inclui o tempo de digitação da pessoa.
 - Cada atendimento guarda só a última pergunta digitada.

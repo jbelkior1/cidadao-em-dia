@@ -53,7 +53,8 @@ class Orientacao:
             for documento in self.documentos:
                 linhas.append("  - " + documento)
         else:
-            linhas.append("Documentos necessários: não informado na base.")
+            # a fonte oficial não lista documento para este caso; não inventamos uma lista
+            linhas.append("Documentos necessários: a fonte oficial consultada não lista nenhum para este caso.")
         linhas.append("Onde: " + self.onde)
         linhas.append("Fonte: " + self.fonte + " (verificado em " + self.verificado_em + ")")
         linhas.append("Aviso: " + AVISO)

@@ -19,6 +19,7 @@ sys.path.insert(0, str(RAIZ))
 from sistema.mobilidade import energia  # noqa: E402
 
 PADRAO_KM = 15.0
+DIAS_UTEIS = 22         # período de referência: um mês de trabalho, ida e volta
 
 
 def real(valor: float) -> str:
@@ -53,6 +54,26 @@ def main(km: float) -> int:
     if r["trilho_vs_carro"] is not None:
         print(f"\nResultado: o trilho emite {br(r['trilho_vs_carro'], 1)}% do CO₂ do carro nesta distância "
               f"(uma redução de {br(100 - r['trilho_vs_carro'], 1)}%).")
+
+    # ---- período de referência comum: um mês de ida e volta ao trabalho
+    viagens = DIAS_UTEIS * 2
+    print(f"\nPeríodo de referência: um mês de trabalho ({DIAS_UTEIS} dias úteis, ida e volta = {viagens} viagens de {br(r['km'], 1)} km)")
+    print(f"{'Modo':<18}{'Energia/mês':>14}{'CO₂/mês':>14}{'Custo/mês':>14}")
+    print("-" * 76)
+    for m in r["modos"]:
+        kwh = f"{br(m['energia_kwh'] * viagens, 1)} kWh" if m["energia_kwh"] is not None else "sem fonte"
+        co2 = f"{br(m['co2_kg'] * viagens, 1)} kg"
+        print(f"{m['modo']:<18}{kwh:>14}{co2:>14}{real(m['custo_rs'] * viagens):>14}")
+    print("-" * 76)
+    carro, trilho = r["modos"][2], r["modos"][0]
+    print(f"Trocar o carro pelo trilho nesse mês evita cerca de {br((carro['co2_kg'] - trilho['co2_kg']) * viagens, 0)} kg de CO₂ "
+          f"e custa cerca de {real((carro['custo_rs'] - trilho['custo_rs']) * viagens)} a menos")
+    print("(tarifa do trilho contra só a gasolina do carro, sem estacionamento, manutenção nem depreciação).")
+    print("O custo do trilho e do ônibus é tarifa cheia; com a integração do Bilhete Único ou vale-transporte o valor muda.")
+
+    print("\nComo ler a energia: o kWh do trilho é eletricidade usada na tração; o kWh do carro é a energia")
+    print("contida na gasolina queimada. São formas diferentes de energia, então a coluna mostra a ordem de")
+    print("grandeza, e a comparação justa entre os modos é a do CO₂ e a do custo.")
 
     print("\nPremissas (toda estimativa depende delas):")
     for p in r["premissas"]:

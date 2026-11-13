@@ -4,6 +4,8 @@
     "media": 341.7841726618705,
     "mediana": 228.0,
     "desvio_populacional": 332.04062251672445,
+    "proporcao_real_abaixo_da_media": 0.6546762589928058,
+    "massa_normal_negativa": 0.1516589208486055,
     "a_P_menor_que_media": 0.5,
     "a_classificacao": "evento equiprovável (exatamente 50%)",
     "b_P_maior_que_mediana": 0.634080952385764,
@@ -40,6 +42,35 @@
       "p_valor": 4.70311591529504e-09,
       "rejeita_h0": true,
       "lado": "maior"
+    },
+    "checagem_sorteada": {
+      "semente": 42,
+      "a": {
+        "n": 20,
+        "media_amostral": 234.8,
+        "mu0": 341.7841726618705,
+        "sigma": 332.04062251672445,
+        "erro_padrao": 74.24654032387431,
+        "z": -1.440931418422863,
+        "z_critico": -1.5547735945968535,
+        "alfa": 0.06,
+        "p_valor": 0.07480202945615673,
+        "rejeita_h0": false,
+        "lado": "menor"
+      },
+      "b": {
+        "n": 25,
+        "media_amostral": 344.16,
+        "mu0": 341.7841726618705,
+        "sigma": 332.04062251672445,
+        "erro_padrao": 66.4081245033449,
+        "z": 0.03577615473856431,
+        "z_critico": 1.3407550336902165,
+        "alfa": 0.09,
+        "p_valor": 0.4857304233271193,
+        "rejeita_h0": false,
+        "lado": "maior"
+      }
     }
   },
   "questao_04": {
@@ -55,6 +86,14 @@
     "r2_ajustado": 0.21359151721800063,
     "F": 38.48132175763299,
     "F_p_valor": 6.128066035893995e-09,
+    "pressupostos": {
+      "breusch_pagan_p": 0.0054251671934018855,
+      "assimetria_residuos": 2.106167596959355,
+      "p_robusto": {
+        "const": 5.529896509015212e-15,
+        "dist_marco_zero_km": 2.095172623113493e-06
+      }
+    },
     "previsao_km": 5.0,
     "previsao": 458.2267011823875,
     "previsao_ic95": [
@@ -137,6 +176,17 @@
     "r2": 0.39373710645477367,
     "r2_ajustado": 0.3802645977093242,
     "r2_do_modelo_simples": 0.21929012941207315,
+    "r2_ajustado_sem_latitude": 0.3844949024861404,
+    "pressupostos": {
+      "breusch_pagan_p": 0.018723572105514372,
+      "assimetria_residuos": 1.7642329530364242,
+      "p_robusto": {
+        "const": 0.6775708961667932,
+        "dist_marco_zero_km": 1.6514767983065913e-05,
+        "qtd_linhas": 2.4651131986693983e-05,
+        "lat": 0.7066635023855321
+      }
+    },
     "F": 29.2252255236252,
     "F_p_valor": 1.2633677222354183e-14,
     "vif": {
@@ -209,6 +259,10 @@
         "probabilidade": 0.13861201954355798,
         "classe": "ocorrência normal"
       }
-    ]
+    ],
+    "decomposicao_central": {
+      "p_1_linha_2km": 0.6698488166103079,
+      "p_3_linhas_22km": 0.5730468667558614
+    }
   }
 }

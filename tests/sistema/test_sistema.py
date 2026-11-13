@@ -193,12 +193,60 @@ class Seguranca(unittest.TestCase):
 class Privacidade(unittest.TestCase):
     def test_barra_cpf_telefone_email_e_frases(self):
         for texto in ("meu cpf é 123.456.789-09", "liga pra mim (11) 91234-5678", "fulano@exemplo.com",
-                      "meu nome é Maria", "moro na rua das Flores"):
+                      "meu nome é Maria", "moro na rua das Flores",
+                      # separadores e e-mail por extenso que passavam antes da revisão (BE-4)
+                      "cpf 123,456,789_09", "meu número 11–91234–5678", "fulano arroba gmail ponto com"):
             self.assertIsNotNone(privacidade.motivo(texto), texto)
 
     def test_deixa_passar_pergunta_comum(self):
-        for texto in ("a linha 9 parou, e agora?", "roubaram meu celular no trem", "quanto custa a passagem"):
+        for texto in ("a linha 9 parou, e agora?", "roubaram meu celular no trem", "quanto custa a passagem",
+                      "a ocorrência foi dia 12/11/2026, ainda consigo a declaração?", "a passagem é R$ 5,40"):
             self.assertIsNone(privacidade.motivo(texto), texto)
+
+
+class LinksDoRepositorio(unittest.TestCase):
+    def test_todo_arquivo_linkado_nas_materias_existe(self):
+        """Os links das páginas das matérias vão para o GitHub: arquivo que não existe vira link quebrado."""
+        from sistema import materias
+        raiz = Path(__file__).resolve().parents[2]
+        for m in materias.POR_CODIGO.values():
+            for a in m["arquivos"]:
+                self.assertTrue((raiz / a["caminho"]).exists(), f"{m['cod']}: {a['caminho']}")
+                self.assertTrue(a["url"].startswith(materias.REPOSITORIO), a["url"])
+            if m["pasta"]:
+                self.assertTrue((raiz / m["pasta"]).is_dir(), m["pasta"])
+
+
+class LiaSemQuebrar(SemInternet):
+    """Ferramentas da Lia que falham não podem derrubar a conversa (revisão BE-1 e BE-2)."""
+
+    def test_sem_caminho_devolve_erro_amigavel(self):
+        from sistema import assistente
+        s = assistente.Sessao(None, datetime(2026, 11, 12, 10, 0))
+        original = plano.antes_de_sair
+        plano.antes_de_sair = lambda *a, **k: {"ok": False, "erro": "Não há caminho entre as estações."}
+        try:
+            r = s.executar("ver_trajeto", {"origem": "Sé", "destino": "Paulista"})
+        finally:
+            plano.antes_de_sair = original
+        self.assertIn("erro", r)
+        self.assertIsNone(s.plano)
+
+    def test_ferramenta_que_quebra_vira_erro_para_o_modelo(self):
+        from sistema import assistente
+        s = assistente.Sessao(None, datetime(2026, 11, 12, 10, 0))
+        s.relatos_dos_passageiros = lambda linha=None: (_ for _ in ()).throw(RuntimeError("Supabase respondeu 503"))
+        r = s.executar("relatos_dos_passageiros", {"linha": "3"})
+        self.assertIn("indisponível", r["erro"])
+
+    def test_ponte_da_pai_existe_e_cita_ficha_sem_modelo(self):
+        from sistema.adaptadores import pai
+        self.assertTrue(pai.disponivel())
+        r = pai.testar("Meu CPF é 123.456.789-09")          # recusa pelos guardrails, sem chamar modelo
+        self.assertTrue(r["ok"])
+        self.assertIn("CPF", r["guardrails"]["dado_pessoal"])
+        self.assertFalse(r["usou_modelo"])
+        self.assertNotIn("123.456.789", json.dumps(r, ensure_ascii=False))
 
 
 class Pergunte(unittest.TestCase):
@@ -293,6 +341,24 @@ class Api(SemInternet):
         corpo = self.cliente.get("/api/config/ia").text
         self.assertNotIn(segredo, corpo)
         self.assertEqual(self.cliente.get("/api/config/ia").json()["config"]["final_da_chave"], "1234")
+
+    def test_banco_fora_do_ar_vira_503(self):
+        from sistema import relatos
+        from sistema.relatos_supabase import BancoIndisponivel
+
+        class Quebrado:
+            def __getattr__(self, _):
+                def falha(*a, **k):
+                    raise BancoIndisponivel("Supabase respondeu 503")
+                return falha
+        original = relatos.repo
+        relatos.usar_repositorio(Quebrado())
+        try:
+            r = TestClient(app, raise_server_exceptions=False).get("/api/relatos")
+        finally:
+            relatos.usar_repositorio(original)
+        self.assertEqual(r.status_code, 503)
+        self.assertIn("indisponíveis", r.json()["detail"])
 
     def test_paginas_das_materias(self):
         for cod in ("pcp", "cs", "dsa", "sers", "mlam", "pai", "mmc", "coa"):

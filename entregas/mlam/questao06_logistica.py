@@ -119,13 +119,23 @@ def resolver(df=None) -> dict:
         print(f"  classificação (corte 0,5): {classe}")
         classificacoes.append({**{c: cenario[c] for c in X}, "nome": cenario["nome"],
                                "probabilidade": p, "classe": classe})
+    # quanto do cenário central vem das linhas e quanto da distância: troca uma coisa de cada vez
+    base_central = {c: CENARIOS[0][c] for c in X}
+    p_1linha = float(modelo.predict(sm.add_constant(pd.DataFrame([{**base_central, "qtd_linhas": 1}]),
+                                                    has_constant="add")).iloc[0])
+    p_longe = float(modelo.predict(sm.add_constant(pd.DataFrame([{**base_central, "dist_marco_zero_km": 22.0}]),
+                                                   has_constant="add")).iloc[0])
+    print(f"\nDecomposição do cenário central: com 1 linha a 2 km, p = {p_1linha:.4f}; "
+          f"com 3 linhas a 22 km, p = {p_longe:.4f}")
     comum.interpretacao(f"""
         Os dois perfis extremos saem em lados opostos, com probabilidades de
         {classificacoes[0]['probabilidade']:.2f} e {classificacoes[1]['probabilidade']:.2f}: o modelo separa
         bem o que já se esperava.
-        Ressalva: o cenário de 3 linhas é extrapolação. Só 4 estações da base têm 3 linhas ou mais, e o
-        coeficiente de `qtd_linhas` não é significativo a 5%. A probabilidade de 0,94 vem sobretudo da
-        proximidade do centro, que é a variável significativa.
+        Trocando uma variável de cada vez dá para ver de onde vem o {classificacoes[0]['probabilidade']:.2f}:
+        com 1 linha só, a 2 km, a probabilidade cai para {p_1linha:.2f}; com 3 linhas, mas a 22 km, cai para
+        {p_longe:.2f}. As duas variáveis pesam de forma parecida nesse cenário.
+        Ressalva: o peso das linhas é o menos confiável. Só 4 estações da base têm 3 linhas ou mais, e o
+        coeficiente de `qtd_linhas` não é significativo a 5%. A parte sólida da conclusão é a da distância.
         No app, isso vira um aviso de atenção no entorno da estação, nunca um rótulo de "estação perigosa".
         O que o modelo prevê é a chance de haver MUITO REGISTRO DE BO num raio de 300 m, e registro
         acompanha movimento de gente. Sem o fluxo de passageiros na base, não dá para transformar isso em
@@ -139,7 +149,8 @@ def resolver(df=None) -> dict:
             "pseudo_r2_mcfadden": float(modelo.prsquared), "llr_p_valor": float(modelo.llr_pvalue),
             "matriz_confusao": {"vn": int(vn), "fp": int(fp), "fn": int(fn), "vp": int(vp)},
             "acuracia": acuracia, "piso_classe_majoritaria": float(maior_classe), "precisao": float(precisao), "revocacao": float(revocacao), "auc": auc,
-            "classificacoes": classificacoes}
+            "classificacoes": classificacoes,
+            "decomposicao_central": {"p_1_linha_2km": p_1linha, "p_3_linhas_22km": p_longe}}
 
 
 def _graficos(df, y, probabilidade, mc, corte) -> None:

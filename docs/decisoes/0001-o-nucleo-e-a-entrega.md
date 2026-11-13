@@ -1,6 +1,14 @@
 # 0001 · O núcleo é a entrega
 
-Data: 12/11/2026 · Situação: em vigor
+Data: 12/11/2026 · Situação: em vigor, com a emenda de 13/11/2026 abaixo
+
+> **Emenda de 13/11/2026.** Dois pontos mudaram depois da reunião do grupo (ver ADR 0002):
+> - **Banco:** os relatos dos passageiros passaram a ficar no Supabase, no esquema próprio `datempo`
+>   (`sistema/banco.py`, `sistema/relatos_supabase.py`, `banco/migracoes/0001_datempo_relatos.sql`). Se o
+>   banco cair, a API responde 503 e a Lia segue sem os relatos. As entregas das matérias continuam sem banco.
+> - **Texto para o modelo:** a conversa com a Lia manda ao modelo a mensagem da pessoa **depois** da barreira
+>   de dado pessoal (com CPF, telefone, e-mail ou endereço, a mensagem nem sai). O item 4 abaixo vale para a
+>   barreira; a frase "nunca o que a pessoa escreveu" valia para a versão sem IA na conversa.
 
 ## Contexto
 

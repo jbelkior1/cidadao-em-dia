@@ -1,17 +1,28 @@
-# Central do Cidadão de Aurora — documentos de referência
+# Fichas de transporte do Dá Tempo? — documentos de referência da PAI
 
-**AVISO: material didático fictício.** Os valores, prazos, locais e regras destas fichas foram inventados para o desafio *Citizen Assist AI*. Não use nada daqui como informação real sobre documentos pessoais.
+Estas 7 fichas são a **única fonte de verdade** do assistente da PAI. Se a resposta para uma pergunta
+não está nelas, o assistente não inventa: diz que não encontrou e orienta a procurar o canal oficial.
 
-Estas fichas são a **única fonte de verdade** do assistente. Se a resposta para uma pergunta não está nelas, o assistente não deve inventar.
+Seguem a mesma estrutura das fichas da Central do Cidadão de Aurora que vieram no enunciado
+(código, palavras-chave, campos, passo a passo, onde e fonte com data). A troca do tema para
+transporte foi autorizada pelo professor da PAI em 13/11/2026.
 
-Versão das fichas: 01/10/2026
+**Diferença importante em relação às fichas de Aurora:** estas não são fictícias. Cada informação
+saiu de página oficial (Metrô, CPTM, concessionárias, SPTrans, Artesp, Defesa Civil, Planalto, gov.br),
+lida em 12/11/2026, e a URL está no campo **Fonte** de cada ficha. Quando a página oficial não
+confirmava algo, a ficha diz isso com todas as letras, em vez de completar com suposição.
+
+**Antes da entrega, a equipe precisa abrir cada fonte e conferir o texto.** Valores e telefones
+mudam; a data de verificação de cada ficha deve ser atualizada depois da conferência.
+
+Versão das fichas: 13/11/2026 (fontes lidas em 12/11/2026)
 
 | Código | Arquivo | Assunto |
 |---|---|---|
-| FC-01 | FC-01_rg_segunda_via.md | Carteira de Identidade (RG): primeira e segunda via |
-| FC-02 | FC-02_cpf.md | CPF: inscrição e atendimento |
-| FC-03 | FC-03_titulo_de_eleitor.md | Título de eleitor |
-| FC-04 | FC-04_carteira_de_trabalho.md | Carteira de Trabalho |
-| FC-05 | FC-05_certidoes.md | Certidões de nascimento, casamento e óbito |
-| FC-06 | FC-06_cnh_renovacao.md | CNH: renovação |
-| FC-07 | FC-07_regras_gerais.md | Atendimento, agendamento, terceiros, pagamento e acessibilidade |
+| FT-01 | FT-01_linha_parada.md | Linha parada ou trem parado: o que fazer |
+| FT-02 | FT-02_declaracao_de_atraso.md | Declaração de atraso (Metrô, concessionárias e CPTM) |
+| FT-03 | FT-03_reclamacao_e_ouvidoria.md | Reclamação, ouvidorias e Artesp |
+| FT-04 | FT-04_gratuidades.md | Gratuidades: pessoa idosa e pessoa com deficiência |
+| FT-05 | FT-05_achados_e_perdidos.md | Achados e perdidos |
+| FT-06 | FT-06_tarifas_e_bilhete_unico.md | Tarifas e integração do Bilhete Único |
+| FT-07 | FT-07_seguranca_acessibilidade_chuva.md | Segurança, acessibilidade, chuva e celular roubado |

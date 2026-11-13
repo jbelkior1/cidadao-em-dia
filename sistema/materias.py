@@ -6,6 +6,53 @@ no formato do enunciado; o código que ele corrige é o mesmo que roda no app.
 
 PRAZO_GS = "2026-11-19"
 
+# Repositório público e ramo do sistema: os links das páginas das matérias apontam para cá, para o
+# professor abrir o arquivo da parte dele direto no GitHub.
+REPOSITORIO = "https://github.com/jbelkior1/cidadao-em-dia"
+RAMO = "sistema-localhost"
+
+
+def link(caminho: str) -> str:
+    """Link do GitHub para um arquivo (blob) ou pasta (tree) do ramo do sistema."""
+    caminho = caminho.strip("/")
+    ultimo = caminho.rsplit("/", 1)[-1]
+    tipo = "blob" if "." in ultimo else "tree"
+    return f"{REPOSITORIO}/{tipo}/{RAMO}/{caminho}"
+
+
+#: O que o professor de cada matéria abre no repositório: primeiro a entrega, depois onde ela entra no app.
+ARQUIVOS = {
+    "PCP": [("A entrega (pasta)", "entregas/pcp/citizen-assist-ai"), ("README da entrega", "entregas/pcp/citizen-assist-ai/README.md"),
+            ("Programa de terminal", "entregas/pcp/citizen-assist-ai/main.py"),
+            ("Classe Assistente", "entregas/pcp/citizen-assist-ai/assistente.py"),
+            ("Classe BaseConhecimento (busca por pontos)", "entregas/pcp/citizen-assist-ai/base_conhecimento.py"),
+            ("Classe Orientacao", "entregas/pcp/citizen-assist-ai/orientacao.py"),
+            ("Base de orientações", "entregas/pcp/citizen-assist-ai/data/base_conhecimento.json"),
+            ("No app: ponte com a Lia", "sistema/adaptadores/pcp.py"), ("Testes", "tests/pcp")],
+    "DSA": [("A entrega (pasta)", "entregas/dsa"), ("README da entrega", "entregas/dsa/README.md"),
+            ("Menu de terminal", "entregas/dsa/main.py"), ("Lista encadeada", "entregas/dsa/lista_encadeada.py"),
+            ("Busca e merge sort", "entregas/dsa/algoritmos.py"), ("Documentação e Big-O", "entregas/dsa/docs/DOCUMENTACAO.md"),
+            ("Evidências de teste", "entregas/dsa/docs/EVIDENCIAS.md"), ("No app: ponte com a Lia", "sistema/adaptadores/dsa.py"),
+            ("Testes", "tests/dsa")],
+    "SERS": [("A entrega (pasta)", "entregas/sers"), ("README da entrega", "entregas/sers/README.md"),
+             ("Comparação que o professor roda", "entregas/sers/comparar_energia.py"),
+             ("Cálculo usado pelo app", "sistema/mobilidade/energia.py"), ("Os 30 fatores com fonte", "pesquisa/energia_modos.json"),
+             ("Levantamento das fontes", "pesquisa/ENERGIA_FONTES.md"), ("Testes com usuários (roteiro)", "entregas/sers/TESTES_USUARIOS.md")],
+    "MLAM": [("A entrega (pasta)", "entregas/mlam"), ("README da entrega", "entregas/mlam/README.md"),
+             ("Base (.csv)", "entregas/mlam/dados/ocorrencias_estacoes_2026.csv"), ("Como a base foi montada", "entregas/mlam/dados/LEIA-ME.md"),
+             ("Roda as questões 02 a 06", "entregas/mlam/main.py"), ("Questão 07: gera o relatório", "entregas/mlam/questao07_relatorio.py"),
+             ("Relatório em PDF", "entregas/mlam/saidas/relatorio_mlam_gs2026.pdf"), ("Saída completa", "entregas/mlam/saidas/relatorio.txt")],
+    "PAI": [("A entrega (pasta)", "entregas/pai"), ("README da entrega", "entregas/pai/README.md"),
+            ("O agente (LangGraph)", "entregas/pai/pai_agente/agente.py"), ("As 7 fichas FT", "entregas/pai/fichas"),
+            ("Golden dataset", "entregas/pai/golden/golden_pai.json"), ("Juiz (LLM as a Judge)", "entregas/pai/pai_agente/juiz.py"),
+            ("Resultados antes e depois", "entregas/pai/saidas"),
+            ("Imagem do grafo", "entregas/pai/grafo_agente.png"), ("Testes com usuários (roteiro)", "entregas/pai/TESTES_USUARIOS.md"),
+            ("No app: ponte com a Lia", "sistema/adaptadores/pai.py"), ("Testes", "tests/pai/test_pai.py")],
+    "CS": [("Regra do produto (não é a entrega)", "sistema/mobilidade/decisao.py")],
+    "MMC": [],
+    "COA": [],
+}
+
 NO_SISTEMA = [
     {
         "cod": "PCP", "nome": "Pensamento Computacional e Automação com Python", "curto": "As orientações", "cor": "#2563EB",
@@ -61,9 +108,9 @@ NO_SISTEMA = [
         "devolve": "Energia, custo e CO₂ por pessoa em cada alternativa, com as premissas.",
         "no_chat": "Em \"Segurança e energia da viagem\", no cartão da viagem.",
         "entrega": "Repositório com dados, cálculos e fontes, comparação de alternativas (uma renovável), testes com usuários, vídeo de até 3 minutos e um .txt com os links.",
-        "pasta": "", "rodar": "",
+        "pasta": "entregas/sers", "rodar": "python comparar_energia.py",
         "regra": "Mesma necessidade (a viagem casa-trabalho), mesmo período e duas ou mais alternativas, uma delas renovável. Cada número com origem, unidade e premissa.",
-        "nesta_versao": "Pronta no app: a distância sai da rede e os fatores vêm de fontes oficiais (MCTI, Metrô, INMETRO, ANP), em pesquisa/energia_modos.json. Falta a equipe conferir os números lidos de PDF, testar com usuários e gravar o vídeo.",
+        "nesta_versao": "Pronta no app e no script da entrega: a distância sai da rede e os fatores vêm de fontes oficiais (MCTI, Metrô, INMETRO, ANP), em pesquisa/energia_modos.json, com a comparação por viagem e por mês. Falta a equipe conferir os números lidos de PDF, aplicar os testes com usuários e gravar o vídeo.",
         "como_testar": "Mude a distância e veja cada conta, passo a passo, para trilho, ônibus e carro.",
         "ver_funcionando": [{"rotulo": "Conversar com a Lia", "rota": "/"}],
     },
@@ -76,26 +123,27 @@ NO_SISTEMA = [
         "devolve": "Ocorrências por estação, por faixa de horário e por tipo, e os modelos do relatório.",
         "no_chat": "Nos detalhes do cartão da viagem e no cartão de segurança da estação.",
         "entrega": "Base em .csv ou .xlsx, códigos em .py e relatório em .pdf, postados direto no portal, sem links.",
-        "pasta": "entregas/mlam", "rodar": "python preparar_base.py",
+        "pasta": "entregas/mlam", "rodar": "python main.py  ·  python questao07_relatorio.py",
         "regra": "Base real e justificada: dado gerado ou fictício não vale. Desconto de 1,0 por item ausente e de 2,0 por entrega inadequada.",
-        "nesta_versao": "A base real está pronta: ocorrências da SSP-SP de janeiro a setembro de 2026 num raio de 300 m de 139 estações da capital (entregas/mlam/dados). Faltam as questões 02 a 07 e o relatório.",
+        "nesta_versao": "Base real (SSP-SP, janeiro a setembro de 2026, raio de 300 m de 139 estações), questões 02 a 06 com interpretações e o relatório da questão 07 em PDF prontos. Falta a equipe preencher nome e RM (em comum.py, que alimenta o PDF) e postar no portal.",
         "como_testar": "Veja o resumo da base: estações com mais registros, faixas de horário e tipos.",
         "ver_funcionando": [{"rotulo": "Conversar com a Lia", "rota": "/"}],
     },
     {
-        "cod": "PAI", "nome": "Prompt and Artificial Intelligence", "curto": "A Lia (IA)", "cor": "#7C3AED",
-        "papel": "A Lia é a parte de IA do sistema: o modelo conversa, chama as ferramentas (linhas, viagem, alertas, orientações, segurança) e só afirma o que elas trazem, com a barreira de dado pessoal antes. A entrega da PAI segue o formato do enunciado (versão do PDF geral com RAG, e a do .docx com as fichas de Aurora), à parte.",
-        "ajuda": "A pessoa pergunta do jeito dela e recebe uma resposta curta, com a fonte, sem nada inventado.",
-        "quando": ["Em toda mensagem: a Lia é a conversa com IA usando as ferramentas do sistema"],
-        "recebe": "A pergunta, depois da barreira de dado pessoal.",
-        "devolve": "A resposta com a fonte, ou o aviso de que não sabe.",
-        "no_chat": "A própria Lia (o modelo de IA com as ferramentas e a barreira de dado pessoal).",
-        "entrega": "Notebook ou repositório com o agente em um framework, avaliação com juiz antes e depois de uma melhoria, testes com 5 pessoas e relatórios.",
-        "pasta": "", "rodar": "",
-        "regra": "Só responde com o que está nos documentos. Dado pessoal é barrado antes de qualquer chamada ao modelo.",
-        "nesta_versao": "A camada de IA e a barreira de dado pessoal estão prontas. O agente com base própria e a avaliação ainda não foram feitos.",
-        "como_testar": "Ligue um modelo em Configurações de IA e converse com a Lia em O sistema.",
-        "ver_funcionando": [{"rotulo": "Conversar com a Lia", "rota": "/"}],
+        "cod": "PAI", "nome": "Prompt and Artificial Intelligence", "curto": "O agente das fichas", "cor": "#7C3AED",
+        "papel": "O agente de orientação da PAI: um LangGraph de três nós (guardrails, busca nas fichas, resposta) que só responde pelas 7 fichas de transporte (FT-01 a FT-07), montadas a partir de páginas oficiais, e cita a ficha. O professor autorizou em 13/11/2026 trocar as fichas de Aurora do enunciado pelo nosso tema, mantendo as mesmas regras. Na conversa, a Lia chama esse agente como ferramenta nas dúvidas de regra e procedimento.",
+        "ajuda": "A pessoa pergunta do jeito dela (\"tenho 67 anos, pago metrô?\") e recebe uma resposta curta, com a ficha citada, sem nada inventado.",
+        "quando": ["Na conversa, quando a dúvida é de regra ou procedimento: declaração de atraso, gratuidade, reclamação, achados e perdidos, tarifa, assédio, acessibilidade",
+                   "Sozinho, pelo terminal (entregas/pai/main.py) e na avaliação com o juiz"],
+        "recebe": "A pergunta, depois das barreiras de dado pessoal da Lia e do próprio agente.",
+        "devolve": "A resposta com a ficha citada (FT-xx) e a data da fonte, ou o aviso de que não encontrou nas fichas.",
+        "no_chat": "Ferramenta perguntar_fichas da Lia: a resposta vira um cartão de orientação com a ficha e a fonte oficial.",
+        "entrega": "Repositório com o agente em LangGraph, fichas, golden dataset de 26 mensagens, juiz (LLM as a Judge) antes e depois de uma melhoria, testes com usuários e relatório.",
+        "pasta": "entregas/pai", "rodar": "python main.py  ·  python avaliar.py --nome depois",
+        "regra": "Só responde com o que está nas fichas e cita a ficha. Dado pessoal e tentativa de manipulação são barrados antes de qualquer chamada ao modelo.",
+        "nesta_versao": "Agente, fichas de transporte, golden, juiz e a rodada antes/depois prontos. Falta a equipe aplicar os testes com usuários e preencher nome e RM.",
+        "como_testar": "Escreva uma pergunta abaixo e veja cada etapa do grafo. Ou converse com a Lia e pergunte, por exemplo, como pedir a declaração de atraso.",
+        "ver_funcionando": [{"rotulo": "Perguntar à Lia", "rota": "/"}],
     },
     {
         "cod": "MMC", "nome": "Modelagem Matemática e Computacional", "curto": "Os ônibus de apoio", "cor": "#6B7280",
@@ -137,3 +185,6 @@ A_PARTE: list[dict] = [m for m in NO_SISTEMA if m["cod"] in FORA_DO_SISTEMA]
 NO_SISTEMA = [m for m in NO_SISTEMA if m["cod"] not in FORA_DO_SISTEMA]
 
 POR_CODIGO = {m["cod"]: m for m in NO_SISTEMA + A_PARTE}
+for _cod, _m in POR_CODIGO.items():
+    _m["arquivos"] = [{"rotulo": r, "caminho": c, "url": link(c)} for r, c in ARQUIVOS.get(_cod, [])]
+    _m["pasta_url"] = link(_m["pasta"]) if _m["pasta"] else ""

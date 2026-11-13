@@ -4,8 +4,8 @@
    mandar é mascarado antes de qualquer chamada ao provedor, e a mensagem original não é gravada.
 2. Prompt injection (seção 4): todo conteúdo externo é DADO, nunca instrução. Tentativas são
    detectadas, marcadas e neutralizadas; o agente segue respondendo pelas fichas.
-3. Escopo: o assistente só fala de documentos pessoais com base nas 7 fichas. Fora disso, diz
-   que não encontrou e manda procurar o órgão competente.
+3. Escopo: o assistente só fala de orientação de transporte com base nas 7 fichas. Fora disso, diz
+   que não encontrou e manda procurar o canal oficial da operadora.
 
 Tudo aqui é determinístico e testável sem rede.
 """
@@ -24,10 +24,14 @@ PADROES_PESSOAIS: list[tuple[str, re.Pattern]] = [
     ("cartão", re.compile(r"\b(?:\d{4}[\s-]?){4}\b")),
 ]
 #: Oferta de dado pessoal sem número nenhum (golden #23).
-#: Atenção: "meu RG" e "meu CPF" NÃO entram aqui. São o assunto das fichas, e quem escreve
-#: "perdi meu RG" não está informando dado pessoal — o número, se vier, cai nos padrões acima.
+#: Atenção: "meu RG" e "meu CPF" NÃO entram aqui. São assunto das fichas (achados e perdidos), e quem
+#: escreve "perdi meu RG" não está informando dado pessoal — o número, se vier, cai nos padrões acima.
+#: Pelo mesmo motivo, "meu celular" sozinho é o aparelho ("roubaram meu celular"), não o número: só conta
+#: quando vem seguido de "é", "eh", ":" ou "=" (melhoria da rodada "depois", caso #104 do golden). Sem acento,
+#: "e" também conta, menos quando emenda outro objeto ("roubaram meu celular e a carteira").
 FRASES_PESSOAIS = re.compile(
-    r"\b(meu|minha|meus|minhas)\s+(endere[çc]o|telefone|celular|e-?mail|nome completo|data de nascimento)\b"
+    r"\b(meu|minha|meus|minhas)\s+(endere[çc]o|telefone|celular|e-?mail|nome completo|data de nascimento)"
+    r"\s*(?:é\b|eh\b|:|=|e\b(?!\s+(?:meu|minha|meus|minhas|o|a|os|as|um|uma)\b))"
     r"|\bvou te (passar|mandar|dar)\b|\bte (passo|mando) (meu|minha)\b|\bsegue meu\b",
     re.IGNORECASE)
 

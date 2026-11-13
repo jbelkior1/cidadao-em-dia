@@ -9,7 +9,12 @@
       "comprovante de atraso",
       "declaração de ocorrência",
       "justificar atraso",
-      "cheguei atrasado"
+      "cheguei atrasado",
+      "atrasou",
+      "atrasado",
+      "atrasada",
+      "atrasei",
+      "metrô atrasou"
     ],
     "resposta": "Nas linhas 1-Azul, 2-Verde, 3-Vermelha e 15-Prata, depois que a ocorrência termina a declaração fica disponível no site oficial do Metrô, na seção Declaração de Ocorrências, durante o dia. Se a ocorrência foi em outro dia, é preciso abrir uma solicitação no Fale Conosco do site ou ligar para a Central de Informações (0800 770 7722, todos os dias, das 5h à meia-noite). O documento serve para justificar atrasos causados por ocorrências que afetam a circulação dos trens. Para a Linha 4-Amarela o pedido é feito à Via Quatro.",
     "documentos": [],
@@ -29,7 +34,8 @@
       "viamobilidade",
       "linha 4",
       "linha 8",
-      "linha 9"
+      "linha 9",
+      "atrasou"
     ],
     "resposta": "Os sites das concessionárias (portal Motiva Trilhos) têm uma página Declaração de ocorrências, com a lista de documentos em PDF que pode ser filtrada por data e por linha. As páginas orientam consultar a declaração para ver acontecimentos da linha nos últimos 90 dias. A Central de atendimento da Linha 4-Amarela é 0800-770-7100 e a da Linha 5-Lilás e da ViaMobilidade 8 e 9 é 0800-770-7106.",
     "documentos": [],
@@ -47,7 +53,8 @@
       "atraso",
       "cptm",
       "trem atrasou",
-      "comunicado de ocorrência"
+      "comunicado de ocorrência",
+      "atrasou"
     ],
     "resposta": "Não foi possível confirmar em página oficial da CPTM um passo a passo para pedir a declaração de atraso. O FAQ do Metrô manda quem viajou nas demais linhas (as que não são do Metrô nem da Via Quatro e da ViaMobilidade) consultar o site da CPTM. A Central de Relacionamento da CPTM atende pelo 0800 055 0121, das 5h às 23h, e pelo WhatsApp (11) 99767-7030.",
     "documentos": [],
@@ -66,7 +73,7 @@
       "linha parou",
       "parou",
       "ônibus emergencial",
-      "e agora"
+      "parou e agora"
     ],
     "resposta": "PAESE é o plano de cooperação entre empresas de transporte de São Paulo para apoio mútuo em situações de emergência. Quando é acionado a pedido de uma operadora, a SPTrans coloca ônibus em uma linha especial entre as estações afetadas. Em exemplos oficiais, a Prefeitura divulgou o trecho atendido e orientou ligar para o 156 para saber o itinerário. A página oficial lida não diz se o ônibus é gratuito.",
     "documentos": [],
@@ -199,11 +206,14 @@
     "titulo": "Achados e perdidos",
     "palavras_chave": [
       "achados e perdidos",
-      "perdi",
       "esqueci",
       "perdido",
       "objeto",
-      "documento perdido"
+      "documento perdido",
+      "perdi meu",
+      "perdi minha",
+      "perdi um",
+      "perdi uma"
     ],
     "resposta": "No Metrô, o Posto Central de Achados e Perdidos fica na Estação Sé e funciona de segunda a sexta, das 7h às 20h, exceto feriados; para documentos, a consulta também pode ser feita pela Central de Informações (0800 770 7722). Os objetos ficam guardados por 60 dias. Na CPTM, a Central de Achados e Perdidos fica na Estação Palmeiras-Barra Funda, de segunda a sexta, das 8h às 16h, exceto feriados, com consulta online e o mesmo 0800 e WhatsApp da Central de Relacionamento.",
     "documentos": [],

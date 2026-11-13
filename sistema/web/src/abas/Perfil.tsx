@@ -2,6 +2,8 @@ import { BellRing, Check, Home, ShieldCheck, Trash2, UserRound } from "lucide-re
 import { useEffect, useState } from "react";
 
 import { SeloLinha } from "../componentes/Linha";
+import { useConversa } from "../componentes/conversa";
+import { esquecerIdDoAparelho } from "./Feed";
 import { mobilidade, type EstacaoEscolha, type LinhaInfo } from "../lib/api";
 
 /*
@@ -10,7 +12,6 @@ import { mobilidade, type EstacaoEscolha, type LinhaInfo } from "../lib/api";
  */
 
 const MINHAS_LINHAS = "dt-minhas-linhas";
-const CASA = "dt-casa";
 const CHAVES_ANTIGAS = ["auxilia-casa", "plano-b-casa", "plano-b-trajeto", "plano-b-trajetos", "auxilia-vista", "auxilia-layout", "plano-b-vista"];
 
 function ler<T>(chave: string, padrao: T): T {
@@ -33,7 +34,8 @@ export default function Perfil() {
   const [linhas, setLinhas] = useState<LinhaInfo[]>([]);
   const [estacoes, setEstacoes] = useState<EstacaoEscolha[]>([]);
   const [minhas, setMinhas] = useState<string[]>(() => ler<string[]>(MINHAS_LINHAS, []));
-  const [casa, setCasa] = useState<string>(() => ler<string>(CASA, "") || (typeof localStorage !== "undefined" ? localStorage.getItem("auxilia-casa") ?? "" : ""));
+  // a casa vem da conversa (a Lia grava como texto puro em "dt-casa"): uma fonte só, sem JSON.parse
+  const { casa, esquecer } = useConversa();
   const [apagado, setApagado] = useState(false);
 
   useEffect(() => {
@@ -48,12 +50,13 @@ export default function Perfil() {
   const nomeCasa = estacoes.find((e) => e.id === casa)?.nome;
   const apagarTudo = () => {
     try {
-      [MINHAS_LINHAS, CASA, "dt-device-id", ...CHAVES_ANTIGAS].forEach((c) => localStorage.removeItem(c));
+      [MINHAS_LINHAS, ...CHAVES_ANTIGAS].forEach((c) => localStorage.removeItem(c));
     } catch {
       /* nada a apagar */
     }
+    esquecer();               // casa, conversa em memória, última viagem e rastro
+    esquecerIdDoAparelho();   // o código aleatório dos relatos
     setMinhas([]);
-    setCasa("");
     setApagado(true);
   };
 
@@ -128,7 +131,7 @@ export default function Perfil() {
           <button type="button" onClick={apagarTudo} className="inline-flex h-11 items-center gap-2 rounded-full bg-superficie px-5 text-[14px] font-bold text-erro hover:bg-erro-suave">
             <Trash2 className="size-4" aria-hidden />Apagar os dados deste aparelho
           </button>
-          {apagado && <p role="status" className="text-[14px] font-bold text-ok">Pronto: os dados deste aparelho foram apagados.</p>}
+          {apagado && <p role="status" className="text-[14px] font-bold text-ok">Pronto: suas linhas, a estação de casa, o código do aparelho e a conversa atual foram apagados.</p>}
         </section>
       </div>
     </div>

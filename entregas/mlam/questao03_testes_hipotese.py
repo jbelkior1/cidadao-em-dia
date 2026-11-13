@@ -23,6 +23,8 @@ from scipy import stats
 
 import comum
 
+SEMENTE = 42        # para a checagem com amostra sorteada: com a mesma semente, o resultado se repete
+
 
 def _teste_z(amostra, mu0: float, sigma: float, alfa: float, lado: str) -> dict:
     n = len(amostra)
@@ -72,9 +74,12 @@ def resolver(df=None) -> dict:
     _mostrar(r_a, "a periferia da rede registra menos ocorrências")
     comum.interpretacao(f"""
         A média das 20 estações mais distantes é {r_a['media_amostral']:.1f}, contra {mu0:.1f} da rede inteira.
-        Com z = {r_a['z']:.3f} abaixo do crítico {r_a['z_critico']:.3f}, rejeitamos H0 a 6%: a diferença é grande
-        demais para ser acaso de amostragem.
-        Leitura para o produto: as estações de ponta de linha registram significativamente menos ocorrências.
+        Com z = {r_a['z']:.3f} abaixo do crítico {r_a['z_critico']:.3f} e p-valor {r_a['p_valor']:.4f}, o
+        procedimento rejeita H0 a 6% — mas por pouco: a 5% o resultado já seria outro.
+        Cuidado com a leitura: este grupo não foi sorteado, foi escolhido pelos extremos de distância e faz
+        parte da própria população de referência. Nesse caso o p-valor não mede "acaso de amostragem"; o
+        teste descreve que esse grupo de ponta de linha tem média de registros abaixo da rede, não prova
+        nada sobre uma estação qualquer. A checagem com amostra sorteada, logo abaixo, mostra a diferença.
         Atenção ao que o dado é: contagem de registros de BO, não risco por passageiro. Essas estações também
         movimentam menos gente, e a base não traz o fluxo de passageiros para dividir uma coisa pela outra.
     """)
@@ -88,14 +93,36 @@ def resolver(df=None) -> dict:
     _mostrar(r_b, "o centro expandido registra mais ocorrências")
     comum.interpretacao(f"""
         A média das 25 estações mais centrais é {r_b['media_amostral']:.1f}, mais que o dobro da referência
-        ({mu0:.1f}). Com z = {r_b['z']:.3f}, muito acima do crítico {r_b['z_critico']:.3f}, e p-valor
-        praticamente zero, rejeitamos H0 a 9%.
-        Os dois testes contam a mesma história por lados opostos e sustentam a escolha da distância ao centro
-        como variável explicativa nas questões 04 e 05.
+        ({mu0:.1f}). Com z = {r_b['z']:.3f}, muito acima do crítico {r_b['z_critico']:.3f}, o procedimento
+        rejeita H0 a 9% com folga.
+        Vale o mesmo cuidado da letra a: o grupo foi escolhido pela distância, não sorteado, então o
+        resultado descreve o centro expandido e não é inferência para a rede. Os dois testes mostram a mesma
+        tendência por lados opostos, o que motiva olhar a distância nas questões 04 e 05 — onde a relação é
+        medida com a base inteira, sem recorte.
+    """)
+
+    # ---- checagem: as mesmas contas com amostras SORTEADAS, para separar recorte de acaso
+    comum.item("checagem", "As mesmas contas com amostras sorteadas (semente fixa, para dar para repetir)")
+    sorteio_a = df.sample(20, random_state=SEMENTE)[comum.RESPOSTA]
+    sorteio_b = df.sample(25, random_state=SEMENTE + 1)[comum.RESPOSTA]
+    s_a = _teste_z(sorteio_a, mu0, sigma, 0.06, "menor")
+    s_b = _teste_z(sorteio_b, mu0, sigma, 0.09, "maior")
+    for rotulo, r in (("a) n = 20, α = 6%, H1: μ < μ0", s_a), ("b) n = 25, α = 9%, H1: μ > μ0", s_b)):
+        print(f"{rotulo}: média sorteada = {r['media_amostral']:.1f} | z = {r['z']:.3f} | crítico = {r['z_critico']:.3f} | "
+              f"p-valor = {r['p_valor']:.4f} | {'REJEITA H0' if r['rejeita_h0'] else 'NÃO REJEITA H0'}")
+    comum.interpretacao(f"""
+        Com amostras sorteadas (sementes {SEMENTE} e {SEMENTE + 1}), que é o que o teste z pressupõe, as médias
+        ficam perto da referência e o resultado muda: {'rejeita' if s_a['rejeita_h0'] else 'não rejeita'} H0
+        na letra a e {'rejeita' if s_b['rejeita_h0'] else 'não rejeita'} na letra b. É isso que se espera de
+        uma amostra aleatória da própria população: a média dela flutua em torno de μ0.
+        A comparação deixa claro o que cada leitura significa. Os recortes por distância mostram uma
+        diferença real ENTRE grupos de estações; o sorteio mostra que, sem escolher o grupo, não há motivo para
+        a média de uma amostra fugir da referência.
     """)
 
     _grafico(r_a, r_b)
-    return {"referencia": {"mu0": mu0, "sigma": sigma}, "a": r_a, "b": r_b}
+    return {"referencia": {"mu0": mu0, "sigma": sigma}, "a": r_a, "b": r_b,
+            "checagem_sorteada": {"semente": SEMENTE, "a": s_a, "b": s_b}}
 
 
 def _grafico(r_a: dict, r_b: dict) -> None:

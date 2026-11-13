@@ -55,6 +55,16 @@ function novoId(): string {
   return Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
 }
 
+/** Esquece o código do aparelho (em memória e no armazenamento): o próximo relato gera outro. */
+export function esquecerIdDoAparelho(): void {
+  idEmMemoria = null;
+  try {
+    localStorage.removeItem(CHAVE_APARELHO);
+  } catch {
+    /* sem armazenamento */
+  }
+}
+
 /** Gera na primeira vez e guarda. Se o navegador bloquear o armazenamento, vale o da memória (até recarregar). */
 function idDoAparelho(): string {
   if (idEmMemoria) return idEmMemoria;
@@ -560,7 +570,7 @@ export default function Feed({ aoIr, aoSos }: { aoIr?: (aba: IdAba, focarConvers
                       </div>
                       <div>
                         <p className="text-[18px] leading-tight font-bold">{t.rotulo}</p>
-                        <p className="truncate text-[13px] text-apagado">{nomeDa(a.linha) ? `${nomeDa(a.linha)}, ` : ""}{a.n_autores} pessoas</p>
+                        <p className="truncate text-[13px] text-apagado">{nomeDa(a.linha) ? `${nomeDa(a.linha)}, ` : ""}{a.n_autores === 1 ? "1 pessoa" : `${a.n_autores} pessoas`}</p>
                       </div>
                     </li>
                   );

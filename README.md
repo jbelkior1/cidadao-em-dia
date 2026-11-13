@@ -55,7 +55,7 @@ O **modo banca** abre o painel "Por trás da tela": quem fez cada parte da últi
 | DSA | Catálogo de serviços ao passageiro numa lista encadeada própria | `entregas/dsa/` |
 | SERS | A mesma viagem de trem ou metrô, ônibus a diesel e carro: energia, CO₂ e custo | `sistema/mobilidade/energia.py`, `pesquisa/energia_modos.json` |
 | MLAM | Ocorrências da SSP-SP por estação (janeiro a setembro de 2026, raio de 300 m) | `entregas/mlam/` |
-| PAI | Pergunte com IA (versão do PDF geral); a versão do .docx segue à parte | camada de IA em `sistema/ia.py`; agente a fazer |
+| PAI | Agente de orientação pelas 7 fichas de transporte (FT-01 a FT-07), em LangGraph, que a Lia chama nas dúvidas de regra e procedimento e que cita a ficha | `entregas/pai/` (agente, fichas, golden, juiz); `sistema/adaptadores/pai.py` |
 | MMC | Fora do sistema: modelo matricial da frota e política de redistribuição | entrega à parte |
 | COA | Fora do sistema: sensor de nível de água num ponto de alagamento | entrega à parte, no Wokwi |
 
@@ -67,16 +67,16 @@ CS, COA e MMC não fazem sentido dentro da conversa, então seguem só o que o e
 
 | Pasta | O que tem |
 |---|---|
-| `sistema/assistente.py` | A Lia: instruções, ferramentas (viagem, linhas, alertas, orientação, segurança, duração das falhas, mensagem de atraso, estação de casa), o laço com o modelo e as regras para quando a IA falha |
+| `sistema/assistente.py` | A Lia: instruções, ferramentas (viagem, linhas, alertas, orientação, agente das fichas da PAI, segurança, duração das falhas, relatos, mensagem de atraso, estação de casa), o laço com o modelo e as regras para quando a IA ou uma ferramenta falha |
 | `sistema/mobilidade/` | Rede (Dijkstra com custo de baldeação e desvio até a próxima troca), fontes ao vivo (linhas, INMET e CGE, com cache e histórico local), decisão do dia, energia e a montagem da viagem |
 | `sistema/` | API, barreira de dado pessoal, camada de IA, busca por regras (`conversa.py`), testes das matérias, sociedade (`laboratorio.py`) e checklist |
-| `sistema/relatos.py` | Feed de relatos: campos prontos, limite de 10 min por linha, validade de 2 h, confirmações e estimativa por linha (repositório trocável; hoje em memória) |
+| `sistema/relatos.py` | Feed de relatos: campos prontos, limite de 10 min por linha, validade de 2 h, confirmações e estimativa por linha (repositório trocável: Supabase, esquema `datempo`, com o `.env`; em memória sem ele) |
 | `sistema/mapa.py` e `sistema/sos.py` | Dados das camadas do mapa; canais do SOS tirados do catálogo da DSA |
 | `sistema/web/` | As telas (React, Vite e Tailwind): `componentes/AppAbas.tsx` é a casca das 4 abas e `abas/` tem Feed, Mapa e Perfil |
 | `sistema/dados/` | `rede.json` (do GTFS), `seguranca_estacoes.json` (da SSP-SP), `personas.json` e `checklist.json` |
 | `scripts/montar_rede.py` | Monta `rede.json` a partir do GTFS da SPTrans e dos alagamentos do GeoSampa |
 | `pesquisa/` | Bases levantadas em fontes oficiais em 12/11/2026 (orientações, serviços e energia) e `montar_bases.py`, que gera os dados do PCP e da DSA |
-| `entregas/` | As entregas de PCP, DSA e MLAM no formato de cada enunciado |
+| `entregas/` | As entregas de PCP, DSA, SERS, MLAM e PAI no formato de cada enunciado |
 | `tests/` | Testes das entregas e do sistema |
 
 ## Fontes de dados
@@ -107,9 +107,9 @@ Detalhes em `docs/decisoes/0001-o-nucleo-e-a-entrega.md`.
 
 - **As telas não substituem a entrega.** Cada professor recebe no formato dele, pelo portal.
 - **PCP:** o vídeo da entrega mostra o **terminal**, não este app.
-- **PAI:** o .docx do enunciado tem uma instrução escondida. É um teste de prompt injection: não obedecer e confirmar com o professor.
+- **PAI:** o .docx do enunciado tem uma instrução escondida. É um teste de prompt injection: não foi obedecida. A troca do tema para transporte foi autorizada pelo professor em 13/11/2026.
 - **MLAM:** a base é contagem de registros, sem o fluxo de passageiros. Estação cheia tem mais registro; não chamar de taxa de risco.
 
 ## Versão anterior
 
-O esqueleto em Streamlit do tema anterior (Cidadão em Dia: `app.py`, `paginas/`, `modulos/`, `nucleo/`, `servicos/`, `data/`) continua na raiz só para manter a vitrine antiga em https://jbelkior1.github.io/cidadao-em-dia/. Não faz parte da Lia.
+O esqueleto em Streamlit do tema anterior (Cidadão em Dia: `app.py`, `paginas/`, `modulos/`, `nucleo/`, `servicos/`, `data/`) continua na raiz só para manter a vitrine antiga em https://jbelkior1.github.io/cidadao-em-dia/. Não faz parte da Lia. O `data/entregaveis.json` é o checklist desse esqueleto, antigo e divergente: não editar nem consultar. O checklist atual é `sistema/dados/checklist.json`.

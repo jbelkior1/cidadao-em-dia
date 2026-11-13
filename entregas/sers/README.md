@@ -26,7 +26,11 @@ Mostra a comparação de uma viagem de 15 km com todas as contas, as premissas e
 distância: `python comparar_energia.py 8.5`. Precisa de Python 3.13; não usa biblioteca de fora.
 
 O mesmo cálculo aparece no app: suba o sistema (`uv run uvicorn sistema.api:app --port 8010`), abra a
-conversa com a Lia e peça uma viagem; o bloco de energia vem no cartão.
+conversa com a Lia e peça uma viagem. No cartão da viagem, em "Segurança nas estações e energia", a Lia
+mostra, para a distância daquele trajeto, o CO₂ e a tarifa de ir de trilho contra o CO₂ e o gasto de
+gasolina de ir de carro, com o aviso de que é estimativa por médias oficiais. O
+ônibus, as premissas e as fontes completas aparecem no teste da matéria (página da SERS no sistema) e
+neste script; o cartão traz só o resumo, para caber na conversa.
 
 ## Onde está cada coisa (a parte da SERS no repositório compartilhado)
 
@@ -38,6 +42,8 @@ conversa com a Lia e peça uma viagem; o bloco de energia vem no cartão.
 | `pesquisa/ENERGIA_FONTES.md` | o levantamento das fontes, com o que foi lido em cada documento |
 | `sistema/testes.py` (`sers_testar`) | o teste da matéria dentro do sistema, que mostra conta por conta |
 | `sistema/web/src/paginas/Materia.tsx` | a página da SERS no sistema, com Entenda, Teste e Checklist |
+| `sistema/assistente.py` e `sistema/web/src/componentes/Cartoes.tsx` | onde a energia entra na resposta da Lia e no cartão da viagem |
+| `entregas/sers/TESTES_USUARIOS.md` | roteiro e registro dos testes com usuários (a equipe preenche) |
 
 O cálculo não foi copiado para cá de propósito: existe um só, usado pelo app e por esta entrega. Se a
 equipe corrigir um fator no JSON, a tela e este script mudam juntos, e não há risco de uma versão
@@ -56,11 +62,36 @@ Resultado para uma viagem de 15 km, por pessoa, só a ida (números de 12/11/202
 O trilho emite cerca de **2,5% do CO₂ do carro** nessa distância (2,0% se comparado ao teto de 2,52 kg),
 com custo parecido com o do ônibus.
 
-### Por que o trilho conta como alternativa renovável
+### No período de referência: um mês de trabalho
 
-A tração é elétrica e **86,8% da eletricidade gerada no país em 2025 veio de fonte renovável**
-(hidráulica, eólica, solar e biomassa). O fator de emissão do sistema elétrico usado na conta é o do
-MCTI, 46,1 g de CO₂ por kWh, que já embute essa matriz.
+O enunciado pede comparar as opções num período de referência comum. Usamos um mês de trabalho:
+22 dias úteis, ida e volta, ou seja, 44 viagens de 15 km por pessoa.
+
+| modo | energia no mês | CO₂ no mês | custo no mês |
+|---|---|---|---|
+| Trem ou metrô | 47,5 kWh | 2,2 kg | R$ 237,60 |
+| Ônibus a diesel | sem fonte de consumo | 52,4 kg | R$ 233,20 |
+| Carro a gasolina, sozinho | 444,4 kWh | 86,2 kg | R$ 315,04 |
+
+Trocar o carro pelo trilho evita cerca de **84 kg de CO₂ por mês** por pessoa e custa cerca de
+**R$ 77 a menos** (tarifa cheia do trilho contra só a gasolina do carro). Com a integração do
+Bilhete Único ou com vale-transporte, o custo do transporte público muda; essas regras não foram lidas.
+
+### Como ler a coluna de energia
+
+O kWh do trilho é **eletricidade** usada na tração; o kWh do carro é a **energia contida na gasolina**
+queimada. São formas diferentes de energia, e boa parte da energia da gasolina vira calor no motor. Por
+isso a coluna de energia mostra só a ordem de grandeza, e a comparação justa entre os modos é a do
+**CO₂** e a do **custo**.
+
+### Por que o trilho conta como alternativa renovável, e o limite disso
+
+O trilho não usa uma usina renovável própria: ele usa a **rede elétrica do país**, e **86,8% da
+eletricidade gerada no Brasil em 2025 veio de fonte renovável** (hidráulica, eólica, solar e biomassa,
+segundo o Balanço Energético Nacional da EPE). É nesse sentido que ele é a alternativa renovável da
+comparação. O CO₂ é calculado pelo fator médio do sistema elétrico (MCTI, 46,1 g de CO₂ por kWh), que já
+embute essa matriz. Se o Metrô contratar energia de uma fonte específica, o número muda; essa
+informação não foi lida.
 
 ## Premissas (toda estimativa depende delas)
 
@@ -98,7 +129,7 @@ MCTI, 46,1 g de CO₂ por kWh, que já embute essa matriz.
 ## O que falta à equipe (não é código)
 
 - [ ] Conferir cada número nas fontes, principalmente os lidos de PDF, e o teor de etanol.
-- [ ] Testar com usuários: situações testadas, comentários e ajustes (sem dado pessoal).
+- [ ] Testar com usuários e preencher `TESTES_USUARIOS.md` (roteiro pronto: situações, registro e ajustes, sem dado pessoal).
 - [ ] Preencher nome completo e RM de todos.
 - [ ] Gravar o vídeo no YouTube, não listado, de até 3 minutos.
 - [ ] Enviar no portal **apenas o .txt** com nomes, RM, link do repositório e link do vídeo.

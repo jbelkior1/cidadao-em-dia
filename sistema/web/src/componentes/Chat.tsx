@@ -42,7 +42,7 @@ export function PainelAlertas({ aoFechar, aoPerguntar }: { aoFechar: () => void;
   return (
     <>
       <button type="button" aria-label="Fechar alertas" onClick={aoFechar} className="absolute inset-x-0 top-[60px] bottom-0 z-20 cursor-default bg-tinta/35" />
-      <section aria-label="Alertas agora" className="entrar absolute top-[64px] right-3 left-3 z-30 mx-auto max-w-md space-y-2 rounded-[28px] bg-superficie p-4 shadow-flutua">
+      <section aria-label="Alertas agora" className="entrar absolute top-[64px] right-3 left-3 z-30 mx-auto max-h-[calc(100%-76px)] max-w-md space-y-2 overflow-y-auto overscroll-contain rounded-[28px] bg-superficie p-4 shadow-flutua">
         <div className="flex items-baseline justify-between">
           <h3 className="text-[22px] font-bold tracking-tight">Alertas agora</h3>
           <span className="text-[12px] text-apagado">{alertas?.lido_em ? `lidos às ${hora(alertas.lido_em)}` : "lendo..."}</span>

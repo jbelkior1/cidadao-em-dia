@@ -55,6 +55,8 @@ def comparar(km: float) -> dict:
 
     trilho_kwh = km * kwh_pkm
     litros = km / consumo_carro
+    trilho_co2 = trilho_kwh * fator_sin                                    # sem arredondar, para a razão
+    carro_co2 = litros * fator_gasolina * FRACAO_FOSSIL_GASOLINA_C
     modos = [
         {"modo": "Trem ou metrô", "energia_kwh": round(trilho_kwh, 2), "co2_kg": round(trilho_kwh * fator_sin, 3), "co2_kg_max": None,
          "custo_rs": _v("tarifa_metro_trem"), "custo_tipo": "tarifa", "renovavel": True,
@@ -67,11 +69,11 @@ def comparar(km: float) -> dict:
          "custo_rs": round(litros * preco_gasolina, 2), "custo_tipo": "combustível", "renovavel": False,
          "nota": f"Carro popular a gasolina, {_br(consumo_carro)} km/L na cidade (INMETRO); custo só do combustível."},
     ]
-    carro = modos[2]["co2_kg"]
     return {
         "km": km,
         "modos": modos,
-        "trilho_vs_carro": round(100 * modos[0]["co2_kg"] / carro, 1) if carro else None,
+        # razão calculada com os valores cheios: dividir números já arredondados distorcia o percentual
+        "trilho_vs_carro": round(100 * trilho_co2 / carro_co2, 1) if carro_co2 else None,
         "premissas": [
             f"fator da eletricidade de {_br(round(fator_sin * 1000, 1))} g de CO₂ por kWh (média do país em 2025, MCTI)",
             f"metrô gasta {_br(kwh_pkm)} kWh por passageiro por km (Relatório Integrado 2025); trem usa o mesmo valor, pois a CPTM não publicou o dela",

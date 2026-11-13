@@ -37,12 +37,16 @@ def resolver(df=None) -> dict:
     print(f"z = ({media:.2f} − {media:.2f}) / {desvio:.2f} = {z_media:.4f}")
     print(f"P(X < {media:.2f}) = Φ({z_media:.4f}) = {p_a:.4f}  ({p_a * 100:.2f}%)")
     print(f"Classificação: {comum.classificar_probabilidade(p_a)}")
+    real_abaixo = float((x < media).mean())
+    massa_negativa = float(normal.cdf(0))
     comum.interpretacao(f"""
         O resultado é exatamente 0,5 por construção: a normal é simétrica em torno da média, então
-        metade da massa fica de cada lado. Em palavras, assumindo normalidade, uma estação sorteada
-        tem 50% de chance de ter menos de {media:.0f} ocorrências no entorno.
-        Este item serve de prova de consistência do modelo: qualquer valor diferente de 0,5 indicaria
-        erro de cálculo.
+        metade da massa fica de cada lado. Assumindo normalidade, uma estação sorteada teria 50% de
+        chance de ter menos de {media:.0f} ocorrências no entorno.
+        O dado real não é simétrico: {real_abaixo * 100:.1f}% das 139 estações ficam abaixo da média,
+        não 50%. E a normal com σ = {desvio:.0f} coloca {massa_negativa * 100:.1f}% da probabilidade em
+        valores negativos, que são impossíveis para uma contagem de ocorrências. As duas coisas mostram
+        que a normalidade pedida pelo enunciado é uma aproximação grosseira para esta variável.
     """)
 
     # ---- b) P(X > mediana)
@@ -65,6 +69,7 @@ def resolver(df=None) -> dict:
 
     _grafico(x, media, mediana, desvio, normal)
     return {"n": int(len(x)), "media": float(media), "mediana": float(mediana), "desvio_populacional": float(desvio),
+            "proporcao_real_abaixo_da_media": real_abaixo, "massa_normal_negativa": massa_negativa,
             "a_P_menor_que_media": p_a, "a_classificacao": comum.classificar_probabilidade(p_a),
             "b_P_maior_que_mediana": p_b, "b_classificacao": comum.classificar_probabilidade(p_b),
             "b_z": float(z_mediana)}
