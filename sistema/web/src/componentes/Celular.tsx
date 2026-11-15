@@ -2,7 +2,7 @@ import { BatteryFull, Laptop, Signal, Smartphone, Wifi } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { useApp } from "../App";
-import { CORES_DAS_MATERIAS, type Passo } from "../lib/api";
+import { CORES_DAS_MATERIAS, mobilidade, type LinhaInfo, type Passo } from "../lib/api";
 import { AvisoNoAparelho } from "./Auxilia";
 import { useMenu } from "./Casca";
 import { ProvedorConversa, useConversa } from "./conversa";
@@ -69,6 +69,34 @@ function BarraDeStatus() {
   );
 }
 
+/** Para a banca e para a gravação do pitch: uma falha de linha de mentira e o aviso que chegaria antes de sair.
+ *  Vale só para esta tela (não muda nada para os outros visitantes) e aparece marcada como simulação no app. */
+function Simular() {
+  const { simular, setSimular, simularAviso } = useConversa();
+  const [linhas, setLinhas] = useState<LinhaInfo[]>([]);
+  useEffect(() => {
+    mobilidade.estacoes().then((r) => setLinhas(r.linhas.filter((l) => l.numero !== "7"))).catch(() => setLinhas([]));
+  }, []);
+  return (
+    <div className="space-y-2.5 rounded-xl border border-linha bg-superficie p-3">
+      <p className="text-[14px] font-bold">Simular para demonstrar</p>
+      <label className="block text-[13px]">
+        <span className="font-semibold">Falha numa linha</span>
+        <select value={simular} onChange={(e) => setSimular(e.target.value)}
+          className="mt-1 w-full rounded-lg border border-linha bg-superficie px-2 py-1.5 text-[13px] focus:border-marca focus:outline-none">
+          <option value="">Nenhuma: situação real</option>
+          {linhas.map((l) => <option key={l.numero} value={l.numero}>Linha {l.numero}-{l.nome}</option>)}
+        </select>
+      </label>
+      <button type="button" onClick={() => void simularAviso()}
+        className="w-full rounded-full px-3 py-1.5 text-[13px] font-semibold text-marca-forte ring-1 ring-marca/40 ring-inset hover:bg-marca-suave">
+        Mostrar o aviso antes de sair
+      </button>
+      <p className="text-[12px] text-apagado">O aviso usa a última viagem conferida com a Lia. O que for simulado aparece marcado como simulação.</p>
+    </div>
+  );
+}
+
 function PorTrasDaTela() {
   const { rastro } = useConversa();
   const passos = rastro.length ? rastro : PADRAO;
@@ -85,6 +113,7 @@ function PorTrasDaTela() {
           ))}
         </ol>
       </div>
+      <Simular />
       <p className="mt-auto text-[12px] text-apagado">Fontes ao vivo: situação das linhas (agregador público), INMET, CGE da Prefeitura. Base: GTFS da SPTrans, SSP-SP, GeoSampa.</p>
     </aside>
   );

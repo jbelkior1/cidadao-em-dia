@@ -20,7 +20,7 @@ Esta página descreve o que a plataforma faz, tela por tela, e as regras por tr�
 | **Matérias** | Uma página por matéria com três partes: **Entenda** (o que faz, a entrega e os arquivos no GitHub), **Teste** (o núcleo da matéria rodando) e **Checklist** (o que o enunciado pede e o que está pronto). |
 | **Documentação funcional** | Esta página. |
 
-O **Modo banca**, no rodapé da barra lateral, abre ao lado do app o painel "Por trás da tela": qual matéria fez cada parte da última resposta.
+O **Modo banca**, no rodapé da barra lateral, abre ao lado do app (em tela grande) o painel "Por trás da tela": qual matéria fez cada parte da última resposta e o quadro **Simular para demonstrar**, que liga uma falha de mentira numa linha e mostra o aviso que chegaria antes de sair. A simulação vale só para quem está usando a tela e aparece marcada como simulação no app.
 
 ## 3. O app Dá Tempo?
 

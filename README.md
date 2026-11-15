@@ -37,7 +37,7 @@ Na plataforma, cada matéria tem uma página com **Entenda** (o que faz, a entre
 | **Matérias** | Uma página por matéria: Entenda, Teste e Checklist |
 | **Documentação funcional** | Tudo o que a plataforma faz, tela por tela ([`docs/DOCUMENTACAO_FUNCIONAL.md`](docs/DOCUMENTACAO_FUNCIONAL.md)) |
 
-O **Modo banca** mostra, ao lado do app, qual matéria fez cada parte da última resposta.
+O **Modo banca** mostra, ao lado do app, qual matéria fez cada parte da última resposta, e permite simular uma falha de linha e o aviso antes de sair (marcados como simulação).
 
 ## Como rodar no computador
 
