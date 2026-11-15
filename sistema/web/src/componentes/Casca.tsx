@@ -1,4 +1,4 @@
-import { FlaskConical, Info, LayoutDashboard, Menu, MessageCircle, SlidersHorizontal, X, type LucideIcon } from "lucide-react";
+import { BookOpen, Compass, FlaskConical, Menu, SlidersHorizontal, Smartphone, X, type LucideIcon } from "lucide-react";
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -6,30 +6,48 @@ import { useApp } from "../App";
 import { CORES_DAS_MATERIAS, MATERIAS_DO_SISTEMA } from "../lib/api";
 import { MarcaDaTempo } from "./Logo";
 
+/*
+ * A plataforma que os professores usam, de cima para baixo: como funciona, o sistema (o app,
+ * em formato de celular), o teste da sociedade, as oito matérias e, no fim, a documentação.
+ * Configurações de IA só aparece no computador da equipe: no servidor público a IA é fixa.
+ */
 type Item = { rotulo: string; para: string; icone?: LucideIcon; cor?: string };
-const GRUPOS: { titulo: string; itens: Item[] }[] = [
-  { titulo: "O sistema", itens: [{ rotulo: "Dá Tempo?", para: "/", icone: MessageCircle }] },
-  { titulo: "A sociedade", itens: [{ rotulo: "Simulação da sociedade", para: "/sociedade", icone: FlaskConical }] },
-  {
-    titulo: "As matérias",
-    itens: [
-      { rotulo: "Case norteador", para: "/caso", icone: Info },
-      { rotulo: "Painel da equipe", para: "/materias", icone: LayoutDashboard },
-      ...MATERIAS_DO_SISTEMA.map((m) => ({ rotulo: `${m.cod} · ${m.curto}`, para: `/materias/${m.cod.toLowerCase()}`, cor: CORES_DAS_MATERIAS[m.cod] })),
-    ],
-  },
-  { titulo: "Configurações", itens: [{ rotulo: "Configurações de IA", para: "/configuracoes", icone: SlidersHorizontal }] },
-];
+type Grupo = { titulo: string; itens: Item[] };
+
+function grupos(local: boolean): Grupo[] {
+  return [
+    {
+      titulo: "A plataforma",
+      itens: [
+        { rotulo: "Como funciona", para: "/", icone: Compass },
+        { rotulo: "Sistema: o app Dá Tempo?", para: "/sistema", icone: Smartphone },
+        { rotulo: "Teste da sociedade", para: "/sociedade", icone: FlaskConical },
+      ],
+    },
+    {
+      titulo: "As matérias",
+      itens: MATERIAS_DO_SISTEMA.map((m) => ({ rotulo: `${m.cod} · ${m.curto}`, para: `/materias/${m.cod.toLowerCase()}`, cor: CORES_DAS_MATERIAS[m.cod] })),
+    },
+    {
+      titulo: "Referência",
+      itens: [
+        { rotulo: "Documentação funcional", para: "/documentacao", icone: BookOpen },
+        ...(local ? [{ rotulo: "Configurações de IA", para: "/configuracoes", icone: SlidersHorizontal }] : []),
+      ],
+    },
+  ];
+}
+
 const TITULOS: Record<string, string> = {
-  "/": "O sistema · Dá Tempo?",
-  "/sociedade": "A sociedade usando o sistema",
-  "/caso": "Case norteador",
-  "/materias": "Painel da equipe",
+  "/": "Como funciona",
+  "/sistema": "Sistema · Dá Tempo?",
+  "/sociedade": "Teste da sociedade",
+  "/documentacao": "Documentação funcional",
   "/configuracoes": "Configurações de IA",
 };
 
 /** Rotas que aparecem dentro do celular. */
-export const ROTAS_DO_APP = ["/"];
+export const ROTAS_DO_APP = ["/sistema"];
 
 const ContextoMenu = createContext<{ abrirMenu: () => void }>({ abrirMenu: () => {} });
 /** O app abre a gaveta do sistema pelo botão da barra dele (no celular de verdade). */
@@ -54,9 +72,10 @@ function Marca() {
 }
 
 function Navegacao({ aoNavegar }: { aoNavegar?: () => void }) {
+  const { ia } = useApp();
   return (
     <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-5" aria-label="Principal">
-      {GRUPOS.map((grupo) => (
+      {grupos(ia ? !ia.modo_publico : false).map((grupo) => (
         <div key={grupo.titulo} className="space-y-1">
           <p className="px-3 pb-1 text-[11px] font-semibold tracking-wider text-apagado uppercase">{grupo.titulo}</p>
           {grupo.itens.map((item) => (
@@ -114,8 +133,7 @@ export default function Casca({ children }: { children: ReactNode }) {
   const [menuAberto, setMenuAberto] = useState(false);
   const { ia } = useApp();
   const { pathname } = useLocation();
-  // qualquer endereço desconhecido também abre o app (é a rota "*")
-  const ehApp = ROTAS_DO_APP.includes(pathname) || (!(pathname in TITULOS) && !pathname.startsWith("/materias/"));
+  const ehApp = ROTAS_DO_APP.includes(pathname);
   const soNoComputador = ehApp ? "hidden lg:flex" : "flex";
 
   return (

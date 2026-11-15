@@ -13,6 +13,8 @@ export type EstadoIA = {
   provedores: Record<string, Provedor>;
   ligada: boolean;
   uso: { dia: string; chamadas: number; tokens_entrada: number; tokens_saida: number };
+  /** Servidor público: configuração de IA fixa e checklist só para leitura. */
+  modo_publico?: boolean;
 };
 export type TesteIA = { ok: boolean; erro: string; modelos: string[]; resposta?: string; ms?: number };
 
@@ -21,34 +23,37 @@ export type Materia = {
   regra?: string; ajuda?: string; quando?: string[]; recebe?: string; devolve?: string; nesta_versao?: string; como_testar?: string;
   ver_funcionando?: { rotulo: string; rota: string }[];
   arquivos?: { rotulo: string; caminho: string; url: string }[]; pasta_url?: string;
+  /** Entregas fora do repositório (COA): links que a equipe publica. */
+  links?: { wokwi?: string; video?: string };
 };
 
-export type Status = "Feito" | "Falta conferir" | "A fazer";
+export type Status = "Feito" | "Conferir" | "A fazer";
 export type ItemChecklist = {
-  id: string; requisito: string; detalhe: string; peso: string; fonte: string; quem: "código" | "grupo"; onde: string; como: string; status: Status;
+  id: string; requisito: string; criterio?: string; quem: "sistema" | "equipe"; onde: string; onde_url?: string; como: string; status: Status;
 };
+export type SecaoChecklist = { titulo: string; itens: ItemChecklist[] };
 export type Andamento = { total: number; prontos: number; faltam: number; percentual: number };
 export type ResumoChecklist = {
-  total: number; por_status: Record<Status, number>; percentual: number; do_grupo: number;
-  por_quem: { codigo: Andamento; grupo: Andamento };
+  total: number; por_status: Record<Status, number>; percentual: number;
+  por_quem: { sistema: Andamento; equipe: Andamento };
 };
 export type ChecklistMateria = {
-  nome: string; formato_entrega: string; prazo: string; rubrica?: { criterio: string; pontos: string }[]; itens: ItemChecklist[]; resumo: ResumoChecklist;
+  nome: string; formato_entrega: string; prazo: string; rubrica?: { criterio: string; pontos: string }[];
+  secoes: SecaoChecklist[]; observacoes?: string[]; resumo: ResumoChecklist;
 };
 export type DadosMateria = {
-  materia: Materia; no_sistema: boolean; checklist: ChecklistMateria | null; status: Status[];
+  materia: Materia; no_sistema: boolean; checklist: ChecklistMateria | null; status: Status[]; editavel: boolean;
   situacao: { ok: boolean; erro: string; orientacoes?: number; categorias?: number; em_conferencia?: number; registros?: number } | null;
-};
-export type Painel = {
-  dias: number; prazo: string; geral: ResumoChecklist; atualizado_em: string;
-  materias: ({ cod: string; nome: string; cor: string; no_sistema: boolean } & ResumoChecklist)[];
-  regras: { requisito: string; detalhe?: string; fonte?: string }[]; alertas: string[]; divergencias: string[];
 };
 
 export type TestePCP = {
   ok: boolean; erro: string; bloqueada: boolean;
   resultados: { pontos: number; confianca: string; id: number; titulo: string; categoria: string; palavras_chave: string[]; palavras_titulo: string[] }[];
   base: { id: number; titulo: string; categoria: string; palavras_chave: string[]; em_conferencia: boolean }[];
+  /** A pergunta como normalizar() a vê, e a orientação que o assistente mostraria (null se não encontrou). */
+  normalizada?: string;
+  escolhida?: { id: number; titulo: string; categoria: string; resposta: string; documentos: string[]; onde: string; fonte: string; verificado_em: string; em_conferencia: boolean } | null;
+  aviso?: string;
 };
 export type TestePAI = {
   ok: boolean; erro?: string;
@@ -58,11 +63,35 @@ export type TestePAI = {
 };
 export type NoDSA ={ id: string; titulo: string; categoria: string; prazo: string; publico_alvo: string; canal: string };
 export type EstadoDSA = { ok: boolean; mensagem: string; tamanho: number; nos: NoDSA[]; achados: string[]; cabeca: string | null; cauda: string | null };
-export type TesteSERS = NonNullable<Energia> & { passos: string[]; falta: string };
+export type TesteSERS = NonNullable<Energia> & {
+  passos: string[];
+  mensal: { viagens: number; dias_uteis: number; modos: { modo: string; renovavel: boolean; energia_kwh: number | null; co2_kg: number; co2_kg_max: number | null; custo_rs: number; custo_tipo: string }[] };
+};
+export type ResultadosMLAM = {
+  q02: { media: number; mediana: number; desvio: number; p_menor_media: number; classe_a: string; p_maior_mediana: number; classe_b: string };
+  q03: { item: string; lado: string; alfa: number; n: number; media_amostral: number; z: number; z_critico: number; p_valor: number; rejeita_h0: boolean }[];
+  q04: { equacao: string; covariancia: number; pearson_r: number; r2: number; F: number; F_p: number; previsao_km: number; previsao: number };
+  q05: { equacao: string; r2: number; r2_ajustado: number; F: number; F_p: number; previsao: number; explicativas: string[] };
+  q06: { coeficientes: Record<string, number>; matriz: { vn: number; fp: number; fn: number; vp: number }; acuracia: number; piso: number;
+         classificacao: { nome: string; probabilidade: number; classe: string } | null };
+};
 export type TesteMLAM = {
   ok: boolean; mensagem?: string; meta: { fonte: string; periodo: string; raio_m: number; observacao: string }; estacoes: number;
   faixas: Record<string, number>; tipos: Record<string, number>;
-  ranking: { estacao: string; linhas: string[]; total: number; faixa_mais_comum: string }[]; falta: string;
+  ranking: { estacao: string; linhas: string[]; total: number; faixa_mais_comum: string }[];
+  questoes: ResultadosMLAM | null;
+};
+export type MmcEtapa1 = {
+  ok: boolean; mensagem?: string; equacoes: { texto: string; coeficientes: number[]; valor: number }[]; determinante: number; posto_a: number; posto_ampliada: number;
+  unica: boolean; conclusao: string; frota?: Record<string, number>; inteira?: boolean; nao_negativa?: boolean; conferencia?: string[];
+};
+export type MmcNecessidade = {
+  capacidade: number; passageiros: Record<string, number>; atual: Record<string, number>; necessidade: Record<string, number>;
+  diferenca: Record<string, number>; total_atual: number; total_necessario: number;
+};
+export type MmcMatriz = {
+  ok: boolean; mensagem?: string; somas_das_colunas: number[]; preserva_total: boolean; sem_entrada_negativa: boolean;
+  nova_distribuicao: Record<string, number>; inteira: boolean; total_antes: number; total_depois: number; atende: Record<string, boolean>; necessidade: Record<string, number>;
 };
 export type TesteCS = { entradas: { falha: boolean; chuva: boolean; alagamento: boolean; pico: boolean }; codigo: string; texto: string; regra_provisoria: boolean; aviso: string };
 
@@ -107,8 +136,8 @@ export const api = {
   salvarIA: (corpo: Record<string, unknown>) => pedir<EstadoIA>("/api/config/ia", { method: "PUT", body: JSON.stringify(corpo) }),
   testarIA: () => pedir<TesteIA>("/api/config/ia/testar", { method: "POST" }),
   materias: () => pedir<Materias>("/api/materias"),
+  documentacao: () => pedir<{ texto: string }>("/api/documentacao"),
   materia: (cod: string) => pedir<DadosMateria>(`/api/materias/${cod}`),
-  painel: () => pedir<Painel>("/api/painel"),
   mudarItem: (cod: string, id: string, mudancas: Partial<Pick<ItemChecklist, "status" | "onde" | "como">>) =>
     pedir<{ item: ItemChecklist; resumo: ResumoChecklist }>(`/api/checklist/${cod}/${id}`, { method: "PATCH", body: JSON.stringify(mudancas) }),
   testePCP: (pergunta: string) => pedir<TestePCP>("/api/teste/pcp", { method: "POST", body: JSON.stringify({ pergunta }) }),
@@ -188,6 +217,9 @@ export const mobilidade = {
     pedir<PlanoDoDia>(`/api/mobilidade/plano?origem=${encodeURIComponent(origem)}&destino=${encodeURIComponent(destino)}${simular ? `&simular=${simular}` : ""}`),
   testeCS: (entradas: TesteCS["entradas"]) => pedir<TesteCS>("/api/teste/cs", { method: "POST", body: JSON.stringify(entradas) }),
   testeMLAM: () => pedir<TesteMLAM>("/api/teste/mlam"),
+  mmcEtapa1: (lados?: number[]) => pedir<MmcEtapa1>("/api/teste/mmc", { method: "POST", body: JSON.stringify({ etapa: 1, lados }) }),
+  mmcNecessidade: () => pedir<MmcNecessidade>("/api/teste/mmc", { method: "POST", body: JSON.stringify({ etapa: 2 }) }),
+  mmcMatriz: (matriz: number[][]) => pedir<MmcMatriz>("/api/teste/mmc", { method: "POST", body: JSON.stringify({ etapa: 2, matriz }) }),
 };
 
 /* ---------------------------------------------------------------- assistente */
@@ -200,7 +232,11 @@ export type CartaoPlano = {
   desvio: { recomendacao: "desviar" | "esperar"; texto: string; rota: RotaCartao | null; acrescimo_min: number | null } | null;
   minutos: number; atraso_min: number; chegada: string | null;
   seguranca: Partial<Record<"saida" | "chegada", { estacao: string; total: number; faixa: string }>>;
-  energia: { km: number; trilho_g: number; carro_kg: number; carro_custo: number; tarifa: number; percentual: number | null } | null;
+  energia: {
+    km: number; trilho_g: number; carro_kg: number; carro_kg_max: number | null; carro_custo: number; tarifa: number;
+    onibus_g: number; onibus_tarifa: number; percentual: number | null; rotulo: string; renovavel: string;
+    premissas: string[]; fontes: { nome: string; url: string }[];
+  } | null;
   situacao: Record<string, { nome: string; nivel: Nivel; simulado: boolean; status: string }>;
   avisos: { tipo: "chuva" | "alagamento" | "pico" | "sem_dado"; texto: string }[];
   problemas: string[];

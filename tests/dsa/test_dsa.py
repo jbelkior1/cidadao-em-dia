@@ -204,6 +204,13 @@ class TesteCatalogo(unittest.TestCase):
             self.assertFalse(resultado[0])
             self.assertIn("vazia", resultado[1])
 
+    def test_excluir_id_vazio(self):
+        c = catalogo_com_tres()
+        ok, msg, _ = c.excluir("   ")
+        self.assertFalse(ok)
+        self.assertEqual(msg, "Informe um identificador.")
+        self.assertEqual(len(c.listar()[2]), 3)
+
     def test_consultar_e_nao_encontrado(self):
         c = catalogo_com_tres()
         ok, _, s = c.consultar("a1")

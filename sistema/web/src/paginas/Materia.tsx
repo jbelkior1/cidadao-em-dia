@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Checklist from "../componentes/Checklist";
 import Fluxograma from "../componentes/Fluxograma";
-import { TesteCs, TesteDsa, TesteEmConstrucao, TesteMlam, TestePai, TestePcp, TesteSers } from "../componentes/Testes";
+import { TesteCoa, TesteCs, TesteDsa, TesteMlam, TesteMmc, TestePai, TestePcp, TesteSers } from "../componentes/Testes";
 import { api, type DadosMateria, type ResumoChecklist } from "../lib/api";
 
 const PARTES = ["Entenda", "Teste", "Checklist da entrega"] as const;
@@ -36,7 +36,7 @@ function Entrega({ m }: { m: DadosMateria["materia"] }) {
       )}
       {arquivos.length > 0 && (
         <div className="space-y-2">
-          <p className="text-[13px] font-semibold text-apagado">Arquivos no GitHub (ramo sistema-localhost)</p>
+          <p className="text-[13px] font-semibold text-apagado">Arquivos no GitHub</p>
           <ul className="grid gap-1.5 sm:grid-cols-2">
             {arquivos.map((a) => (
               <li key={a.caminho}>
@@ -131,32 +131,24 @@ function Teste({ dados }: { dados: DadosMateria }) {
       {cod === "SERS" && <TesteSers />}
       {cod === "MLAM" && <TesteMlam />}
       {cod === "PAI" && <TestePai />}
-      {(cod === "MMC" || cod === "COA") && <TesteEmConstrucao cod={cod} />}
+      {cod === "MMC" && <TesteMmc />}
+      {cod === "COA" && <TesteCoa links={dados.materia.links} />}
     </div>
   );
 }
 
-const VAZIO = { total: 0, prontos: 0, faltam: 0, percentual: 0 };
-
-/** Duas barras separadas: o código (escrito no repositório) e o que só a equipe faz. Um número só
- *  engana: uma matéria com o código inteiro pronto aparecia pela metade por causa de vídeo e RM. */
+/** Duas barras separadas: o que está no repositório e o que só a equipe faz. Um número só
+ *  engana: uma matéria com o código inteiro pronto aparecia pela metade por causa de vídeo e envio. */
 function Andamento({ resumo }: { resumo: ResumoChecklist }) {
-  const { codigo, grupo } = resumo.por_quem ?? { codigo: VAZIO, grupo: VAZIO };   // API antiga não manda por_quem
+  const { sistema, equipe } = resumo.por_quem;
   const barras = [
-    { rotulo: "Código no repositório", dado: codigo, cor: "bg-ok" },
-    { rotulo: "Equipe (vídeo, testes, RM, envio)", dado: grupo, cor: "bg-marca" },
+    { rotulo: "No repositório", dado: sistema, cor: "bg-ok" },
+    { rotulo: "Da equipe (vídeo, testes, envio)", dado: equipe, cor: "bg-marca" },
   ].filter((b) => b.dado.total > 0);
-  if (!barras.length) {
-    return (
-      <p className="text-[14px] text-apagado">
-        Checklist: <span className="font-semibold text-tinta">{resumo.percentual}%</span> · {resumo.por_status.Feito} de {resumo.total}
-      </p>
-    );
-  }
   return (
     <div className="space-y-2">
       <p className="text-[14px] text-apagado">
-        Checklist da entrega: <span className="font-semibold text-tinta">{resumo.total} itens</span> do enunciado
+        Checklist da entrega: <span className="font-semibold text-tinta">{resumo.total} itens</span> do enunciado, {resumo.por_status.Feito} feitos
       </p>
       <div className="grid max-w-xl gap-1.5">
         {barras.map(({ rotulo, dado, cor }) => (
@@ -171,8 +163,8 @@ function Andamento({ resumo }: { resumo: ResumoChecklist }) {
           </div>
         ))}
       </div>
-      {codigo.total > 0 && codigo.faltam === 0 && (
-        <p className="text-[13px] text-ok">O código desta matéria está escrito e rodando. O que falta é da equipe.</p>
+      {sistema.total > 0 && sistema.faltam === 0 && (
+        <p className="text-[13px] text-ok">A parte desta matéria no repositório está pronta e conferida. O que falta é da equipe.</p>
       )}
     </div>
   );
@@ -218,7 +210,7 @@ export default function Materia() {
         {parte === "Teste" && <Teste dados={dados} />}
         {parte === "Checklist da entrega" &&
           (dados.checklist ? (
-            <Checklist key={m.cod} cod={m.cod} dados={dados.checklist} cor={m.cor} />
+            <Checklist key={m.cod} cod={m.cod} dados={dados.checklist} editavel={dados.editavel} />
           ) : (
             <p className="rounded-xl border border-dashed border-linha bg-superficie p-5 text-apagado">O checklist desta matéria ainda não foi gerado.</p>
           ))}

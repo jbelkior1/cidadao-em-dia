@@ -1,0 +1,17 @@
+MLAM: COMO ENVIAR (arquivo só para a equipe; NÃO vai ao portal)
+
+O enunciado proíbe links e aceita só estes formatos: base em .csv, códigos em .py e relatório em .pdf.
+Por isso a MLAM não tem .txt de entrega nem link do sistema. Nome completo e RM dos três estão na capa do PDF e no cabeçalho dos .py.
+
+Um representante posta direto no portal, soltos, os arquivos da pasta MLAM_para_enviar (gerada por python scripts/montar_entregas.py):
+- ocorrencias_estacoes_2026.csv (a base)
+- comum.py, main.py, preparar_base.py e questao02 a questao07 (.py)
+- relatorio_mlam_gs2026.pdf (o relatório da questão 07)
+
+Antes de enviar:
+1. Conferir no portal quantos arquivos e quais tipos ele aceita (são 9 .py, 1 .csv e 1 .pdf).
+2. Conferir o cadastro do grupo na entrega (2,0 pontos de desconto por cadastro ou entrega inadequados).
+3. Não enviar README, LEIA-ME, .png, .json nem .txt.
+4. Prazo: 19/11/2026, adotar 23h55. Depois do prazo o portal não aceita envio nem troca de arquivo.
+
+Os .py rodam com os arquivos soltos na mesma pasta: o comum.py acha o .csv em dados/ ou ao lado dos scripts. Ordem: python main.py e depois python questao07_relatorio.py.

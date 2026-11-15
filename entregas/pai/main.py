@@ -81,9 +81,9 @@ def responder_e_mostrar(pergunta: str) -> None:
     print("...consultando as fichas")
     try:
         r = agente.responder(pergunta)
-    except Exception as e:
+    except Exception:
         print()
-        quebrar(f"Não consegui responder agora ({type(e).__name__}). Tente de novo em instantes.")
+        quebrar("Não consegui responder agora. Tente de novo em instantes.")   # sem termo técnico para quem usa
         return
     print()
     risca()

@@ -3,24 +3,29 @@
 Uma pasta por matéria que entrega código. Cada uma tem o próprio README, roda sozinha e aponta onde
 está sua parte no repositório compartilhado, como os enunciados pedem.
 
-| matéria | pasta | como rodar | código |
-|---|---|---|---|
-| **PCP** · Pensamento Computacional | [`pcp/citizen-assist-ai/`](pcp/citizen-assist-ai/) | `python main.py` | pronto |
-| **DSA** · Data Structures | [`dsa/`](dsa/) | `python main.py` | pronto |
-| **SERS** · Energias Renováveis | [`sers/`](sers/) | `python comparar_energia.py` | pronto |
-| **MLAM** · Modelagem Linear | [`mlam/`](mlam/) | `python main.py` | pronto |
-| **PAI** · Prompt and AI | [`pai/`](pai/) | `python main.py` · `python avaliar.py` | pronto |
+| matéria | pasta | como rodar |
+|---|---|---|
+| **PCP** · Pensamento Computacional | [`pcp/citizen-assist-ai/`](pcp/citizen-assist-ai/) | `python main.py` |
+| **DSA** · Data Structures | [`dsa/`](dsa/) | `python main.py` |
+| **SERS** · Energias Renováveis | [`sers/`](sers/) | `python comparar_energia.py` |
+| **MLAM** · Modelagem Linear | [`mlam/`](mlam/) | `python main.py` e `python questao07_relatorio.py` |
+| **PAI** · Prompt and AI | [`pai/`](pai/) | `python main.py` e `python rodar_antes_e_depois.py --so-enunciado` |
 
 **CS**, **MMC** e **COA** não entregam código neste repositório: são feitas à parte, à mão ou no
-Wokwi, no formato do enunciado de cada uma. Elas continuam com página, teste e checklist no sistema.
+Wokwi, no formato do enunciado de cada uma. Elas têm página com explicação, teste e checklist na plataforma.
 
-## O que "pronto" quer dizer aqui
+## Como cada matéria vai ao portal
 
-Só que **o código está escrito e rodando**. Cada enunciado pede também coisas que só a equipe faz:
-gravar o vídeo, testar com pessoas de fora, preencher nome e RM, criar o repositório público, conferir
-cada fonte e enviar no portal. O andamento completo, item por item, está no sistema, em
-**Painel da equipe** e no **Checklist da entrega** de cada matéria, separado entre o que é código e o
-que é da equipe.
+O formato de envio muda de matéria para matéria (PCP e SERS: só um .txt; MLAM: .csv, .py e .pdf sem
+links; DSA e PAI: formato livre). O guia e os arquivos prontos estão em [`portal/`](portal/README.md).
+
+## O que está pronto e o que é da equipe
+
+O código e a documentação de PCP, DSA, SERS, MLAM e PAI estão escritos, testados e conferidos contra o
+enunciado. Cada enunciado pede também o que só a equipe faz: gravar os vídeos, testar com pessoas de
+fora, conferir as fontes oficiais, criar o repositório público do PCP e enviar no portal. O andamento,
+item por item, está no **Checklist** de cada matéria na plataforma, separado entre o que está no
+repositório e o que é da equipe.
 
 ## Onde fica a parte de cada matéria dentro do sistema
 

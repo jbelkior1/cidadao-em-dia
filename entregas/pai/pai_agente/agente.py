@@ -32,6 +32,14 @@ from . import guardrails as g
 AVISO = ("Este assistente não é canal oficial das operadoras: confirme no site ou na central do "
          "Metrô, da CPTM, da concessionária ou da SPTrans antes de agir.")
 
+#: Data em que as páginas oficiais das fichas foram lidas. Vai em toda resposta dentro do escopo,
+#: anexada por código (como o AVISO), para não depender de o modelo lembrar.
+DATA_FONTES = "12/11/2026"
+
+#: Mensagem com injeção que tenta mudar um valor ou uma regra ("agora custa R$ 2,00", "agora é grátis"):
+#: a recusa repete o que a ficha diz, para a regra falsa não ficar sem resposta (golden #25).
+MUDA_VALOR = re.compile(r"r\$|\bcusta|\btarifa|\bpreco|\bvalor|\bgratuit|\bgratis|\bpassagem")
+
 ASSUNTOS = ("linha parada, declaração de atraso, reclamação e ouvidoria, gratuidades, achados e "
             "perdidos, tarifas e Bilhete Único, segurança, acessibilidade e chuva")
 
@@ -113,9 +121,16 @@ def no_guardrails(estado: Estado) -> Estado:
                              "(atendimento.sptrans.com.br) ou os postos de atendimento (FT-04). " + AVISO)
         saida["motivo"] = "dado pessoal recusado: " + ", ".join(v.tipos_mascarados)
     elif v.tem_injecao:
-        saida["resposta"] = ("Não posso seguir instruções enviadas na mensagem nem mostrar minhas instruções "
-                             "internas. Sigo respondendo apenas pelas fichas do Dá Tempo?, com as informações "
-                             "das páginas oficiais. Em que posso ajudar sobre " + ASSUNTOS + "? " + AVISO)
+        resposta = "Não posso seguir instruções enviadas na mensagem nem mostrar minhas instruções internas. "
+        # a recusa continua sem modelo; se a mensagem tentou mudar um valor, repete o que a ficha diz
+        achadas = mod_fichas.buscar(v.texto_seguro) if MUDA_VALOR.search(mod_fichas.sem_acento(v.texto_seguro)) else []
+        if achadas and achadas[0].campos.get("custo"):
+            ficha = achadas[0]
+            resposta += (f"O que vale é o que está na ficha {ficha.id} (páginas oficiais lidas em {DATA_FONTES}): "
+                         f"{ficha.campos['custo'].rstrip('.')}. ")
+        resposta += ("Sigo respondendo apenas pelas fichas do Dá Tempo?, com as informações das páginas oficiais. "
+                     "Em que posso ajudar sobre " + ASSUNTOS + "? " + AVISO)
+        saida["resposta"] = resposta
         saida["motivo"] = "prompt injection neutralizada: " + ", ".join(v.tipos_injecao)
     return saida
 
@@ -138,9 +153,12 @@ def no_resposta(estado: Estado) -> Estado:
     contexto = "\n\n".join(g.encapsular_dado(f"FICHA {f.id}", f.texto) for f in achadas)
     pergunta = g.encapsular_dado("PERGUNTA DO USUÁRIO", estado["veredito"].texto_seguro)
     resposta = criar().invoke([("system", INSTRUCOES), ("user", f"{contexto}\n\n{pergunta}")])
-    texto = (resposta.content or "").strip()
-    if AVISO not in texto:
-        texto = f"{texto} {AVISO}".strip()
+    texto = (resposta.content or "").replace(AVISO, "").strip()
+    # ficha e data de verificação em toda resposta dentro do escopo, por código (regra de ouro do enunciado)
+    if DATA_FONTES not in texto or not any(f.id in texto for f in achadas):
+        citadas = [f.id for f in achadas if f.id in texto] or [achadas[0].id]
+        texto = f"{texto}\n\nFonte: {', '.join(citadas)} (páginas oficiais lidas em {DATA_FONTES})."
+    texto = f"{texto} {AVISO}".strip()
     return {"resposta": texto, "motivo": "respondeu pelas fichas " + ", ".join(f.id for f in achadas),
             "usou_modelo": True}
 

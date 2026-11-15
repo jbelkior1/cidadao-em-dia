@@ -10,7 +10,7 @@ menu, que se repete a cada volta, foi trocado por `[menu]`.
 > **Falta à equipe:** repetir estes cenários na própria máquina e anexar os prints do terminal,
 > como o enunciado pede. Esta transcrição serve de roteiro e de conferência.
 
-Testes automatizados: `python -m unittest discover -s tests/dsa` → 28 testes, OK.
+Testes automatizados: `python -m unittest discover -s tests/dsa` → 29 testes, OK.
 
 ## Resumo
 
@@ -34,6 +34,11 @@ Testes automatizados: `python -m unittest discover -s tests/dsa` → 28 testes, 
 | 16 | Ordenar por prazo | ordenar |
 | 17 | Opção inexistente no menu | opção |
 | 18 | Operação em lista vazia | operação |
+| 19 | Ordenar por prazo com datas diferentes | ordenar |
+| 20 | Estrutura antes e depois de excluir cabeça, fim e nó único | excluir |
+| 21 | Cadastrar com prazo inválido | cadastrar |
+| 22 | Atualizar com título vazio | atualizar |
+| 23 | Excluir com identificador vazio | excluir |
 
 ## 1. Listar com vários registros
 
@@ -685,3 +690,364 @@ Escolha uma opção: 0
 Até logo!
 ```
 
+## 19. Ordenar por prazo com datas diferentes
+
+**Entrada:** `1`, `SRV-201`, `Serviço B`, `Teste`, `Descrição`, `Equipe`, `Balcão`, `2026-12-31`, `(Enter)`, `(Enter)`, `1`, `SRV-202`, `Serviço A`, `Teste`, `Descrição`, `Equipe`, `Balcão`, `2026-03-10`, `(Enter)`, `(Enter)`, `1`, `SRV-203`, `Serviço C`, `Teste`, `Descrição`, `Equipe`, `Balcão`, `2026-07-01`, `(Enter)`, `(Enter)`, `7`, `3`, `0`
+
+**Esperado:** Os três serviços cadastrados vêm primeiro, do prazo mais próximo ao mais distante (2026-03-10, 2026-07-01, 2026-12-31); os 15 serviços da base, que não têm prazo, vão para o fim.
+
+**Observado:**
+
+```text
+15 registro(s) carregado(s).
+
+[menu]
+Escolha uma opção: 1
+Preencha os campos (os marcados com * são obrigatórios).
+*Identificador: SRV-201
+*Título: Serviço B
+*Categoria: Teste
+*Descrição: Descrição
+*Público-alvo: Equipe
+*Canal/local de atendimento: Balcão
+ Prazo (AAAA-MM-DD): 2026-12-31
+ Fonte: 
+ Verificado em: 
+Registro 'SRV-201' cadastrado.
+
+[menu]
+Escolha uma opção: 1
+Preencha os campos (os marcados com * são obrigatórios).
+*Identificador: SRV-202
+*Título: Serviço A
+*Categoria: Teste
+*Descrição: Descrição
+*Público-alvo: Equipe
+*Canal/local de atendimento: Balcão
+ Prazo (AAAA-MM-DD): 2026-03-10
+ Fonte: 
+ Verificado em: 
+Registro 'SRV-202' cadastrado.
+
+[menu]
+Escolha uma opção: 1
+Preencha os campos (os marcados com * são obrigatórios).
+*Identificador: SRV-203
+*Título: Serviço C
+*Categoria: Teste
+*Descrição: Descrição
+*Público-alvo: Equipe
+*Canal/local de atendimento: Balcão
+ Prazo (AAAA-MM-DD): 2026-07-01
+ Fonte: 
+ Verificado em: 
+Registro 'SRV-203' cadastrado.
+
+[menu]
+Escolha uma opção: 7
+Ordenar por: 1 - Título   2 - Identificador   3 - Prazo
+Opção: 3
+Lista ordenada por prazo (crescente).
+SRV-202 | Serviço A | Teste
+SRV-203 | Serviço C | Teste
+SRV-201 | Serviço B | Teste
+SRV-001 | Central de Informações do Metrô | Atendimento
+SRV-002 | Fale Conosco e Ouvidoria do Metrô | Atendimento
+SRV-003 | Declaração de Ocorrências e Direto do Metrô | Informação
+SRV-004 | SMS Segurança do Metrô | Segurança
+SRV-005 | Achados e Perdidos do Metrô | Atendimento
+SRV-006 | Atendimento Preferencial no Metrô | Acessibilidade
+SRV-007 | Central de Relacionamento e Ouvidoria da CPTM | Atendimento
+SRV-008 | Achados e Perdidos da CPTM | Atendimento
+SRV-009 | Canal de Denúncia da CPTM | Segurança
+SRV-010 | Táxi Acessível da CPTM | Acessibilidade
+SRV-011 | Central de atendimento da ViaQuatro e da ViaMobilidade | Atendimento
+SRV-012 | Ouvidoria da Artesp | Atendimento
+SRV-013 | Defesa Civil 199 e alerta por SMS 40199 | Emergência
+SRV-014 | Delegacia Eletrônica da Polícia Civil de SP | Segurança
+SRV-015 | Atende+ da SPTrans | Acessibilidade
+
+[menu]
+Escolha uma opção: 0
+Até logo!
+```
+
+## 20. Estrutura antes e depois de excluir cabeça, fim e nó único
+
+**Entrada:** `3`, `5`, `SRV-001`, `3`, `5`, `SRV-015`, `3`, `5`, `SRV-002`, `5`, `SRV-003`, `5`, `SRV-004`, `5`, `SRV-005`, `5`, `SRV-006`, `5`, `SRV-007`, `5`, `SRV-008`, `5`, `SRV-009`, `5`, `SRV-010`, `5`, `SRV-011`, `5`, `SRV-012`, `5`, `SRV-013`, `3`, `5`, `SRV-014`, `3`, `0`
+
+**Esperado:** Lista inicial com 15 registros; sem a cabeça (SRV-001) a lista começa em SRV-002; sem o fim (SRV-015) termina em SRV-014; depois de excluir SRV-002 a SRV-013 sobra só o SRV-014; excluí-lo deixa a lista vazia.
+
+**Observado:**
+
+```text
+15 registro(s) carregado(s).
+
+[menu]
+Escolha uma opção: 3
+15 registro(s) na lista.
+SRV-001 | Central de Informações do Metrô | Atendimento
+SRV-002 | Fale Conosco e Ouvidoria do Metrô | Atendimento
+SRV-003 | Declaração de Ocorrências e Direto do Metrô | Informação
+SRV-004 | SMS Segurança do Metrô | Segurança
+SRV-005 | Achados e Perdidos do Metrô | Atendimento
+SRV-006 | Atendimento Preferencial no Metrô | Acessibilidade
+SRV-007 | Central de Relacionamento e Ouvidoria da CPTM | Atendimento
+SRV-008 | Achados e Perdidos da CPTM | Atendimento
+SRV-009 | Canal de Denúncia da CPTM | Segurança
+SRV-010 | Táxi Acessível da CPTM | Acessibilidade
+SRV-011 | Central de atendimento da ViaQuatro e da ViaMobilidade | Atendimento
+SRV-012 | Ouvidoria da Artesp | Atendimento
+SRV-013 | Defesa Civil 199 e alerta por SMS 40199 | Emergência
+SRV-014 | Delegacia Eletrônica da Polícia Civil de SP | Segurança
+SRV-015 | Atende+ da SPTrans | Acessibilidade
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-001
+Registro 'SRV-001' excluído.
+
+[menu]
+Escolha uma opção: 3
+14 registro(s) na lista.
+SRV-002 | Fale Conosco e Ouvidoria do Metrô | Atendimento
+SRV-003 | Declaração de Ocorrências e Direto do Metrô | Informação
+SRV-004 | SMS Segurança do Metrô | Segurança
+SRV-005 | Achados e Perdidos do Metrô | Atendimento
+SRV-006 | Atendimento Preferencial no Metrô | Acessibilidade
+SRV-007 | Central de Relacionamento e Ouvidoria da CPTM | Atendimento
+SRV-008 | Achados e Perdidos da CPTM | Atendimento
+SRV-009 | Canal de Denúncia da CPTM | Segurança
+SRV-010 | Táxi Acessível da CPTM | Acessibilidade
+SRV-011 | Central de atendimento da ViaQuatro e da ViaMobilidade | Atendimento
+SRV-012 | Ouvidoria da Artesp | Atendimento
+SRV-013 | Defesa Civil 199 e alerta por SMS 40199 | Emergência
+SRV-014 | Delegacia Eletrônica da Polícia Civil de SP | Segurança
+SRV-015 | Atende+ da SPTrans | Acessibilidade
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-015
+Registro 'SRV-015' excluído.
+
+[menu]
+Escolha uma opção: 3
+13 registro(s) na lista.
+SRV-002 | Fale Conosco e Ouvidoria do Metrô | Atendimento
+SRV-003 | Declaração de Ocorrências e Direto do Metrô | Informação
+SRV-004 | SMS Segurança do Metrô | Segurança
+SRV-005 | Achados e Perdidos do Metrô | Atendimento
+SRV-006 | Atendimento Preferencial no Metrô | Acessibilidade
+SRV-007 | Central de Relacionamento e Ouvidoria da CPTM | Atendimento
+SRV-008 | Achados e Perdidos da CPTM | Atendimento
+SRV-009 | Canal de Denúncia da CPTM | Segurança
+SRV-010 | Táxi Acessível da CPTM | Acessibilidade
+SRV-011 | Central de atendimento da ViaQuatro e da ViaMobilidade | Atendimento
+SRV-012 | Ouvidoria da Artesp | Atendimento
+SRV-013 | Defesa Civil 199 e alerta por SMS 40199 | Emergência
+SRV-014 | Delegacia Eletrônica da Polícia Civil de SP | Segurança
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-002
+Registro 'SRV-002' excluído.
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-003
+Registro 'SRV-003' excluído.
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-004
+Registro 'SRV-004' excluído.
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-005
+Registro 'SRV-005' excluído.
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-006
+Registro 'SRV-006' excluído.
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-007
+Registro 'SRV-007' excluído.
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-008
+Registro 'SRV-008' excluído.
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-009
+Registro 'SRV-009' excluído.
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-010
+Registro 'SRV-010' excluído.
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-011
+Registro 'SRV-011' excluído.
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-012
+Registro 'SRV-012' excluído.
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-013
+Registro 'SRV-013' excluído.
+
+[menu]
+Escolha uma opção: 3
+1 registro(s) na lista.
+SRV-014 | Delegacia Eletrônica da Polícia Civil de SP | Segurança
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: SRV-014
+Registro 'SRV-014' excluído.
+
+[menu]
+Escolha uma opção: 3
+A lista está vazia: nenhum registro cadastrado.
+
+[menu]
+Escolha uma opção: 0
+Até logo!
+```
+
+## 21. Cadastrar com prazo inválido
+
+**Entrada:** `1`, `SRV-102`, `Serviço de teste`, `Teste`, `Descrição`, `Equipe`, `Balcão`, `2026-02-30`, `(Enter)`, `(Enter)`, `3`, `0`
+
+**Esperado:** Recusa o cadastro com mensagem sobre o prazo; a lista continua com 15 registros.
+
+**Observado:**
+
+```text
+15 registro(s) carregado(s).
+
+[menu]
+Escolha uma opção: 1
+Preencha os campos (os marcados com * são obrigatórios).
+*Identificador: SRV-102
+*Título: Serviço de teste
+*Categoria: Teste
+*Descrição: Descrição
+*Público-alvo: Equipe
+*Canal/local de atendimento: Balcão
+ Prazo (AAAA-MM-DD): 2026-02-30
+ Fonte: 
+ Verificado em: 
+Prazo inválido: use uma data real no formato AAAA-MM-DD (ex.: 2026-12-31).
+
+[menu]
+Escolha uma opção: 3
+15 registro(s) na lista.
+SRV-001 | Central de Informações do Metrô | Atendimento
+SRV-002 | Fale Conosco e Ouvidoria do Metrô | Atendimento
+SRV-003 | Declaração de Ocorrências e Direto do Metrô | Informação
+SRV-004 | SMS Segurança do Metrô | Segurança
+SRV-005 | Achados e Perdidos do Metrô | Atendimento
+SRV-006 | Atendimento Preferencial no Metrô | Acessibilidade
+SRV-007 | Central de Relacionamento e Ouvidoria da CPTM | Atendimento
+SRV-008 | Achados e Perdidos da CPTM | Atendimento
+SRV-009 | Canal de Denúncia da CPTM | Segurança
+SRV-010 | Táxi Acessível da CPTM | Acessibilidade
+SRV-011 | Central de atendimento da ViaQuatro e da ViaMobilidade | Atendimento
+SRV-012 | Ouvidoria da Artesp | Atendimento
+SRV-013 | Defesa Civil 199 e alerta por SMS 40199 | Emergência
+SRV-014 | Delegacia Eletrônica da Polícia Civil de SP | Segurança
+SRV-015 | Atende+ da SPTrans | Acessibilidade
+
+[menu]
+Escolha uma opção: 0
+Até logo!
+```
+
+## 22. Atualizar com título vazio
+
+**Entrada:** `4`, `SRV-002`, `1`, `(Enter)`, `2`, `SRV-002`, `0`
+
+**Esperado:** Recusa o título vazio e o SRV-002 continua com o título original.
+
+**Observado:**
+
+```text
+15 registro(s) carregado(s).
+
+[menu]
+Escolha uma opção: 4
+Identificador do registro a atualizar: SRV-002
+Registro encontrado.
+  Identificador: SRV-002
+  Título: Fale Conosco e Ouvidoria do Metrô
+  Categoria: Atendimento
+  Descrição: Registro de manifestações (reclamação, solicitação, elogio) pelo formulário do site, 24 horas, e Ouvidoria como segunda instância, por telefone ou formulário.
+  Público-alvo: Passageiros do Metrô
+  Canal/local de atendimento: site do Metrô (Fale Conosco); Ouvidoria pelos telefones (11) 3291-2890 e (11) 3291-2891, segunda a sexta, das 8h às 16h30 (Carta de Serviços de 2023)
+  Prazo (AAAA-MM-DD): -
+  Fonte: https://www.metro.sp.gov.br/pt_BR/fale-conosco/
+  Verificado em: 2026-11-12
+Qual campo deseja alterar?
+1 - Título
+2 - Categoria
+3 - Descrição
+4 - Público-alvo
+5 - Canal/local de atendimento
+6 - Prazo (AAAA-MM-DD)
+7 - Fonte
+8 - Verificado em
+Número do campo: 1
+Novo valor para 'Título': 
+O campo 'Título' é obrigatório e não pode ficar vazio.
+
+[menu]
+Escolha uma opção: 2
+Identificador: SRV-002
+Registro encontrado.
+  Identificador: SRV-002
+  Título: Fale Conosco e Ouvidoria do Metrô
+  Categoria: Atendimento
+  Descrição: Registro de manifestações (reclamação, solicitação, elogio) pelo formulário do site, 24 horas, e Ouvidoria como segunda instância, por telefone ou formulário.
+  Público-alvo: Passageiros do Metrô
+  Canal/local de atendimento: site do Metrô (Fale Conosco); Ouvidoria pelos telefones (11) 3291-2890 e (11) 3291-2891, segunda a sexta, das 8h às 16h30 (Carta de Serviços de 2023)
+  Prazo (AAAA-MM-DD): -
+  Fonte: https://www.metro.sp.gov.br/pt_BR/fale-conosco/
+  Verificado em: 2026-11-12
+
+[menu]
+Escolha uma opção: 0
+Até logo!
+```
+
+## 23. Excluir com identificador vazio
+
+**Entrada:** `5`, `(Enter)`, `0`
+
+**Esperado:** Mostra 'Informe um identificador.', igual ao consultar, em vez de dizer que o registro '' não foi encontrado.
+
+**Observado:**
+
+```text
+15 registro(s) carregado(s).
+
+[menu]
+Escolha uma opção: 5
+Identificador do registro a excluir: 
+Informe um identificador.
+
+[menu]
+Escolha uma opção: 0
+Até logo!
+```

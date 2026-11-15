@@ -1,14 +1,15 @@
 """De onde vem o modelo de linguagem, e nada mais.
 
-O provedor é trocável de propósito. O enunciado permite Ollama e Groq direto; provedor pago
-(Gemini, OpenAI, Claude) precisa de autorização do professor. O grupo escolheu Gemini, e trocar
-é mudar duas variáveis no `.env`, sem tocar no resto do código.
+O provedor é trocável de propósito. O enunciado permite Ollama e Groq direto; outro provedor
+(Gemini, OpenAI, Claude) precisa de autorização do professor. O grupo usa o Groq, com o modelo
+aberto openai/gpt-oss-120b: está na lista do enunciado, tem camada gratuita e é o mesmo que o app
+usa. Trocar é mudar duas variáveis no `.env` ou no ambiente, sem tocar no resto do código.
 
-A chave NUNCA entra no repositório: ela é lida de `.env` (que está no .gitignore).
+A chave NUNCA entra no repositório: ela é lida do ambiente ou de `.env` (que está no .gitignore).
 
-    PAI_PROVEDOR=gemini          # gemini | groq | ollama
-    PAI_MODELO=gemini-3.1-flash-lite
-    GEMINI_API_KEY=...           # ou GROQ_API_KEY; o Ollama não usa chave
+    PAI_PROVEDOR=groq            # groq | ollama | gemini (gemini só com autorização)
+    PAI_MODELO=openai/gpt-oss-120b
+    GROQ_API_KEY=...             # o Ollama não usa chave
 """
 import os
 from dataclasses import dataclass
@@ -59,7 +60,7 @@ def _chave_do_sistema(provedor: str) -> str:
 
 def chave(provedor: str) -> str:
     """Procura no .env primeiro; se não achar, usa a do app. Nunca é impressa nem gravada."""
-    p = PROVEDORES.get(provedor, PROVEDORES["gemini"])
+    p = PROVEDORES.get(provedor, PROVEDORES["groq"])
     if not p["chave_env"]:
         return "ollama"
     return os.environ.get(p["chave_env"], "") or _chave_do_sistema(provedor)
@@ -81,8 +82,8 @@ def config() -> Config:
         return Config(provedor=_DO_APP["provedor"], modelo=_DO_APP["modelo"], base_url=_DO_APP["base_url"],
                       tem_chave=bool(_DO_APP.get("chave")) or _DO_APP["provedor"] == "ollama", aviso="")
     carregar_env()
-    nome = os.environ.get("PAI_PROVEDOR", "gemini").lower()
-    p = PROVEDORES.get(nome) or PROVEDORES["gemini"]
+    nome = os.environ.get("PAI_PROVEDOR", "groq").lower()
+    p = PROVEDORES.get(nome) or PROVEDORES["groq"]
     return Config(provedor=nome, modelo=os.environ.get("PAI_MODELO", p["modelo"]),
                   base_url=p["base_url"], tem_chave=bool(chave(nome)), aviso=p["aviso"])
 
@@ -91,7 +92,7 @@ def criar(temperatura: float = 0.0):
     """O cliente do modelo, pela interface compatível com OpenAI que os três provedores falam."""
     from langchain_openai import ChatOpenAI
     c = config()
-    p = PROVEDORES.get(c.provedor, PROVEDORES["gemini"])
+    p = PROVEDORES.get(c.provedor, PROVEDORES["groq"])
     k = (_DO_APP.get("chave") or ("ollama" if c.provedor == "ollama" else "")) if _DO_APP else chave(c.provedor)
     if not k:
         raise RuntimeError(f"falta {p['chave_env']} no .env (ou a chave do {c.provedor} em config.local.json)")

@@ -188,8 +188,15 @@ function Plano({ c }: { c: CartaoPlano }) {
                 ) : null;
               })}
               {c.energia && (
-                <p className="flex gap-1.5"><Leaf className="mt-0.5 size-3.5 shrink-0 text-ok" aria-hidden />
-                  <span>De trilho, cerca de {c.energia.trilho_g} g de CO₂ e {reais(c.energia.tarifa)}. De carro, {kg(c.energia.carro_kg)} e {reais(c.energia.carro_custo)} de gasolina.</span></p>
+                <div className="space-y-1">
+                  <p className="flex gap-1.5"><Leaf className="mt-0.5 size-3.5 shrink-0 text-ok" aria-hidden />
+                    <span>De trilho, cerca de {c.energia.trilho_g} g de CO₂ e {reais(c.energia.tarifa)}. De ônibus, {kg(c.energia.onibus_g / 1000)} e {reais(c.energia.onibus_tarifa)}. De carro, {kg(c.energia.carro_kg)} e {reais(c.energia.carro_custo)} de gasolina.</span></p>
+                  <p className="pl-5 font-semibold text-ok">{c.energia.renovavel}</p>
+                  <p className="pl-5 text-[11px] text-apagado">{c.energia.rotulo} Premissas: {c.energia.premissas.join("; ")}.</p>
+                  <p className="pl-5 text-[11px] text-apagado">Fontes: {c.energia.fontes.map((f, i) => (
+                    <span key={f.url}>{i > 0 && "; "}<a href={f.url} target="_blank" rel="noreferrer" className="underline">{f.nome}</a></span>
+                  ))}.</p>
+                </div>
               )}
               <p className="text-[11px] text-apagado">Segurança é contagem de registros, não risco. Energia é estimativa por médias oficiais.</p>
             </div>

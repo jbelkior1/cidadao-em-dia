@@ -1,0 +1,24 @@
+LEIA-ME DA ENTREGA, COMPUTER SCIENCE (GS 2026.2, turma 1CC)
+(modelo para a equipe completar; tudo entre colchetes depende do trabalho feito à mão)
+
+Integrantes:
+- João Vitor Belchior Domingos Leite (RM 572478)
+- João Pedro Pereira Teixeira (RM 569937)
+- Thiago de Oliveira Coelho Souza (RM 568783)
+
+Conteúdo do pacote:
+- [NOME_DO_RELATORIO].pdf: relatório técnico (problema, variáveis com o significado de 0 e 1, regras e referências com data de consulta, tabela-verdade, forma canônica, simplificação por álgebra, De Morgan se necessário, mapa de Karnaugh, circuitos original e simplificado com contagem de portas e resultados dos testes)
+- prints/: capturas da simulação no [logic.ly ou logiccircuit.org] e da execução do programa
+- [NOME_DO_PROGRAMA]: programa com a lógica simplificada
+
+Como executar:
+1. Requisito: [por exemplo, Python 3 instalado].
+2. Rodar: [COMANDO].
+3. Informar as entradas ([VARIÁVEIS]); o programa mostra a orientação. Entrada fora de 0 e 1 pede para tentar de novo.
+
+Avisos:
+- Protótipo acadêmico: não é canal oficial e não confirma concessão de serviços ou direitos.
+- Não coleta dados pessoais.
+- Limitações: [PREENCHER].
+
+Integridade: tabela-verdade, mapa de Karnaugh e circuito foram feitos à mão pela equipe, sem IA (o enunciado tira 4 pontos se a IA fizer essas partes). A IA, se usada, foi só no texto do relatório.

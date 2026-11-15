@@ -1,4 +1,4 @@
-"""O que cada matéria faz na Lia: textos das páginas Entenda e do Painel da equipe.
+"""O que cada matéria faz no Dá Tempo?: textos das páginas das matérias e do Como funciona.
 
 As oito matérias entram no produto. Cada professor continua recebendo a entrega
 no formato do enunciado; o código que ele corrige é o mesmo que roda no app.
@@ -6,10 +6,10 @@ no formato do enunciado; o código que ele corrige é o mesmo que roda no app.
 
 PRAZO_GS = "2026-11-19"
 
-# Repositório público e ramo do sistema: os links das páginas das matérias apontam para cá, para o
+# Repositório público e ramo principal: os links das páginas das matérias apontam para cá, para o
 # professor abrir o arquivo da parte dele direto no GitHub.
 REPOSITORIO = "https://github.com/jbelkior1/cidadao-em-dia"
-RAMO = "sistema-localhost"
+RAMO = "main"
 
 
 def link(caminho: str) -> str:
@@ -39,13 +39,14 @@ ARQUIVOS = {
              ("Cálculo usado pelo app", "sistema/mobilidade/energia.py"), ("Os 30 fatores com fonte", "pesquisa/energia_modos.json"),
              ("Levantamento das fontes", "pesquisa/ENERGIA_FONTES.md"), ("Testes com usuários (roteiro)", "entregas/sers/TESTES_USUARIOS.md")],
     "MLAM": [("A entrega (pasta)", "entregas/mlam"), ("README da entrega", "entregas/mlam/README.md"),
-             ("Base (.csv)", "entregas/mlam/dados/ocorrencias_estacoes_2026.csv"), ("Como a base foi montada", "entregas/mlam/dados/LEIA-ME.md"),
+             ("Base (.csv)", "entregas/mlam/dados/ocorrencias_estacoes_2026.csv"), ("Como a base foi montada", "entregas/mlam/preparar_base.py"),
              ("Roda as questões 02 a 06", "entregas/mlam/main.py"), ("Questão 07: gera o relatório", "entregas/mlam/questao07_relatorio.py"),
              ("Relatório em PDF", "entregas/mlam/saidas/relatorio_mlam_gs2026.pdf"), ("Saída completa", "entregas/mlam/saidas/relatorio.txt")],
     "PAI": [("A entrega (pasta)", "entregas/pai"), ("README da entrega", "entregas/pai/README.md"),
             ("O agente (LangGraph)", "entregas/pai/pai_agente/agente.py"), ("As 7 fichas FT", "entregas/pai/fichas"),
             ("Golden dataset", "entregas/pai/golden/golden_pai.json"), ("Juiz (LLM as a Judge)", "entregas/pai/pai_agente/juiz.py"),
-            ("Resultados antes e depois", "entregas/pai/saidas"),
+            ("Validação do juiz", "entregas/pai/validar_juiz.py"), ("Rodada antes e depois", "entregas/pai/rodar_antes_e_depois.py"),
+            ("Resultados gravados", "entregas/pai/saidas"),
             ("Imagem do grafo", "entregas/pai/grafo_agente.png"), ("Testes com usuários (roteiro)", "entregas/pai/TESTES_USUARIOS.md"),
             ("No app: ponte com a Lia", "sistema/adaptadores/pai.py"), ("Testes", "tests/pai/test_pai.py")],
     "CS": [("Regra do produto (não é a entrega)", "sistema/mobilidade/decisao.py")],
@@ -65,9 +66,9 @@ NO_SISTEMA = [
         "entrega": "Programa de terminal em repositório público próprio, com 3 classes em 4 arquivos, teste com 3 pessoas e vídeo técnico de 5 a 8 minutos.",
         "pasta": "entregas/pcp/citizen-assist-ai", "rodar": "python main.py",
         "regra": "3 pontos por palavra-chave e 1 ponto por palavra do título com 4 letras ou mais. Com 6 pontos ou mais a confiança é ALTA; de 3 a 5 é MÉDIA; abaixo de 3 o assistente diz que não encontrou.",
-        "nesta_versao": "A lógica está pronta (classes, busca, histórico, CSV). A base passa a ser de orientações de mobilidade com fontes oficiais, que o grupo precisa conferir.",
-        "como_testar": "Escreva uma pergunta e veja a pontuação de cada orientação, da maior para a menor. Depois tente um número de telefone e veja a recusa.",
-        "ver_funcionando": [{"rotulo": "Conversar com a Lia", "rota": "/"}],
+        "nesta_versao": "Programa de terminal pronto e testado: 3 classes em 4 arquivos, busca por pontos, navegação por categorias, histórico, indicadores e CSV, com 16 orientações de transporte tiradas de páginas oficiais. A equipe confere as fontes, faz o teste com 3 pessoas e grava o vídeo.",
+        "como_testar": "Escreva uma pergunta e veja como normalizar() a lê, a lista de tuplas de buscar() da maior para a menor pontuação e a orientação que o assistente mostraria, com fonte, data e aviso. Depois tente um número de telefone e veja a recusa.",
+        "ver_funcionando": [{"rotulo": "Conversar com a Lia", "rota": "/sistema"}],
     },
     {
         "cod": "CS", "nome": "Computer Science", "curto": "A decisão do dia", "cor": "#4338CA",
@@ -79,8 +80,8 @@ NO_SISTEMA = [
         "no_chat": "Fora do sistema. O produto tem a própria regra para \"pode ir, saia mais cedo ou mude o caminho\"; a entrega de CS segue à parte, e a integração é opcional pelo enunciado.",
         "entrega": "Relatório em PDF com tabela-verdade, forma canônica, simplificação por álgebra e Karnaugh, circuitos original e simplificado, e um programa com a lógica simplificada.",
         "pasta": "", "rodar": "",
-        "regra": "Tabela-verdade, Karnaugh e circuito são feitos pelo grupo, à mão. Usar IA nessas partes tira 4 pontos. Hoje o app usa uma regra provisória de prioridades, que será trocada pela expressão simplificada do grupo.",
-        "nesta_versao": "Entregue à parte. O teste abaixo mostra a regra do produto com as mesmas quatro entradas; se o grupo quiser, pode trocá-la pela expressão simplificada dele (integração opcional).",
+        "regra": "Tabela-verdade, Karnaugh e circuito são feitos pela equipe, à mão: usar IA nessas partes tira 4 pontos. O app tem a própria regra de prioridades para a decisão do dia, independente da entrega de CS.",
+        "nesta_versao": "Entregue à parte, no formato do enunciado (relatório em PDF, prints da simulação e instruções). A integração com o app é opcional e não foi feita; o teste abaixo mostra a regra do produto, uma combinação por vez.",
         "como_testar": "Ligue e desligue as quatro condições e veja a decisão que sai, uma combinação por vez.",
         "ver_funcionando": [],
     },
@@ -95,9 +96,9 @@ NO_SISTEMA = [
         "entrega": "Código com menu de terminal, documentação técnica com análise Big-O e evidências de teste.",
         "pasta": "entregas/dsa", "rodar": "python main.py",
         "regra": "Nenhuma lista pronta do Python guarda os registros: cada serviço é um nó que aponta para o próximo. A busca é linear e a ordenação é um merge sort que só religa os nós.",
-        "nesta_versao": "A lista encadeada está pronta. Os dados passam a ser os serviços de mobilidade, com fontes oficiais.",
-        "como_testar": "Ordene o catálogo por título, id ou prazo e veja os nós se religarem. Pesquise por um trecho e cadastre ou exclua um serviço.",
-        "ver_funcionando": [{"rotulo": "Conversar com a Lia", "rota": "/"}],
+        "nesta_versao": "Pronta e testada: lista encadeada própria com CRUD, pesquisa, merge sort, documentação com Big-O e evidências de teste, sobre 15 serviços ao passageiro. A equipe anexa os prints do terminal e envia.",
+        "como_testar": "Consulte, atualize, cadastre ou exclua um serviço e veja a lista se ajustar. Ordene por título, id ou prazo e pesquise por um trecho; um campo vazio mostra a validação.",
+        "ver_funcionando": [{"rotulo": "Conversar com a Lia", "rota": "/sistema"}],
     },
     {
         "cod": "SERS", "nome": "Soluções em Energias Renováveis e Sustentáveis", "curto": "A energia da viagem", "cor": "#16A34A",
@@ -106,13 +107,13 @@ NO_SISTEMA = [
         "quando": ["Toda vez que a Lia confere uma viagem"],
         "recebe": "A distância do trajeto em quilômetros.",
         "devolve": "Energia, custo e CO₂ por pessoa em cada alternativa, com as premissas.",
-        "no_chat": "Em \"Segurança e energia da viagem\", no cartão da viagem.",
+        "no_chat": "Em \"Segurança nas estações e energia\", no cartão da viagem, com premissas e fontes.",
         "entrega": "Repositório com dados, cálculos e fontes, comparação de alternativas (uma renovável), testes com usuários, vídeo de até 3 minutos e um .txt com os links.",
         "pasta": "entregas/sers", "rodar": "python comparar_energia.py",
         "regra": "Mesma necessidade (a viagem casa-trabalho), mesmo período e duas ou mais alternativas, uma delas renovável. Cada número com origem, unidade e premissa.",
-        "nesta_versao": "Pronta no app e no script da entrega: a distância sai da rede e os fatores vêm de fontes oficiais (MCTI, Metrô, INMETRO, ANP), em pesquisa/energia_modos.json, com a comparação por viagem e por mês. Falta a equipe conferir os números lidos de PDF, aplicar os testes com usuários e gravar o vídeo.",
-        "como_testar": "Mude a distância e veja cada conta, passo a passo, para trilho, ônibus e carro.",
-        "ver_funcionando": [{"rotulo": "Conversar com a Lia", "rota": "/"}],
+        "nesta_versao": "Pronta no app e no script da entrega: a distância sai da rede, os fatores vêm de fontes oficiais (MCTI, EPE, Metrô, INMETRO, ANP) e o cartão da Lia mostra a comparação com o rótulo de estimativa, as premissas com tipo e ano e as fontes. A equipe confere os números lidos de PDF, aplica os testes com usuários e grava o vídeo.",
+        "como_testar": "Mude a distância e veja cada conta, passo a passo, e a comparação das três alternativas no mesmo período (um mês de trabalho).",
+        "ver_funcionando": [{"rotulo": "Conversar com a Lia", "rota": "/sistema"}],
     },
     {
         "cod": "MLAM", "nome": "Modelagem Linear para Aprendizado de Máquina", "curto": "A segurança nas estações", "cor": "#BE185D",
@@ -125,9 +126,9 @@ NO_SISTEMA = [
         "entrega": "Base em .csv ou .xlsx, códigos em .py e relatório em .pdf, postados direto no portal, sem links.",
         "pasta": "entregas/mlam", "rodar": "python main.py  ·  python questao07_relatorio.py",
         "regra": "Base real e justificada: dado gerado ou fictício não vale. Desconto de 1,0 por item ausente e de 2,0 por entrega inadequada.",
-        "nesta_versao": "Base real (SSP-SP, janeiro a setembro de 2026, raio de 300 m de 139 estações), questões 02 a 06 com interpretações e o relatório da questão 07 em PDF prontos. Falta a equipe preencher nome e RM (em comum.py, que alimenta o PDF) e postar no portal.",
-        "como_testar": "Veja o resumo da base: estações com mais registros, faixas de horário e tipos.",
-        "ver_funcionando": [{"rotulo": "Conversar com a Lia", "rota": "/"}],
+        "nesta_versao": "Pronta: base real (SSP-SP, janeiro a setembro de 2026, raio de 300 m de 139 estações), questões 02 a 06 com interpretações e o relatório da questão 07 em PDF, com nome e RM na capa. Falta um representante postar no portal.",
+        "como_testar": "Veja os resultados das questões 02 a 06 (probabilidade, testes de hipótese, regressões e matriz de confusão) e o resumo da base.",
+        "ver_funcionando": [{"rotulo": "Conversar com a Lia", "rota": "/sistema"}],
     },
     {
         "cod": "PAI", "nome": "Prompt and Artificial Intelligence", "curto": "O agente das fichas", "cor": "#7C3AED",
@@ -141,9 +142,9 @@ NO_SISTEMA = [
         "entrega": "Repositório com o agente em LangGraph, fichas, golden dataset de 26 mensagens, juiz (LLM as a Judge) antes e depois de uma melhoria, testes com usuários e relatório.",
         "pasta": "entregas/pai", "rodar": "python main.py  ·  python avaliar.py --nome depois",
         "regra": "Só responde com o que está nas fichas e cita a ficha. Dado pessoal e tentativa de manipulação são barrados antes de qualquer chamada ao modelo.",
-        "nesta_versao": "Agente, fichas de transporte, golden, juiz e a rodada antes/depois prontos. Falta a equipe aplicar os testes com usuários e preencher nome e RM.",
+        "nesta_versao": "Agente, fichas de transporte, golden, juiz validado com 7 respostas montadas e a rodada antes e depois gravada (15/11, Groq: 25/26 antes e 25/26 depois, com a análise dos erros no README). Falta a equipe aplicar os testes com usuários e conferir uma amostra do juiz.",
         "como_testar": "Escreva uma pergunta abaixo e veja cada etapa do grafo. Ou converse com a Lia e pergunte, por exemplo, como pedir a declaração de atraso.",
-        "ver_funcionando": [{"rotulo": "Perguntar à Lia", "rota": "/"}],
+        "ver_funcionando": [{"rotulo": "Perguntar à Lia", "rota": "/sistema"}],
     },
     {
         "cod": "MMC", "nome": "Modelagem Matemática e Computacional", "curto": "Os ônibus de apoio", "cor": "#6B7280",
@@ -156,8 +157,8 @@ NO_SISTEMA = [
         "entrega": "Etapa 1 (modelo matricial, unicidade e solução em Python) e etapa 2 (política de redistribuição por transformação linear).",
         "pasta": "", "rodar": "",
         "regra": "Frota de 72 ônibus. A matriz da transformação é criada pelo grupo e precisa preservar o total e não gerar valores negativos.",
-        "nesta_versao": "A frota foi conferida no início do projeto. O simulador está na lista do que entra se houver tempo.",
-        "como_testar": "Ainda sem teste no sistema.",
+        "nesta_versao": "Entregue à parte pela equipe. O teste abaixo confere a Etapa 1 (sistema linear da frota) e as propriedades que a Etapa 2 exige de uma matriz digitada pela equipe, sem sugerir nenhuma.",
+        "como_testar": "Resolva a Etapa 1 com os registros do Relatório I (dá para mudar os valores), veja a necessidade por região e digite a matriz da equipe para conferir se preserva o total e não gera negativos.",
         "ver_funcionando": [],
     },
     {
@@ -171,9 +172,10 @@ NO_SISTEMA = [
         "entrega": "Link do projeto no Wokwi com a Pico e o código em MicroPython, vídeo no YouTube e nomes de todos.",
         "pasta": "", "rodar": "",
         "regra": "Sensores e atuadores ligados ao problema escolhido. O enunciado cita alerta de risco em espaço público como exemplo.",
-        "nesta_versao": "Entregue à parte, no Wokwi.",
-        "como_testar": "Ainda sem teste no sistema.",
+        "nesta_versao": "Entregue à parte, no Wokwi, com o vídeo no YouTube.",
+        "como_testar": "Abra o projeto no Wokwi, mude a leitura do sensor de nível e veja o alerta responder; o vídeo mostra o mesmo.",
         "ver_funcionando": [],
+        "links": {"wokwi": "", "video": ""},
     },
 ]
 

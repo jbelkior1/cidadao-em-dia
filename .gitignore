@@ -12,3 +12,13 @@ sistema/dados/historico_linhas.local.jsonl
 
 # enunciados baixados do portal da FIAP: material dos professores, não redistribuir
 ../enunciados_gs2026_2/
+
+# chaves do servidor (só o exemplo vai para o git)
+.env.*
+!.env.producao.exemplo
+
+# pacotes de entrega gerados por scripts/montar_entregas.py
+entregas/portal/saida/
+
+# cache do TypeScript
+*.tsbuildinfo

@@ -1,24 +1,29 @@
-"""Checklist das entregas: o que cada matéria pede, onde está, como foi feito e o status.
+"""Checklist das entregas: o que cada enunciado pede, agrupado pelos critérios da rubrica, e o status.
 
-Fica em sistema/dados/checklist.json, que vai para o git: é o andamento da equipe.
-A tela pode mudar só status, onde e como.
+Fica em sistema/dados/checklist.json, que vai para o git. Cada matéria tem o formato de entrega
+no portal, o prazo, a rubrica e as seções; cada item diz se é do sistema (código ou documento no
+repositório) ou da equipe (vídeo, testes com pessoas, envio no portal), onde está e como foi feito.
+
+No computador da equipe a tela muda status, onde e como. No servidor público (MODO_PUBLICO=1)
+o checklist é só leitura.
 """
 import json
+import re
 from datetime import date
 from pathlib import Path
 
-from sistema import materias
+from sistema import config, materias
 
 ARQUIVO = Path(__file__).parent / "dados" / "checklist.json"
-STATUS = ["Feito", "Falta conferir", "A fazer"]
-VALOR = {"Feito": 1.0, "Falta conferir": 0.5, "A fazer": 0.0}
+STATUS = ["Feito", "Conferir", "A fazer"]
+VALOR = {"Feito": 1.0, "Conferir": 0.5, "A fazer": 0.0}
 
 
 def ler() -> dict:
     try:
         return json.loads(ARQUIVO.read_text(encoding="utf-8"))
     except (FileNotFoundError, json.JSONDecodeError):
-        return {"materias": {}, "geral": [], "alertas": [], "divergencias": []}
+        return {"materias": {}, "geral": []}
 
 
 def _gravar(dados: dict) -> None:
@@ -26,42 +31,54 @@ def _gravar(dados: dict) -> None:
     ARQUIVO.write_text(json.dumps(dados, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def _escritos(itens: list[dict]) -> dict:
-    """Quantos itens já existem (qualquer status menos "A fazer") e quantos faltam."""
-    feitos = sum(1 for i in itens if i.get("status", "A fazer") != "A fazer")
-    return {"total": len(itens), "prontos": feitos, "faltam": len(itens) - feitos,
-            "percentual": round(100 * feitos / len(itens)) if itens else 0}
+def itens_da(m: dict) -> list[dict]:
+    """Todos os itens de uma matéria, na ordem das seções."""
+    return [item for secao in m.get("secoes", []) for item in secao.get("itens", [])]
+
+
+def _andamento(itens: list[dict]) -> dict:
+    prontos = sum(1 for i in itens if i.get("status") == "Feito")
+    return {"total": len(itens), "prontos": prontos, "faltam": len(itens) - prontos,
+            "percentual": round(100 * prontos / len(itens)) if itens else 0}
 
 
 def contar(itens: list[dict]) -> dict:
-    """Quantos itens em cada status e o percentual (Feito vale 1, Falta conferir vale meio).
+    """Quantos itens em cada status e o andamento separado entre sistema e equipe.
 
-    `por_quem` separa o que é código, que esta sessão escreve, do que só a equipe faz (vídeo,
-    teste com usuários, nomes e RM, envio no portal). Sem essa separação a tela mostra um número
-    só, e uma matéria com o código inteiro pronto aparece pela metade.
+    Separar importa: uma matéria com o código inteiro pronto não pode aparecer pela metade só
+    porque o vídeo e o teste com pessoas ainda são da equipe.
     """
-    contagem = {s: 0 for s in STATUS}
-    for item in itens:
-        contagem[item.get("status", "A fazer")] = contagem.get(item.get("status", "A fazer"), 0) + 1
-    total = len(itens)
+    por_status = {s: sum(1 for i in itens if i.get("status") == s) for s in STATUS}
     pontos = sum(VALOR.get(i.get("status", "A fazer"), 0) for i in itens)
-    return {"total": total, "por_status": contagem, "percentual": round(100 * pontos / total) if total else 0,
-            "do_grupo": sum(1 for i in itens if i.get("quem") == "grupo" and i.get("status") != "Feito"),
-            "por_quem": {"codigo": _escritos([i for i in itens if i.get("quem") == "código"]),
-                         "grupo": _escritos([i for i in itens if i.get("quem") == "grupo"])}}
+    return {"total": len(itens), "por_status": por_status, "percentual": round(100 * pontos / len(itens)) if itens else 0,
+            "por_quem": {"sistema": _andamento([i for i in itens if i.get("quem") == "sistema"]),
+                         "equipe": _andamento([i for i in itens if i.get("quem") == "equipe"])}}
+
+
+def _com_links(item: dict) -> dict:
+    """Quando "onde" começa com um caminho do repositório, a tela ganha o link do GitHub.
+
+    O caminho é o primeiro trecho, sem número de linha ("main.py:28-41") nem pontuação. Só vira link se
+    existir no repositório: caminho velho ou errado não vira link quebrado.
+    """
+    achado = re.match(r"`?([\w./-]+)", item.get("onde") or "")
+    caminho = achado.group(1).rstrip(".:;,") if achado else ""
+    existe = "/" in caminho and (config.RAIZ / caminho).exists()
+    return item | {"onde_url": materias.link(caminho) if existe else ""}
 
 
 def da_materia(cod: str) -> dict | None:
     m = ler()["materias"].get(cod)
     if m is None:
         return None
-    return m | {"resumo": contar(m.get("itens", []))}
+    secoes = [s | {"itens": [_com_links(i) for i in s.get("itens", [])]} for s in m.get("secoes", [])]
+    return m | {"secoes": secoes, "resumo": contar(itens_da(m))}
 
 
 def atualizar(cod: str, item_id: str, mudancas: dict) -> dict | None:
     """Muda status, onde ou como de um item. Devolve o item atualizado ou None se não existir."""
     dados = ler()
-    for item in dados["materias"].get(cod, {}).get("itens", []):
+    for item in itens_da(dados["materias"].get(cod, {})):
         if item["id"] == item_id:
             if mudancas.get("status") in STATUS:
                 item["status"] = mudancas["status"]
@@ -69,20 +86,5 @@ def atualizar(cod: str, item_id: str, mudancas: dict) -> dict | None:
                 if isinstance(mudancas.get(campo), str):
                     item[campo] = mudancas[campo].strip()
             _gravar(dados)
-            return item
+            return _com_links(item)
     return None
-
-
-def painel() -> dict:
-    dados = ler()
-    todos, linhas = [], []
-    for m in materias.NO_SISTEMA + materias.A_PARTE:
-        itens = dados["materias"].get(m["cod"], {}).get("itens", [])
-        todos += itens
-        linhas.append({"cod": m["cod"], "nome": m["nome"], "cor": m["cor"], "no_sistema": m in materias.NO_SISTEMA, **contar(itens)})
-    return {
-        "dias": (date.fromisoformat(materias.PRAZO_GS) - date.today()).days,
-        "prazo": materias.PRAZO_GS, "geral": contar(todos), "materias": linhas,
-        "regras": dados.get("geral", []), "alertas": dados.get("alertas", []), "divergencias": dados.get("divergencias", []),
-        "atualizado_em": dados.get("atualizado_em", ""),
-    }

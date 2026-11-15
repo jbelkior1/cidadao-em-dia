@@ -373,6 +373,17 @@ class TesteTelas(TesteComPasta):
         self.assertEqual(registro["tentativas"], 2)
         self.assertTrue(registro["ajudou"])
 
+    def test_encontrou_nao_ajudou_e_depois_nao_encontrou_registra_ultima_tentativa(self):
+        # a base de teste: "cartao sus" acha a orientação 3; "banana azul" não acha nada
+        self.executar(self.assistente.perguntar, "cartao sus", "n", "banana azul", "0")
+        self.assertEqual(len(self.assistente.historico), 1)
+        registro = self.assistente.historico[0]
+        self.assertEqual(registro["pergunta"], "banana azul")
+        self.assertIsNone(registro["orientacao_id"])
+        self.assertFalse(registro["encontrou"])
+        self.assertFalse(registro["ajudou"])
+        self.assertEqual(registro["tentativas"], 2)
+
     def test_desistir_registra_sem_solucao(self):
         self.executar(self.assistente.perguntar, "banana", "0")
         registro = self.assistente.historico[0]

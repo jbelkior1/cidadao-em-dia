@@ -170,5 +170,6 @@ Para comparação: insertion sort numa lista encadeada seria O(n²) no pior caso
 ## 8. Limitações
 
 - A ordenação é sempre crescente.
+- O id é ordenado como texto: sem zeros à esquerda, SRV-10 viria antes de SRV-2 (os ids da base têm 3 dígitos, como SRV-002).
 - Os dados iniciais vieram de páginas oficiais, mas o grupo ainda precisa abrir cada fonte e confirmar o texto.
 - A lista só existe em memória: alterações feitas no menu não são gravadas no JSON.

@@ -14,7 +14,7 @@ import sys
 from sistema import config
 
 PASTA = config.RAIZ / "entregas" / "pai"
-LIDO_EM = "2026-11-12"          # data em que as páginas oficiais das fichas foram lidas
+LIDO_EM = "2026-11-12"          # data em que as páginas oficiais das fichas foram lidas (a mesma de agente.DATA_FONTES; um teste confere)
 
 _erro = ""
 
@@ -51,14 +51,21 @@ def perguntar(pergunta: str) -> dict:
     mods = _modulos()
     if not mods:
         return {"ok": False, "erro": f"agente da PAI indisponível ({_erro})"}
-    agente, fichas, _ = mods
+    agente, fichas, guardrails = mods
+    from sistema import ia
+    cfg = config.ler()
+    # o agente chama o modelo pelo langchain, por fora de ia.conversar: o limite do dia é conferido aqui
+    v = guardrails.avaliar(pergunta)
+    if v.limpo and fichas.buscar(v.texto_seguro) and ia.limite_atingido(cfg):
+        return {"ok": False, "erro": "o limite de chamadas de IA de hoje foi atingido"}
     try:
         from pai_agente import modelo
-        from sistema import config as config_do_app
-        modelo.usar_config_do_app(config_do_app.ler())   # mesmo provedor e chave que a Lia, escolhidos na tela
+        modelo.usar_config_do_app(cfg)          # mesmo provedor e chave que a Lia
         r = agente.responder(pergunta)
     except Exception as e:                      # cota, rede, chave: a Lia avisa e segue
         return {"ok": False, "erro": f"o agente das fichas não respondeu agora ({type(e).__name__})"}
+    if r["usou_modelo"]:
+        ia.contar_chamada_externa()
     usadas = [f for f in (fichas.por_id(i) for i in r["fichas"]) if f]
     resposta = r["resposta"].replace(agente.AVISO, "").strip()
     return {"ok": True, "encontrou": bool(usadas) and r["usou_modelo"], "resposta": resposta, "motivo": r["motivo"],

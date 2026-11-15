@@ -76,7 +76,10 @@ def resolver(df=None) -> dict:
     comum.interpretacao(f"""
         A média das 20 estações mais distantes é {r_a['media_amostral']:.1f}, contra {mu0:.1f} da rede inteira.
         Com z = {r_a['z']:.3f} abaixo do crítico {r_a['z_critico']:.3f} e p-valor {r_a['p_valor']:.4f}, o
-        procedimento rejeita H0 a 6%, mas por pouco: a 5% o resultado já seria outro.
+        procedimento rejeita H0 a 6%, mas por pouco: o p-valor ({r_a['p_valor']:.4f}) está só um pouco abaixo
+        do nível de 6%. A 5% a decisão seria a mesma (o z crítico a 5% é {stats.norm.ppf(0.05):.3f} e o z
+        observado, {r_a['z']:.3f}, continua além dele); o resultado só deixaria de rejeitar H0 se o nível
+        fosse menor que o próprio p-valor, ou seja, abaixo de {r_a['p_valor'] * 100:.1f}%.
         Cuidado com a leitura: este grupo não foi sorteado, foi escolhido pelos extremos de distância e faz
         parte da própria população de referência. Nesse caso o p-valor não mede "acaso de amostragem"; o
         teste descreve que esse grupo de ponta de linha tem média de registros abaixo da rede, não prova
@@ -137,8 +140,8 @@ def _grafico(r_a: dict, r_b: dict) -> None:
         else:
             ax.fill_between(grade, stats.norm.pdf(grade), where=grade > r["z_critico"], color="#c2410c", alpha=0.45,
                             label=f"região de rejeição (α = {r['alfa'] * 100:.0f}%)")
-        ax.axvline(r["z"], color="#16a34a", lw=2, label=f"z observado = {r['z']:.2f}")
-        ax.axvline(r["z_critico"], color="#1f2937", ls="--", lw=1.2, label=f"z crítico = {r['z_critico']:.2f}")
+        ax.axvline(r["z"], color="#16a34a", lw=2, label=f"z observado = {comum.dec(r['z'])}")
+        ax.axvline(r["z_critico"], color="#1f2937", ls="--", lw=1.2, label=f"z crítico = {comum.dec(r['z_critico'])}")
         ax.set_title(titulo_)
         ax.set_xlabel("z")
         ax.set_ylabel("Densidade")

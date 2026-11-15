@@ -120,8 +120,9 @@ def resolver(df=None) -> dict:
         O R² ajustado mostra de onde vem o ganho, porque penaliza variável que não ajuda: com distância e
         linhas ele vai a {sem_lat.rsquared_adj:.4f}; acrescentando a latitude, {'cai' if modelo.rsquared_adj < sem_lat.rsquared_adj else 'sobe'} para
         {modelo.rsquared_adj:.4f}. Ou seja, a quantidade de linhas valeu a pena e a latitude não acrescenta
-        nada (p-valor {modelo.pvalues['lat']:.3f}). Ela fica no modelo porque o enunciado pede três
-        explicativas, não porque melhora o ajuste.
+        nada (p-valor {modelo.pvalues['lat']:.3f}). Foi incluída para testar se a posição norte-sul
+        acrescenta algo ao que distância e linhas já explicam, e a resposta é que não acrescenta.
+        O enunciado pede pelo menos três variáveis quantitativas, e a resposta conta como uma delas.
         Todos os VIF estão abaixo de 5, então não há multicolinearidade que atrapalhe a leitura dos
         coeficientes.
         Pressupostos: Breusch-Pagan com p-valor {bp['breusch_pagan_p']:.4f} indica variância desigual dos
@@ -174,13 +175,19 @@ def resolver(df=None) -> dict:
 
 
 def _graficos(dados, correlacao, df) -> None:
-    eixos = pd.plotting.scatter_matrix(dados, figsize=(9.5, 9.5), diagonal="hist", color="#2563eb",
+    import textwrap
+
+    legivel = dados.rename(columns={c: textwrap.fill(comum.nome(c), 16) for c in dados.columns})
+    eixos = pd.plotting.scatter_matrix(legivel, figsize=(10.5, 10.5), diagonal="hist", color="#2563eb",
                                        alpha=0.6, s=26, hist_kwds={"color": "#93c5fd", "edgecolor": "white"})
     for eixo in eixos.flatten():
         eixo.xaxis.label.set_size(8)
         eixo.yaxis.label.set_size(8)
-        eixo.xaxis.label.set_rotation(20)
-        eixo.yaxis.label.set_rotation(70)
+        eixo.xaxis.label.set_rotation(0)
+        eixo.yaxis.label.set_rotation(90)
+        eixo.xaxis.labelpad = 10
+        eixo.yaxis.labelpad = 22
+        eixo.yaxis.set_label_coords(-0.42, 0.5)
     fig = eixos[0, 0].get_figure()
     fig.suptitle("Dispersão entre as quatro variáveis quantitativas", y=0.92)
     print(f"\nGráfico salvo em: {comum.salvar_figura(fig, 'q05a_dispersao.png')}")
@@ -193,7 +200,7 @@ def _graficos(dados, correlacao, df) -> None:
     ax.set_yticks(range(len(nomes)), nomes, fontsize=9)
     for i in range(len(nomes)):
         for j in range(len(nomes)):
-            ax.text(j, i, f"{correlacao.values[i, j]:.2f}", ha="center", va="center", fontsize=11, fontweight="bold")
+            ax.text(j, i, comum.dec(correlacao.values[i, j]), ha="center", va="center", fontsize=11, fontweight="bold")
     ax.set_title("Correlação de Pearson entre as variáveis")
     fig.colorbar(imagem, ax=ax, shrink=0.8)
     fig.tight_layout()

@@ -18,6 +18,8 @@ sys.path.insert(0, str(RAIZ))
 
 from sistema.mobilidade import energia  # noqa: E402
 
+sys.stdout.reconfigure(encoding="utf-8")   # o "₂" de CO₂ quebra no Windows quando a saída é redirecionada
+
 PADRAO_KM = 15.0
 DIAS_UTEIS = 22         # período de referência: um mês de trabalho, ida e volta
 
@@ -39,12 +41,12 @@ def main(km: float) -> int:
     print(f"Necessidade energética: deslocamento casa-trabalho de quem usa trem e metrô em São Paulo.")
     print(f"Alternativas comparadas para a MESMA necessidade e o MESMO período (uma viagem):\n")
 
-    print(f"{'Modo':<18}{'Energia':>12}{'CO₂':>14}{'Custo':>12}   Renovável")
+    print(f"{'Modo':<18}{'Energia':>12}{'CO₂':>18}{'Custo':>12}   Renovável")
     print("-" * 76)
     for m in r["modos"]:
         kwh = f"{br(m['energia_kwh'])} kWh" if m["energia_kwh"] is not None else "sem fonte"
-        co2 = f"{br(m['co2_kg'])} kg" + (f"–{br(m['co2_kg_max'])}" if m["co2_kg_max"] else "")
-        print(f"{m['modo']:<18}{kwh:>12}{co2:>14}{real(m['custo_rs']):>12}   {'sim' if m['renovavel'] else 'não'}")
+        co2 = (f"{br(m['co2_kg'])} a {br(m['co2_kg_max'])} kg" if m["co2_kg_max"] else f"{br(m['co2_kg'])} kg")
+        print(f"{m['modo']:<18}{kwh:>12}{co2:>18}{real(m['custo_rs']):>12}   {'sim' if m['renovavel'] else 'não'}")
     print("-" * 76)
 
     print("\nNotas de cada modo:")
@@ -58,16 +60,19 @@ def main(km: float) -> int:
     # ---- período de referência comum: um mês de ida e volta ao trabalho
     viagens = DIAS_UTEIS * 2
     print(f"\nPeríodo de referência: um mês de trabalho ({DIAS_UTEIS} dias úteis, ida e volta = {viagens} viagens de {br(r['km'], 1)} km)")
-    print(f"{'Modo':<18}{'Energia/mês':>14}{'CO₂/mês':>14}{'Custo/mês':>14}")
+    print(f"{'Modo':<18}{'Energia/mês':>14}{'CO₂/mês':>18}{'Custo/mês':>14}")
     print("-" * 76)
     for m in r["modos"]:
         kwh = f"{br(m['energia_kwh'] * viagens, 1)} kWh" if m["energia_kwh"] is not None else "sem fonte"
-        co2 = f"{br(m['co2_kg'] * viagens, 1)} kg"
-        print(f"{m['modo']:<18}{kwh:>14}{co2:>14}{real(m['custo_rs'] * viagens):>14}")
+        co2 = (f"{br(m['co2_kg'] * viagens, 1)} a {br(m['co2_kg_max'] * viagens, 1)} kg" if m["co2_kg_max"]
+               else f"{br(m['co2_kg'] * viagens, 1)} kg")
+        print(f"{m['modo']:<18}{kwh:>14}{co2:>18}{real(m['custo_rs'] * viagens):>14}")
     print("-" * 76)
     carro, trilho = r["modos"][2], r["modos"][0]
-    print(f"Trocar o carro pelo trilho nesse mês evita cerca de {br((carro['co2_kg'] - trilho['co2_kg']) * viagens, 0)} kg de CO₂ "
-          f"e custa cerca de {real((carro['custo_rs'] - trilho['custo_rs']) * viagens)} a menos")
+    evita_min = (carro["co2_kg"] - trilho["co2_kg"]) * viagens
+    evita_max = (carro["co2_kg_max"] - trilho["co2_kg"]) * viagens
+    print(f"Trocar o carro pelo trilho nesse mês evita cerca de {br(evita_min, 0)} a {br(evita_max, 0)} kg de CO₂ "
+          f"(faixa do teor de etanol) e custa cerca de {real((carro['custo_rs'] - trilho['custo_rs']) * viagens)} a menos")
     print("(tarifa do trilho contra só a gasolina do carro, sem estacionamento, manutenção nem depreciação).")
     print("O custo do trilho e do ônibus é tarifa cheia; com a integração do Bilhete Único ou vale-transporte o valor muda.")
 
@@ -80,8 +85,10 @@ def main(km: float) -> int:
         print(f"  - {p}")
 
     print("\nFontes consultadas:")
-    for f in r["fontes"]:
-        print(f"  - {f}")
+    for f in r["fontes_nomeadas"]:
+        print(f"  - {f['nome']}: {f['url']}")
+    print()
+    print(r["renovavel"]["texto"])
 
     print(f"\nDados levantados em {r['consultado_em']}. {r['rotulo']}")
     print("Limitações: a lotação média do ônibus não tem fonte oficial, por isso o CO₂ dele vem do")

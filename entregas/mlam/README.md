@@ -23,8 +23,8 @@ ocorrências e até onde dá para prever.
   baixada em 12/11/2026. Base pública e real; nada foi gerado artificialmente.
 - **Período:** janeiro a setembro de 2026.
 - **Como foi montada:** contagem de ocorrências num raio de 300 m de cada estação (coordenadas do GTFS
-  da SPTrans). O passo a passo, os filtros e as limitações estão em `dados/LEIA-ME.md`, e o script que
-  gera a base é o `preparar_base.py`.
+  da SPTrans). O passo a passo, os filtros e as limitações estão em `dados/LEIA-ME.md` (neste repositório) e
+  resumidos no início do `preparar_base.py`, que é o script que gera a base e vai ao portal.
 - **Privacidade:** só números agregados por estação. Nenhum endereço, número de BO ou dado de pessoa.
 
 ### Variáveis usadas
@@ -40,11 +40,17 @@ ocorrências e até onde dá para prever.
 de horário (`madrugada`, `manha`, `tarde`, `noite`, `sem_faixa`) também. Usar qualquer um deles como
 variável explicativa seria prever a resposta com ela mesma. O `comum.py` confere essas duas somas ao
 carregar a base, para a regra não se perder. A coluna `celular` está vazia porque a planilha da SSP-SP
-não permite identificar o aparelho (está em `dados/LEIA-ME.md`).
+não permite identificar o aparelho (consta no `LEIA-ME.md` e no `preparar_base.py`).
 
 ## Como rodar
 
-Precisa de Python 3.13 com `pandas`, `numpy`, `scipy`, `statsmodels`, `scikit-learn` e `matplotlib`.
+Precisa de Python 3.13 com as bibliotecas `pandas`, `numpy`, `scipy`, `statsmodels`, `scikit-learn`,
+`matplotlib` e `reportlab` (esta última só para o PDF; o `preparar_base.py` usa ainda `openpyxl`).
+
+**Arquivos recebidos soltos:** ponha todos na mesma pasta. O `ocorrencias_estacoes_2026.csv` pode ficar
+junto dos `.py` ou numa subpasta `dados/`; o `comum.py` procura nas duas posições e avisa onde colocar se
+não achar. A pasta `saidas/` é criada sozinha. Ordem de execução: `main.py` primeiro, depois
+`questao07_relatorio.py` (se o `resultados.json` não existir, o relatório roda o `main.py` por conta própria).
 
 ```bash
 python main.py
@@ -123,4 +129,6 @@ o cliente, tabelas, gráficos, medidas, interpretações, insights e limitaçõe
 ## Entrega no portal (questão 08)
 
 Um representante posta direto no portal, sem links: a base em `.csv`, os códigos em `.py` e o relatório
-em `.pdf`. Todos os arquivos precisam trazer o nome completo e o RM de cada integrante.
+em `.pdf`. Nome completo e RM de cada integrante ficam na capa do PDF e no cabeçalho de cada `.py`
+(o `.csv` não comporta cabeçalho, e `.md` não é formato aceito, por isso o README e o `LEIA-ME.md` não vão).
+Os arquivos vão soltos, sem pastas: veja acima como organizá-los para rodar.

@@ -14,6 +14,7 @@ sistema/dados/historico_linhas.local.jsonl, para calcular quanto as falhas
 costumam durar. O arquivo fica só no computador (não vai para o git).
 """
 import json
+import os
 import re
 import threading
 import time
@@ -28,7 +29,9 @@ URL_CGE = "https://www.cgesp.org/v3/"
 URL_CGE_ALAGAMENTOS = "https://www.cgesp.org/v3/alagamentos.jsp"
 CODIGO_IBGE_SP = "3550308"
 CACHE_SEG = 90
-HISTORICO = Path(__file__).resolve().parent.parent / "dados" / "historico_linhas.local.jsonl"
+# No servidor (Docker), PASTA_DADOS_LOCAIS aponta para um volume que sobrevive à troca do container.
+HISTORICO = (Path(os.environ["PASTA_DADOS_LOCAIS"]) if os.environ.get("PASTA_DADOS_LOCAIS")
+             else Path(__file__).resolve().parent.parent / "dados") / "historico_linhas.local.jsonl"
 CABECALHO = {"User-Agent": "DaTempo-GS2026/0.1 (trabalho academico)"}
 
 _cache: dict[str, dict] = {}

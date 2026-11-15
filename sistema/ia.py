@@ -16,7 +16,7 @@ import httpx
 
 from sistema import config
 
-ARQUIVO_USO = config.RAIZ / "uso_ia.local.json"
+ARQUIVO_USO = config.PASTA_LOCAL / "uso_ia.local.json"
 TEMPO_LIMITE = 40  # segundos
 
 
@@ -49,6 +49,17 @@ def _somar_uso(entrada: int, saida: int) -> None:
     uso["tokens_entrada"] += entrada
     uso["tokens_saida"] += saida
     ARQUIVO_USO.write_text(json.dumps(uso), encoding="utf-8")
+
+
+def limite_atingido(cfg: dict | None = None) -> bool:
+    """O limite de chamadas do dia vale para tudo que usa a mesma chave, inclusive o agente da PAI."""
+    cfg = cfg or config.ler()
+    return bool(cfg["limite_diario"]) and uso_de_hoje()["chamadas"] >= cfg["limite_diario"]
+
+
+def contar_chamada_externa() -> None:
+    """Soma uma chamada feita fora deste módulo (o agente da PAI chama o modelo pelo langchain)."""
+    _somar_uso(0, 0)
 
 
 def _cabecalhos(cfg: dict) -> dict:

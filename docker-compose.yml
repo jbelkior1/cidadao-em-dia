@@ -1,0 +1,19 @@
+# Dá Tempo? no servidor. Passo a passo em DEPLOY.md.
+#   docker compose up -d --build
+services:
+  datempo:
+    build: .
+    image: datempo:latest
+    container_name: datempo
+    restart: unless-stopped
+    env_file: .env.producao          # chaves do servidor; copie de .env.producao.exemplo e preencha NA VPS
+    environment:
+      MODO_PUBLICO: "1"              # configuração de IA e checklist só para leitura
+      PASTA_DADOS_LOCAIS: /dados
+    volumes:
+      - dados:/dados                 # contador de uso da IA e histórico das linhas sobrevivem à troca do container
+    ports:
+      - "127.0.0.1:8010:8010"        # só o proxy da VPS (Caddy ou Nginx) enxerga; o HTTPS fica com ele
+
+volumes:
+  dados:

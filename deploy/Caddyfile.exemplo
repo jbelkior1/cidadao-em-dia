@@ -1,0 +1,6 @@
+# Caddy na VPS: HTTPS automático na frente do container do Dá Tempo?.
+# Troque o domínio, copie para /etc/caddy/Caddyfile e rode: sudo systemctl reload caddy
+datempo.seudominio.com.br {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:8010
+}

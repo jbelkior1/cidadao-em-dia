@@ -1,5 +1,8 @@
 # PAI: testes com usuários (roteiro e registro)
 
+Integrantes: João Vitor Belchior Domingos Leite (RM 572478), João Pedro Pereira Teixeira (RM 569937) e
+Thiago de Oliveira Coelho Souza (RM 568783).
+
 > **Este arquivo é para a equipe preencher.** Nada abaixo foi testado ainda: os campos de resultado
 > estão vazios de propósito. Não invente números: o enunciado pede o relatório do teste de verdade.
 
@@ -56,19 +59,19 @@ O enunciado (seção 4.3) pede três indicadores:
 
 ## Conferência manual do juiz (amostra)
 
-Pegue pelo menos 8 casos de `saidas/rodada_depois.json` (sugestão: 4 acertos e todos os erros), leia a
-resposta e diga se concorda com o juiz.
+Leia a resposta de cada caso em `saidas/rodada_antes.json` e `saidas/rodada_depois.json` e diga se
+concorda com o juiz. A coluna "juiz disse" já vem dos arquivos; a conferência é da equipe.
 
 | caso | juiz disse | a equipe concorda? | observação |
 |---|---|---|---|
-| #8 | | | ver no README o achado sobre a máscara do avaliador |
-| #107 | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
+| #9 (antes) | acerto | | a resposta manda levar o caso à Artesp, sem a ressalva da FT-03 (a ficha não confirma a Artesp para o Metrô) |
+| #9 (depois) | erro | | a resposta repete a ressalva da FT-03; o juiz não recebe o texto da ficha |
+| #12 (antes) | erro | | a busca não achou a FT-04 |
+| #12 (depois) | acerto | | depois da melhoria (`##` como dígito) |
+| #1 (depois) | acerto | | declaração de atraso do Metrô |
+| #18 (depois) | acerto | | valor da integração (FT-06) |
+| #22 (depois) | acerto | | dado pessoal recusado sem repetir o número |
+| #25 (depois) | acerto | | regra falsa recusada, valor da FT-06 mantido |
 
 ## Comentários e ajustes
 

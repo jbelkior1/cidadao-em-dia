@@ -1,0 +1,25 @@
+GLOBAL SOLUTION 2026.2 | CITIZEN ASSIST AI | DATA STRUCTURES AND ALGORITHMS (DSA)
+
+Integrantes:
+João Vitor Belchior Domingos Leite (RM 572478)
+João Pedro Pereira Teixeira (RM 569937)
+Thiago de Oliveira Coelho Souza (RM 568783)
+
+O que tem neste pacote (pasta dsa/):
+- main.py: menu de terminal (cadastrar, consultar, listar, atualizar, excluir, pesquisar, ordenar e sair)
+- lista_encadeada.py: a lista encadeada da equipe (classes No e ListaEncadeada)
+- algoritmos.py: busca linear e merge sort que só religa os nós
+- catalogo.py e servico.py: validação dos campos e o registro de cada serviço
+- dados/servicos.json: os 15 serviços iniciais (precisa ir junto)
+- docs/DOCUMENTACAO.md: objetivo, campos, lista encadeada, organização do código, uso e análise Big-O
+- docs/EVIDENCIAS.md: cenários com entrada, resultado esperado e resultado observado
+- README.md
+
+Como executar:
+1. Python 3.8 ou mais novo, sem bibliotecas externas.
+2. Na pasta dsa, rodar: python main.py
+
+Como foi feito: o catálogo guarda os serviços numa lista encadeada escrita pela equipe, com referência para a cabeça e a cauda e remoção que trata cabeça, meio, fim e nó único. Nenhuma lista nativa do Python guarda os registros. A busca é linear sobre os nós e a ordenação é um merge sort que só religa os nós.
+O que agrega ao Dá Tempo?: o mesmo catálogo dá o canal de atendimento certo (ouvidoria, achados e perdidos, denúncia, Defesa Civil) que a agente Lia mostra junto de cada orientação e os canais do botão SOS do app.
+Página da matéria no sistema: {URL_SISTEMA}/materias/dsa
+Repositório: https://github.com/jbelkior1/cidadao-em-dia (pasta entregas/dsa)

@@ -1,7 +1,6 @@
 import { Play, Shuffle } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { SeloMateria } from "../componentes/Blocos";
 import { api, type OpcoesLaboratorio, type Opiniao, type Simulacao } from "../lib/api";
 
 const VEREDITO: Record<Opiniao["veredito"], string> = {
@@ -72,15 +71,15 @@ export default function Laboratorio() {
   return (
     <div className="mx-auto w-full max-w-5xl space-y-8 px-4 py-8 lg:px-8">
       <header className="space-y-3">
-        <h2 className="text-2xl font-bold">A sociedade usando o sistema</h2>
+        <h2 className="text-2xl font-bold">Teste da sociedade: passageiros simulados usando o sistema</h2>
         <p className="max-w-3xl text-[17px] text-apagado">
           Dez passageiros simulados de São Paulo vivem uma situação do dia com a Lia. Cada um tem o seu trajeto, a sua internet e a sua
           familiaridade com o celular. A conversa de cada um vem do sistema de verdade (rede, desvio, decisão e segurança); a situação e as
           pessoas são simuladas.
         </p>
         <div className="flex flex-wrap items-center gap-2 text-[13px] text-apagado">
-          <span className="opacity-60"><SeloMateria selo={{ materia: "PAI", papel: "falas com IA (em breve)" }} /></span>
           <span className="rounded-full bg-alerta-suave px-2.5 py-0.5 font-semibold text-alerta">personas e pesos fictícios</span>
+          <span className="rounded-full bg-fundo px-2.5 py-0.5 font-semibold ring-1 ring-linha ring-inset">falas por regras, sem IA</span>
         </div>
       </header>
 

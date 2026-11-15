@@ -1,16 +1,23 @@
-"""API do Cidadão em Dia (FastAPI). Roda só em localhost.
+"""API do Dá Tempo? (FastAPI).
 
     uv run uvicorn sistema.api:app --port 8010
 
 Se a interface já foi compilada (sistema/web/dist), a API também serve as telas.
+No servidor público (MODO_PUBLICO=1, ver DEPLOY.md), a configuração de IA e o checklist
+ficam só para leitura: as rotas que gravam respondem 403.
 """
+import threading
+import time
+from collections import deque
 from contextlib import asynccontextmanager
+from typing import Annotated
 
 import httpx
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from sistema import assistente, checklist, config, conversa, ia, laboratorio, materias, testes
 from sistema import banco, contas, mapa, relatos, sos
@@ -70,6 +77,43 @@ app.add_exception_handler(BancoIndisponivel, _banco_fora_do_ar)
 app.add_exception_handler(httpx.TransportError, _banco_fora_do_ar)
 
 
+def _entrada_invalida(_pedido, erro: RequestValidationError) -> JSONResponse:
+    """422 sem repetir o valor enviado: NaN ou infinito no eco quebravam a própria resposta (500), e
+    devolver o que a pessoa digitou não ajuda ninguém."""
+    detalhes = [{"loc": list(e.get("loc", ())), "msg": e.get("msg", ""), "type": e.get("type", "")} for e in erro.errors()]
+    return JSONResponse(status_code=422, content={"detail": detalhes})
+
+
+app.add_exception_handler(RequestValidationError, _entrada_invalida)
+
+
+# No servidor público, um aparelho não pode esgotar sozinho o limite de IA do dia, que é de todos.
+ROTAS_COM_IA = {"/api/assistente", "/api/chat", "/api/explicar", "/api/teste/pai"}
+JANELA_POR_IP_S = 300
+MAXIMO_POR_IP = 20
+_pedidos_por_ip: dict[str, deque] = {}
+_trava_ip = threading.Lock()
+
+
+@app.middleware("http")
+async def limitar_por_aparelho(pedido, seguir):
+    if config.modo_publico() and pedido.method == "POST" and pedido.url.path in ROTAS_COM_IA:
+        ip = pedido.client.host if pedido.client else "desconhecido"   # atrás do proxy, vem do X-Forwarded-For
+        agora = time.monotonic()
+        with _trava_ip:
+            if len(_pedidos_por_ip) > 10000:                              # não deixa o mapa crescer para sempre
+                _pedidos_por_ip.clear()
+            fila = _pedidos_por_ip.setdefault(ip, deque())
+            while fila and agora - fila[0] > JANELA_POR_IP_S:
+                fila.popleft()
+            if len(fila) >= MAXIMO_POR_IP:
+                espera = int(JANELA_POR_IP_S - (agora - fila[0])) + 1
+                return JSONResponse(status_code=429, headers={"Retry-After": str(espera)},
+                                    content={"detail": "Muitas perguntas seguidas deste aparelho. Espere alguns minutos e tente de novo."})
+            fila.append(agora)
+    return await seguir(pedido)
+
+
 class Mensagem(BaseModel):
     texto: str | None = None
     acao: str | None = None
@@ -90,7 +134,14 @@ class PedidoExplicar(BaseModel):
 
 
 def _estado_ia() -> dict:
-    return {"config": config.publico(), "provedores": config.PROVEDORES, "ligada": ia.ligada(), "uso": ia.uso_de_hoje()}
+    return {"config": config.publico(), "provedores": config.PROVEDORES, "ligada": ia.ligada(), "uso": ia.uso_de_hoje(),
+            "modo_publico": config.modo_publico()}
+
+
+def _so_no_computador(o_que: str) -> None:
+    """No servidor público, ninguém muda a configuração nem o checklist pela tela."""
+    if config.modo_publico():
+        raise HTTPException(403, f"No servidor público {o_que} só para leitura.")
 
 
 @app.get("/api/saude")
@@ -161,6 +212,7 @@ def ler_config_ia() -> dict:
 
 @app.put("/api/config/ia")
 def gravar_config_ia(c: ConfigIA) -> dict:
+    _so_no_computador("a configuração de IA fica")
     if c.provedor is not None and c.provedor != "nenhum" and c.provedor not in config.PROVEDORES:
         raise HTTPException(400, "Provedor desconhecido.")
     config.gravar(c.model_dump(exclude_none=True))
@@ -169,6 +221,7 @@ def gravar_config_ia(c: ConfigIA) -> dict:
 
 @app.post("/api/config/ia/testar")
 def testar_ia() -> dict:
+    _so_no_computador("o teste da configuração de IA fica")
     return ia.testar() | {"uso": ia.uso_de_hoje()}
 
 
@@ -193,6 +246,12 @@ def explicar(p: PedidoExplicar) -> dict:
     except ia.IAIndisponivel as e:
         raise HTTPException(503, str(e)) from None
     return {"texto": texto, "selos": [{"materia": "PAI", "papel": "explicação"}]}
+
+
+@app.get("/api/documentacao")
+def documentacao() -> dict:
+    """A documentação funcional da plataforma: o mesmo arquivo do repositório, mostrado na última aba."""
+    return {"texto": (config.RAIZ / "docs" / "DOCUMENTACAO_FUNCIONAL.md").read_text(encoding="utf-8")}
 
 
 @app.get("/api/materias")
@@ -248,7 +307,8 @@ class EntradasCS(BaseModel):
 def teste_cs(e: EntradasCS) -> dict:
     codigo = decisao.decidir(e.falha, e.chuva, e.alagamento, e.pico)
     return {"entradas": e.model_dump(), "codigo": codigo, "texto": decisao.TEXTO[codigo], "regra_provisoria": decisao.REGRA_PROVISORIA,
-            "aviso": "Regra provisória de prioridades. A tabela-verdade, o Karnaugh e o circuito são do grupo, feitos à mão."}
+            "aviso": "Regra do produto, escrita como prioridades simples e independente da entrega de CS: a tabela-verdade, "
+                     "o Karnaugh e o circuito são da equipe, feitos à mão. Não é canal oficial."}
 
 
 @app.get("/api/teste/mlam")
@@ -276,16 +336,20 @@ class PedidoSERS(BaseModel):
     km: float
 
 
+Numero = Annotated[float, Field(allow_inf_nan=False, ge=-1_000_000, le=1_000_000)]
+
+
+class PedidoMMC(BaseModel):
+    etapa: int = 1
+    lados: list[Numero] | None = Field(None, max_length=4)                                 # Relatório I: os quatro valores
+    matriz: list[Annotated[list[Numero], Field(max_length=4)]] | None = Field(None, max_length=4)   # a matriz da equipe
+
+
 class PedidoSimulacao(BaseModel):
     parte: str
     canais: list[str] = []
     n: int = 3000
     semente: int = 7
-
-
-@app.get("/api/painel")
-def painel() -> dict:
-    return checklist.painel()
 
 
 @app.get("/api/materias/{cod}")
@@ -295,11 +359,12 @@ def materia(cod: str) -> dict:
         raise HTTPException(404, "Matéria não encontrada.")
     situacao = {"PCP": pcp.situacao, "DSA": dsa.situacao}.get(m["cod"])
     return {"materia": m, "no_sistema": m in materias.NO_SISTEMA, "checklist": checklist.da_materia(m["cod"]),
-            "status": checklist.STATUS, "situacao": situacao() if situacao else None}
+            "status": checklist.STATUS, "situacao": situacao() if situacao else None, "editavel": not config.modo_publico()}
 
 
 @app.patch("/api/checklist/{cod}/{item_id}")
 def mudar_item(cod: str, item_id: str, m: MudancaItem) -> dict:
+    _so_no_computador("o checklist fica")
     if m.status is not None and m.status not in checklist.STATUS:
         raise HTTPException(400, "Status inválido.")
     item = checklist.atualizar(cod.upper(), item_id, m.model_dump(exclude_none=True))
@@ -335,6 +400,14 @@ def teste_sers(p: PedidoSERS) -> dict:
     if not 0 < p.km <= 200:
         raise HTTPException(400, "Informe uma distância entre 0,1 e 200 km.")
     return testes.sers_testar(p.km)
+
+
+@app.post("/api/teste/mmc")
+def teste_mmc(p: PedidoMMC) -> dict:
+    """Etapa 1 (sistema linear da frota) ou Etapa 2 (necessidade por região e a conferência da matriz da equipe)."""
+    if p.etapa == 1:
+        return testes.mmc_etapa1(p.lados)
+    return testes.mmc_necessidade() if p.matriz is None else testes.mmc_conferir_matriz(p.matriz)
 
 
 @app.get("/api/laboratorio")

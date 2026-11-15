@@ -14,6 +14,7 @@ Contas (por pessoa, para a distância do trajeto):
 É estimativa a partir de médias oficiais, não medição da viagem de ninguém.
 """
 import json
+import re
 from functools import lru_cache
 from pathlib import Path
 
@@ -40,6 +41,42 @@ def _fonte(chave: str) -> str:
     return _pesquisa()["itens"][chave]["fonte"]
 
 
+# nome curto de cada fonte, para mostrar ao lado do link (o link vem do JSON)
+NOMES_DAS_FONTES = {
+    "fator_emissao_sin": "MCTI, fator de emissão da eletricidade (SIN)",
+    "renovaveis_matriz_eletrica": "EPE, Balanço Energético Nacional 2026",
+    "metro_sp_energia_por_passageiro_km": "Metrô de São Paulo, Relatório Integrado 2025",
+    "comparativo_metro_onibus_sp_gco2e_pkm": "Metrô de São Paulo, Relatório Integrado 2025",
+    "carro_consumo_hb20_sense_gasolina": "INMETRO, PBE Veicular 2026",
+    "fator_emissao_gasolina_automotiva": "Ministério dos Transportes, inventário de emissões",
+    "preco_gasolina_sp_capital": "ANP, preços semanais de combustíveis",
+    "tarifa_metro_trem": "Agência SP, tarifa de trem e metrô",
+    "tarifa_onibus_sptrans": "SPTrans, tarifas",
+}
+TIPOS = {"oficial": "dado oficial", "calculado": "calculado pela equipe", "estimativa": "estimativa"}
+
+
+def _ano(chave: str) -> str:
+    texto = str(_pesquisa()["itens"][chave].get("ano_referencia", ""))
+    faixa = re.search(r"\d{4}\s*-\s*(\d{4})", texto)         # "2004-2024": vale o último ano da série
+    achado = faixa or re.search(r"\d{4}", texto)
+    return achado.group(1 if faixa else 0) if achado else ""
+
+
+def _tipo(chave: str) -> str:
+    """Dado oficial (confiança alta no JSON), calculado pela equipe (a unidade diz) ou estimativa (o resto)."""
+    item = _pesquisa()["itens"][chave]
+    if "calculado" in str(item.get("unidade", "")).lower():
+        return "calculado"
+    return "oficial" if item.get("confianca") == "alta" else "estimativa"
+
+
+def _premissa(chave: str, texto: str, no_cartao: bool = False) -> dict:
+    tipo, ano = _tipo(chave), _ano(chave)
+    return {"chave": chave, "texto": texto, "tipo": tipo, "ano": ano, "no_cartao": no_cartao,
+            "rotulo": f"{TIPOS[tipo]}{', ' + ano if ano else ''}"}
+
+
 def _br(numero: float) -> str:
     return f"{numero:g}".replace(".", ",")
 
@@ -53,6 +90,7 @@ def comparar(km: float) -> dict:
     preco_gasolina = _v("preco_gasolina_sp_capital")
     onibus_gpkm = _v("comparativo_metro_onibus_sp_gco2e_pkm")
 
+    renovaveis = _v("renovaveis_matriz_eletrica")
     trilho_kwh = km * kwh_pkm
     litros = km / consumo_carro
     trilho_co2 = trilho_kwh * fator_sin                                    # sem arredondar, para a razão
@@ -69,20 +107,36 @@ def comparar(km: float) -> dict:
          "custo_rs": round(litros * preco_gasolina, 2), "custo_tipo": "combustível", "renovavel": False,
          "nota": f"Carro popular a gasolina, {_br(consumo_carro)} km/L na cidade (INMETRO); custo só do combustível."},
     ]
+    premissas = [
+        _premissa("fator_emissao_sin", f"fator da eletricidade de {_br(round(fator_sin * 1000, 1))} g de CO₂ por kWh (média do país, MCTI)", True),
+        _premissa("renovaveis_matriz_eletrica", f"{_br(renovaveis)}% da eletricidade do país vem de fonte renovável (EPE), o que sustenta o trilho como alternativa renovável"),
+        _premissa("metro_sp_energia_por_passageiro_km", f"metrô gasta {_br(kwh_pkm)} kWh por passageiro por km (Relatório Integrado do Metrô); trem usa o mesmo valor, pois a CPTM não publicou o dela"),
+        _premissa("carro_consumo_hb20_sense_gasolina", f"carro com uma pessoa, {_br(consumo_carro)} km/L na cidade, gasolina a R$ {preco_gasolina:.2f}".replace(".", ",") + " (preço da ANP)", True),
+        _premissa("comparativo_metro_onibus_sp_gco2e_pkm", f"ônibus com {onibus_gpkm:g} g de CO₂ por passageiro por km (dado publicado pelo Metrô, lotação média sem fonte oficial)", True),
+        _premissa("fator_emissao_gasolina_automotiva", f"gasolina com {_br(fator_gasolina)} kg de CO₂ por litro; faixa do carro entre a parte fóssil ({round(FRACAO_FOSSIL_GASOLINA_C * 100)}%, com 22% de etanol) e o litro inteiro"),
+        {"chave": "poder_calorifico_gasolina", "texto": f"energia da gasolina de {_br(MJ_POR_LITRO_GASOLINA)} MJ por litro (0,770 tep/m³ × 41,87 GJ/tep, BEN da EPE)",
+         "tipo": "calculado", "ano": "", "no_cartao": False, "rotulo": f"{TIPOS['calculado']}, a partir do BEN da EPE"},
+    ]
+    chaves_das_fontes = ("fator_emissao_sin", "renovaveis_matriz_eletrica", "metro_sp_energia_por_passageiro_km",
+                         "comparativo_metro_onibus_sp_gco2e_pkm", "carro_consumo_hb20_sense_gasolina", "fator_emissao_gasolina_automotiva",
+                         "preco_gasolina_sp_capital", "tarifa_metro_trem", "tarifa_onibus_sptrans")
+    fontes, vistas = [], set()
+    for c in chaves_das_fontes:                  # o poder calorífico usa o mesmo BEN (EPE) da fonte renovável
+        if _fonte(c) not in vistas:
+            vistas.add(_fonte(c))
+            fontes.append({"nome": NOMES_DAS_FONTES[c], "url": _fonte(c)})
     return {
         "km": km,
         "modos": modos,
         # razão calculada com os valores cheios: dividir números já arredondados distorcia o percentual
         "trilho_vs_carro": round(100 * trilho_co2 / carro_co2, 1) if carro_co2 else None,
-        "premissas": [
-            f"fator da eletricidade de {_br(round(fator_sin * 1000, 1))} g de CO₂ por kWh (média do país em 2025, MCTI)",
-            f"metrô gasta {_br(kwh_pkm)} kWh por passageiro por km (Relatório Integrado 2025); trem usa o mesmo valor, pois a CPTM não publicou o dela",
-            f"carro com uma pessoa, {_br(consumo_carro)} km/L, gasolina a R$ {preco_gasolina:.2f}".replace(".", ","),
-            f"ônibus com {onibus_gpkm:g} g de CO₂ por passageiro por km (dado publicado pelo Metrô)",
-        ],
+        "premissas": [f"{p['texto']} [{p['rotulo']}]" for p in premissas],
+        "premissas_detalhe": premissas,
         "rotulo": ROTULO,
-        "fontes": sorted({_fonte(c) for c in ("fator_emissao_sin", "metro_sp_energia_por_passageiro_km", "carro_consumo_hb20_sense_gasolina",
-                                              "fator_emissao_gasolina_automotiva", "preco_gasolina_sp_capital", "tarifa_metro_trem",
-                                              "tarifa_onibus_sptrans")}),
+        "fontes": sorted({f["url"] for f in fontes}),
+        "fontes_nomeadas": fontes,
+        "renovavel": {"percentual": renovaveis, "ano": _ano("renovaveis_matriz_eletrica"),
+                      "texto": f"O trilho é a alternativa renovável: usa a rede elétrica, que em {_ano('renovaveis_matriz_eletrica')} teve "
+                               f"{_br(renovaveis)}% de fonte renovável (EPE). É a média do país, não um contrato do Metrô."},
         "consultado_em": _pesquisa()["consultado_em"],
     }

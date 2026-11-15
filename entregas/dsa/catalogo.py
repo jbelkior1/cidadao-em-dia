@@ -98,6 +98,8 @@ class Catalogo:
         id = id.strip()
         if self.lista.esta_vazia():
             return False, "A lista está vazia: nenhum registro para excluir.", None
+        if id == "":
+            return False, "Informe um identificador.", None
         if self.lista.remover(id):
             return True, "Registro '" + id + "' excluído.", None
         return False, "Registro '" + id + "' não encontrado.", None

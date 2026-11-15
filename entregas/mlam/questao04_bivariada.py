@@ -151,7 +151,7 @@ def _graficos(df, x, y, a, b, r, modelo) -> None:
     ax.scatter(x, y, s=38, color="#2563eb", alpha=0.65, edgecolor="white", linewidth=0.6, label="Estação")
     grade = np.linspace(x.min(), x.max(), 100)
     ax.plot(grade, a + b * grade, color="#c2410c", lw=2.5,
-            label=f"Regressão: y = {a:.1f} {'+' if b >= 0 else '−'} {abs(b):.1f}x   (R² = {modelo.rsquared:.3f})")
+            label=f"Regressão: y = {comum.dec(a, 1)} {'+' if b >= 0 else '−'} {comum.dec(abs(b), 1)}x   (R² = {comum.dec(modelo.rsquared, 3)})")
     for _, linha in df.nlargest(3, y.name).iterrows():
         ax.annotate(linha["estacao"], (linha[X], linha[Y]), fontsize=8, xytext=(6, 2), textcoords="offset points")
     ax.set_title("Ocorrências no entorno da estação × distância até o Marco Zero")
@@ -172,7 +172,7 @@ def _graficos(df, x, y, a, b, r, modelo) -> None:
     ax.set_yticks([0, 1], rotulos, fontsize=9)
     for i in range(2):
         for j in range(2):
-            ax.text(j, i, f"{matriz[i, j]:.2f}", ha="center", va="center", fontsize=13, fontweight="bold")
+            ax.text(j, i, comum.dec(matriz[i, j]), ha="center", va="center", fontsize=13, fontweight="bold")
     ax.set_title("Correlação de Pearson", fontsize=11)
     fig.colorbar(imagem, ax=ax, shrink=0.8)
     fig.tight_layout()

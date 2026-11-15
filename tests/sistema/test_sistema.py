@@ -163,6 +163,22 @@ class Energia(unittest.TestCase):
         self.assertAlmostEqual(carro["custo_rs"], 15 / 13.3 * 6.35, places=2)
         self.assertTrue(all(f.startswith("https://") for f in r["fontes"]))
 
+    def test_premissas_tem_tipo_ano_e_fontes_com_nome(self):
+        r = energia.comparar(15)
+        self.assertTrue(all(p["tipo"] in ("oficial", "calculado", "estimativa") for p in r["premissas_detalhe"]))
+        self.assertIn("estimativa", {p["tipo"] for p in r["premissas_detalhe"]})
+        self.assertTrue(any("epe.gov.br" in f["url"] for f in r["fontes_nomeadas"]))
+        self.assertIn("86,8%", r["renovavel"]["texto"])
+
+    def test_cartao_da_viagem_leva_onibus_premissas_e_fontes(self):
+        from sistema.assistente import cartao_do_plano
+        from datetime import datetime
+        p = {"origem": "A", "destino": "B", "veredito": {"codigo": "pode_ir"}, "motivos": [], "linhas": [], "simulacao": None,
+             "rota": {"minutos": 10, "linhas": [], "etapas": [], "estacoes": []}, "plano_b": None, "energia": energia.comparar(15)}
+        c = cartao_do_plano(p, datetime(2026, 11, 15, 9, 0))["energia"]
+        self.assertGreater(c["onibus_g"], c["trilho_g"])
+        self.assertTrue(c["rotulo"] and c["renovavel"] and 2 <= len(c["premissas"]) <= 3 and c["fontes"])
+
     def test_teste_da_sers_mostra_os_passos(self):
         r = testes.sers_testar(10)
         self.assertEqual(len(r["passos"]), 4)

@@ -13,7 +13,7 @@ cd entregas/dsa
 python main.py
 ```
 
-Testes automatizados (na raiz do repositório):
+Testes automatizados (ficam em `tests/dsa`, na raiz do repositório do sistema, fora desta pasta; rode o comando a partir da raiz):
 
 ```
 python -m unittest discover -s tests/dsa -v
@@ -31,7 +31,7 @@ python -m unittest discover -s tests/dsa -v
 | `dados/servicos.json` | 15 serviços iniciais, tirados de páginas oficiais em 12/11/2026 e ainda em conferência pelo grupo |
 | `docs/DOCUMENTACAO.md` | Documentação técnica, algoritmos e análise Big-O |
 | `docs/EVIDENCIAS.md` | Cenários de teste: entrada, esperado, observado |
-| `integracao.py` | EXTRA, fora do enunciado: funções para o sistema web reutilizar o catálogo |
-| `../../tests/dsa/test_dsa.py` | Testes com `unittest` |
+| `integracao.py` | EXTRA, fora do enunciado e não exigido: ponte com o app (funções para o sistema web reutilizar o catálogo) |
+| `../../tests/dsa/test_dsa.py` | Testes com `unittest`, na raiz do repositório do sistema (fora desta pasta) |
 
 Mais detalhes na `docs/DOCUMENTACAO.md`.

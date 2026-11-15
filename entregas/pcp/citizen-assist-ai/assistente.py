@@ -286,6 +286,9 @@ class Assistente:
             ultima_pergunta = texto.strip()
             resposta = self.responder(texto)
             if not resposta["encontrou"]:
+                # o registro reflete a última tentativa: sem orientação e não encontrou
+                encontrou = False
+                ultimo_id = None
                 self.mostrar_nao_encontrei(resposta["categorias"])
                 continue
 

@@ -2,7 +2,7 @@
 """Peças comuns às questões 02 a 06: leitura da base, variáveis escolhidas e saída dos resultados.
 
 Base: uma linha por estação de trem ou metrô de São Paulo, com a contagem de ocorrências
-registradas pela SSP-SP num raio de 300 m entre janeiro e setembro de 2026 (ver dados/LEIA-ME.md).
+registradas pela SSP-SP num raio de 300 m entre janeiro e setembro de 2026 (fonte, filtros e limitações: docstring de preparar_base.py).
 
 Escolha das variáveis (vale para todas as questões):
 
@@ -13,18 +13,32 @@ Escolha das variáveis (vale para todas as questões):
   `noite` e `sem_faixa`. Cada um desses dois grupos soma exatamente `total` (conferido no código
   abaixo), então usá-los seria prever a variável com ela mesma.
 - `celular` está vazia de propósito: a planilha da SSP-SP não permite identificar o aparelho
-  (ver LEIA-ME). A coluna fica no arquivo para deixar essa limitação registrada.
+  (ver preparar_base.py). A coluna fica no arquivo para deixar essa limitação registrada.
 """
 from pathlib import Path
 
 import pandas as pd
 
 PASTA = Path(__file__).resolve().parent
-BASE = PASTA / "dados" / "ocorrencias_estacoes_2026.csv"
+ARQUIVO_BASE = "ocorrencias_estacoes_2026.csv"
+
+
+def _achar_base() -> Path:
+    """Procura o CSV em dados/ e, se não estiver lá, na própria pasta dos scripts.
+
+    No portal os arquivos chegam soltos, sem subpastas; por isso as duas posições valem.
+    """
+    for candidato in (PASTA / "dados" / ARQUIVO_BASE, PASTA / ARQUIVO_BASE):
+        if candidato.exists():
+            return candidato
+    return PASTA / "dados" / ARQUIVO_BASE
+
+
+BASE = _achar_base()
 SAIDAS = PASTA / "saidas"
 
-# O enunciado pede nome completo e RM de todos os integrantes em todos os arquivos.
-# Preencha aqui uma vez: o relatório PDF (questão 07) lê esta lista.
+# O enunciado pede nome completo e RM dos integrantes: ficam na capa do PDF e no cabeçalho dos .py
+# (o .csv não comporta cabeçalho). O relatório PDF (questão 07) lê esta lista.
 INTEGRANTES = [
     ("João Vitor Belchior Domingos Leite", "572478"),
     ("João Pedro Pereira Teixeira", "569937"),
@@ -50,12 +64,21 @@ FAIXAS = ["madrugada", "manha", "tarde", "noite", "sem_faixa"]
 
 def carregar() -> pd.DataFrame:
     """Lê a base e confere o que o resto das análises assume sobre ela."""
+    if not BASE.exists():
+        raise FileNotFoundError(
+            f"Não achei {ARQUIVO_BASE}. Coloque o arquivo na mesma pasta dos scripts .py "
+            f"({PASTA}) ou numa subpasta chamada dados.")
     df = pd.read_csv(BASE)
     assert len(df) == 139, f"esperava 139 estações, vieram {len(df)}"
     assert not df[[RESPOSTA, *EXPLICATIVAS]].isna().any().any(), "há vazio nas variáveis usadas"
     assert (df[PARTES].sum(axis=1) == df[RESPOSTA]).all(), "roubo+furto+outros deveria dar total"
     assert (df[FAIXAS].sum(axis=1) == df[RESPOSTA]).all(), "as faixas de horário deveriam somar total"
     return df
+
+
+def dec(valor: float, casas: int = 2) -> str:
+    """Número com vírgula decimal, para os textos dos gráficos (ex.: 0,63)."""
+    return f"{valor:.{casas}f}".replace(".", ",")
 
 
 def nome(coluna: str) -> str:

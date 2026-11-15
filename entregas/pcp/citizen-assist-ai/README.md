@@ -48,7 +48,7 @@ Menu principal:
 
 Em todas as telas, **0 volta**. Opção inválida, resposta vazia ou s/n inválido nunca encerram o programa.
 
-Testes automáticos (da raiz do repositório que contém esta pasta e a pasta `tests`):
+Testes automáticos: ficam no repositório do sistema, em `tests/pcp`, e não dentro desta pasta. Para rodá-los, use o comando abaixo a partir da raiz desse repositório (a pasta que contém `entregas/` e `tests/`):
 
 ```
 python -m unittest discover -s tests/pcp -v
@@ -101,7 +101,18 @@ Exemplo com a base desta entrega: em **"Como peço a declaração de atraso do m
 
 O exemplo numérico do próprio enunciado ("Como faço o cartão do SUS?" → 7 pontos, ALTA) continua conferido por um teste automático, com uma base de exemplo, para provar que a regra é exatamente a pedida.
 
-Os pesos e limites estão como constantes no começo de `base_conhecimento.py`; nesta versão são exatamente os do enunciado.
+Os pesos e limites estão como constantes no começo de `base_conhecimento.py`; os pesos (+3 e +1) e os limites de confiança (6 e 3) são exatamente os do enunciado.
+
+### Ajustes de regra em relação ao enunciado
+
+O enunciado aceita ajustes desde que explicados no README e no vídeo. Os da equipe são estes:
+
+1. **Alternativas só com 3 pontos ou mais.** O enunciado manda mostrar a melhor orientação e até duas alternativas; a equipe só mostra alternativa que tenha pelo menos 3 pontos (constante `MINIMO_CONFIANCA_MEDIA`), porque 1 ou 2 pontos seria só ruído.
+2. **Sinais extras tratados como separador.** Além de `?!.,;:()`, a função `normalizar()` troca também hífen, barra e aspas (simples e duplas) por espaço (constante `SINAIS`), para que "ida-e-volta" ou "metrô/trem" virem palavras separadas.
+3. **Comparação por palavra inteira.** `normalizar()` devolve o texto com um espaço no começo e no fim, e a palavra-chave só vale quando aparece como palavra inteira (`rg` não casa dentro de `energia`).
+4. **Palavra do título conta uma vez.** Cada palavra da pergunta com 4 letras ou mais que aparece no título dá +1 uma única vez, mesmo que se repita na pergunta.
+
+**Lembrete para a equipe:** esses ajustes precisam ser explicados também no vídeo (seção 6.2 do enunciado).
 
 ## Regras de atendimento
 
@@ -128,7 +139,9 @@ A exportação (opção 4) grava `data/atendimentos.csv` com `csv.DictWriter` (U
 
 ## Integrações com outras disciplinas
 
-Este programa é a entrega da PCP e roda sozinho, só com a biblioteca padrão. As mesmas classes (`Assistente`, `BaseConhecimento`, `Orientacao`) e a mesma busca por pontuação são reaproveitadas pelo app **Dá Tempo?**, o projeto da Global Solution do grupo, que mostra estas orientações nos cartões da assistente Lia. O app usa as classes sem gravar no `historico.json` desta entrega. **O grupo decide se declara essa integração no vídeo** (o enunciado deixa opcional); a busca por pontuação avaliada é a deste programa.
+Este programa é a entrega da PCP e roda sozinho, só com a biblioteca padrão. A mesma busca por pontuação (classes `BaseConhecimento` e `Assistente`, com `Orientacao`) é usada pelo app **Dá Tempo?**, o projeto da Global Solution do grupo, por meio de `sistema/adaptadores/pcp.py` (no repositório do sistema), para mostrar as orientações nos cartões da agente Lia. O app só chama `responder` e a busca; não grava no `historico.json` desta entrega.
+
+**Lembrete para a equipe:** a seção 6.3 do enunciado pede que a integração seja explicada no README e no vídeo. O vídeo precisa mostrar e explicar essa ligação com o app Dá Tempo?. A busca por pontuação avaliada em PCP continua sendo a deste programa.
 
 ## Fontes consultadas
 

@@ -1,7 +1,10 @@
 import { ArrowRight, RotateCcw, ShieldAlert } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 
-import { api, mobilidade, type EstadoDSA, type TesteCS, type TesteMLAM, type TestePAI, type TestePCP, type TesteSERS } from "../lib/api";
+import {
+  api, mobilidade, type EstadoDSA, type MmcEtapa1, type MmcMatriz, type MmcNecessidade, type ResultadosMLAM, type TesteCS, type TesteMLAM,
+  type TestePAI, type TestePCP, type TesteSERS,
+} from "../lib/api";
 
 const CAMPO = "w-full rounded-xl border border-linha bg-superficie px-3.5 py-2.5 text-[16px] focus:border-marca focus:outline-none";
 const BOTAO = "rounded-full bg-marca px-5 py-2.5 text-[15px] font-semibold text-white hover:bg-marca-forte disabled:opacity-50";
@@ -66,6 +69,24 @@ export function TestePcp() {
               <>Nenhuma orientação chegou a 3 pontos: o assistente diz que não encontrou e sugere as categorias.</>
             )}
           </p>
+          {r.normalizada !== undefined && (
+            <p className="text-[13px] text-apagado">
+              Como normalizar() vê a pergunta (sem acento, sem pontuação, minúsculas): <code className="rounded bg-fundo px-1.5 py-0.5 text-[13px] text-tinta">{r.normalizada}</code>
+            </p>
+          )}
+          {r.escolhida && (
+            <div className="space-y-1.5 rounded-xl border-2 border-[#2563EB]/30 bg-superficie px-4 py-3 text-[14px]">
+              <p className="font-semibold">&gt;&gt; {r.escolhida.titulo} <span className="font-normal text-apagado">[{r.escolhida.categoria}]</span></p>
+              <p>{r.escolhida.resposta}</p>
+              <p><span className="font-semibold">Documentos necessários: </span>{r.escolhida.documentos.length ? r.escolhida.documentos.join("; ") : "a fonte oficial consultada não lista nenhum."}</p>
+              <p><span className="font-semibold">Onde: </span>{r.escolhida.onde}</p>
+              <p className="break-all">
+                <span className="font-semibold">Fonte: </span>
+                <a href={r.escolhida.fonte} target="_blank" rel="noreferrer" className="text-marca-forte underline">{r.escolhida.fonte}</a> (verificado em {r.escolhida.verificado_em})
+              </p>
+              {r.aviso && <p className="text-[13px] font-semibold">{r.aviso}</p>}
+            </div>
+          )}
           <p className="text-[13px] text-apagado">A lista de tuplas que buscar() devolve, da maior para a menor pontuação:</p>
           {r.resultados.length === 0 && <p className="text-[14px] text-apagado">Nenhuma orientação recebeu ponto.</p>}
           <ol className="space-y-2">
@@ -205,12 +226,17 @@ const ROTULOS: Record<keyof typeof VAZIO, string> = {
   id: "Identificador", titulo: "Título", categoria: "Categoria", descricao: "Descrição", publico_alvo: "Público-alvo", canal: "Canal de atendimento", prazo: "Prazo (AAAA-MM-DD, opcional)",
 };
 
+const EDITAVEIS: (keyof typeof VAZIO)[] = ["titulo", "categoria", "descricao", "publico_alvo", "canal", "prazo"];
+
 export function TesteDsa() {
   const [estado, setEstado] = useState<EstadoDSA | null>(null);
   const [trecho, setTrecho] = useState("ouvidoria");
   const [campo, setCampo] = useState("titulo");
   const [novo, setNovo] = useState(VAZIO);
   const [ocupado, setOcupado] = useState(false);
+  const [alvo, setAlvo] = useState("SRV-003");
+  const [campoNovo, setCampoNovo] = useState<keyof typeof VAZIO>("titulo");
+  const [valor, setValor] = useState("");
 
   useEffect(() => {
     api.estadoDSA().then(setEstado).catch(() => setEstado(null));
@@ -249,6 +275,25 @@ export function TesteDsa() {
         <input id="trecho-dsa" value={trecho} onChange={(e) => setTrecho(e.target.value)} className={CAMPO} placeholder="Trecho para pesquisar" />
         <button type="submit" disabled={ocupado} className={BOTAO}>Pesquisar</button>
       </form>
+
+      <div className="grid gap-2 rounded-xl border border-linha bg-superficie p-3 sm:grid-cols-[8rem_10rem_minmax(0,1fr)_auto_auto] sm:items-end">
+        <div>
+          <label htmlFor="alvo-dsa" className="block text-[13px] font-semibold">Identificador</label>
+          <input id="alvo-dsa" value={alvo} onChange={(e) => setAlvo(e.target.value)} className={CAMPO} />
+        </div>
+        <div>
+          <label htmlFor="campo-novo-dsa" className="block text-[13px] font-semibold">Campo</label>
+          <select id="campo-novo-dsa" value={campoNovo} onChange={(e) => setCampoNovo(e.target.value as keyof typeof VAZIO)} className={CAMPO}>
+            {EDITAVEIS.map((k) => <option key={k} value={k}>{ROTULOS[k].replace(" (AAAA-MM-DD, opcional)", "")}</option>)}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="valor-dsa" className="block text-[13px] font-semibold">Novo valor</label>
+          <input id="valor-dsa" value={valor} onChange={(e) => setValor(e.target.value)} className={CAMPO} placeholder="deixe vazio para ver a validação" />
+        </div>
+        <button type="button" disabled={ocupado} onClick={() => operar("consultar", { id: alvo })} className={BOTAO_2}>Consultar</button>
+        <button type="button" disabled={ocupado} onClick={() => operar("atualizar", { id: alvo, campo: campoNovo, valor })} className={BOTAO_2}>Atualizar</button>
+      </div>
 
       {estado && (
         <>
@@ -338,6 +383,31 @@ export function TesteSers() {
           <ol className="list-decimal space-y-1.5 rounded-xl border border-linha bg-superficie py-4 pr-4 pl-9 text-[15px]">
             {r.passos.map((p) => <li key={p}>{p}</li>)}
           </ol>
+          <div className="overflow-x-auto rounded-xl border border-linha bg-superficie">
+            <table className="w-full min-w-[520px] text-left text-[14px]">
+              <caption className="px-4 pt-3 text-left text-[14px] font-semibold">
+                No mesmo período: um mês de trabalho ({r.mensal.dias_uteis} dias úteis, ida e volta = {r.mensal.viagens} viagens)
+              </caption>
+              <thead>
+                <tr className="text-[13px] text-apagado">
+                  <th className="px-4 py-2 font-semibold">Alternativa</th><th className="px-4 py-2 font-semibold">Energia</th>
+                  <th className="px-4 py-2 font-semibold">CO₂</th><th className="px-4 py-2 font-semibold">Custo</th>
+                </tr>
+              </thead>
+              <tbody>
+                {r.mensal.modos.map((m) => (
+                  <tr key={m.modo} className="border-t border-linha">
+                    <td className="px-4 py-2 font-semibold">{m.modo}{m.renovavel && <span className="ml-2 rounded-full bg-ok-suave px-2 py-0.5 text-[11px] text-ok">renovável</span>}</td>
+                    <td className="px-4 py-2 tabular-nums">{m.energia_kwh === null ? "sem fonte" : `${m.energia_kwh.toLocaleString("pt-BR")} kWh`}</td>
+                    <td className="px-4 py-2 tabular-nums">
+                      {m.co2_kg_max ? `${m.co2_kg.toLocaleString("pt-BR")} a ${m.co2_kg_max.toLocaleString("pt-BR")} kg` : `${m.co2_kg.toLocaleString("pt-BR")} kg`}
+                    </td>
+                    <td className="px-4 py-2 tabular-nums">{m.custo_rs.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} <span className="text-[12px] text-apagado">({m.custo_tipo})</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           {r.trilho_vs_carro !== null && (
             <p className="text-[15px]">De trem ou metrô, a viagem emite cerca de {r.trilho_vs_carro.toLocaleString("pt-BR")}% do CO₂ do carro (parte fóssil).</p>
           )}
@@ -350,7 +420,6 @@ export function TesteSers() {
               {r.fontes.map((f) => <li key={f}><a href={f} target="_blank" rel="noreferrer" className="text-marca-forte underline">{f}</a></li>)}
             </ul>
           </details>
-          <p className="rounded-xl bg-alerta-suave px-4 py-3 text-[14px] text-alerta"><span className="font-semibold">Falta para a entrega:</span> {r.falta}</p>
         </>
       )}
     </div>
@@ -401,6 +470,60 @@ export function TesteCs() {
 /* ---------------------------------------------------------------- MLAM */
 
 const NOME_FAIXA: Record<string, string> = { madrugada: "Madrugada", manha: "Manhã", tarde: "Tarde", noite: "Noite" };
+const num = (x: number, casas = 3) => x.toLocaleString("pt-BR", { maximumFractionDigits: casas });
+const pct = (x: number) => `${num(100 * x, 1)}%`;
+const pValor = (p: number) => (p < 0.0001 ? "p < 0,0001" : `p = ${num(p, 4)}`);
+const virgula = (texto: string) => texto.replace(/(\d)\.(\d)/g, "$1,$2");     // a entrega grava a equação com ponto decimal
+
+function Questoes({ q }: { q: ResultadosMLAM }) {
+  const logito = Object.entries(q.q06.coeficientes)
+    .map(([k, v]) => (k === "const" ? num(v, 4) : `${v < 0 ? "−" : "+"} ${num(Math.abs(v), 4)} × ${k}`))
+    .join(" ");
+  const cartao = "rounded-xl border border-linha bg-superficie p-4 text-[14px]";
+  return (
+    <section className="space-y-3" aria-labelledby="titulo-questoes-mlam">
+      <h4 id="titulo-questoes-mlam" className="text-[16px] font-bold">Resultados das questões 02 a 06</h4>
+      <p className="text-[13px] text-apagado">Números gravados por entregas/mlam/main.py (saidas/resultados.json), com a base real da SSP-SP. Nada é recalculado nesta página.</p>
+      <div className="grid gap-3 lg:grid-cols-2">
+        <div className={cartao}>
+          <p className="font-semibold">02 · Probabilidade com distribuição normal</p>
+          <p className="text-apagado">Média {num(q.q02.media, 1)}, mediana {num(q.q02.mediana, 1)}, desvio padrão {num(q.q02.desvio, 1)} registros por estação.</p>
+          <p>a) P(X &lt; média) = {num(q.q02.p_menor_media)}: {q.q02.classe_a}</p>
+          <p>b) P(X &gt; mediana) = {num(q.q02.p_maior_mediana)}: {q.q02.classe_b}</p>
+        </div>
+        <div className={cartao}>
+          <p className="font-semibold">03 · Testes de hipótese para a média</p>
+          {q.q03.map((t) => (
+            <p key={t.item}>
+              {t.item}) média {t.lado} que a de referência, α = {pct(t.alfa)}, n = {t.n}: z = {num(t.z)}, z crítico = {num(t.z_critico)}, {pValor(t.p_valor)}.{" "}
+              <span className="font-semibold">{t.rejeita_h0 ? "Rejeita H0." : "Não rejeita H0."}</span>
+            </p>
+          ))}
+        </div>
+        <div className={cartao}>
+          <p className="font-semibold">04 · Análise bivariada e regressão simples</p>
+          <p>{virgula(q.q04.equacao)}</p>
+          <p className="text-apagado">Covariância {num(q.q04.covariancia, 1)}; Pearson r = {num(q.q04.pearson_r)}; R² = {num(q.q04.r2)}; F = {num(q.q04.F, 2)} ({pValor(q.q04.F_p)}).</p>
+          <p>Previsão a {num(q.q04.previsao_km, 1)} km do marco zero: {num(q.q04.previsao, 0)} registros.</p>
+        </div>
+        <div className={cartao}>
+          <p className="font-semibold">05 · Análise multivariada e regressão múltipla</p>
+          <p>{virgula(q.q05.equacao)}</p>
+          <p className="text-apagado">R² = {num(q.q05.r2)}; R² ajustado = {num(q.q05.r2_ajustado)}; F = {num(q.q05.F, 2)} ({pValor(q.q05.F_p)}).</p>
+          <p>Previsão com {q.q05.explicativas.length} variáveis explicativas: {num(q.q05.previsao, 0)} registros.</p>
+        </div>
+        <div className={`${cartao} lg:col-span-2`}>
+          <p className="font-semibold">06 · Regressão logística binária</p>
+          <p>logito(p) = {logito}</p>
+          <p className="text-apagado">
+            Matriz de confusão: VN {q.q06.matriz.vn}, FP {q.q06.matriz.fp}, FN {q.q06.matriz.fn}, VP {q.q06.matriz.vp}. Acurácia {pct(q.q06.acuracia)}, contra {pct(q.q06.piso)} de quem chuta sempre a classe mais comum.
+          </p>
+          {q.q06.classificacao && <p>Classificação: {q.q06.classificacao.nome}: probabilidade {pct(q.q06.classificacao.probabilidade)}, classe {q.q06.classificacao.classe}.</p>}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export function TesteMlam() {
   const [r, setR] = useState<TesteMLAM | null>(null);
@@ -418,6 +541,8 @@ export function TesteMlam() {
 
   return (
     <div className="space-y-5">
+      {r.questoes && <Questoes q={r.questoes} />}
+      <h4 className="text-[16px] font-bold">A base</h4>
       <p className="text-[15px]">
         {r.estacoes} estações da capital, ocorrências registradas a menos de {r.meta.raio_m} m, de {r.meta.periodo}.{" "}
         <a href={r.meta.fonte} target="_blank" rel="noreferrer" className="text-marca-forte underline">Planilha da SSP-SP</a>.
@@ -461,23 +586,160 @@ export function TesteMlam() {
           ))}
         </ol>
       </div>
-      <p className="text-[13px] text-apagado">{r.meta.observacao}</p>
-      <p className="rounded-xl bg-alerta-suave px-4 py-3 text-[14px] text-alerta"><span className="font-semibold">Falta para a entrega:</span> {r.falta}</p>
+      <p className="text-[13px] text-apagado">{r.meta.observacao} A base conta registros perto da estação, sem o fluxo de passageiros: não é taxa de risco.</p>
     </div>
   );
 }
 
-/* ---------------------------------------------------------------- em construção */
+/* ---------------------------------------------------------------- MMC */
 
-export function TesteEmConstrucao({ cod }: { cod: string }) {
-  const textos: Record<string, string> = {
-    MMC: "O simulador dos ônibus de apoio entra se houver tempo: a frota de 72 ônibus por região e a redistribuição por transformação linear criada pelo grupo, que mantém o total e não gera número negativo.",
-    COA: "Esta entrega fica fora do app, no Wokwi: um Raspberry Pi Pico com sensor de nível de água acende o alerta num ponto de alagamento. No app, os pontos de alagamento vêm do GeoSampa.",
+const REGIOES = ["Norte", "Sul", "Leste", "Oeste"];
+const IDENTIDADE = REGIOES.map((_, i) => REGIOES.map((__, j) => (i === j ? "1" : "0")));
+
+export function TesteMmc() {
+  const [lados, setLados] = useState(["72", "76", "52", "76"]);
+  const [e1, setE1] = useState<MmcEtapa1 | null>(null);
+  const [nec, setNec] = useState<MmcNecessidade | null>(null);
+  const [matriz, setMatriz] = useState<string[][]>(IDENTIDADE);
+  const [conf, setConf] = useState<MmcMatriz | null>(null);
+  const [erro, setErro] = useState("");
+
+  const resolver = async (evento?: FormEvent) => {
+    evento?.preventDefault();
+    setErro("");
+    try {
+      setE1(await mobilidade.mmcEtapa1(lados.map((x) => Number(x.replace(",", ".")))));
+    } catch (e) {
+      setErro(e instanceof Error ? e.message : "Não consegui resolver.");
+    }
   };
+  const conferir = async (evento?: FormEvent) => {
+    evento?.preventDefault();
+    setErro("");
+    try {
+      setConf(await mobilidade.mmcMatriz(matriz.map((linha) => linha.map((x) => Number(x.replace(",", "."))))));
+    } catch (e) {
+      setErro(e instanceof Error ? e.message : "Não consegui conferir a matriz.");
+    }
+  };
+  useEffect(() => {
+    void resolver();
+    mobilidade.mmcNecessidade().then(setNec).catch(() => setNec(null));
+  }, []);
+
+  const cartao = "space-y-3 rounded-xl border border-linha bg-superficie p-4 text-[14px]";
   return (
-    <div className="space-y-3 rounded-xl border border-dashed border-linha bg-superficie p-5 text-[15px]">
-      <p className="font-semibold">{cod === "COA" ? "Entregue à parte" : "Em construção"}</p>
-      <p className="text-apagado">{textos[cod] ?? "Teste ainda não disponível."}</p>
+    <div className="space-y-5">
+      {erro && <p className="rounded-xl bg-erro-suave px-4 py-3 text-erro">{erro}</p>}
+      <form onSubmit={resolver} className={cartao}>
+        <p className="text-[15px] font-semibold">Etapa 1 · Recuperar a frota atual (Relatório I)</p>
+        <p className="text-apagado">Variáveis: ônibus em cada região (N, S, L, O). Os quatro registros viram o sistema Ax = b; dá para mudar os valores de b.</p>
+        <div className="grid gap-2 sm:grid-cols-2">
+          {(e1?.equacoes ?? []).map((eq, i) => (
+            <label key={eq.texto} className="flex items-center gap-2">
+              <span className="w-32 shrink-0 font-mono text-[13px]">{eq.texto} =</span>
+              <input value={lados[i]} onChange={(ev) => setLados(lados.map((x, k) => (k === i ? ev.target.value : x)))} inputMode="decimal" className={CAMPO} />
+            </label>
+          ))}
+        </div>
+        <button type="submit" className={BOTAO}>Resolver</button>
+        {e1?.ok && (
+          <div className="space-y-1.5">
+            <p className="font-semibold">{e1.conclusao}</p>
+            <p className="text-apagado">det(A) = {num(e1.determinante, 4)}; posto(A) = {e1.posto_a}; posto(A|b) = {e1.posto_ampliada}.</p>
+            {e1.frota && <p>Distribuição: {Object.entries(e1.frota).map(([r, n]) => `${r} ${num(n, 2)}`).join(", ")}.</p>}
+            {e1.conferencia && <ul className="list-disc pl-5 text-apagado">{e1.conferencia.map((c) => <li key={c}>{c}</li>)}</ul>}
+          </div>
+        )}
+      </form>
+
+      {nec && (
+        <div className={cartao}>
+          <p className="text-[15px] font-semibold">Etapa 2 · Necessidade por região (Relatório II)</p>
+          <p className="text-apagado">Passageiros no pico ÷ {nec.capacidade} por ônibus, arredondado para cima. Total disponível: {nec.total_atual}; total necessário: {nec.total_necessario}.</p>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[420px] text-left">
+              <thead><tr className="text-[13px] text-apagado"><th className="py-1 pr-3">Região</th><th className="py-1 pr-3">Passageiros</th><th className="py-1 pr-3">Tem</th><th className="py-1 pr-3">Precisa</th><th className="py-1">Diferença</th></tr></thead>
+              <tbody>
+                {REGIOES.map((r) => (
+                  <tr key={r} className="border-t border-linha tabular-nums">
+                    <td className="py-1 pr-3 font-semibold">{r}</td><td className="py-1 pr-3">{nec.passageiros[r]}</td><td className="py-1 pr-3">{nec.atual[r]}</td>
+                    <td className="py-1 pr-3">{nec.necessidade[r]}</td><td className={`py-1 ${nec.diferenca[r] < 0 ? "text-erro" : ""}`}>{nec.diferenca[r] > 0 ? `+${nec.diferenca[r]}` : nec.diferenca[r]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      <form onSubmit={conferir} className={cartao}>
+        <p className="text-[15px] font-semibold">Etapa 2 · Conferir a matriz de redistribuição da equipe</p>
+        <p className="text-apagado">
+          A política e a matriz são da equipe, como o enunciado exige; aqui só se confere o que ele pede: preservar o total e não gerar alocação negativa.
+          Convenção: a coluna diz para onde vão os ônibus da região de origem (cada coluna precisa somar 1). Começa pela identidade, que não muda nada.
+        </p>
+        <div className="overflow-x-auto">
+          <table className="text-[13px]">
+            <thead><tr><th className="px-1 text-left text-apagado">para \ de</th>{REGIOES.map((r) => <th key={r} className="px-1 font-semibold">{r}</th>)}</tr></thead>
+            <tbody>
+              {REGIOES.map((r, i) => (
+                <tr key={r}>
+                  <th className="px-1 pr-2 text-left font-semibold">{r}</th>
+                  {REGIOES.map((de, j) => (
+                    <td key={de} className="p-1">
+                      <input aria-label={`fração de ${de} para ${r}`} value={matriz[i][j]} inputMode="decimal"
+                        onChange={(ev) => setMatriz(matriz.map((linha, a) => linha.map((x, b) => (a === i && b === j ? ev.target.value : x))))}
+                        className="w-20 rounded-lg border border-linha bg-superficie px-2 py-1.5 text-right tabular-nums focus:border-marca focus:outline-none" />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <button type="submit" className={BOTAO}>Conferir a matriz</button>
+        {conf && !conf.ok && <p className="text-erro">{conf.mensagem}</p>}
+        {conf?.ok && (
+          <div className="space-y-1.5">
+            <p className={conf.preserva_total ? "text-ok" : "text-erro"}>
+              {conf.preserva_total ? "Preserva o total: cada coluna soma 1." : "Não preserva o total: há coluna que não soma 1."} Somas: {conf.somas_das_colunas.map((s) => num(s, 4)).join("; ")}.
+            </p>
+            <p className={conf.sem_entrada_negativa ? "text-ok" : "text-erro"}>
+              {conf.sem_entrada_negativa ? "Nenhuma entrada negativa: nenhuma região fica com número negativo." : "Há entrada negativa: alguma região pode ficar negativa."}
+            </p>
+            <p>
+              Nova distribuição: {Object.entries(conf.nova_distribuicao).map(([r, n]) => `${r} ${num(n, 2)}`).join(", ")} (total {num(conf.total_depois, 2)} de {conf.total_antes}).
+              {!conf.inteira && " Há valores não inteiros: a equipe precisa explicar como arredonda."}
+            </p>
+            <p className="text-apagado">Atende a necessidade: {Object.entries(conf.atende).map(([r, ok]) => `${r} ${ok ? "sim" : "não"}`).join(", ")}.</p>
+          </div>
+        )}
+      </form>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- COA */
+
+export function TesteCoa({ links }: { links?: { wokwi?: string; video?: string } }) {
+  return (
+    <div className="space-y-3 rounded-xl border border-linha bg-superficie p-5 text-[15px]">
+      <p className="font-semibold">A simulação roda no Wokwi, não dentro do app</p>
+      <p className="text-apagado">
+        Um Raspberry Pi Pico, programado em MicroPython, lê o sensor de nível de água num ponto de alagamento e aciona o alerta conforme o nível.
+        O professor confere o circuito, o código e a mudança das leituras no projeto e no vídeo.
+      </p>
+      <ul className="space-y-1.5 text-[14px]">
+        <li>
+          <span className="font-semibold">Projeto no Wokwi: </span>
+          {links?.wokwi ? <a href={links.wokwi} target="_blank" rel="noreferrer" className="break-all text-marca-forte underline">{links.wokwi}</a> : <span className="text-apagado">a equipe publica o link aqui.</span>}
+        </li>
+        <li>
+          <span className="font-semibold">Vídeo: </span>
+          {links?.video ? <a href={links.video} target="_blank" rel="noreferrer" className="break-all text-marca-forte underline">{links.video}</a> : <span className="text-apagado">a equipe publica o link aqui.</span>}
+        </li>
+      </ul>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-MLAM: Global Solution 2026.2, análises rodadas em 13/11/2026 15:39
+MLAM: Global Solution 2026.2, análises rodadas em 15/11/2026 19:17
 Base: ocorrencias_estacoes_2026.csv (139 estações, SSP-SP, jan–set/2026)
 
 ==============================================================================
@@ -58,7 +58,10 @@ Decisão: REJEITA H0 (p-valor < α)
 Interpretação:
   A média das 20 estações mais distantes é 216.8, contra 341.8 da rede inteira.
   Com z = -1.684 abaixo do crítico -1.555 e p-valor 0.0461, o
-  procedimento rejeita H0 a 6%, mas por pouco: a 5% o resultado já seria outro.
+  procedimento rejeita H0 a 6%, mas por pouco: o p-valor (0.0461) está só um pouco abaixo
+  do nível de 6%. A 5% a decisão seria a mesma (o z crítico a 5% é -1.645 e o z
+  observado, -1.684, continua além dele); o resultado só deixaria de rejeitar H0 se o nível
+  fosse menor que o próprio p-valor, ou seja, abaixo de 4.6%.
   Cuidado com a leitura: este grupo não foi sorteado, foi escolhido pelos extremos de distância e faz
   parte da própria população de referência. Nesse caso o p-valor não mede "acaso de amostragem"; o
   teste descreve que esse grupo de ponta de linha tem média de registros abaixo da rede, não prova
@@ -288,8 +291,9 @@ Interpretação:
   O R² ajustado mostra de onde vem o ganho, porque penaliza variável que não ajuda: com distância e
   linhas ele vai a 0.3845; acrescentando a latitude, cai para
   0.3803. Ou seja, a quantidade de linhas valeu a pena e a latitude não acrescenta
-  nada (p-valor 0.789). Ela fica no modelo porque o enunciado pede três
-  explicativas, não porque melhora o ajuste.
+  nada (p-valor 0.789). Foi incluída para testar se a posição norte-sul
+  acrescenta algo ao que distância e linhas já explicam, e a resposta é que não acrescenta.
+  O enunciado pede pelo menos três variáveis quantitativas, e a resposta conta como uma delas.
   Todos os VIF estão abaixo de 5, então não há multicolinearidade que atrapalhe a leitura dos
   coeficientes.
   Pressupostos: Breusch-Pagan com p-valor 0.0187 indica variância desigual dos
@@ -359,8 +363,9 @@ Interpretação:
   o coeficiente é instável.
   Só a distância é significativa aqui (p-valor 0.0006).
   A latitude não é significativa (p-valor 0.868), como na questão 05: depois da
-  distância ao centro, a posição norte-sul não acrescenta. Ficou no modelo porque o enunciado pede
-  pelo menos três variáveis quantitativas, e sua presença está registrada aqui como limitação.
+  distância ao centro, a posição norte-sul não acrescenta. Foi incluída para testar se a posição
+  norte-sul acrescenta algo; o enunciado pede pelo menos três variáveis quantitativas (a resposta
+  conta como uma), e o resultado fica registrado.
   O LLR testa o modelo inteiro contra um modelo só com o intercepto, e rejeita (p-valor
   2.8e-05). O pseudo R² de McFadden não se lê como o R² da regressão linear: a
   referência usual é que 0,2 a 0,4 já indica bom ajuste, e aqui ele é 0.123, abaixo

@@ -8,7 +8,7 @@ medidas, as interpretações e os insights das questões 02 a 06.
 Os números não são digitados aqui: vêm de saidas/resultados.json, que o main.py grava. Se a base ou um
 script mudar, basta rodar de novo e o PDF acompanha.
 
-    python main.py                  # gera resultados.json e os gráficos
+    python main.py                  # gera resultados.json e os gráficos (rode antes; se faltar, este script o roda)
     python questao07_relatorio.py   # gera saidas/relatorio_mlam_gs2026.pdf
 
 Nome completo e RM dos integrantes: vêm de comum.INTEGRANTES.
@@ -237,7 +237,19 @@ def montar(r: dict) -> list:
 
     # ---------------- Q05
     c5, pv5, bp5 = q5["coeficientes"], q5["p_valores"], q5["pressupostos"]
+    vars5 = ["total", *q5["explicativas"]]
     hist += [PageBreak(), P("Distância, linhas e latitude juntas (questão 05)", "h1"),
+             P("Questão 05b: matriz de covariância e matriz de correlação de Pearson", "h2"),
+             tabela([["covariância", *vars5], *[[a_, *[br(q5["covariancia"][b_][a_], 3) for b_ in vars5]]
+                                                for a_ in vars5]], [4.4, 3.1, 3.1, 3.1, 3.1]),
+             Spacer(1, 4),
+             tabela([["correlação de Pearson", *vars5], *[[a_, *[br(q5["correlacao"][b_][a_], 3) for b_ in vars5]]
+                                                          for a_ in vars5]], [4.4, 3.1, 3.1, 3.1, 3.1]),
+             P(f"Leitura: na covariância só o sinal importa, porque cada célula tem uma unidade diferente. Na "
+               f"correlação, o número de linhas é o que mais acompanha o total ({br(q5['correlacao']['total']['qtd_linhas'], 3)}), "
+               f"seguido da distância ({br(q5['correlacao']['total']['dist_marco_zero_km'], 3)}); a latitude é fraca "
+               f"({br(q5['correlacao']['total']['lat'], 3)}).", "nota"),
+             Spacer(1, 4),
              tabela([["variável", "coeficiente", "p-valor", "p-valor robusto (HC3)", "VIF"],
                      *[[v, br(c5[v], 2), p_valor(pv5[v]), p_valor(bp5["p_robusto"][v]), br(q5["vif"][v], 2)]
                        for v in q5["explicativas"]]], [4.4, 3, 2.6, 4, 2]),
@@ -267,6 +279,10 @@ def montar(r: dict) -> list:
     hist += [PageBreak(), P("Classificar estações de muito registro (questão 06)", "h1"),
              P(f"Resposta binária: 1 se a estação tem mais que a mediana ({br(q6['corte_mediana'], 0)} ocorrências), "
                f"0 se não. Regressão logística com as mesmas três explicativas."),
+             P("Questão 06a: equação da regressão logística binária", "h2"),
+             P(f"logito(p) = ln(p / (1 − p)) = {br(q6['coeficientes']['const'], 4)} " + " ".join(
+                 f"{'+' if q6['coeficientes'][v] >= 0 else '−'} {br(abs(q6['coeficientes'][v]), 4)} × {v}"
+                 for v in q5["explicativas"]) + ", com p = 1 / (1 + e<super>−logito</super>)."),
              tabela([["variável", "razão de chance", "p-valor"],
                      *[[v, br(q6["razoes_de_chance"][v], 3), p_valor(q6["p_valores"][v])] for v in q5["explicativas"]]],
                     [6, 5, 5]),
@@ -309,17 +325,21 @@ def montar(r: dict) -> list:
     ]:
         hist.append(P(f"• {texto}"))
     hist += [Spacer(1, 8), P("Como reproduzir", "h2"),
-             P("Na pasta entregas/mlam: python main.py e depois python questao07_relatorio.py. Os scripts de cada "
-               "questão, a base em .csv e o passo a passo de montagem da base (dados/LEIA-ME.md e preparar_base.py) "
-               "acompanham este relatório.")]
+             P("Coloque todos os arquivos recebidos numa mesma pasta (o .csv pode ficar junto dos .py ou numa subpasta "
+               "chamada dados). Depois rode python main.py e, em seguida, python questao07_relatorio.py. Os scripts de "
+               "cada questão e a base em .csv acompanham este relatório. A fonte, os filtros e as limitações da base "
+               "estão resumidos no início do arquivo preparar_base.py, que também traz o passo a passo de montagem.")]
     return hist
 
 
 def main() -> int:
     arquivo_resultados = comum.SAIDAS / "resultados.json"
     if not arquivo_resultados.exists():
-        print("Rode python main.py antes: ele gera saidas/resultados.json e os gráficos.")
-        return 1
+        print("Falta saidas/resultados.json: ele é gravado pelo main.py (rode python main.py antes).")
+        print("Rodando o main.py agora para gerar o que falta...")
+        print()
+        import main as rodar_questoes
+        rodar_questoes.main()
     resultados = json.loads(arquivo_resultados.read_text(encoding="utf-8"))
     doc = SimpleDocTemplate(str(ARQUIVO), pagesize=A4, leftMargin=2 * cm, rightMargin=2 * cm,
                             topMargin=1.8 * cm, bottomMargin=1.8 * cm,

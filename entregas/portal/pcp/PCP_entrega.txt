@@ -1,0 +1,10 @@
+Nome do assistente: Citizen Assist AI
+Público atendido: Pessoas que usam metrô, trem e ônibus em São Paulo no dia a dia, principalmente quem depende do transporte público para chegar ao trabalho ou à escola.
+Integrantes e RM: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
+Link do repositório GitHub: [COLE AQUI O LINK DO REPOSITÓRIO citizen-assist-ai]
+Link do vídeo técnico no YouTube: [COLE AQUI O LINK DO VÍDEO]
+
+Sobre a entrega
+Como foi feito: assistente de terminal em Python, só com a biblioteca padrão, em 3 classes (Orientacao, BaseConhecimento e Assistente) ligadas por composição, em 4 arquivos. As 16 orientações de transporte ficam em data/base_conhecimento.json, com fonte oficial e data. A busca normaliza o texto e dá +3 por palavra-chave e +1 por palavra do título; a confiança sai dos pontos. Dado pessoal (8 ou mais dígitos ou @) é recusado e não é registrado. Histórico, indicadores e CSV são do próprio programa.
+O que agrega ao Dá Tempo?: as mesmas classes e a mesma busca por pontos dão as orientações que a agente Lia mostra no app do grupo (linha parada, chuva, segurança, direitos e acessibilidade), sempre com fonte, data e o aviso de que não é canal oficial.
+Página da matéria no sistema: {URL_SISTEMA}/materias/pcp

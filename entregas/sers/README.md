@@ -33,10 +33,12 @@ distância: `python comparar_energia.py 8.5`. Precisa de Python 3.13; não usa b
 
 O mesmo cálculo aparece no app: suba o sistema (`uv run uvicorn sistema.api:app --port 8010`), abra a
 conversa com a Lia e peça uma viagem. No cartão da viagem, em "Segurança nas estações e energia", a Lia
-mostra, para a distância daquele trajeto, o CO₂ e a tarifa de ir de trilho contra o CO₂ e o gasto de
-gasolina de ir de carro, com o aviso de que é estimativa por médias oficiais. O
-ônibus, as premissas e as fontes completas aparecem no teste da matéria (página da SERS no sistema) e
-neste script; o cartão traz só o resumo, para caber na conversa.
+mostra, para a distância daquele trajeto, o CO₂ e a tarifa do trilho, do ônibus e do carro, a linha que
+identifica o trilho como a alternativa renovável (86,8% de fonte renovável na eletricidade do país, EPE),
+o rótulo de que é estimativa, as premissas principais com o tipo e o ano de cada uma, e as fontes com
+link. A Lia recebe os mesmos números da ferramenta `ver_trajeto`, só fala com eles, diz que são estimativas
+e cita a fonte principal. A lista completa de premissas e fontes aparece no teste da matéria (página da
+SERS no sistema) e neste script.
 
 ## Onde está cada coisa (a parte da SERS no repositório compartilhado)
 
@@ -44,7 +46,7 @@ neste script; o cartão traz só o resumo, para caber na conversa.
 |---|---|
 | `entregas/sers/comparar_energia.py` | **esta entrega**: roda a comparação e imprime contas, premissas e fontes |
 | `sistema/mobilidade/energia.py` | o cálculo em si (`comparar`), usado pelo app e por este script |
-| `pesquisa/energia_modos.json` | os 30 fatores, cada um com valor, unidade, ano, fonte e premissa |
+| `pesquisa/energia_modos.json` | os 30 fatores, cada um com chave, valor, unidade, ano de referência, fonte (link), trecho do documento, confiança e observação |
 | `pesquisa/ENERGIA_FONTES.md` | o levantamento das fontes, com o que foi lido em cada documento |
 | `sistema/testes.py` (`sers_testar`) | o teste da matéria dentro do sistema, que mostra conta por conta |
 | `sistema/web/src/paginas/Materia.tsx` | a página da SERS no sistema, com Entenda, Teste e Checklist |
@@ -77,9 +79,9 @@ O enunciado pede comparar as opções num período de referência comum. Usamos 
 |---|---|---|---|
 | Trem ou metrô | 47,5 kWh | 2,2 kg | R$ 237,60 |
 | Ônibus a diesel | sem fonte de consumo | 52,4 kg | R$ 233,20 |
-| Carro a gasolina, sozinho | 444,4 kWh | 86,2 kg | R$ 315,04 |
+| Carro a gasolina, sozinho | 444,4 kWh | 86,2 a 110,9 kg | R$ 315,04 |
 
-Trocar o carro pelo trilho evita cerca de **84 kg de CO₂ por mês** por pessoa e custa cerca de
+Trocar o carro pelo trilho evita cerca de **84 a 109 kg de CO₂ por mês** por pessoa (a faixa vem do teor de etanol) e custa cerca de
 **R$ 77 a menos** (tarifa cheia do trilho contra só a gasolina do carro). Com a integração do
 Bilhete Único ou com vale-transporte, o custo do transporte público muda; essas regras não foram lidas.
 
@@ -92,34 +94,49 @@ isso a coluna de energia mostra só a ordem de grandeza, e a comparação justa 
 
 ### Por que o trilho conta como alternativa renovável, e o limite disso
 
-O trilho não usa uma usina renovável própria: ele usa a **rede elétrica do país**, e **86,8% da
-eletricidade gerada no Brasil em 2025 veio de fonte renovável** (hidráulica, eólica, solar e biomassa,
-segundo o Balanço Energético Nacional da EPE). É nesse sentido que ele é a alternativa renovável da
-comparação. O CO₂ é calculado pelo fator médio do sistema elétrico (MCTI, 46,1 g de CO₂ por kWh), que já
-embute essa matriz. Se o Metrô contratar energia de uma fonte específica, o número muda; essa
-informação não foi lida.
+O enunciado pede ao menos uma alternativa renovável. O trilho entra nessa vaga por três razões:
+
+1. **A fonte de energia dele é a eletricidade**, e a eletricidade do Brasil é majoritariamente renovável:
+   **86,8% da oferta interna de energia elétrica em 2025** (hidráulica, eólica, solar e biomassa, segundo o
+   Balanço Energético Nacional da EPE). Ônibus a diesel e carro a gasolina dependem de combustível fóssil.
+2. **O CO₂ confirma:** com o fator médio da rede (MCTI, 46,1 g de CO₂ por kWh, que já embute essa matriz), o
+   trilho emite cerca de 2,5% do CO₂ do carro na mesma distância.
+3. **Não exige instalar nada:** a alternativa já existe e já está construída (ver viabilidade abaixo).
+
+O **limite dessa leitura**: o trilho não usa uma usina renovável própria. O número é o **fator médio da
+rede elétrica do país**, não um contrato de energia do Metrô, e muda com a hidrologia de cada ano (0,0385 em
+2023, 0,0545 em 2024 e 0,0461 tCO2/MWh em 2025, no JSON). Se o Metrô comprar energia de uma fonte
+específica, o número muda; essa informação não foi lida. Por isso o app diz "alternativa renovável pela
+média da rede", e não "100% renovável".
 
 ## Premissas (toda estimativa depende delas)
 
-- Eletricidade a 46,1 g de CO₂/kWh: média do país em 2025 (MCTI/SIRENE).
-- Metrô a 0,0717 kWh por passageiro-km: Relatório Integrado 2025 do Metrô de São Paulo. O trem usa o
-  mesmo valor, porque a CPTM não publicou o dela.
-- Carro popular a gasolina, 13,3 km/L na cidade (INMETRO/PBE Veicular), **com uma pessoa dentro**.
-  Gasolina a R$ 6,35 (ANP, síntese semanal). Custo só do combustível.
-- Ônibus a 79 g de CO₂ por passageiro-km: indicador publicado pelo Metrô. Esse número já considera
-  uma lotação média que não é publicada em separado.
-- Tarifas: R$ 5,40 no trilho e R$ 5,30 no ônibus, valores vigentes em São Paulo.
+Cada premissa é marcada com o **tipo** e o **ano** do dado, porque anos de 2023 a 2026 aparecem juntos:
+**dado oficial** (publicado por órgão ou empresa, confiança "alta" no JSON), **calculado pela equipe**
+(conta nossa com dois números oficiais) e **estimativa** (sem fonte oficial completa, confiança "média").
 
-## Justificativas: custo, viabilidade e impacto
+| premissa | tipo | ano |
+|---|---|---|
+| Eletricidade a 46,1 g de CO₂/kWh: média do país (MCTI/SIRENE) | dado oficial | 2025 |
+| 86,8% da eletricidade do país vem de fonte renovável (EPE, BEN) | dado oficial | 2025 |
+| Metrô a 0,0717 kWh por passageiro-km (401 GWh ÷ 5.596,3 milhões de passageiros-km, Relatório Integrado do Metrô); o trem usa o mesmo valor, porque a CPTM não publicou o dela | calculado pela equipe | 2025 |
+| Carro popular a gasolina, 13,3 km/L na cidade (INMETRO/PBE Veicular), **com uma pessoa dentro**; gasolina a R$ 6,35 (ANP); custo só do combustível | dado oficial | 2026 |
+| Gasolina a 2,23 kg de CO₂ por litro (inventário do Ministério dos Transportes); a faixa do carro vai da parte fóssil (78%, ensaio com 22% de etanol) ao litro inteiro | dado oficial (fator) e estimativa (fração fóssil) | 2024 |
+| Ônibus a 79 g de CO₂ por passageiro-km: indicador publicado pelo Metrô, que já embute uma lotação média não publicada | estimativa | 2024 |
+| Tarifas: R$ 5,40 no trilho e R$ 5,30 no ônibus, vigentes em São Paulo | dado oficial | 2026 |
+| Energia da gasolina a 32,2 MJ por litro (0,770 tep/m³ × 41,87 GJ/tep, BEN da EPE) | calculado pela equipe | a confirmar |
 
-- **Custo:** para o passageiro, trilho e ônibus custam quase o mesmo e são mais baratos que o carro,
-  mesmo contando só a gasolina. Somando estacionamento, manutenção e depreciação, a diferença
-  aumenta, mas esses valores não entraram porque não há fonte oficial única para eles.
-- **Viabilidade:** a alternativa renovável já existe e já está construída. Não se trata de instalar
-  nada: trata-se de usar melhor uma rede que roda hoje. Por isso a recomendação do app é de uso, não
-  de investimento.
-- **Impacto ambiental:** na mesma viagem, o trilho emite cerca de 40 vezes menos CO₂ que o carro. O limite dessa conta é que ela ignora a emissão de construir e manter a infraestrutura, que
-  não está nas fontes consultadas.
+## Justificativas: custo, viabilidade e impacto das três alternativas
+
+**Custo** (para o passageiro, viagem de 15 km, só a ida): trilho R$ 5,40, ônibus R$ 5,30 e carro R$ 7,16 só
+de gasolina. Estacionamento, manutenção, seguro e depreciação do carro não entraram, porque não há fonte
+oficial única para eles; contando-os, a diferença a favor do transporte público aumenta.
+
+| alternativa | viabilidade | impacto |
+|---|---|---|
+| **Trilho (renovável pela média da rede)** | Já existe e já está construído; a pessoa só precisa estar perto de uma estação. Limites: cobre só os corredores da rede, e falhas de linha existem (é o que o app ajuda a contornar). Recomendação de uso, não de investimento. | Cerca de 2,5% do CO₂ do carro na mesma distância (0,05 kg contra 1,96 a 2,52 kg). Não conta a emissão de construir e manter a infraestrutura, que não está nas fontes consultadas. |
+| **Ônibus a diesel** | Alcança onde o trilho não chega e tem custo parecido com o do trilho. Limite: depende do trânsito e da lotação, e a lotação média não tem fonte oficial. | Cerca de 1,19 kg de CO₂ por viagem, uns 24 vezes o do trilho e menos que o carro sozinho. É dado do indicador do Metrô, uma estimativa. Há 2.009 ônibus elétricos na frota da SPTrans (30/09/2026), mas sem consumo oficial lido, então não foram calculados. |
+| **Carro a gasolina, sozinho** | Porta a porta, sem depender de horário. Limite: custo mais alto, trânsito e estacionamento; o cálculo supõe uma pessoa dentro. | O maior CO₂ por pessoa (1,96 a 2,52 kg) e o maior custo. Com mais gente no carro, o valor por pessoa cai e a comparação fica menos favorável ao trilho. |
 
 ## Limitações (não tratar estimativa como resultado garantido)
 

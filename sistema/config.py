@@ -1,14 +1,28 @@
-"""Configuração local do sistema.
+"""Configuração do sistema.
 
-Fica em config.local.json, na raiz do projeto, e NÃO vai para o git.
-É onde moram o provedor de IA, o modelo e a chave. A chave nunca sai daqui:
+No computador, fica em config.local.json, na raiz do projeto, e NÃO vai para o git.
+No servidor (Docker), vem das variáveis de ambiente IA_PROVEDOR, IA_MODELO, IA_BASE_URL,
+IA_CHAVE e IA_LIMITE_DIARIO, que valem mais que o arquivo. A chave nunca sai do servidor:
 as telas recebem só os quatro últimos caracteres.
+
+MODO_PUBLICO=1 marca o servidor aberto aos professores: ninguém troca a IA nem edita o
+checklist pela tela. PASTA_DADOS_LOCAIS aponta onde gravar o que muda enquanto o sistema
+roda (contador de uso da IA e histórico das linhas); sem ela, fica na raiz do projeto.
 """
 import json
+import os
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-ARQUIVO = RAIZ / "config.local.json"
+PASTA_LOCAL = Path(os.environ["PASTA_DADOS_LOCAIS"]) if os.environ.get("PASTA_DADOS_LOCAIS") else RAIZ
+ARQUIVO = PASTA_LOCAL / "config.local.json"
+
+VARIAVEIS = {"provedor": "IA_PROVEDOR", "modelo": "IA_MODELO", "base_url": "IA_BASE_URL", "chave": "IA_CHAVE"}
+
+
+def modo_publico() -> bool:
+    """Servidor aberto ao público: configuração de IA fixa e checklist só para leitura."""
+    return os.environ.get("MODO_PUBLICO", "").strip().lower() in ("1", "true", "sim")
 
 PROVEDORES = {
     "groq": {
@@ -39,6 +53,16 @@ def ler() -> dict:
         cfg.update(json.loads(ARQUIVO.read_text(encoding="utf-8")))
     except (FileNotFoundError, json.JSONDecodeError):
         pass
+    for campo, variavel in VARIAVEIS.items():          # no servidor, o ambiente vale mais que o arquivo
+        valor = os.environ.get(variavel, "").strip()
+        if valor:
+            cfg[campo] = valor
+    limite = os.environ.get("IA_LIMITE_DIARIO", "").strip()
+    if limite.isdigit():
+        cfg["limite_diario"] = int(limite)
+    if cfg["provedor"] in PROVEDORES:                   # provedor conhecido sem endereço ou modelo: usa o padrão dele
+        cfg["base_url"] = cfg["base_url"] or PROVEDORES[cfg["provedor"]]["base_url"]
+        cfg["modelo"] = cfg["modelo"] or PROVEDORES[cfg["provedor"]]["modelo"]
     return cfg
 
 
@@ -65,5 +89,5 @@ def publico() -> dict:
     cfg = ler()
     chave = cfg.pop("chave", "")
     cfg["tem_chave"] = bool(chave)
-    cfg["final_da_chave"] = chave[-4:] if len(chave) >= 8 else ""
+    cfg["final_da_chave"] = chave[-4:] if len(chave) >= 8 and not modo_publico() else ""   # no servidor, nem o final
     return cfg

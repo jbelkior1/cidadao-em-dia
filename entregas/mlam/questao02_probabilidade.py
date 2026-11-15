@@ -92,9 +92,9 @@ def _grafico(x, media, mediana, desvio, normal) -> None:
 
     ax2.plot(grade, normal.pdf(grade), color="#1f2937", lw=1.5)
     ax2.fill_between(grade, normal.pdf(grade), where=grade < media, color="#93c5fd", alpha=0.8,
-                     label=f"a) P(X < média) = {normal.cdf(media):.4f}")
+                     label=f"a) P(X < média) = {comum.dec(normal.cdf(media), 4)}")
     ax2.fill_between(grade, normal.pdf(grade), where=grade > mediana, color="#c2410c", alpha=0.45,
-                     label=f"b) P(X > mediana) = {normal.sf(mediana):.4f}")
+                     label=f"b) P(X > mediana) = {comum.dec(normal.sf(mediana), 4)}")
     ax2.set_title("Áreas das letras a) e b)")
     ax2.set_xlabel(comum.nome(comum.RESPOSTA))
     ax2.set_ylabel("Densidade")

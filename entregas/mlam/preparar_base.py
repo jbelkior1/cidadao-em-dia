@@ -22,6 +22,18 @@ O que o script faz, em ordem:
 Uso:
     python preparar_base.py CAMINHO_DO_XLSX --gtfs CAMINHO_DO_sptrans.zip [--cache-dir PASTA]
 
+Resumo da base (o passo a passo completo e as limitações estão aqui, porque o LEIA-ME não vai ao portal):
+  - Fonte: planilha pública SPDadosCriminais_2026.xlsx da SSP-SP (abas JAN-JUN e JUL-DEZ), baixada em
+    12/11/2026; cobre janeiro a setembro de 2026. Coordenadas das estações: GTFS da SPTrans.
+  - Filtros: 814.900 linhas lidas; só município de São Paulo (330.690); coordenada válida (287.026; 43.664,
+    ou 13,2% do município, descartadas); 187 estações agrupadas, das quais 48 fora do município saíram
+    (critério aproximado, sem polígono oficial), ficando 139.
+  - Colunas: total, roubo, furto, outros, faixas de horário, distância ao Marco Zero (Praça da Sé), nº de linhas.
+    "celular" fica vazia: a planilha não identifica o aparelho.
+  - Limitações: conta registros de BO, não risco (falta o fluxo de passageiros); há subnotificação e viés
+    possível no descarte por coordenada; os raios de 300 m se sobrepõem, então as linhas não são
+    independentes; período parcial de nove meses.
+
 --cache-dir (opcional) guarda a leitura do xlsx (lenta) num arquivo temporário para rodadas
 seguintes; o cache tem só colunas não identificadoras. O resultado final é o mesmo com ou sem cache.
 Dependências: pandas, openpyxl (numpy vem junto com o pandas).

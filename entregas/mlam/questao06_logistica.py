@@ -67,8 +67,9 @@ def resolver(df=None) -> dict:
         o coeficiente é instável.
         Só a distância é significativa aqui (p-valor {modelo.pvalues['dist_marco_zero_km']:.4f}).
         A latitude não é significativa (p-valor {modelo.pvalues['lat']:.3f}), como na questão 05: depois da
-        distância ao centro, a posição norte-sul não acrescenta. Ficou no modelo porque o enunciado pede
-        pelo menos três variáveis quantitativas, e sua presença está registrada aqui como limitação.
+        distância ao centro, a posição norte-sul não acrescenta. Foi incluída para testar se a posição
+        norte-sul acrescenta algo; o enunciado pede pelo menos três variáveis quantitativas (a resposta
+        conta como uma), e o resultado fica registrado.
         O LLR testa o modelo inteiro contra um modelo só com o intercepto, e rejeita (p-valor
         {modelo.llr_pvalue:.1e}). O pseudo R² de McFadden não se lê como o R² da regressão linear: a
         referência usual é que 0,2 a 0,4 já indica bom ajuste, e aqui ele é {modelo.prsquared:.3f}, abaixo
@@ -167,12 +168,14 @@ def _graficos(df, y, probabilidade, mc, corte) -> None:
     ax1.set_title(f"Matriz de confusão (corte: total > {corte:.0f})")
     fig.colorbar(imagem, ax=ax1, shrink=0.75)
 
-    ax2.scatter(df["dist_marco_zero_km"], probabilidade, c=y, cmap="coolwarm", s=42, alpha=0.75,
-                edgecolor="white", linewidth=0.6)
+    for classe, cor, rotulo in ((0, "#3b4cc0", "classe real: ocorrência normal"),
+                                (1, "#b40426", "classe real: alta ocorrência")):
+        ax2.scatter(df["dist_marco_zero_km"][y == classe], probabilidade[y == classe], color=cor, s=42,
+                    alpha=0.75, edgecolor="white", linewidth=0.6, label=rotulo)
     ax2.axhline(0.5, color="#1f2937", ls="--", lw=1.2, label="corte de classificação (0,5)")
     ax2.set_xlabel(comum.nome("dist_marco_zero_km"))
     ax2.set_ylabel("Probabilidade prevista de alta ocorrência")
-    ax2.set_title("Probabilidade prevista por estação\n(cor = classe real)")
+    ax2.set_title("Probabilidade prevista por estação\n(cor = classe real, ver legenda)")
     ax2.legend(fontsize=8)
     ax2.grid(alpha=0.2)
 
