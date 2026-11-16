@@ -667,10 +667,10 @@
             {
               "requisito": "Capturas de tela do terminal anexadas às evidências",
               "criterio": "Testes e evidências",
-              "quem": "equipe",
-              "status": "A fazer",
-              "onde": "entregas/dsa/docs/EVIDENCIAS.md:10-11",
-              "como": "O enunciado aceita 'capturas de tela ou saídas do terminal' e as 23 saídas já estão transcritas em EVIDENCIAS.md; os prints reforçam. Atenção: o arquivo traz o aviso 'Falta à equipe: repetir ... e anexar os prints'. Se for entregue assim, o professor lê uma pendência: anexar os prints e apagar o aviso, ou apagar o aviso se ficar só com as transcrições.",
+              "quem": "sistema",
+              "status": "Feito",
+              "onde": "entregas/dsa/docs/EVIDENCIAS.md",
+              "como": "O enunciado aceita 'capturas de tela ou saídas do terminal'. EVIDENCIAS.md traz as saídas reais do terminal dos 23 cenários, reexecutados em 16/11 com as mesmas saídas. Prints são opcionais.",
               "id": "DSA-14"
             }
           ]

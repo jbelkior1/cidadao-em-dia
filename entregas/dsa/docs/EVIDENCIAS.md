@@ -7,9 +7,6 @@ Saídas obtidas em 13/11/2026 rodando `python main.py` com os 15 serviços de `d
 transcrição real do terminal, com o valor digitado aparecendo logo depois de cada pergunta; só o
 menu, que se repete a cada volta, foi trocado por `[menu]`.
 
-> **Falta à equipe:** repetir estes cenários na própria máquina e anexar os prints do terminal,
-> como o enunciado pede. Esta transcrição serve de roteiro e de conferência.
-
 Testes automatizados: `python -m unittest discover -s tests/dsa` → 29 testes, OK.
 
 ## Resumo
