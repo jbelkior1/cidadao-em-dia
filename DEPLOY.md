@@ -46,7 +46,7 @@ No `nano`, troque `datempo.seudominio.com.br` pelo domínio de verdade.
 
 **Se a VPS já tem Nginx**, use `deploy/nginx.exemplo.conf` como bloco do site (troque o domínio) e gere o certificado com o Certbot, como nos outros sites da máquina.
 
-**Se a VPS já tem Traefik** (como a da equipe, em 16/11/2026): o contêiner não publica porta; o Traefik chega por uma rede interna própria e emite o certificado sozinho quando o DNS apontar para a VPS.
+**Se a VPS já tem Traefik** (como a da equipe, em 16/11/2026): o contêiner não publica porta; o Traefik chega por uma rede interna própria e emite o certificado sozinho quando o DNS apontar para a VPS. Na VPS da equipe o endereço é `datempo.srv1596654.hstgr.cloud`, que já aponta para ela pelo nome da própria máquina, sem criar registro de DNS.
 
 ```bash
 echo "DOMINIO=datempo.seudominio.com.br" > .env

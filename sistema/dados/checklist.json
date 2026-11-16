@@ -27,10 +27,10 @@
     {
       "requisito": "Publicar a plataforma na VPS e colocar a URL nos .txt de entrega",
       "criterio": "",
-      "quem": "equipe",
-      "status": "A fazer",
+      "quem": "sistema",
+      "status": "Feito",
       "onde": "DEPLOY.md",
-      "como": "Depois do deploy: python scripts/montar_entregas.py --url https://SEU-DOMINIO",
+      "como": "No ar em https://datempo.srv1596654.hstgr.cloud (VPS da equipe, Traefik com HTTPS). Os .txt saem com o link por python scripts/montar_entregas.py --url https://datempo.srv1596654.hstgr.cloud",
       "id": "GERAL-03"
     },
     {

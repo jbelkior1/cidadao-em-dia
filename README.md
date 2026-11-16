@@ -12,6 +12,8 @@ O app tem quatro abas (**Home** com os relatos dos passageiros, **Mapa**, **IA**
 
 ## Para os professores
 
+**Plataforma no ar:** https://datempo.srv1596654.hstgr.cloud
+
 Cada matéria tem a entrega no formato do seu enunciado. O código que o professor corrige é o mesmo que o app usa.
 
 | Matéria | Onde está a entrega | Como rodar | No sistema |
