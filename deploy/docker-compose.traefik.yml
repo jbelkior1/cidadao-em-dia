@@ -1,0 +1,28 @@
+# VPS que já tem Traefik na frente (o mesmo dos outros sistemas): sem porta publicada, o Traefik chega
+# pela rede interna datempo_edge e cuida do HTTPS. O domínio vem de DOMINIO, no arquivo .env da pasta.
+#   docker compose -f docker-compose.yml -f deploy/docker-compose.traefik.yml up -d --build
+#   docker network connect datempo_edge <contêiner do traefik>      # uma vez, depois do primeiro up
+services:
+  datempo:
+    ports: !reset []
+    networks: [edge, saida]
+    cpus: 1.0                        # teto: não disputa CPU nem memória com o resto da VPS
+    mem_limit: 768m
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: datempo_edge
+      traefik.http.routers.datempo.rule: Host(`${DOMINIO:?defina DOMINIO no .env}`)
+      traefik.http.routers.datempo.entrypoints: websecure
+      traefik.http.routers.datempo.tls: "true"
+      traefik.http.routers.datempo.tls.certresolver: mytlschallenge
+      traefik.http.services.datempo.loadbalancer.server.port: "8010"
+
+networks:
+  edge:
+    name: datempo_edge
+    internal: true                   # só o Traefik fala com o app por aqui
+  saida:
+    name: datempo_saida              # saída para o Groq, o Supabase e as fontes ao vivo
