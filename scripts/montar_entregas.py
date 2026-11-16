@@ -102,7 +102,7 @@ def main() -> int:
         print("  -", g.relative_to(SAIDA))
     pendentes = []
     for arquivo in SAIDA.rglob("*.txt"):
-        for marca in sorted(set(re.findall(r"\[[^\]\n]{3,80}\]", arquivo.read_text(encoding="utf-8")))):
+        for marca in sorted(set(re.findall(r"\[[^\]\n]{3,240}\]", arquivo.read_text(encoding="utf-8")))):
             pendentes.append(f"{arquivo.relative_to(SAIDA)}: {marca}")
     if pendentes:
         print("\nAinda para a equipe preencher:")
