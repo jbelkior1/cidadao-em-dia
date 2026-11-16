@@ -9,7 +9,7 @@ Sistema de gerenciamento e consulta de serviços e orientações ao cidadão (em
 
 **Linguagem escolhida: Python 3** (somente biblioteca padrão). Os registros e os nós são objetos (classes) com referências explícitas entre nós, e a estrutura principal de armazenamento é uma lista encadeada implementada pela equipe. Nenhuma `list`, `dict` ou `set` nativa guarda os registros nem serve de índice.
 
-Os dados iniciais (`dados/servicos.json`) são 15 serviços tirados de páginas oficiais em 12/11/2026 e conferidos de novo em 16/11/2026. Não há integração com plataformas governamentais nem IA generativa.
+Os dados iniciais (`dados/servicos.json`) são 15 serviços tirados de páginas oficiais em 12/11/2026 (campo `verificado_em`); em 16/11/2026 as fontes foram abertas de novo e dois textos foram corrigidos. Não há integração com plataformas governamentais nem IA generativa.
 
 ## 2. Campos dos registros
 
@@ -171,5 +171,5 @@ Para comparação: insertion sort numa lista encadeada seria O(n²) no pior caso
 
 - A ordenação é sempre crescente.
 - O id é ordenado como texto: sem zeros à esquerda, SRV-10 viria antes de SRV-2 (os ids da base têm 3 dígitos, como SRV-002).
-- Os dados iniciais vieram de páginas oficiais, mas o grupo ainda precisa abrir cada fonte e confirmar o texto.
+- Os dados iniciais vieram de páginas oficiais e podem mudar depois da data de `verificado_em`.
 - A lista só existe em memória: alterações feitas no menu não são gravadas no JSON.

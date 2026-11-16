@@ -19,13 +19,12 @@ Wokwi, no formato do enunciado de cada uma. Elas têm página com explicação, 
 O formato de envio muda de matéria para matéria (PCP e SERS: só um .txt; MLAM: .csv, .py e .pdf sem
 links; DSA e PAI: formato livre). O guia e os arquivos prontos estão em [`portal/`](portal/README.md).
 
-## O que está pronto e o que é da equipe
+## Andamento
 
 O código e a documentação de PCP, DSA, SERS, MLAM e PAI estão escritos, testados e conferidos contra o
-enunciado. Cada enunciado pede também o que só a equipe faz: gravar os vídeos, testar com pessoas de
-fora, conferir as fontes oficiais, criar o repositório público do PCP e enviar no portal. O andamento,
-item por item, está no **Checklist** de cada matéria na plataforma, separado entre o que está no
-repositório e o que é da equipe.
+enunciado. O que fica fora do código são os vídeos, os testes com pessoas de fora e o envio no portal.
+O andamento, item por item, está no **Checklist** de cada matéria na plataforma, separado entre o que
+está no repositório e o que fica fora dele.
 
 ## Onde fica a parte de cada matéria dentro do sistema
 

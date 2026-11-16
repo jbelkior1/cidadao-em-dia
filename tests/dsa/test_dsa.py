@@ -67,9 +67,9 @@ class TesteListaEncadeada(unittest.TestCase):
 
     def test_atualizar(self):
         lista = lista_com("a", "b")
-        self.assertTrue(lista.atualizar("b", titulo="Novo"))
+        self.assertTrue(lista.atualizar("b", "titulo", "Novo"))
         self.assertEqual(lista.buscar_por_id("b").titulo, "Novo")
-        self.assertFalse(lista.atualizar("z", titulo="x"))
+        self.assertFalse(lista.atualizar("z", "titulo", "x"))
 
     def test_remover_cabeca(self):
         lista = lista_com("a", "b", "c")

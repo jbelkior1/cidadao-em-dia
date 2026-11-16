@@ -4,7 +4,7 @@ Assistente de terminal, em Python, que responde dúvidas do cidadão **somente c
 
 Trabalho da Global Solution 2026.2 (FIAP), tema CitizenTech, matéria Pensamento Computacional e Automação com Python.
 
-> **Conferência das fontes:** as 16 orientações vieram de páginas oficiais; a URL de cada uma está no campo `fonte`. Em 16/11/2026 todas as fontes foram abertas de novo e cada telefone, horário, prazo e documento foi comparado com a página; o texto foi corrigido onde a fonte não sustentava a frase, e `verificado_em` passou a 2026-11-16. Informação oficial muda: antes de entregar, a equipe abre as fontes e atualiza a data se algo mudou.
+> **Conferência das fontes:** as 16 orientações vieram de páginas oficiais; a URL de cada uma está no campo `fonte`. Em 16/11/2026 todas as fontes foram abertas de novo e cada telefone, horário, prazo e documento foi comparado com a página; o texto foi corrigido onde a fonte não sustentava a frase, e `verificado_em` passou a 2026-11-16.
 
 ## Integrantes
 
@@ -44,7 +44,7 @@ Menu principal:
 
 Em todas as telas, **0 volta**. Opção inválida, resposta vazia ou s/n inválido nunca encerram o programa.
 
-Testes automáticos: ficam no repositório do sistema, em `tests/pcp`, e não dentro desta pasta. Para rodá-los, use o comando abaixo a partir da raiz desse repositório (a pasta que contém `entregas/` e `tests/`):
+Testes automáticos: para manter esta pasta na estrutura pedida, os testes desta entrega ficam no repositório do projeto Dá Tempo?, em [`tests/pcp`](https://github.com/jbelkior1/cidadao-em-dia/tree/main/tests/pcp). Na raiz daquele repositório:
 
 ```
 python -m unittest discover -s tests/pcp -v
@@ -133,7 +133,7 @@ A exportação (opção 4) grava `data/atendimentos.csv` com `csv.DictWriter` (U
 
 ## Integrações com outras disciplinas
 
-Este programa é a entrega da PCP e roda sozinho, só com a biblioteca padrão. A mesma busca por pontuação (classes `BaseConhecimento` e `Assistente`, com `Orientacao`) é usada pelo app **Dá Tempo?**, o projeto da Global Solution do grupo, por meio de `sistema/adaptadores/pcp.py` (no repositório do sistema), para mostrar as orientações nos cartões da agente Lia. O app só chama `responder` e a busca; não grava no `historico.json` desta entrega.
+Este programa é a entrega da PCP e roda sozinho, só com a biblioteca padrão. A mesma busca por pontuação (classes `BaseConhecimento` e `Assistente`, com `Orientacao`) é usada pelo app **Dá Tempo?**, o projeto da Global Solution do grupo, por meio de `sistema/adaptadores/pcp.py` ([repositório do projeto](https://github.com/jbelkior1/cidadao-em-dia)), para mostrar as orientações nos cartões da agente Lia. O app só chama `responder` e a busca; não grava no `historico.json` desta entrega.
 
 ## Fontes consultadas
 
@@ -147,16 +147,14 @@ As 16 orientações usam só páginas oficiais, lidas em 12/11/2026 e conferidas
 - Defesa Civil de SP: https://www.spsemprealerta.sp.gov.br/, https://www.spsemprealerta.sp.gov.br/orientacoes/inundacoes/, https://www.spsemprealerta.sp.gov.br/orientacoes/tempestades-raios-e-granizo/
 - Governo federal e de SP: https://www.gov.br/celularseguro, https://servicos.sp.gov.br/fcarta/58530894-E128-4E25-ADEC-AB177394802A (Delegacia Eletrônica), https://www.planalto.gov.br/ccivil_03/leis/2003/l10.741.htm (Estatuto da Pessoa Idosa)
 
-Algumas informações foram completadas pela Carta de Serviços do Metrô de outubro de 2023 (telefones e horários da Central de Informações e da Ouvidoria). A equipe deve abrir essas páginas antes da entrega.
+Algumas informações foram completadas pela Carta de Serviços do Metrô de outubro de 2023 (telefones e horários da Central de Informações e da Ouvidoria).
 
 ## Resultado do teste com usuários
 
-A PREENCHER PELO GRUPO. O enunciado pede pelo menos 3 pessoas de fora da equipe, somando 10 atendimentos ou mais. Registrar, sem nomes nem dados das pessoas:
-
-- número de pessoas e de atendimentos;
-- indicadores obtidos (resposta encontrada, taxa de acerto, tempo médio, tentativas, facilidade de uso);
-- dúvidas sem solução;
-- uma melhoria feita a partir do teste (por exemplo, uma palavra-chave nova).
+- Pessoas e atendimentos: [a preencher]
+- Indicadores (resposta encontrada, taxa de acerto, tempo médio, tentativas, facilidade de uso): [a preencher]
+- Dúvidas sem solução: [a preencher]
+- Melhoria feita a partir do teste: [a preencher]
 
 ## Limitações
 
@@ -169,4 +167,4 @@ A PREENCHER PELO GRUPO. O enunciado pede pelo menos 3 pessoas de fora da equipe,
 
 ## Vídeo técnico
 
-Link (YouTube, não listado): A PREENCHER PELO GRUPO
+Link (YouTube, não listado): [a preencher]

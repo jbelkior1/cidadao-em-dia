@@ -219,7 +219,7 @@
       "fonte": "https://www.gov.br/inmetro/pt-br/assuntos/regulamentacao/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular/mascara-pbev-2026_19_jan-rev01.pdf",
       "trecho": "Fiat Mobi Like 1.0-6V M-5: Gasolina Cidade 14,5 | Estrada 15,8 | Combinado 15,0 km/l",
       "confianca": "alta",
-      "observacao": "Mesmo arquivo. É dos mais econômicos entre os populares que conferi (Argo Drive 1.0: 13,6 cidade, 14,0 combinado). A equipe deve declarar qual modelo adota; o Mobi é o mais favorável ao carro."
+      "observacao": "Mesmo arquivo. É dos mais econômicos entre os populares que conferi (Argo Drive 1.0: 13,6 cidade, 14,0 combinado). O app usa o HB20 Sense; o Mobi seria o mais favorável ao carro."
     },
     {
       "chave": "carro_co2_gkm_pbev_mobi_like",
@@ -308,7 +308,7 @@
     "Trem (CPTM): sem dado oficial lido; usar o do Metrô e dizer isso na tela. Não afirmar eficiência da CPTM.",
     "Carro popular a gasolina: consumo de cidade do PBEV 2026 (HB20 Sense 13,3 km/L; Mobi Like 14,5 km/L). Dado de laboratório; o consumo real é pior. Declarar o modelo adotado.",
     "Gasolina C como incerteza: cenário A (aumenta o carro) 2,23 kg CO2/L em todo litro; cenário B só a fração fóssil (ensaio usa E22, exemplo 2,23 × 0,78; teor atual de posto a confirmar). Mostrar intervalo, não número único.",
-    "Ocupação do carro: sem dado oficial lido. Calcular por veículo e usar ocupação 1 (motorista sozinho) como padrão editável pelo usuário. Se a equipe achar a OD 2023, trocar.",
+    "Ocupação do carro: sem dado oficial lido. Calcular por veículo e usar ocupação 1 (motorista sozinho) como padrão editável pelo usuário. Se a Pesquisa OD 2023 voltar ao ar, trocar pela ocupação medida.",
     "Ônibus a diesel: 2,10 km/L (ônibus urbano, inventário MMA/MT com dado CETESB) e 2,63 kg CO2/L de diesel mineral. Lotação sem fonte oficial lida: usar o indicador do Metrô (79 gCO2e/pkm, 2024) rotulado 'dado da companhia', ou ocupação editável.",
     "Ônibus elétrico: 2.009 veículos (1.821 a bateria + 188 trólebus) em 30/09/2026. Sem dado oficial de kWh/km lido; só citar a existência como opção, sem calcular.",
     "Custo: tarifa metrô/trem R$ 5,40 e ônibus R$ 5,30 (desde 06/01/2026); gasolina SP capital R$ 6,35/L (semana 01-07/11/2026). Custo do carro aqui é só combustível (sem estacionamento, manutenção, seguro, depreciação).",

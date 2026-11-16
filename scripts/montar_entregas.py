@@ -8,10 +8,10 @@ Lê os modelos de entregas/portal/<matéria>/ e grava em entregas/portal/saida/ 
 - DSA e PAI: um .zip com a pasta da entrega e o LEIA-ME.txt;
 - MLAM: a pasta MLAM_para_enviar com o .csv, os .py e o .pdf soltos (o enunciado proíbe links e
   aceita só esses formatos);
-- CS, MMC, COA e o vídeo pitch: o modelo de texto para a equipe completar.
+- CS, MMC, COA e o vídeo pitch: o modelo de texto a completar.
 
 Sem --url, a linha "Página da matéria no sistema" sai do texto (link quebrado não vai ao professor).
-No fim, lista o que ainda está entre colchetes para a equipe preencher.
+No fim, lista o que ainda está entre colchetes, por preencher.
 """
 import argparse
 import re
@@ -105,7 +105,7 @@ def main() -> int:
         for marca in sorted(set(re.findall(r"\[[^\]\n]{3,240}\]", arquivo.read_text(encoding="utf-8")))):
             pendentes.append(f"{arquivo.relative_to(SAIDA)}: {marca}")
     if pendentes:
-        print("\nAinda para a equipe preencher:")
+        print("\nAinda por preencher:")
         for item in pendentes:
             print("  -", item)
     if not url:

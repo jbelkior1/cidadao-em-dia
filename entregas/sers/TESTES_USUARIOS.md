@@ -3,8 +3,8 @@
 Integrantes: João Vitor Belchior Domingos Leite (RM 572478), João Pedro Pereira Teixeira (RM 569937) e
 Thiago de Oliveira Coelho Souza (RM 568783).
 
-> **Este arquivo é para a equipe preencher.** Nada abaixo foi testado ainda: os campos de resultado
-> estão vazios de propósito. Não invente respostas: o enunciado pede o registro do teste de verdade.
+> Os campos de resultado ficam vazios até o teste ser aplicado: o enunciado pede o registro do teste
+> de verdade.
 
 O enunciado pede verificar se as orientações de energia são **compreendidas e úteis**, registrando
 **as situações testadas, os comentários recebidos e os ajustes realizados**, sem expor dado pessoal.
@@ -55,4 +55,4 @@ Pergunta final, de 1 a 5: "Essas informações de energia ajudariam você a esco
 Descreva pelo menos um ajuste que o grupo fez no texto, no cartão ou no script por causa de um
 comentário recebido, e em que arquivo ele foi feito.
 
-- A PREENCHER PELO GRUPO
+- [a preencher]

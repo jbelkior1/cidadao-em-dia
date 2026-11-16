@@ -23,6 +23,13 @@ CAMPOS_HISTORICO = ["data", "origem", "pergunta", "orientacao_id",
 MENSAGEM_DADO_PESSOAL = "Atenção: não digite CPF, telefone ou e-mail. Reescreva."
 
 
+def media(valores):
+    """Média com uma casa decimal; 0.0 se a lista estiver vazia."""
+    if not valores:
+        return 0.0
+    return round(sum(valores) / len(valores), 1)
+
+
 class Assistente:
     """Quem conversa com o cidadão."""
 
@@ -151,11 +158,6 @@ class Assistente:
         encontrados = [a for a in self.historico if a.get("encontrou")]
         ajudaram = [a for a in self.historico if a.get("ajudou")]
         sem_solucao = [a.get("pergunta", "") for a in self.historico if not a.get("ajudou")]
-
-        def media(valores):
-            if not valores:
-                return 0.0
-            return round(sum(valores) / len(valores), 1)
 
         return {
             "total": total,

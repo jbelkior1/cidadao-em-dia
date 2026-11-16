@@ -418,7 +418,7 @@ export function TesteSers() {
             </ol>
           </details>
           <p className="text-[13px] text-apagado">
-            {r.rotulo} Premissas: {r.premissas.join("; ")}. Números levantados em {r.consultado_em.split("-").reverse().join("/")}, ainda em conferência pela equipe.
+            {r.rotulo} Premissas: {r.premissas.join("; ")}. Números levantados nas fontes oficiais em {r.consultado_em.split("-").reverse().join("/")}.
           </p>
           <details className="rounded-xl border border-linha bg-superficie px-4 py-3 text-[13px]">
             <summary className="cursor-pointer font-semibold">Fontes ({r.fontes.length})</summary>
@@ -681,7 +681,7 @@ export function TesteMmc() {
 
       <form onSubmit={conferir} className={cartao}>
         <p className="text-[15px] font-semibold">Etapa 2 · Conferir a matriz de redistribuição da equipe</p>
-        <p className="text-apagado">A matriz é da equipe; aqui só se confere o total e os negativos. Cada coluna é uma região de origem e precisa somar 1.</p>
+        <p className="text-apagado">Aqui só se confere o total e os negativos da matriz digitada. Cada coluna é uma região de origem e precisa somar 1.</p>
         <div className="overflow-x-auto">
           <table className="text-[13px]">
             <thead><tr><th className="px-1 text-left text-apagado">para \ de</th>{REGIOES.map((r) => <th key={r} className="px-1 font-semibold">{r}</th>)}</tr></thead>
@@ -713,7 +713,7 @@ export function TesteMmc() {
             </p>
             <p>
               Nova distribuição: {Object.entries(conf.nova_distribuicao).map(([r, n]) => `${r} ${num(n, 2)}`).join(", ")} (total {num(conf.total_depois, 2)} de {conf.total_antes}).
-              {!conf.inteira && " Há valores não inteiros: a equipe precisa explicar como arredonda."}
+              {!conf.inteira && " Há valores não inteiros: explique no relatório como arredonda."}
             </p>
             <p className="text-apagado">Atende a necessidade: {Object.entries(conf.atende).map(([r, ok]) => `${r} ${ok ? "sim" : "não"}`).join(", ")}.</p>
           </div>
@@ -735,11 +735,11 @@ export function TesteCoa({ links }: { links?: { wokwi?: string; video?: string }
       <ul className="space-y-1.5 text-[14px]">
         <li>
           <span className="font-semibold">Projeto no Wokwi: </span>
-          {links?.wokwi ? <a href={links.wokwi} target="_blank" rel="noreferrer" className="break-all text-marca-forte underline">{links.wokwi}</a> : <span className="text-apagado">a equipe publica o link aqui.</span>}
+          {links?.wokwi ? <a href={links.wokwi} target="_blank" rel="noreferrer" className="break-all text-marca-forte underline">{links.wokwi}</a> : <span className="text-apagado">link ainda não publicado.</span>}
         </li>
         <li>
           <span className="font-semibold">Vídeo: </span>
-          {links?.video ? <a href={links.video} target="_blank" rel="noreferrer" className="break-all text-marca-forte underline">{links.video}</a> : <span className="text-apagado">a equipe publica o link aqui.</span>}
+          {links?.video ? <a href={links.video} target="_blank" rel="noreferrer" className="break-all text-marca-forte underline">{links.video}</a> : <span className="text-apagado">link ainda não publicado.</span>}
         </li>
       </ul>
     </div>

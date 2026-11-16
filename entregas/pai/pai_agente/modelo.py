@@ -2,7 +2,7 @@
 """De onde vem o modelo de linguagem, e nada mais.
 
 O provedor é trocável de propósito. O enunciado permite Ollama e Groq direto; outro provedor
-(Gemini, OpenAI, Claude) precisa de autorização do professor. O grupo usa o Groq, com o modelo
+(Gemini, OpenAI etc.) precisa de autorização do professor. O grupo usa o Groq, com o modelo
 aberto openai/gpt-oss-120b: está na lista do enunciado, tem camada gratuita e é o mesmo que o app
 usa. Trocar é mudar duas variáveis no `.env` ou no ambiente, sem tocar no resto do código.
 

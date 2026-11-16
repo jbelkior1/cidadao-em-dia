@@ -68,7 +68,7 @@ function Rodape({ fonte, data, aviso, emConferencia }: { fonte?: string; data?: 
             <ExternalLink className="size-3.5 shrink-0" aria-hidden />
           </a>
           {data && <span>consultada em {formatarData(data)}</span>}
-          {emConferencia && <span className="rounded-full bg-alerta-suave px-2 py-0.5 text-xs font-semibold text-alerta">em conferência pela equipe</span>}
+          {emConferencia && <span className="rounded-full bg-alerta-suave px-2 py-0.5 text-xs font-semibold text-alerta">em conferência</span>}
         </p>
       )}
       {aviso && <p>{aviso}</p>}

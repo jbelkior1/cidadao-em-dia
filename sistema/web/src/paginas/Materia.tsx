@@ -117,13 +117,13 @@ function Teste({ dados }: { dados: DadosMateria }) {
   );
 }
 
-/** Duas barras separadas: o que está no repositório e o que só a equipe faz. Um número só
+/** Duas barras separadas: o que está no repositório e o que fica fora dele. Um número só
  *  engana: uma matéria com o código inteiro pronto aparecia pela metade por causa de vídeo e envio. */
 function Andamento({ resumo }: { resumo: ResumoChecklist }) {
   const { sistema, equipe } = resumo.por_quem;
   const barras = [
     { rotulo: "No repositório", dica: "código e documentos no GitHub", dado: sistema, cor: "bg-ok" },
-    { rotulo: "Da equipe", dica: "vídeo, testes com pessoas e envio no portal", dado: equipe, cor: "bg-marca" },
+    { rotulo: "Fora dele", dica: "vídeo, testes com pessoas e envio no portal", dado: equipe, cor: "bg-marca" },
   ].filter((b) => b.dado.total > 0);
   return (
     <div className="space-y-2">
@@ -144,7 +144,7 @@ function Andamento({ resumo }: { resumo: ResumoChecklist }) {
         ))}
       </div>
       {sistema.total > 0 && sistema.faltam === 0 && (
-        <p className="text-[13px] text-ok">A parte desta matéria no repositório está pronta e conferida. O que falta é da equipe.</p>
+        <p className="text-[13px] text-ok">A parte desta matéria no repositório está pronta e conferida. O que falta fica fora do código: vídeo, testes com pessoas e envio.</p>
       )}
     </div>
   );

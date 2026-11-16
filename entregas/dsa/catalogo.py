@@ -41,7 +41,9 @@ class Catalogo:
         valores = (id, titulo, categoria, descricao, publico_alvo, canal, prazo, fonte, verificado_em)
         campos = CAMPOS_OBRIGATORIOS + CAMPOS_OPCIONAIS
         limpos = []
-        for campo, valor in zip(campos, valores):
+        for i in range(len(campos)):
+            campo = campos[i]
+            valor = valores[i]
             if not isinstance(valor, str):
                 return False, "Valor incompatível no campo '" + ROTULOS[campo] + "': esperado texto.", None
             valor = valor.strip()
@@ -51,7 +53,8 @@ class Catalogo:
             limpos.append(valor)
         if self.lista.buscar_por_id(limpos[0]) is not None:
             return False, "Já existe um registro com o id '" + limpos[0] + "'.", None
-        servico = Servico(*limpos)
+        servico = Servico(limpos[0], limpos[1], limpos[2], limpos[3], limpos[4],
+                          limpos[5], limpos[6], limpos[7], limpos[8])
         self.lista.inserir_fim(servico)
         return True, "Registro '" + servico.id + "' cadastrado.", servico
 
@@ -91,7 +94,7 @@ class Catalogo:
         erro = _validar_campo(campo, valor)
         if erro is not None:
             return False, erro, None
-        self.lista.atualizar(id, **{campo: valor})
+        self.lista.atualizar(id, campo, valor)
         return True, "Registro '" + servico.id + "' atualizado.", servico
 
     # ---------- excluir ----------
@@ -147,10 +150,10 @@ class Catalogo:
             if not isinstance(item, dict):
                 ignorados += 1
                 continue
-            args = []
-            for campo in CAMPOS_OBRIGATORIOS + CAMPOS_OPCIONAIS:
-                args.append(item.get(campo, ""))
-            ok, _, _ = self.cadastrar(*args)
+            ok, _, _ = self.cadastrar(item.get("id", ""), item.get("titulo", ""), item.get("categoria", ""),
+                                      item.get("descricao", ""), item.get("publico_alvo", ""),
+                                      item.get("canal", ""), item.get("prazo", ""), item.get("fonte", ""),
+                                      item.get("verificado_em", ""))
             if ok:
                 carregados += 1
             else:

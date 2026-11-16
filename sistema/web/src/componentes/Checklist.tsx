@@ -5,7 +5,7 @@ import { api, type ChecklistMateria, type ItemChecklist, type ResumoChecklist, t
 
 /*
  * Checklist da entrega: o que o enunciado pede, agrupado pelos critérios da rubrica.
- * Feito = existe e foi conferido; Conferir = existe, mas falta a equipe conferir; A fazer = ainda não existe.
+ * Feito = existe e foi conferido; Conferir = existe, mas falta conferir; A fazer = ainda não existe.
  * No servidor público é só leitura; no computador da equipe dá para mudar status, onde e como.
  */
 
@@ -15,7 +15,7 @@ const COR_STATUS: Record<Status, string> = {
   Conferir: "bg-alerta-suave text-alerta",
   "A fazer": "bg-fundo text-apagado ring-1 ring-linha ring-inset",
 };
-type Filtro = "Todos" | Status | "Da equipe";
+type Filtro = "Todos" | Status | "Fora do repositório";
 
 function Item({ cod, item, editavel, aoMudar }: {
   cod: string; item: ItemChecklist; editavel: boolean; aoMudar: (novo: ItemChecklist, resumo: ResumoChecklist) => void;
@@ -57,7 +57,7 @@ function Item({ cod, item, editavel, aoMudar }: {
             <span className="text-[15px] font-semibold">{item.requisito}</span>
             <span className="mt-1 flex flex-wrap gap-1.5">
               <span className="rounded-full bg-fundo px-2 py-0.5 text-[11px] font-medium text-apagado ring-1 ring-linha ring-inset">
-                {item.quem === "equipe" ? "da equipe" : "no repositório"}
+                {item.quem === "equipe" ? "fora do repositório" : "no repositório"}
               </span>
               {item.criterio && <span className="rounded-full bg-fundo px-2 py-0.5 text-[11px] font-medium text-apagado ring-1 ring-linha ring-inset">{item.criterio}</span>}
             </span>
@@ -114,13 +114,13 @@ export default function Checklist({ cod, dados, editavel }: { cod: string; dados
   const [resumo, setResumo] = useState(dados.resumo);
   const [filtro, setFiltro] = useState<Filtro>("Todos");
 
-  const passa = (i: ItemChecklist) => (filtro === "Todos" ? true : filtro === "Da equipe" ? i.quem === "equipe" && i.status !== "Feito" : i.status === filtro);
+  const passa = (i: ItemChecklist) => (filtro === "Todos" ? true : filtro === "Fora do repositório" ? i.quem === "equipe" && i.status !== "Feito" : i.status === filtro);
   const daEquipe = useMemo(() => secoes.flatMap((s) => s.itens).filter((i) => i.quem === "equipe" && i.status !== "Feito").length, [secoes]);
   const aoMudar = (novo: ItemChecklist, r: ResumoChecklist) => {
     setSecoes((lista) => lista.map((s) => ({ ...s, itens: s.itens.map((i) => (i.id === novo.id ? novo : i)) })));
     setResumo(r);
   };
-  const contagem = (f: Filtro) => (f === "Todos" ? resumo.total : f === "Da equipe" ? daEquipe : resumo.por_status[f]);
+  const contagem = (f: Filtro) => (f === "Todos" ? resumo.total : f === "Fora do repositório" ? daEquipe : resumo.por_status[f]);
 
   return (
     <div className="space-y-5">
@@ -168,7 +168,7 @@ export default function Checklist({ cod, dados, editavel }: { cod: string; dados
       </div>
 
       <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar itens">
-        {(["Todos", "A fazer", "Conferir", "Feito", "Da equipe"] as Filtro[]).map((f) => (
+        {(["Todos", "A fazer", "Conferir", "Feito", "Fora do repositório"] as Filtro[]).map((f) => (
           <button key={f} type="button" onClick={() => setFiltro(f)} aria-pressed={filtro === f}
             className={`rounded-full px-3 py-1 text-[13px] font-semibold ${filtro === f ? "bg-marca text-white" : "bg-superficie text-apagado ring-1 ring-linha ring-inset hover:text-tinta"}`}>
             {f} ({contagem(f)})
@@ -191,7 +191,7 @@ export default function Checklist({ cod, dados, editavel }: { cod: string; dados
       {secoes.every((s) => !s.itens.some(passa)) && <p className="text-[14px] text-apagado">Nenhum item neste filtro.</p>}
 
       <p className="text-[13px] text-apagado">
-        Feito: existe e foi conferido. Conferir: existe, mas a equipe ainda precisa conferir (fonte oficial, número, roteiro). A fazer: ainda não existe.
+        Feito: existe e foi conferido. Conferir: existe, mas ainda falta conferir (fonte oficial, número, roteiro). A fazer: ainda não existe.
         {editavel ? " Mudanças ficam salvas em sistema/dados/checklist.json." : " Nesta versão pública o checklist é só leitura."}
       </p>
     </div>

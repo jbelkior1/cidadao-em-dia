@@ -35,16 +35,31 @@ class Orientacao:
             raise ValueError("campos faltando: " + ", ".join(faltando))
         for campo in ("palavras_chave", "documentos"):
             lista = dados[campo]
-            if not isinstance(lista, list) or not all(isinstance(i, str) for i in lista):
+            if not isinstance(lista, list):
                 raise ValueError("o campo '" + campo + "' deve ser uma lista de textos")
+            for item in lista:
+                if not isinstance(item, str):
+                    raise ValueError("o campo '" + campo + "' deve ser uma lista de textos")
         for campo in ("categoria", "titulo", "resposta", "onde", "fonte", "verificado_em"):
             if not isinstance(dados[campo], str):
                 raise ValueError("o campo '" + campo + "' deve ser texto")
-        return cls(**{campo: dados[campo] for campo in CAMPOS_OBRIGATORIOS})
+        return cls(dados["id"], dados["categoria"], dados["titulo"], dados["palavras_chave"],
+                   dados["resposta"], dados["documentos"], dados["onde"], dados["fonte"],
+                   dados["verificado_em"])
 
     def para_dict(self):
         """Devolve a orientação como dicionário (mesmo formato do JSON)."""
-        return {campo: getattr(self, campo) for campo in CAMPOS_OBRIGATORIOS}
+        return {
+            "id": self.id,
+            "categoria": self.categoria,
+            "titulo": self.titulo,
+            "palavras_chave": self.palavras_chave,
+            "resposta": self.resposta,
+            "documentos": self.documentos,
+            "onde": self.onde,
+            "fonte": self.fonte,
+            "verificado_em": self.verificado_em,
+        }
 
     def texto(self):
         """Monta o texto da orientação (sem imprimir nada)."""

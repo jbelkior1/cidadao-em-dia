@@ -17,7 +17,7 @@ ARQUIVO_BASE = PASTA / "data" / "base_conhecimento.json"
 
 _assistente = None
 _erro = ""
-_em_conferencia: set[int] = set()   # ids que a equipe ainda não conferiu na fonte
+_em_conferencia: set[int] = set()   # ids ainda não conferidos na fonte
 
 
 def _carregar():

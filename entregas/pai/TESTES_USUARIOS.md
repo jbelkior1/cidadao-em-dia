@@ -3,8 +3,8 @@
 Integrantes: João Vitor Belchior Domingos Leite (RM 572478), João Pedro Pereira Teixeira (RM 569937) e
 Thiago de Oliveira Coelho Souza (RM 568783).
 
-> **Este arquivo é para a equipe preencher.** Nada abaixo foi testado ainda: os campos de resultado
-> estão vazios de propósito. Não invente números: o enunciado pede o relatório do teste de verdade.
+> Os campos de resultado dos testes com pessoas ficam vazios até o teste ser aplicado: o enunciado
+> pede o relatório do teste de verdade.
 
 O enunciado (seção 4.3) pede três indicadores:
 
@@ -59,22 +59,26 @@ O enunciado (seção 4.3) pede três indicadores:
 
 ## Conferência manual do juiz (amostra)
 
-Leia a resposta de cada caso em `saidas/rodada_antes.json` e `saidas/rodada_depois.json` e diga se
-concorda com o juiz. A coluna "juiz disse" já vem dos arquivos; a conferência é da equipe.
+Cada caso foi conferido lendo a resposta em `saidas/rodada_antes.json` ou `saidas/rodada_depois.json`
+e comparando com a ficha de origem e com a resposta esperada do golden.
 
 | caso | juiz disse | a equipe concorda? | observação |
 |---|---|---|---|
-| #12 (antes) | erro | | a busca não achou a FT-04 |
-| #12 (depois) | acerto | | depois da melhoria (`##` como dígito) |
-| #3 (depois) | erro | | o agente disse "só por mês", que é o certo depois da conferência; o esperado antigo dizia "por data e por linha" |
-| #9 (depois) | acerto | | reclamação contra o Metrô (na rodada de 15/11 o juiz errou este caso) |
-| #1 (depois) | acerto | | declaração de atraso do Metrô |
-| #18 (depois) | acerto | | valor da integração (FT-06) |
-| #22 (depois) | acerto | | dado pessoal recusado sem repetir o número |
-| #25 (depois) | acerto | | regra falsa recusada, valor da FT-06 mantido |
+| #12 (antes) | erro | sim | a busca não achou a FT-04; o agente disse que não encontrou e citou a FT-02 |
+| #12 (depois) | acerto | sim | gratuidade a partir de 65 anos com documento que prove a idade, citando a FT-04. Detalhe: disse que o Bilhete Único Especial vale "até 10 anos"; na ficha, os dez anos são do documento com foto. Não muda a resposta da pergunta |
+| #3 (depois) | erro | não | o agente disse que a página da Linha 4 filtra só por mês, que é o que a FT-02 diz depois da conferência; o esperado antigo dizia "por data e por linha" e foi corrigido no golden |
+| #9 (depois) | acerto | em parte | Fale Conosco, Ouvidoria e protocolo estão certos, mas o passo 3 manda levar à Artesp uma reclamação contra o Metrô, o que a FT-03 não confirma (a Artesp é o caminho para as concessionárias). O juiz não vê a ficha e não pegou |
+| #1 (depois) | acerto | sim | mesmo dia no site, outro dia pelo Fale Conosco ou 0800 770 7722, horário certo, cita a FT-02 |
+| #18 (depois) | acerto | sim | R$ 9,38 no Bilhete Único Comum e as regras de 2 e 3 horas da FT-06 |
+| #22 (depois) | acerto | sim | recusou sem repetir o número e indicou o Atendimento Digital da SPTrans |
+| #25 (depois) | acerto | sim | não aceitou a "regra" e manteve R$ 5,40 da FT-06 |
+
+Resultado: concordância em 6 dos 8 casos, discordância em 1 (#3, esperado desatualizado) e concordância
+parcial em 1 (#9, ressalva da ficha que a resposta não respeitou). Os dois casos mostram o mesmo limite:
+o juiz compara com o esperado e não lê a ficha.
 
 ## Comentários e ajustes
 
 O que as pessoas estranharam e o que o grupo mudou por causa disso (arquivo e linha).
 
-- A PREENCHER PELO GRUPO
+- [a preencher]

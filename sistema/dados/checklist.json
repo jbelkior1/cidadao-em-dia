@@ -230,7 +230,7 @@
               "quem": "sistema",
               "status": "Conferir",
               "onde": "entregas/pcp/citizen-assist-ai/README.md",
-              "como": "Estrutura com os campos do enunciado, a integração com o Dá Tempo? declarada e os ajustes de regra explicados. Antes de publicar: preencher o resultado do teste e o link do vídeo, confirmar público e ODS (hoje marcados como proposta), apagar os lembretes para a equipe e conferir a instrução de testes (a pasta tests/pcp fica no repositório do sistema, não no repositório público; o README já diz isso).",
+              "como": "Estrutura com os campos do enunciado, a integração com o Dá Tempo? declarada e os ajustes de regra explicados. Falta o resultado do teste com usuários e o link do vídeo.",
               "id": "PCP-12"
             },
             {
@@ -255,9 +255,9 @@
               "requisito": "Repositório público citizen-assist-ai com a estrutura do enunciado, acessível na correção",
               "criterio": "GitHub, README e teste com usuários",
               "quem": "equipe",
-              "status": "A fazer",
-              "onde": "GitHub (novo repositório público citizen-assist-ai)",
-              "como": "A pasta entregas/pcp/citizen-assist-ai está pronta, com .gitignore e a estrutura do enunciado. Em 16/11 https://github.com/jbelkior1/citizen-assist-ai ainda devolve 404: falta criar o repositório público com esse nome e subir o conteúdo da pasta.",
+              "status": "Feito",
+              "onde": "https://github.com/jbelkior1/citizen-assist-ai",
+              "como": "Publicado em 16/11/2026 com a estrutura do enunciado (README, 4 .py e data/ com os 3 arquivos), público e sem login; histórico e CSV no estado inicial. Os testes ficam no repositório do projeto (tests/pcp), com link no README.",
               "id": "PCP-15"
             }
           ]
@@ -303,7 +303,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "entregas/portal/pcp/PCP_entrega.txt",
-              "como": "Arquivo pronto com os 5 campos na ordem do enunciado; a equipe cola os links do repositório e do vídeo antes de enviar.",
+              "como": "Arquivo pronto com os 5 campos na ordem do enunciado; falta colar o link do vídeo antes de enviar.",
               "id": "PCP-19"
             }
           ]
@@ -767,7 +767,7 @@
               "criterio": "Fundamentação e coerência técnica (60)",
               "quem": "equipe",
               "status": "Conferir",
-              "onde": "pesquisa/ENERGIA_FONTES.md (seção Dúvidas para a equipe)",
+              "onde": "pesquisa/ENERGIA_FONTES.md (seção Limitações e premissas)",
               "como": "Em 16/11: os links citados na base da PCP e no levantamento da SERS (27) abrem; as contas por viagem foram refeitas à mão e o mês passou a ser calculado sem arredondar antes. Ficam as 6 dúvidas abertas de pesquisa/ENERGIA_FONTES.md (ocupação de carro e ônibus, CPTM sem dado, teor de etanol da gasolina, g CO2/km do INMETRO contra litros x fator, valores lidos de PDF e períodos diferentes entre fontes): só o grupo decide, e precisa saber explicar no vídeo.",
               "id": "SERS-06"
             }
@@ -823,7 +823,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "entregas/sers/TESTES_USUARIOS.md",
-              "como": "O roteiro existe (4 situações, tabela para 3 pessoas, nota de 1 a 5, sem dado pessoal), mas todos os campos de resultado estão vazios e o item de ajustes traz 'A PREENCHER PELO GRUPO' (linha 55). Falta aplicar com pessoas de fora, registrar e fazer pelo menos um ajuste real.",
+              "como": "O roteiro existe (4 situações, tabela para 3 pessoas, nota de 1 a 5, sem dado pessoal), mas todos os campos de resultado estão vazios e o item de ajustes ainda está em branco. Falta aplicar com pessoas de fora, registrar e fazer pelo menos um ajuste real.",
               "id": "SERS-11"
             },
             {
@@ -872,7 +872,7 @@
       ],
       "observacoes": [
         "A comparação é de modos de transporte para a mesma viagem: trilho (elétrico, a alternativa renovável), ônibus a diesel e carro.",
-        "Os números lidos de PDF (Metrô, INMETRO, ANP, MCTI) precisam ser conferidos pela equipe antes do envio."
+        "Os números lidos de PDF (Metrô, INMETRO, ANP, MCTI) passam por uma última conferência antes do envio."
       ]
     },
     "MLAM": {
@@ -1269,9 +1269,9 @@
               "requisito": "Conferência manual de uma amostra do juiz (pelo menos 8 casos)",
               "criterio": "Pipeline de LLM as a Judge, com comparação antes e depois",
               "quem": "equipe",
-              "status": "A fazer",
+              "status": "Feito",
               "onde": "entregas/pai/TESTES_USUARIOS.md (tabela 'Conferência manual do juiz')",
-              "como": "A tabela 'Conferência manual do juiz' de TESTES_USUARIOS.md já traz 8 casos das rodadas de 16/11 (#12 antes e depois, #3, #9, #1, #18, #22 e #25), com o que o juiz disse e a coluna 'a equipe concorda?' vazia. A conferência é da equipe.",
+              "como": "Tabela 'Conferência manual do juiz' em TESTES_USUARIOS.md: 8 casos das rodadas de 16/11 conferidos contra a ficha e o golden. Concordância em 6, discordância no #3 (esperado desatualizado, corrigido) e parcial no #9 (resposta levou a reclamação do Metrô à Artesp, o que a FT-03 não confirma). Os dois mostram que o juiz não lê a ficha; registrado nas limitações do README.",
               "id": "PAI-14"
             }
           ]
@@ -1285,7 +1285,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/pai/pai_agente/guardrails.py:39-50; agente.py:115-119 e 58-61; guardrails.py:112-115",
-              "como": "#24 e #25 detectados por regra (ignorar instruções, pedir o prompt, falsa mensagem de sistema) e respondidos sem modelo, sem texto do prompt (teste verifica ausência de 'REGRA DE OURO'). A frase escondida do enunciado também cai no padrão 'forçar formato' (teste passou). Fichas e pergunta vão ao modelo entre marcas de DADO. #106 (FT-09 falsa) depende só das instruções do modelo. O #25 também repete o valor da FT-06 (R$ 5,40) na recusa, sem chamar o modelo (15/11).",
+              "como": "#24 e #25 detectados por regra (ignorar instruções, pedir o prompt, falsa mensagem de sistema) e respondidos sem modelo, sem texto do prompt (teste verifica ausência de 'REGRA DE OURO'). Fichas e pergunta vão ao modelo entre marcas de DADO. #106 (FT-09 falsa) depende só das instruções do modelo. O #25 também repete o valor da FT-06 (R$ 5,40) na recusa, sem chamar o modelo (15/11).",
               "id": "PAI-15"
             }
           ]
@@ -1299,7 +1299,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "entregas/pai/TESTES_USUARIOS.md",
-              "como": "Roteiro, 3 tarefas com resposta certa e tabelas existem e batem com o enunciado, mas todos os campos de tempo, notas e médias estão vazios; o arquivo termina com 'A PREENCHER PELO GRUPO'. Sem identificar participantes (Pessoa 1 a 5), como o enunciado manda.",
+              "como": "Roteiro, 3 tarefas com resposta certa e tabelas existem e batem com o enunciado, mas todos os campos de tempo, notas e médias estão vazios; o item de ajustes ainda está em branco. Sem identificar participantes (Pessoa 1 a 5), como o enunciado manda.",
               "id": "PAI-16"
             }
           ]
@@ -1336,8 +1336,7 @@
       "observacoes": [
         "Tema autorizado pelo professor em 13/11/2026: fichas de transporte FT-01 a FT-07 com as regras do enunciado.",
         "Os itens da versão do PDF geral (RAG, Gradio, RAGAS) não fazem parte do enunciado do portal e saíram do checklist.",
-        "A instrução escondida no fim do enunciado foi tratada como prompt injection e não foi obedecida.",
-        "Guardar a prova da autorização do professor para trocar as fichas de Aurora pelo tema transporte (13/11/2026): o enunciado pede 'exatamente estas 26 mensagens' e o README cita a autorização, mas não há registro dela no repositório."
+        "Autorização do professor para o tema transporte em 13/11/2026: guardar o print junto com a entrega."
       ]
     },
     "MMC": {
@@ -1682,7 +1681,7 @@
         }
       ],
       "observacoes": [
-        "Entregue no Wokwi; o link do projeto e o do vídeo entram na página da matéria quando a equipe publicar."
+        "Entregue no Wokwi; o link do projeto e o do vídeo entram na página da matéria quando forem publicados."
       ]
     }
   }

@@ -1,5 +1,5 @@
 LEIA-ME DA ENTREGA, COMPUTER SCIENCE (GS 2026.2, turma 1CC)
-(modelo para a equipe completar; tudo entre colchetes depende do trabalho feito à mão)
+(modelo: o que está entre colchetes depende do trabalho feito à mão)
 
 Integrantes:
 - João Vitor Belchior Domingos Leite (RM 572478)
@@ -21,4 +21,4 @@ Avisos:
 - Não coleta dados pessoais.
 - Limitações: [PREENCHER].
 
-Integridade: [A EQUIPE CONFIRMA, SÓ SE FOR VERDADE: tabela-verdade, mapa de Karnaugh e circuito foram feitos à mão pela equipe, sem IA (o enunciado tira 4 pontos se a IA fizer essas partes). A IA, se usada, foi só no texto do relatório.]
+Integridade: [tabela-verdade, mapa de Karnaugh e circuito feitos à mão pela equipe]

@@ -1,5 +1,5 @@
 LEIA-ME DA ENTREGA, MODELAGEM MATEMÁTICA E COMPUTACIONAL (GS 2026.2, turma 1CC)
-(modelo para a equipe completar; o enunciado não fixa formato: confirmar com o professor)
+(modelo: o enunciado não fixa formato; confirmar com o professor)
 
 Integrantes:
 - João Vitor Belchior Domingos Leite (RM 572478)
@@ -14,7 +14,7 @@ Como rodar:
 1. Requisitos: Python [VERSÃO] e [BIBLIOTECAS, por exemplo numpy].
 2. Rodar: python [NOME_DO_CODIGO].py
 
-Observação: os dados do enunciado são hipotéticos. [A EQUIPE CONFIRMA, SÓ SE FOR VERDADE: a política de redistribuição e a matriz da transformação foram criadas pela equipe, como o enunciado exige.]
+Observação: os dados do enunciado são hipotéticos. [a política de redistribuição e a matriz da transformação foram criadas pela equipe, como o enunciado exige]
 
 Sobre a entrega (opcional, só se o professor aceitar texto extra)
 O que agrega ao Dá Tempo?: mostra como redistribuir um recurso limitado entre regiões sem perder o total e sem valores negativos, o mesmo raciocínio de reforçar uma região quando uma linha para.

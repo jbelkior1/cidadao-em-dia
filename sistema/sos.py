@@ -7,8 +7,8 @@ abrir o canal já preenchido, e quem envia é a pessoa:
 - ViaQuatro e ViaMobilidade (linhas 4, 5, 8 e 9): central de atendimento da linha;
 - sem canal próprio no catálogo (linhas 6, 7 e 13): Ouvidoria da Artesp, que fiscaliza as concessões.
 
-Os canais vêm do catálogo da DSA (a lista encadeada da entrega), com o id do serviço, para a
-equipe conferir a fonte. Os números de discagem ficam aqui e o teste confere se aparecem no texto
+Os canais vêm do catálogo da DSA (a lista encadeada da entrega), com o id do serviço, para
+conferir a fonte. Os números de discagem ficam aqui e o teste confere se aparecem no texto
 do catálogo. Não é canal de emergência: em perigo, 190, 192 ou 193.
 """
 from sistema.adaptadores import dsa

@@ -6,16 +6,16 @@ Cada professor pede a entrega num formato próprio, e o formato também vale not
 python scripts/montar_entregas.py --url https://SEU-DOMINIO
 ```
 
-O script grava tudo em `entregas/portal/saida/` (fora do git) e lista o que ainda está entre colchetes para a equipe preencher. Sem `--url`, a linha com o endereço da plataforma sai do texto.
+O script grava tudo em `entregas/portal/saida/` (fora do git) e lista o que ainda está entre colchetes, por preencher. Sem `--url`, a linha com o endereço da plataforma sai do texto.
 
-| Matéria | O que vai ao portal | Arquivo pronto | O que a equipe ainda faz |
+| Matéria | O que vai ao portal | Arquivo pronto | O que ainda falta |
 |---|---|---|---|
-| **PCP** | Só um .txt com 5 campos (nome do assistente, público, integrantes e RM, link do repositório, link do vídeo) | [`pcp/PCP_entrega.txt`](pcp/PCP_entrega.txt); o script gera também `citizen-assist-ai.zip` com o conteúdo do repositório público | Criar o repositório público `citizen-assist-ai`, testar com 3 pessoas (10 atendimentos) antes do vídeo, gravar o vídeo técnico de 5 a 8 min, colar os links |
-| **DSA** | Código, documentação, Big-O e evidências (formato livre) | [`dsa/LEIA-ME.txt`](dsa/LEIA-ME.txt); o script gera `DSA_entrega.zip` | Conferir na tela do portal o formato aceito, anexar prints do terminal às evidências |
+| **PCP** | Só um .txt com 5 campos (nome do assistente, público, integrantes e RM, link do repositório, link do vídeo) | [`pcp/PCP_entrega.txt`](pcp/PCP_entrega.txt); repositório público em https://github.com/jbelkior1/citizen-assist-ai | Testar com 3 pessoas (10 atendimentos) antes do vídeo, gravar o vídeo técnico de 5 a 8 min, colar os links |
+| **DSA** | Código, documentação, Big-O e evidências (formato livre) | [`dsa/LEIA-ME.txt`](dsa/LEIA-ME.txt); o script gera `DSA_entrega.zip` | Conferir na tela do portal o formato aceito |
 | **SERS** | Só um .txt com nome completo e RM, link do repositório e link do vídeo | [`sers/SERS_entrega.txt`](sers/SERS_entrega.txt) | Testes com usuários em `entregas/sers/TESTES_USUARIOS.md`, conferir os números lidos de PDF, vídeo de até 3 min, colar o link |
 | **MLAM** | Base .csv, códigos .py e relatório .pdf, postados soltos, **sem links** | O script gera `MLAM_para_enviar/`; instruções em [`mlam/COMO_ENVIAR.txt`](mlam/COMO_ENVIAR.txt) (não vai ao portal) | Conferir quantos arquivos o portal aceita, conferir o cadastro do grupo e postar |
-| **PAI** | Protótipo testável, fichas, juiz com antes e depois, relatório dos testes e justificativas (formato livre) | [`pai/LEIA-ME.txt`](pai/LEIA-ME.txt); o script gera `PAI_entrega.zip` | Testes com 5 pessoas (tempo e facilidade) em `entregas/pai/TESTES_USUARIOS.md`, conferência manual de 8 casos do juiz, confirmar o formato de envio |
-| **CS** | Relatório técnico em PDF, prints da simulação e instruções | Modelo em [`cs/LEIA-ME.txt`](cs/LEIA-ME.txt) | Tudo, à mão: tabela-verdade, Karnaugh e circuito sem IA (o enunciado tira 4 pontos) |
+| **PAI** | Protótipo testável, fichas, juiz com antes e depois, relatório dos testes e justificativas (formato livre) | [`pai/LEIA-ME.txt`](pai/LEIA-ME.txt); o script gera `PAI_entrega.zip` | Testes com 5 pessoas (tempo e facilidade) em `entregas/pai/TESTES_USUARIOS.md`, confirmar o formato de envio |
+| **CS** | Relatório técnico em PDF, prints da simulação e instruções | Modelo em [`cs/LEIA-ME.txt`](cs/LEIA-ME.txt) | Tudo, à mão: tabela-verdade, Karnaugh e circuito |
 | **MMC** | Não fixado no enunciado (mínimo seguro: PDF e .py) | Modelo em [`mmc/LEIA-ME.txt`](mmc/LEIA-ME.txt) | Etapas 1 e 2, com a política e a matriz da equipe; confirmar o formato com o professor |
 | **COA** | Link do Wokwi, link do vídeo e nomes completos (um integrante entrega) | Modelo em [`coa/COA_entrega.txt`](coa/COA_entrega.txt) | Circuito e código no Wokwi, vídeo mostrando a leitura mudar, testar os links em janela anônima |
 | **Vídeo pitch** | Entrega própria do portal (GS2026.2 - ENTREGA VÍDEO PITCH) | Modelo em [`pitch/PITCH_entrega.txt`](pitch/PITCH_entrega.txt) | Gravar o pitch de até 3 min, sem narração por IA |

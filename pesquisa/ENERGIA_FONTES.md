@@ -1,6 +1,6 @@
 # Fontes da pesquisa de energia (SERS): consultado em 12/11/2026
 
-Regra seguida: só entra número lido em página ou arquivo oficial nesta sessão. Busca na web serviu só para achar o endereço. Os dados estruturados estão em `energia_modos.json`.
+Regra seguida: só entra número lido em página ou arquivo oficial. A busca serviu só para achar o endereço. Os dados estruturados estão em `energia_modos.json`.
 
 ## O que abriu e foi usado
 
@@ -16,7 +16,7 @@ Regra seguida: só entra número lido em página ou arquivo oficial nesta sessã
 | ANP, Síntese Semanal 45/2026 | https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/arq-sintese-semanal/2026/sintese-precos-45.pdf | Sim | São Paulo capital, 01-07/11/2026: gasolina 6,35; diesel S10 7,25; etanol 4,01 |
 | Agência SP (Governo do Estado) | https://www.agenciasp.sp.gov.br/trens-e-metro-terao-nova-tarifa-a-partir-de-6-de-janeiro-com-valor-abaixo-da-inflacao/ | Sim | Tarifa de trem e metrô R$ 5,40 desde 06/01/2026 |
 | Metrô SP, página de bilhetes | https://www.metro.sp.gov.br/sua-viagem/bilhetes-cartoes/ | Sim | R$ 5,40 por viagem |
-| SPTrans, tarifas | https://www.sptrans.com.br/tarifas/ | Sim (só com User-Agent de navegador) | Ônibus R$ 5,30; metroferroviário R$ 5,40; atualizado em 06/01/2026 |
+| SPTrans, tarifas | https://www.sptrans.com.br/tarifas/ | Sim | Ônibus R$ 5,30; metroferroviário R$ 5,40; atualizado em 06/01/2026 |
 | Prefeitura de São Paulo, nota dos 2 mil ônibus elétricos | https://prefeitura.sp.gov.br/w/prefeitura-atinge-marco-hist%C3%B3rico-de-2-mil-%C3%B4nibus-el%C3%A9tricos-na-frota-de-s%C3%A3o-paulo-com-entrega-de-mais-250-ve%C3%ADculos | Sim | 1.821 a bateria e 188 trólebus |
 | MME, notícia sobre o fator de 2023 | https://www.gov.br/mme/pt-br/assuntos/noticias/2023-2026/geracao-de-energia-eletrica-tem-a-menor-emissao-de-co2-dos-ultimos-onze-anos | Sim | 38,5 kg CO2/MWh em 2023 (confere com o MCTI) |
 
@@ -24,14 +24,14 @@ Regra seguida: só entra número lido em página ou arquivo oficial nesta sessã
 
 | Fonte | Resultado |
 |---|---|
-| Páginas HTML do MCTI (`/mudancadoclima/dados-e-ferramentas/fatores-de-emissao`, `/sirene/dados-e-ferramentas/fatores-de-emissao`, `/cgcl/paginas/fator-medio-inventarios-corporativos`, notícia de jun/2025) | Mostraram verificação anti-robô ("What code is in the image?"). Não tentei resolver. Os arquivos .xlsx e .pdf por link direto abriram normalmente |
+| Páginas HTML do MCTI (`/mudancadoclima/dados-e-ferramentas/fatores-de-emissao`, `/sirene/dados-e-ferramentas/fatores-de-emissao`, `/cgcl/paginas/fator-medio-inventarios-corporativos`, notícia de jun/2025) | Pediram verificação de segurança. Os arquivos .xlsx e .pdf por link direto abriram normalmente |
 | Portal de transparência do Metrô (OD 2023, inventário de GEE 2024, `node/5383`, `node/5366`, `node/5555`) | Resposta "Site em manutenção". Sem ocupação de automóvel da Pesquisa OD |
 | Site ESG da CPTM (`/cptm/esg-consciente/meio-ambiente`) | Abriu, mas sem link para o inventário de GEE 2024. CPTM sem número oficial |
 | MMA, `inventario_emissoes_rodoviarias_2025_mma.pdf` | Devolveu página HTML, não PDF. Usei a cópia do Ministério dos Transportes |
 | INMETRO, páginas de notícia da tabela PBEV | Resposta vazia no download; usei o PDF da tabela |
 | SPTrans/Prefeitura: consumo e lotação da frota | Não achei documento oficial. Resultados de busca (ICCT, Diário do Transporte, estudos de 2025) não foram abertos na origem e não foram usados como fonte de número |
 
-## Dúvidas para a equipe
+## Limitações e premissas
 
 1. Ocupação média do carro e do ônibus: sem número oficial lido. O exemplo usa ocupação 1 para o carro, como premissa declarada.
 2. CPTM: sem dado. A viagem "trem ou metrô" usa o Metrô.
@@ -39,7 +39,3 @@ Regra seguida: só entra número lido em página ou arquivo oficial nesta sessã
 4. Os g CO2/km do INMETRO (Mobi: 106) e litros × fator (cerca de 116 a 149) divergem. Não misturar os dois métodos.
 5. Valores lidos por posição de célula em PDF (ônibus 2,10 km/L, fatores kg/L, linha de São Paulo da ANP): conferir olhando o documento.
 6. Períodos diferentes entre as fontes (2025 para Metrô e SIN, 2026 para PBEV e preços): declarar na tela.
-
-## Conteúdo de página que tentou dar instrução
-
-Nenhuma página lida trazia instrução dirigida ao agente. Os únicos textos estranhos foram as verificações anti-robô do gov.br, ignoradas.

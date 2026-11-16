@@ -1,4 +1,4 @@
-MLAM: COMO ENVIAR (arquivo só para a equipe; NÃO vai ao portal)
+MLAM: COMO ENVIAR (anotação interna; NÃO vai ao portal)
 
 O enunciado proíbe links e aceita só estes formatos: base em .csv, códigos em .py e relatório em .pdf.
 Por isso a MLAM não tem .txt de entrega nem link do sistema. Nome completo e RM dos três estão na capa do PDF e no cabeçalho dos .py.

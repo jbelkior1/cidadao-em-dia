@@ -14,7 +14,7 @@ confirmava algo, a ficha diz isso com todas as letras, em vez de completar com s
 
 **Conferência:** em 16/11/2026 as fontes das 7 fichas foram abertas de novo e cada telefone, horário, prazo
 e valor foi comparado com a página. O texto foi corrigido onde a fonte não sustentava a frase. Valores e
-telefones mudam: a equipe deve abrir as fontes antes da entrega e atualizar a data se mudar algo.
+telefones mudam: antes de usar, vale abrir as fontes e atualizar a data se algo mudar.
 
 Versão das fichas: 16/11/2026 (fontes lidas em 12/11/2026 e conferidas de novo em 16/11/2026)
 

@@ -51,7 +51,7 @@ SERS no sistema) e neste script.
 | `sistema/testes.py` (`sers_testar`) | o teste da matéria dentro do sistema, que mostra conta por conta |
 | `sistema/web/src/paginas/Materia.tsx` | a página da SERS no sistema, com Entenda, Teste e Checklist |
 | `sistema/assistente.py` e `sistema/web/src/componentes/Cartoes.tsx` | onde a energia entra na resposta da Lia e no cartão da viagem |
-| `entregas/sers/TESTES_USUARIOS.md` | roteiro e registro dos testes com usuários (a equipe preenche) |
+| `entregas/sers/TESTES_USUARIOS.md` | roteiro e registro dos testes com usuários |
 
 O cálculo não foi copiado para cá de propósito: existe um só, usado pelo app e por esta entrega. Se a
 equipe corrigir um fator no JSON, a tela e este script mudam juntos, e não há risco de uma versão
@@ -77,11 +77,11 @@ O enunciado pede comparar as opções num período de referência comum. Usamos 
 
 | modo | energia no mês | CO₂ no mês | custo no mês |
 |---|---|---|---|
-| Trem ou metrô | 47,5 kWh | 2,2 kg | R$ 237,60 |
-| Ônibus a diesel | sem fonte de consumo | 52,4 kg | R$ 233,20 |
-| Carro a gasolina, sozinho | 444,4 kWh | 86,2 a 110,9 kg | R$ 315,04 |
+| Trem ou metrô | 47,3 kWh | 2,2 kg | R$ 237,60 |
+| Ônibus a diesel | sem fonte de consumo | 52,1 kg | R$ 233,20 |
+| Carro a gasolina, sozinho | 443,9 kWh | 86,3 a 110,7 kg | R$ 315,11 |
 
-Trocar o carro pelo trilho evita cerca de **84 a 109 kg de CO₂ por mês** por pessoa (a faixa vem do teor de etanol) e custa cerca de
+Trocar o carro pelo trilho evita cerca de **84 a 108 kg de CO₂ por mês** por pessoa (a faixa vem do teor de etanol) e custa cerca de
 **R$ 77 a menos** (tarifa cheia do trilho contra só a gasolina do carro). Com a integração do
 Bilhete Único ou com vale-transporte, o custo do transporte público muda; essas regras não foram lidas.
 

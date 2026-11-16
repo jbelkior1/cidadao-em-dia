@@ -1,7 +1,7 @@
 Nome do assistente: Citizen Assist AI
 Público atendido: Pessoas que usam metrô, trem e ônibus em São Paulo no dia a dia, principalmente quem depende do transporte público para chegar ao trabalho ou à escola.
 Integrantes e RM: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
-Link do repositório GitHub: [COLE AQUI O LINK DO REPOSITÓRIO citizen-assist-ai]
+Link do repositório GitHub: https://github.com/jbelkior1/citizen-assist-ai
 Link do vídeo técnico no YouTube: [COLE AQUI O LINK DO VÍDEO]
 
 Sobre a entrega

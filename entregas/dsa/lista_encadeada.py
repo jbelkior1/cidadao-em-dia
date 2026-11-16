@@ -66,13 +66,12 @@ class ListaEncadeada:
         self._tamanho += 1
 
     # ---------- atualização ----------
-    def atualizar(self, id, **campos):
-        """Troca campos do registro com esse id. Devolve True se achou, False se não."""
+    def atualizar(self, id, campo, valor):
+        """Troca um campo do registro com esse id. Devolve True se achou, False se não."""
         dado = self.buscar_por_id(id)
         if dado is None:
             return False
-        for nome, valor in campos.items():
-            setattr(dado, nome, valor)
+        setattr(dado, campo, valor)   # muda o atributo cujo nome está em 'campo'
         return True
 
     # ---------- remoção ----------

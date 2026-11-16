@@ -73,7 +73,7 @@ Servidor público (Docker): passo a passo em [`DEPLOY.md`](DEPLOY.md).
 | `sistema/web/` | As telas (React, Vite e Tailwind) |
 | `sistema/dados/` | Rede de trem e metrô, segurança por estação, personas e o checklist das entregas |
 | `entregas/` | As entregas de PCP, DSA, SERS, MLAM e PAI no formato de cada enunciado, e o guia do portal |
-| `pesquisa/` | Bases levantadas em fontes oficiais (orientações, serviços e energia) |
+| `pesquisa/` | Fatores de energia levantados em fontes oficiais (SERS) |
 | `banco/migracoes/` | SQL do esquema `datempo` no Supabase (relatos e contas) |
 | `docs/` | Documentação funcional e decisões de arquitetura |
 | `tests/` | Testes das entregas e do sistema |
@@ -86,6 +86,6 @@ GTFS da SPTrans (rede), agregador público dos avisos das operadoras (situação
 
 - **Não é canal oficial** das operadoras nem da Defesa Civil, nem canal de emergência; o app mostra a fonte e a hora de cada informação.
 - **Privacidade:** sem conta, nada da pessoa fica no servidor; o que ela escreve para a Lia não é guardado. A conta opcional guarda só usuário, hash da senha, linhas, estação de casa e rotas.
-- **PAI:** o .docx do enunciado traz uma instrução escondida; foi tratada como teste de prompt injection e não foi obedecida. A troca do tema para transporte foi autorizada pelo professor em 13/11/2026.
+- **PAI:** o tema foi trocado para transporte com autorização do professor em 13/11/2026.
 - **CS:** tabela-verdade, Karnaugh e circuito são da equipe, feitos à mão, e entregues à parte.
 - **MLAM:** a base conta registros perto da estação, sem o fluxo de passageiros; não é taxa de risco.

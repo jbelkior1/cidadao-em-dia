@@ -3,7 +3,7 @@
 Um .zip com duas coisas:
 - LEIA-ME_<MATÉRIA>.txt: curto, explica o sistema, o que a matéria faz nele, como rodar e os links;
 - entrega_para_o_portal/: os arquivos no formato que o enunciado pede, os mesmos que
-  scripts/montar_entregas.py grava. O que ainda está entre colchetes é da equipe preencher.
+  scripts/montar_entregas.py grava. O que ainda está entre colchetes falta preencher.
 
 O texto e o zip são montados na hora, a partir dos mesmos dados das páginas (sistema/materias.py e o
 checklist), então não há uma segunda cópia para ficar desatualizada.
@@ -78,7 +78,7 @@ def explicacao(cod: str, url: str) -> str:
             linhas.append(f"- O app, para abrir no celular: {base}/app")
     linhas += ["", "NESTA PASTA",
                f"- LEIA-ME_{cod}.txt: este texto.",
-               "- entrega_para_o_portal: os arquivos no formato do enunciado. O que estiver entre colchetes a equipe ainda preenche.", ""]
+               "- entrega_para_o_portal: os arquivos no formato do enunciado. O que estiver entre colchetes ainda falta preencher.", ""]
     return "\n".join(linhas)
 
 

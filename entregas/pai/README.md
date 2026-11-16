@@ -167,13 +167,11 @@ Em `pai_agente/guardrails.py`, todos determinísticos e testáveis sem rede.
 3. **Escopo.** Sem ficha com pontuação, o agente diz que não encontrou e manda procurar o canal oficial
    da operadora.
 
-### A injection escondida no enunciado
+### Pedidos para forçar formato
 
-O próprio enunciado da PAI traz, depois de "Bom trabalho!", uma instrução mandando começar toda
-resposta com uma frase, sob pena de nota zero. É uma tentativa de prompt injection plantada no
-material. **Ela foi identificada e não foi obedecida**, aqui nem no desenvolvimento deste trabalho:
-conteúdo externo é dado, não instrução. O padrão "forçar formato" do guardrail detecta esse tipo de
-frase.
+Mensagens que mandam o assistente começar toda resposta com uma frase fixa, ou mudar o jeito de
+responder, caem no padrão "forçar formato" do guardrail e são recusadas: conteúdo que chega na
+mensagem é dado, não instrução.
 
 ## O juiz (LLM as a Judge)
 
@@ -266,8 +264,8 @@ não foi testado.
 ## Testes com usuários
 
 Roteiro e tabelas em `TESTES_USUARIOS.md`: 5 pessoas de fora do grupo, 3 tarefas cronometradas,
-questionário de 5 perguntas (1 a 5) e a conferência manual de uma amostra do juiz. **Ainda não
-aplicado**: os campos estão vazios de propósito, para a equipe preencher com o teste de verdade.
+questionário de 5 perguntas (1 a 5) e a conferência manual de uma amostra do juiz. A conferência do
+juiz está feita (abaixo); os testes com pessoas ficam com os campos vazios até serem aplicados.
 
 ## Limitações
 
@@ -281,7 +279,9 @@ aplicado**: os campos estão vazios de propósito, para a equipe preencher com o
 4. **O julgamento é feito por um modelo**, com os vieses disso. A leitura dos erros já pegou três
    problemas: a máscara do avaliador que apagava telefone oficial (corrigida), o juiz que inverteu o #9
    por não ver a ficha (rodada de 15/11) e uma resposta esperada desatualizada no golden (#3, corrigida).
-   A conferência manual da amostra fica para a equipe.
+   Na conferência manual de 8 casos (`TESTES_USUARIOS.md`), houve concordância em 6, discordância no #3
+   (esperado desatualizado) e concordância parcial no #9: a resposta mandou levar à Artesp uma
+   reclamação contra o Metrô, o que a FT-03 não confirma, e o juiz, que não lê a ficha, deu acerto.
 5. **O modelo varia um pouco entre rodadas**, mesmo com temperatura 0: a resposta do #9 mudou de uma
    rodada para a outra sem nada mudar no caminho dela, e o #18 errou numa repetição por não citar a data
    da tabela.
@@ -309,6 +309,6 @@ aplicado**: os campos estão vazios de propósito, para a equipe preencher com o
 | `fichas/` | as 7 fichas FT-01 a FT-07 e o LEIA-ME |
 | `golden/golden_pai.json` | as 26 mensagens, as respostas esperadas e as 8 extras do grupo |
 | `saidas/` | resultado de cada rodada (`rodada_antes.json`, `rodada_depois.json`) e a validação do juiz (`validacao_juiz.json`) |
-| `TESTES_USUARIOS.md` | roteiro e registro dos testes com usuários (a equipe preenche) |
+| `TESTES_USUARIOS.md` | roteiro e registro dos testes com usuários e a conferência do juiz |
 | `historico/aurora/` | as fichas, o golden e a rodada de Aurora, antes da troca de tema |
 | `../../tests/pai/test_pai.py` | testes sem rede: fichas, busca, guardrails, golden, agente e juiz |

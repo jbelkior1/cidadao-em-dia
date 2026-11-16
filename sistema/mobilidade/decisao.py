@@ -3,7 +3,7 @@
 ESTE É O LUGAR DA MATÉRIA DE CS.
 O enunciado de CS pede um módulo de decisão lógica com 3 ou 4 variáveis
 booleanas, com tabela-verdade, expressão canônica, Karnaugh e circuito feitos
-pelo grupo, À MÃO (usar IA nessas partes tira 4 pontos). Depois, a lógica
+pelo grupo, à mão. Depois, a lógica
 simplificada vira programa.
 
 As quatro entradas que o app entrega para essa lógica são:

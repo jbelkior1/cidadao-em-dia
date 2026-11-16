@@ -2,7 +2,7 @@
 
 Fica em sistema/dados/checklist.json, que vai para o git. Cada matéria tem o formato de entrega
 no portal, o prazo, a rubrica e as seções; cada item diz se é do sistema (código ou documento no
-repositório) ou da equipe (vídeo, testes com pessoas, envio no portal), onde está e como foi feito.
+repositório) ou de fora dele (vídeo, testes com pessoas, envio no portal), onde está e como foi feito.
 
 No computador da equipe a tela muda status, onde e como. No servidor público (MODO_PUBLICO=1)
 o checklist é só leitura.
@@ -46,7 +46,7 @@ def contar(itens: list[dict]) -> dict:
     """Quantos itens em cada status e o andamento separado entre sistema e equipe.
 
     Separar importa: uma matéria com o código inteiro pronto não pode aparecer pela metade só
-    porque o vídeo e o teste com pessoas ainda são da equipe.
+    porque o vídeo e o teste com pessoas ainda não foram feitos.
     """
     por_status = {s: sum(1 for i in itens if i.get("status") == s) for s in STATUS}
     pontos = sum(VALOR.get(i.get("status", "A fazer"), 0) for i in itens)
