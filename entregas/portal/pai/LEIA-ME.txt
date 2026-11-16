@@ -12,7 +12,7 @@ O que tem neste pacote (pasta pai/):
 - fichas/: as 7 fichas de transporte FT-01 a FT-07, a única fonte de verdade do agente
 - golden/golden_pai.json: as 26 mensagens na distribuição do enunciado (mais as perguntas do grupo)
 - avaliar.py, rodar_antes_e_depois.py e validar_juiz.py: o pipeline de LLM as a Judge
-- saidas/: as rodadas antes e depois e a validação do juiz, gravadas (15/11, Groq: 25/26 antes e 25/26 depois; o juiz acertou 7 de 7 na validação)
+- saidas/: as rodadas antes e depois e a validação do juiz, gravadas (16/11, Groq: 25/26 antes e 25/26 depois, com a análise dos erros no README; o juiz acertou 7 de 7 na validação)
 - grafo_agente.png: a imagem do grafo
 - TESTES_USUARIOS.md: o relatório dos testes com usuários (acerto, tempo e facilidade)
 

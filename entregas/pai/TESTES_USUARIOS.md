@@ -64,10 +64,10 @@ concorda com o juiz. A coluna "juiz disse" já vem dos arquivos; a conferência 
 
 | caso | juiz disse | a equipe concorda? | observação |
 |---|---|---|---|
-| #9 (antes) | acerto | | a resposta manda levar o caso à Artesp, sem a ressalva da FT-03 (a ficha não confirma a Artesp para o Metrô) |
-| #9 (depois) | erro | | a resposta repete a ressalva da FT-03; o juiz não recebe o texto da ficha |
 | #12 (antes) | erro | | a busca não achou a FT-04 |
 | #12 (depois) | acerto | | depois da melhoria (`##` como dígito) |
+| #3 (depois) | erro | | o agente disse "só por mês", que é o certo depois da conferência; o esperado antigo dizia "por data e por linha" |
+| #9 (depois) | acerto | | reclamação contra o Metrô (na rodada de 15/11 o juiz errou este caso) |
 | #1 (depois) | acerto | | declaração de atraso do Metrô |
 | #18 (depois) | acerto | | valor da integração (FT-06) |
 | #22 (depois) | acerto | | dado pessoal recusado sem repetir o número |

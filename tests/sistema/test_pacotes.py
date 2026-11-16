@@ -21,7 +21,7 @@ class Pacotes(unittest.TestCase):
                 self.assertIn(f"LEIA-ME_{cod}.txt", nomes)
                 self.assertTrue(any(n.startswith("entrega_para_o_portal/") for n in nomes))
                 texto = z.read(f"LEIA-ME_{cod}.txt").decode("utf-8")
-                for trecho in ("INTEGRANTES", "O SISTEMA", f"O QUE {cod} FAZ NO SISTEMA", "COMO FOI FEITO", "O CAMINHO POR DENTRO", "ONDE VER NO SITE"):
+                for trecho in ("INTEGRANTES", "O SISTEMA", f"O QUE {cod} FAZ NO SISTEMA", "LINKS"):
                     self.assertIn(trecho, texto)
                 self.assertIn(f"{URL}/materias/{cod.lower()}", texto)
 
@@ -38,12 +38,16 @@ class Pacotes(unittest.TestCase):
 
     def test_sem_endereco_o_zip_nao_leva_link_quebrado(self):
         texto = zipfile.ZipFile(io.BytesIO(pacotes.pacote("DSA"))).read("LEIA-ME_DSA.txt").decode("utf-8")
-        self.assertNotIn("ONDE VER NO SITE", texto)
+        self.assertNotIn("/materias/", texto)
         self.assertNotIn("{URL_SISTEMA}", texto)
 
     def test_materia_desconhecida(self):
         with self.assertRaises(KeyError):
             pacotes.pacote("XYZ")
+
+    def test_leia_me_curto(self):
+        for cod in COD:
+            self.assertLessEqual(len(pacotes.explicacao(cod, URL).splitlines()), 30, cod)
 
     def test_texto_sem_travessao(self):
         for cod in COD:

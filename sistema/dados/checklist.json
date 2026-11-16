@@ -1262,7 +1262,7 @@
               "quem": "sistema",
               "status": "Conferir",
               "onde": "entregas/pai/saidas/rodada_depois.json",
-              "como": "Rodada oficial em 15/11 com o Groq (openai/gpt-oss-120b): 25/26 antes e 25/26 depois. A melhoria (## como dígito nas palavras-chave) fez o #12 acertar; o #9 virou erro por falha do juiz, que não vê a ficha (análise no README). Atenção (16/11): depois da conferência das fontes, as fichas e 4 respostas esperadas do golden mudaram (WhatsApp nas linhas 4, 5, 8 e 9, sem o 156, prazos da Artesp, 'até 20 dias'). As rodadas gravadas foram feitas com a versão anterior e precisam ser regeradas: python rodar_antes_e_depois.py --so-enunciado, com a chave do Groq (o historico/antes_da_melhoria/FT-04 já foi atualizado para a comparação continuar isolando só a melhoria). Depois, regerar o zip do portal.",
+              "como": "Rodadas refeitas em 16/11 com o Groq (openai/gpt-oss-120b), depois da conferência das fichas: antes 25/26 (erro no #12), depois 25/26 (erro no #3). A melhoria (## como dígito nas palavras-chave) fez o #12 acertar. O erro do #3 foi do golden: o esperado ainda dizia 'filtrar por data e por linha', e a conferência mostrou que a página da Linha 4 filtra só por mês; o agente respondeu certo e o esperado foi corrigido depois. Falta refazer a rodada depois com o golden corrigido (python avaliar.py --nome depois --so-enunciado): a repetição parou no limite diário de tokens do Groq. Análise no README.",
               "id": "PAI-13"
             },
             {
@@ -1271,7 +1271,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "entregas/pai/TESTES_USUARIOS.md (tabela 'Conferência manual do juiz')",
-              "como": "A tabela 'Conferência manual do juiz' de TESTES_USUARIOS.md já traz 8 casos (#9 e #12 antes e depois, #1, #18, #22 e #25) e a coluna 'a equipe concorda?' vazia. Pré-leitura: as respostas do #1 e do #18 batem com o esperado, a do #22 não repete o CPF e o #9 antes, sem a ressalva da Artesp, é o caso em que o juiz errou. A conferência é da equipe e deve ser feita depois de regerar as rodadas (PAI-13).",
+              "como": "A tabela 'Conferência manual do juiz' de TESTES_USUARIOS.md já traz 8 casos das rodadas de 16/11 (#12 antes e depois, #3, #9, #1, #18, #22 e #25), com o que o juiz disse e a coluna 'a equipe concorda?' vazia. A conferência é da equipe.",
               "id": "PAI-14"
             }
           ]

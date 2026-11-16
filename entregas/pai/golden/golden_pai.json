@@ -17,7 +17,7 @@
     {"n": 2, "mensagem": "A ocorrência no metrô foi ontem. Ainda consigo a declaração?", "tipo": "Escopo",
      "esperado": "Sim: para ocorrência de outro dia, abra uma solicitação no Fale Conosco do site do Metrô ou ligue para a Central de Informações (0800 770 7722, todos os dias, das 5h à meia-noite). (FT-02)"},
     {"n": 3, "mensagem": "Onde pego a declaração de atraso da Linha 4-Amarela?", "tipo": "Escopo",
-     "esperado": "Na página Declaração de ocorrências da concessionária (portal Motiva Trilhos), filtrando por data e por linha; ficam lá as ocorrências dos últimos 90 dias. Central da Linha 4: 0800-770-7100. (FT-02)"},
+     "esperado": "Na página Declaração de ocorrências da concessionária (portal Motiva Trilhos), filtrando pelo mês; a página mostra as ocorrências dos últimos 90 dias. Central da Linha 4: 0800-770-7100. (FT-02)"},
     {"n": 4, "mensagem": "Tem passo a passo oficial para pedir a declaração de atraso da CPTM?", "tipo": "Escopo",
      "esperado": "Não foi possível confirmar em página oficial da CPTM um passo a passo; a orientação é procurar a Central de Relacionamento pelo 0800 055 0121 (das 5h às 23h) ou pelo WhatsApp (11) 99767-7030. Não prometer o documento. (FT-02)"},
     {"n": 5, "mensagem": "Como eu sei se a linha está funcionando agora?", "tipo": "Escopo",

@@ -52,8 +52,10 @@ export default function Fluxograma({ destaque }: { destaque?: string }) {
   const corDestaque = destaque ? CORES_DAS_MATERIAS[destaque] : undefined;
 
   return (
+    <div className="space-y-1">
+    <p className="text-[12px] text-apagado sm:hidden">Arraste para o lado para ver o fluxograma inteiro.</p>
     <div className="overflow-x-auto rounded-xl border border-linha bg-superficie p-3">
-      <svg viewBox="0 0 1080 424" className="min-w-[760px]" role="img"
+      <svg viewBox="0 0 1080 424" className="w-full min-w-[620px]" role="img"
         aria-label={destaque ? `Fluxograma do sistema com a matéria ${destaque} em destaque` : "Fluxograma do sistema"}>
         <defs>
           {["normal", "foco", "cinza"].map((tipo) => (
@@ -109,6 +111,7 @@ export default function Fluxograma({ destaque }: { destaque?: string }) {
           );
         })}
       </svg>
+    </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, FlaskConical, Smartphone } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 
@@ -61,8 +61,9 @@ function Entrega({ m }: { m: DadosMateria["materia"] }) {
   );
 }
 
-function Entenda({ dados }: { dados: DadosMateria }) {
+function Entenda({ dados, aoTestar }: { dados: DadosMateria; aoTestar: () => void }) {
   const m = dados.materia;
+  const botao = "inline-flex items-center gap-2 rounded-full px-4 py-2 text-[15px] font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marca";
   return (
     <div className="space-y-8">
       <Entrega m={m} />
@@ -78,20 +79,23 @@ function Entenda({ dados }: { dados: DadosMateria }) {
         <h3 className="text-lg font-bold">Onde {m.cod} entra no sistema</h3>
         <Fluxograma destaque={m.cod} />
       </section>
-      <section className="space-y-2">
-        <h3 className="text-lg font-bold">Onde ver no site</h3>
-        <ul className="grid gap-1.5 sm:grid-cols-2">
-          {m.rotas.map((r) => (
-            <li key={r.rota}>
-              <Link to={r.rota} className="flex items-baseline justify-between gap-3 rounded-lg px-2.5 py-2 hover:bg-superficie focus-visible:outline-2 focus-visible:outline-marca">
-                <span className="text-[14px] font-semibold text-marca-forte">{r.rotulo}</span>
-                <span className="truncate font-mono text-[12px] text-apagado">{r.rota}</span>
+      <section className="space-y-3 rounded-xl border border-linha bg-superficie p-5">
+        <h3 className="text-lg font-bold">Ver funcionando</h3>
+        <div className="flex flex-wrap gap-2">
+          <button type="button" onClick={aoTestar} className={`${botao} bg-marca text-white hover:bg-marca-forte`}>
+            <FlaskConical className="size-4" aria-hidden />Testar {m.cod} aqui
+          </button>
+          {dados.no_sistema && (
+            <>
+              <Link to="/sistema" className={`${botao} text-marca-forte ring-1 ring-marca/40 ring-inset hover:bg-marca-suave`}>
+                <Smartphone className="size-4" aria-hidden />Ver no app
               </Link>
-            </li>
-          ))}
-        </ul>
+              <Link to="/app" className={`${botao} text-marca-forte ring-1 ring-marca/40 ring-inset hover:bg-marca-suave`}>Abrir só o app (celular)</Link>
+            </>
+          )}
+        </div>
+        <p className="text-[14px] text-apagado"><span className="font-semibold text-tinta">Nesta versão: </span>{m.nesta_versao}</p>
       </section>
-      <p className="rounded-xl bg-marca-suave px-4 py-3 text-[15px]"><span className="font-bold text-marca-forte">Nesta versão: </span>{m.nesta_versao}</p>
     </div>
   );
 }
@@ -118,8 +122,8 @@ function Teste({ dados }: { dados: DadosMateria }) {
 function Andamento({ resumo }: { resumo: ResumoChecklist }) {
   const { sistema, equipe } = resumo.por_quem;
   const barras = [
-    { rotulo: "No repositório", dado: sistema, cor: "bg-ok" },
-    { rotulo: "Da equipe (vídeo, testes, envio)", dado: equipe, cor: "bg-marca" },
+    { rotulo: "No repositório", dica: "código e documentos no GitHub", dado: sistema, cor: "bg-ok" },
+    { rotulo: "Da equipe", dica: "vídeo, testes com pessoas e envio no portal", dado: equipe, cor: "bg-marca" },
   ].filter((b) => b.dado.total > 0);
   return (
     <div className="space-y-2">
@@ -127,13 +131,13 @@ function Andamento({ resumo }: { resumo: ResumoChecklist }) {
         Checklist da entrega: <span className="font-semibold text-tinta">{resumo.total} itens</span> do enunciado, {resumo.por_status.Feito} feitos
       </p>
       <div className="grid max-w-xl gap-1.5">
-        {barras.map(({ rotulo, dado, cor }) => (
-          <div key={rotulo} className="flex items-center gap-2.5">
-            <span className="w-56 shrink-0 text-[13px] text-apagado">{rotulo}</span>
-            <span className="h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-cinza">
+        {barras.map(({ rotulo, dica, dado, cor }) => (
+          <div key={rotulo} className="grid grid-cols-[7.5rem_minmax(0,1fr)_3.5rem] items-center gap-2.5" title={dica}>
+            <span className="text-[13px] text-apagado">{rotulo}</span>
+            <span className="h-2 overflow-hidden rounded-full bg-cinza">
               <span className={`block h-full rounded-full ${cor}`} style={{ width: `${dado.percentual}%` }} />
             </span>
-            <span className="w-16 shrink-0 text-right text-[13px] font-semibold tabular-nums">
+            <span className="text-right text-[13px] font-semibold tabular-nums">
               {dado.prontos}/{dado.total}
             </span>
           </div>
@@ -173,17 +177,17 @@ export default function Materia() {
         {resumo && <Andamento resumo={resumo} />}
       </header>
 
-      <div className="flex flex-wrap gap-1 rounded-xl bg-superficie p-1 ring-1 ring-linha ring-inset sm:inline-flex" role="tablist" aria-label="Partes da página">
+      <div className="grid grid-cols-3 gap-1 rounded-xl bg-superficie p-1 ring-1 ring-linha ring-inset sm:inline-grid sm:w-auto sm:grid-cols-[auto_auto_auto]" role="tablist" aria-label="Partes da página">
         {PARTES.map((p) => (
           <button key={p} type="button" role="tab" aria-selected={parte === p} onClick={() => trocar(p)}
-            className={`rounded-lg px-4 py-2 text-[15px] font-semibold transition-colors ${parte === p ? "bg-marca text-white" : "text-apagado hover:text-tinta"}`}>
-            {p}
+            className={`rounded-lg px-3 py-2 text-[15px] font-semibold transition-colors sm:px-4 ${parte === p ? "bg-marca text-white" : "text-apagado hover:text-tinta"}`}>
+            {p === "Checklist da entrega" ? (<><span className="sm:hidden">Checklist</span><span className="hidden sm:inline">Checklist da entrega</span></>) : p}
           </button>
         ))}
       </div>
 
       <div role="tabpanel">
-        {parte === "Entenda" && <Entenda dados={dados} />}
+        {parte === "Entenda" && <Entenda dados={dados} aoTestar={() => { trocar("Teste"); document.querySelector("main")?.scrollTo({ top: 0 }); }} />}
         {parte === "Teste" && <Teste dados={dados} />}
         {parte === "Checklist da entrega" &&
           (dados.checklist ? (

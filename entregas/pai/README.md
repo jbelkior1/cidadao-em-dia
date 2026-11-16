@@ -209,13 +209,14 @@ acrescentou 8 perguntas próprias (`extras_do_grupo`, #101 a #108: celular rouba
 CPTM, ficha falsa citada pelo usuário e mais um fora do escopo), usadas nos testes de desenvolvimento.
 A rodada oficial usa só as 26.
 
-**Rodada oficial, 15/11/2026** (`python rodar_antes_e_depois.py --so-enunciado`, Groq
-`openai/gpt-oss-120b`, mesma régua e mesma máscara nas duas; arquivos em `saidas/`):
+**Rodadas de 16/11/2026** (`python rodar_antes_e_depois.py --so-enunciado`, Groq `openai/gpt-oss-120b`,
+mesma régua e mesma máscara nas duas; arquivos em `saidas/`). Foram refeitas depois da conferência das
+fichas contra as páginas oficiais, que corrigiu o texto de algumas fichas e cinco respostas esperadas do golden.
 
-| rodada | acertos nas 26 (juiz) | o que mudou |
+| rodada | acertos nas 26 (juiz) | erros |
 |---|---|---|
-| antes | 25/26 (96,2%) | erro no #12 |
-| depois | 25/26 (96,2%) | #12 passou a acertar; #9 passou a ser marcado como erro |
+| antes (16/11, 11h58) | 25/26 (96,2%) | #12 |
+| depois (16/11, 11h51) | 25/26 (96,2%) | #3 (esperado desatualizado, ver abaixo) |
 
 **Análise dos erros e a melhoria.**
 
@@ -226,13 +227,15 @@ A rodada oficial usa só as 26.
   palavras-chave ("## anos" casa com qualquer idade) e "meu celular" só conta como dado pessoal quando
   vem antes de "é", ":" ou "=" (nas perguntas do grupo, "roubaram meu celular" era recusado). Na rodada
   depois, o #12 achou a FT-04 e acertou.
-- **#9** "Como faço uma reclamação contra o Metrô?": aqui o erro é **do juiz**, e nas duas rodadas. A
-  FT-03 diz que a página lida não confirma se a Artesp atende reclamações do Metrô. Na rodada antes, a
-  resposta mandou levar o caso à Artesp sem essa ressalva e o juiz aprovou; na rodada depois, a resposta
-  repetiu a ressalva da ficha e o juiz reprovou, dizendo que a Artesp "não consta nas fichas". O juiz não
-  recebe o texto das fichas, só a resposta esperada, e por isso não consegue checar esse tipo de
-  afirmação. Pela leitura manual deste caso (a conferir pela equipe na amostra do `TESTES_USUARIOS.md`),
-  os vereditos se invertem: a rodada antes teria 24/26 e a depois, 26/26.
+- **#3** "Onde pego a declaração de atraso da Linha 4-Amarela?" (erro na rodada depois): o erro foi **do
+  golden**, não do agente. A conferência de 16/11 mostrou que a página da Linha 4 filtra só por mês, e a
+  FT-02 foi corrigida; o agente respondeu isso ("não há filtro por linha"), mas a resposta esperada ainda
+  dizia "filtrando por data e por linha", e o juiz marcou contradição. O esperado foi corrigido logo
+  depois. A rodada antes já foi refeita com o golden corrigido; a depois precisa ser refeita também (a
+  repetição parou no limite diário de tokens do Groq).
+- **Histórico:** a rodada de 15/11, com as fichas antes da conferência, deu 25/26 nas duas. Ali o #9 foi
+  marcado como erro na rodada depois porque a resposta repetiu uma ressalva da ficha e o juiz, que não vê
+  o texto da ficha, achou que era invenção. Nas rodadas de 16/11 o #9 acertou nas duas.
 - **A próxima melhoria** é no juiz: entregar a ele também o texto da ficha citada, para julgar o que é ou
   não "inventado" contra a fonte, e não só contra a resposta esperada.
 
@@ -275,11 +278,13 @@ aplicado**: os campos estão vazios de propósito, para a equipe preencher com o
    "não encontrei"; e pergunta de outro assunto com uma palavra genérica presente numa ficha traz essa
    ficha (exemplo: "Qual o horário do metrô?" traz a FT-02, que fala do horário da Central de
    Informações). Quem segura isso é a regra de ouro no modelo, que só responde o que está na ficha.
-4. **O julgamento é feito por um modelo**, com os vieses disso. A leitura dos erros já pegou dois
-   problemas: a máscara do avaliador que apagava telefone oficial (corrigida) e o juiz que inverteu o #9
-   por não ver a ficha (acima). A conferência manual da amostra fica para a equipe.
+4. **O julgamento é feito por um modelo**, com os vieses disso. A leitura dos erros já pegou três
+   problemas: a máscara do avaliador que apagava telefone oficial (corrigida), o juiz que inverteu o #9
+   por não ver a ficha (rodada de 15/11) e uma resposta esperada desatualizada no golden (#3, corrigida).
+   A conferência manual da amostra fica para a equipe.
 5. **O modelo varia um pouco entre rodadas**, mesmo com temperatura 0: a resposta do #9 mudou de uma
-   rodada para a outra sem nada mudar no caminho dela.
+   rodada para a outra sem nada mudar no caminho dela, e o #18 errou numa repetição por não citar a data
+   da tabela.
 6. **Sem memória entre perguntas.** Cada pergunta é independente, para não guardar histórico ligado a
    uma pessoa.
 7. **Algumas regras não foram confirmadas** nas páginas lidas (passo a passo da declaração da CPTM, se a
