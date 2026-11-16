@@ -16,15 +16,11 @@ Trabalho da Global Solution 2026.2 (FIAP), tema CitizenTech, matéria Pensamento
 
 ## Público e problema escolhidos
 
-> Proposta escrita a partir da base; **o grupo confirma ou ajusta**.
-
 **Público:** quem usa metrô, trem e ônibus em São Paulo no dia a dia, principalmente quem depende do transporte público para chegar ao trabalho ou à escola.
 
 **Problema:** quando a linha para, chove forte ou algo dá errado na viagem, a pessoa não sabe o que fazer nem onde resolver. A informação existe, mas está espalhada entre os sites do Metrô, da CPTM, das concessionárias (ViaQuatro e ViaMobilidade), da SPTrans e da Defesa Civil, cada um com seu canal e sua regra. O assistente junta, num lugar só e em linguagem simples, as orientações das cinco situações mais comuns: falha na linha, chuva e alagamento, segurança, direitos do passageiro e acessibilidade e gratuidades. Cada resposta diz o que fazer, onde, com qual documento e de onde veio a informação.
 
 ## ODS relacionados
-
-> Proposta; **o grupo confirma**.
 
 - **ODS 11 (Cidades e comunidades sustentáveis):** meta 11.2, acesso a sistemas de transporte seguros, acessíveis e sustentáveis.
 - **ODS 10 (Redução das desigualdades):** as orientações de gratuidade e acessibilidade atendem pessoa idosa e pessoa com deficiência.
@@ -112,8 +108,6 @@ O enunciado aceita ajustes desde que explicados no README e no vídeo. Os da equ
 3. **Comparação por palavra inteira.** `normalizar()` devolve o texto com um espaço no começo e no fim, e a palavra-chave só vale quando aparece como palavra inteira (`rg` não casa dentro de `energia`).
 4. **Palavra do título conta uma vez.** Cada palavra da pergunta com 4 letras ou mais que aparece no título dá +1 uma única vez, mesmo que se repita na pergunta.
 
-**Lembrete para a equipe:** esses ajustes precisam ser explicados também no vídeo (seção 6.2 do enunciado).
-
 ## Regras de atendimento
 
 - **Dados pessoais:** o assistente nunca pede nome, CPF, telefone ou e-mail. Pergunta com **8 ou mais dígitos no total** (mesmo separados por pontos, traços ou espaços) ou com `@` é recusada com a mensagem "Atenção: não digite CPF, telefone ou e-mail. Reescreva." e **não é registrada** no histórico, no CSV nem em nenhum outro lugar.
@@ -140,8 +134,6 @@ A exportação (opção 4) grava `data/atendimentos.csv` com `csv.DictWriter` (U
 ## Integrações com outras disciplinas
 
 Este programa é a entrega da PCP e roda sozinho, só com a biblioteca padrão. A mesma busca por pontuação (classes `BaseConhecimento` e `Assistente`, com `Orientacao`) é usada pelo app **Dá Tempo?**, o projeto da Global Solution do grupo, por meio de `sistema/adaptadores/pcp.py` (no repositório do sistema), para mostrar as orientações nos cartões da agente Lia. O app só chama `responder` e a busca; não grava no `historico.json` desta entrega.
-
-**Lembrete para a equipe:** a seção 6.3 do enunciado pede que a integração seja explicada no README e no vídeo. O vídeo precisa mostrar e explicar essa ligação com o app Dá Tempo?. A busca por pontuação avaliada em PCP continua sendo a deste programa.
 
 ## Fontes consultadas
 

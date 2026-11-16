@@ -3,7 +3,7 @@
     "id": "SRV-001",
     "titulo": "Central de Informações do Metrô",
     "categoria": "Atendimento",
-    "descricao": "Telefone da área de atendimento ao passageiro do Metrô: informações sobre condições das linhas, achados de documentos, declaração de ocorrência de dias anteriores e atendimento preferencial.",
+    "descricao": "Telefone da área de atendimento ao passageiro do Metrô: informações sobre itinerários, consulta de achados de documentos, pedido de declaração de ocorrência de dias anteriores e solicitação de atendimento preferencial.",
     "publico_alvo": "Passageiros do Metrô",
     "canal": "telefone 0800 770 7722, todos os dias, das 5h às 0h",
     "prazo": "",
@@ -159,7 +159,7 @@
     "categoria": "Acessibilidade",
     "descricao": "Transporte gratuito, porta a porta, gerido pela SPTrans, para pessoas com autismo, surdocegueira ou deficiência física severa; viagens com horário marcado consultadas em sistema online.",
     "publico_alvo": "Pessoas com autismo, surdocegueira ou deficiência física severa",
-    "canal": "cadastro no site (atende.sptrans.com.br); telefone 156 se o veículo atrasar mais de 10 minutos; das 7h às 20h, todos os dias, exceto feriados",
+    "canal": "cadastro no site (atende.sptrans.com.br); o serviço funciona das 7h às 20h, todos os dias, exceto feriados; se o veículo atrasar mais de 10 minutos, avise a central 156",
     "prazo": "",
     "fonte": "https://www.sptrans.com.br/atende/",
     "verificado_em": "2026-11-12"

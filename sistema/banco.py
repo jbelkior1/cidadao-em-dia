@@ -1,4 +1,4 @@
-"""Conexão com o Supabase (projeto PontoW, esquema próprio "datempo").
+"""Conexão com o Supabase (esquema próprio "datempo").
 
 As chaves ficam no arquivo .env na raiz do projeto (fora do git) e nunca vão para o navegador:
 só o servidor fala com o banco. Sem .env, o sistema continua funcionando com os relatos em memória.

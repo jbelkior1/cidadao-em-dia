@@ -28,7 +28,7 @@ python -m unittest discover -s tests/dsa -v
 | `lista_encadeada.py` | Classes `No` e `ListaEncadeada` |
 | `algoritmos.py` | Busca linear, merge sort e comparação de texto |
 | `servico.py` | Classe `Servico` (registro) e validação de data |
-| `dados/servicos.json` | 15 serviços iniciais, tirados de páginas oficiais em 12/11/2026 e ainda em conferência pelo grupo |
+| `dados/servicos.json` | 15 serviços iniciais, tirados de páginas oficiais em 12/11/2026 e conferidos de novo em 16/11/2026 |
 | `docs/DOCUMENTACAO.md` | Documentação técnica, algoritmos e análise Big-O |
 | `docs/EVIDENCIAS.md` | Cenários de teste: entrada, esperado, observado |
 | `integracao.py` | EXTRA, fora do enunciado e não exigido: ponte com o app (funções para o sistema web reutilizar o catálogo) |

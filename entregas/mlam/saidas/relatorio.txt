@@ -1,4 +1,4 @@
-MLAM: Global Solution 2026.2, análises rodadas em 15/11/2026 19:17
+MLAM: Global Solution 2026.2, análises rodadas em 16/11/2026 12:29
 Base: ocorrencias_estacoes_2026.csv (139 estações, SSP-SP, jan–set/2026)
 
 ==============================================================================
@@ -37,7 +37,7 @@ Interpretação:
   0.6341. A diferença de 13.4 pontos percentuais é o preço de assumir
   normalidade numa variável assimétrica, como o enunciado pede. É a principal limitação desta questão.
 
-Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q02_probabilidade.png
+Gráfico salvo em: saidas/q02_probabilidade.png
 
 ==============================================================================
 QUESTÃO 03: Teste de hipótese para a média (teste z)
@@ -100,7 +100,7 @@ Interpretação:
   diferença real ENTRE grupos de estações; o sorteio mostra que, sem escolher o grupo, não há motivo para
   a média de uma amostra fugir da referência.
 
-Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q03_testes_hipotese.png
+Gráfico salvo em: saidas/q03_testes_hipotese.png
 
 ==============================================================================
 QUESTÃO 04: Análise bivariada (2 variáveis quantitativas)
@@ -191,8 +191,8 @@ Interpretação:
   reais vão de 156 a 1485. Use a previsão para comparar regiões, nunca para
   afirmar algo sobre uma estação.
 
-Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q04a_dispersao.png
-Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q04c_correlacao.png
+Gráfico salvo em: saidas/q04a_dispersao.png
+Gráfico salvo em: saidas/q04c_correlacao.png
 
 ==============================================================================
 QUESTÃO 05: Análise multivariada (regressão linear múltipla)
@@ -321,8 +321,8 @@ Interpretação:
   4 têm 3 ou mais. O coeficiente de `qtd_linhas` se apoia nessas poucas estações, então a previsão
   deste cenário é frágil.
 
-Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q05a_dispersao.png
-Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q05c_correlacao.png
+Gráfico salvo em: saidas/q05a_dispersao.png
+Gráfico salvo em: saidas/q05c_correlacao.png
 
 ==============================================================================
 QUESTÃO 06: Regressão logística binária
@@ -423,4 +423,4 @@ Interpretação:
   acompanha movimento de gente. Sem o fluxo de passageiros na base, não dá para transformar isso em
   risco por pessoa.
 
-Gráfico salvo em: C:\Users\joao.leite\FIAP\2026_2sem\_Global_Solution\sistema-gs\entregas\mlam\saidas\q06_logistica.png
+Gráfico salvo em: saidas/q06_logistica.png

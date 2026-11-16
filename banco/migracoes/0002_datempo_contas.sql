@@ -1,5 +1,5 @@
 -- Dá Tempo?: conta básica (usuário e senha) e o que ela guarda: minhas linhas, estação de casa e
--- rotas salvas. Projeto PontoW, esquema próprio "datempo" (nada no "public" da GoodWe, nada no
+-- rotas salvas. Esquema próprio "datempo" (nada no "public" do projeto, nada no
 -- login do Supabase).
 --
 -- Mesmas travas da 0001: só o servidor (FastAPI, chave secreta) lê e grava; anon e authenticated

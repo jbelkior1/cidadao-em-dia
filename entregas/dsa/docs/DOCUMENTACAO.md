@@ -9,7 +9,7 @@ Sistema de gerenciamento e consulta de serviços e orientações ao cidadão (em
 
 **Linguagem escolhida: Python 3** (somente biblioteca padrão). Os registros e os nós são objetos (classes) com referências explícitas entre nós, e a estrutura principal de armazenamento é uma lista encadeada implementada pela equipe. Nenhuma `list`, `dict` ou `set` nativa guarda os registros nem serve de índice.
 
-Os dados iniciais (`dados/servicos.json`) são 15 serviços tirados de páginas oficiais em 12/11/2026, ainda em conferência pelo grupo. Não há integração com plataformas governamentais nem IA generativa.
+Os dados iniciais (`dados/servicos.json`) são 15 serviços tirados de páginas oficiais em 12/11/2026 e conferidos de novo em 16/11/2026. Não há integração com plataformas governamentais nem IA generativa.
 
 ## 2. Campos dos registros
 
@@ -73,7 +73,7 @@ entregas/dsa/
   algoritmos.py        busca linear, merge sort e comparação de texto
   servico.py           classe Servico e validação de data
   integracao.py        EXTRA: funções para o sistema web (não faz parte da entrega de DSA)
-  dados/servicos.json  15 serviços iniciais (fontes oficiais, em conferência)
+  dados/servicos.json  15 serviços iniciais (fontes oficiais, conferidas)
   docs/                esta documentação e EVIDENCIAS.md
 tests/dsa/test_dsa.py  testes automatizados (unittest)
 ```

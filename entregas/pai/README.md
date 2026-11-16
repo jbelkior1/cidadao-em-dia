@@ -291,13 +291,6 @@ aplicado**: os campos estão vazios de propósito, para a equipe preencher com o
    Artesp atende reclamação do Metrô e da CPTM, gratuidade do PAESE). As fichas dizem isso, e o agente
    repete a incerteza.
 
-## O que falta à equipe (não é código)
-
-- [ ] Aplicar os testes com 5 pessoas e preencher `TESTES_USUARIOS.md`.
-- [ ] Conferir à mão uma amostra dos julgamentos do juiz (tabela no mesmo arquivo).
-- [ ] Conferir as fichas nas páginas oficiais antes de entregar (telefones e horários mudam).
-- [ ] Confirmar no portal o formato de envio (o enunciado não define).
-
 ## Arquivos
 
 | arquivo | o que é |

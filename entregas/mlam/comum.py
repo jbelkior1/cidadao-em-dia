@@ -85,11 +85,12 @@ def nome(coluna: str) -> str:
     return NOMES.get(coluna, coluna)
 
 
-def salvar_figura(fig, arquivo: str) -> Path:
+def salvar_figura(fig, arquivo: str) -> str:
+    """Salva o gráfico em saidas/ e devolve o caminho relativo (sem a pasta da máquina de quem rodou)."""
     SAIDAS.mkdir(exist_ok=True)
     caminho = SAIDAS / arquivo
     fig.savefig(caminho, dpi=150, bbox_inches="tight")
-    return caminho
+    return caminho.relative_to(SAIDAS.parent).as_posix()
 
 
 def titulo(texto: str) -> None:

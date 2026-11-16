@@ -1,6 +1,6 @@
--- Dá Tempo?: relatos dos passageiros no Supabase (projeto PontoW, esquema próprio "datempo").
+-- Dá Tempo?: relatos dos passageiros no Supabase (esquema próprio "datempo").
 --
--- O esquema fica separado do "public" da GoodWe. Só o servidor (FastAPI, com a chave secreta)
+-- O esquema fica separado do "public" do projeto. Só o servidor (FastAPI, com a chave secreta)
 -- lê e grava: anon e authenticated não têm nenhum acesso, e o RLS fica ligado sem política,
 -- como segunda trava. Nada de dado pessoal: o autor é só um hash de 12 caracteres do id aleatório
 -- do aparelho, e o relato tem só campos prontos (linha, tipo, estação).

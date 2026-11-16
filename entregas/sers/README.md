@@ -149,13 +149,6 @@ oficial única para eles; contando-os, a diferença a favor do transporte públi
    mais, e a comparação muda.
 5. O fator da eletricidade é **a média do país**, não a do horário nem a da região da viagem.
 
-## O que falta à equipe (não é código)
-
-- [ ] Conferir cada número nas fontes, principalmente os lidos de PDF, e o teor de etanol.
-- [ ] Testar com usuários e preencher `TESTES_USUARIOS.md` (roteiro pronto: situações, registro e ajustes, sem dado pessoal).
-- [ ] Gravar o vídeo no YouTube, não listado, de até 3 minutos.
-- [ ] Enviar no portal **apenas o .txt** com nomes, RM, link do repositório e link do vídeo.
-
 ## Fontes
 
 Listadas uma a uma em `pesquisa/ENERGIA_FONTES.md` e repetidas na saída do
