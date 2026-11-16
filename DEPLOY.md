@@ -46,6 +46,14 @@ No `nano`, troque `datempo.seudominio.com.br` pelo domínio de verdade.
 
 **Se a VPS já tem Nginx**, use `deploy/nginx.exemplo.conf` como bloco do site (troque o domínio) e gere o certificado com o Certbot, como nos outros sites da máquina.
 
+**Se a VPS já tem Traefik** (como a da equipe, em 16/11/2026): o contêiner não publica porta; o Traefik chega por uma rede interna própria e emite o certificado sozinho quando o DNS apontar para a VPS.
+
+```bash
+echo "DOMINIO=datempo.seudominio.com.br" > .env
+docker compose -f docker-compose.yml -f deploy/docker-compose.traefik.yml up -d --build
+docker network connect datempo_edge <contêiner do traefik>
+```
+
 ## Conferir depois de subir
 
 1. `https://SEU-DOMINIO` abre na página **Como funciona**.
