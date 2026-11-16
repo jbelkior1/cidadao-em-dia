@@ -124,7 +124,7 @@
               "quem": "equipe",
               "status": "Conferir",
               "onde": "entregas/pcp/citizen-assist-ai/data/base_conhecimento.json (campos fonte e verificado_em)",
-              "como": "As 16 têm fonte em domínio público, SPTrans ou concessionária (trilhos.motiva.com.br) e verificado_em 2026-11-12, mas essa é a data em que a página foi lida e as 16 trazem conferido_pela_equipe=false. A equipe precisa abrir cada fonte, confirmar o texto e atualizar a data. Orientações 4 e 5 dizem na resposta que parte da regra oficial não foi confirmada.",
+              "como": "Em 16/11 as 16 fontes foram abertas de novo e comparadas afirmação por afirmação; o texto foi corrigido onde a fonte não sustentava (prazos da Artesp, 156 do PAESE, WhatsApp da ViaMobilidade, 24 horas da Delegacia Eletrônica, entre outros) e verificado_em passou a 2026-11-16. 9 orientações bateram e saíram da conferência (1, 2, 3, 4, 5, 7, 8, 14, 16). As 7 que seguem com conferido_pela_equipe=false (6, 9, 10, 11, 12, 13, 15) têm parte do texto em outra página oficial só confirmada por busca; a equipe abre essas páginas e apaga a marca.",
               "id": "PCP-03"
             }
           ]
