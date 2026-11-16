@@ -39,7 +39,7 @@
       "quem": "sistema",
       "status": "Feito",
       "onde": "README.md",
-      "como": "Branch do sistema levada para a main em 15/11.",
+      "como": "Repositório público: em 16/11 os 73 links do GitHub que o sistema gera abrem sem login, e as 27 fontes oficiais citadas abrem. A main e a sistema-localhost ficam no mesmo commit; conferir de novo depois de cada push.",
       "id": "GERAL-04"
     },
     {
@@ -100,8 +100,8 @@
               "criterio": "Funcionamento e modularização",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/pcp/citizen-assist-ai/main.py:28-41; assistente.py:399-423",
-              "como": "Rodado main.py com entradas por stdin: saiu com código 0. Menu 1 Perguntar, 2 Navegar, 3 Indicadores, 4 Exportar CSV, 0 Sair. A pasta tem exatamente main.py, orientacao.py, base_conhecimento.py e assistente.py. python -m unittest discover -s tests/pcp: 55 testes, OK.",
+              "onde": "entregas/pcp/citizen-assist-ai/main.py:28-41; assistente.py:402-426",
+              "como": "Rodado main.py com entradas por stdin, saiu sem erro. Menu 1 Perguntar, 2 Navegar, 3 Indicadores, 4 Exportar CSV, 0 Sair. A pasta tem exatamente main.py, orientacao.py, base_conhecimento.py e assistente.py. python -m unittest discover -s tests/pcp: 56 testes, OK.",
               "id": "PCP-01"
             }
           ]
@@ -115,7 +115,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/pcp/citizen-assist-ai/data/base_conhecimento.json",
-              "como": "Script na base: 16 orientações, 5 categorias (Falha na linha 6, Acessibilidade e gratuidades 4, Chuva e alagamento 2, Segurança 2, Direitos do passageiro 2), mínimo de 5 palavras-chave por orientação, os 9 campos em todas. test_base_entregue.py: 5 testes OK. O registro tem o campo extra conferido_pela_equipe, que não atrapalha.",
+              "como": "Script na base: 16 orientações, 5 categorias, mínimo de 5 palavras-chave por orientação, os 9 campos em todas. test_base_entregue.py: 5 testes OK. Em 12 orientações a fonte oficial não lista documentos e a lista fica vazia; o programa avisa isso na tela.",
               "id": "PCP-02"
             },
             {
@@ -124,7 +124,7 @@
               "quem": "equipe",
               "status": "Conferir",
               "onde": "entregas/pcp/citizen-assist-ai/data/base_conhecimento.json (campos fonte e verificado_em)",
-              "como": "Em 16/11 as 16 fontes foram abertas de novo e comparadas afirmação por afirmação; o texto foi corrigido onde a fonte não sustentava (prazos da Artesp, 156 do PAESE, WhatsApp da ViaMobilidade, 24 horas da Delegacia Eletrônica, entre outros) e verificado_em passou a 2026-11-16. 9 orientações bateram e saíram da conferência (1, 2, 3, 4, 5, 7, 8, 14, 16). As 7 que seguem com conferido_pela_equipe=false (6, 9, 10, 11, 12, 13, 15) têm parte do texto em outra página oficial só confirmada por busca; a equipe abre essas páginas e apaga a marca.",
+              "como": "Em 16/11 as 16 fontes foram abertas de novo (em navegador e por leitura direta) e cada afirmação foi comparada com a página; o texto foi corrigido onde a fonte não sustentava (por exemplo, o 156 do PAESE, a Linha 5 e o pedido presencial do Bilhete Único Especial) e a base já não traz a marca conferido_pela_equipe=false. O enunciado pede a data de conferência da equipe: falta alguém do grupo abrir as fontes e confirmar.",
               "id": "PCP-03"
             }
           ]
@@ -230,7 +230,7 @@
               "quem": "sistema",
               "status": "Conferir",
               "onde": "entregas/pcp/citizen-assist-ai/README.md",
-              "como": "Estrutura com os campos do enunciado, a integração com o Dá Tempo? declarada e os ajustes de regra explicados (15/11). Faltam o resultado do teste com usuários, o link do vídeo e confirmar público e ODS, hoje marcados como proposta.",
+              "como": "Estrutura com os campos do enunciado, a integração com o Dá Tempo? declarada e os ajustes de regra explicados. Antes de publicar: preencher o resultado do teste e o link do vídeo, confirmar público e ODS (hoje marcados como proposta), apagar os lembretes para a equipe e conferir a instrução de testes (a pasta tests/pcp fica no repositório do sistema, não no repositório público; o README já diz isso).",
               "id": "PCP-12"
             },
             {
@@ -248,7 +248,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "entregas/pcp/citizen-assist-ai/data",
-              "como": "O bloqueio do programa só pega 8 ou mais dígitos e @; o enunciado proíbe registrar dados das pessoas do teste.",
+              "como": "Hoje os dois arquivos estão vazios (historico.json = [] e atendimentos.csv só com o cabeçalho): nada para limpar ainda. O bloqueio do programa só pega 8 ou mais dígitos e @, então um nome ou endereço digitado por um voluntário passaria e ficaria na pergunta gravada. Revisar depois do teste com pessoas e antes de publicar; o enunciado proíbe registrar dados dessas pessoas.",
               "id": "PCP-14"
             },
             {
@@ -257,7 +257,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "GitHub (novo repositório público citizen-assist-ai)",
-              "como": "A pasta entregas/pcp/citizen-assist-ai está pronta, com .gitignore. Falta criar o repositório público com esse nome e subir o conteúdo dela.",
+              "como": "A pasta entregas/pcp/citizen-assist-ai está pronta, com .gitignore e a estrutura do enunciado. Em 16/11 https://github.com/jbelkior1/citizen-assist-ai ainda devolve 404: falta criar o repositório público com esse nome e subir o conteúdo da pasta.",
               "id": "PCP-15"
             }
           ]
@@ -280,7 +280,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "",
-              "como": "Sugestão testada: 'o trem quebrou' hoje dá Não encontrei; com 'quebrou' nas palavras-chave da orientação 5, passa a ser encontrada.",
+              "como": "Sugestão testada em 16/11: 'o trem quebrou' hoje dá Não encontrei (0 pontos); com 'quebrou' nas palavras-chave da orientação 5, passa a MÉDIA com 4 pontos (+3 pela palavra-chave e +1 por 'trem' no título). Fazer a alteração ao vivo no vídeo.",
               "id": "PCP-17"
             },
             {
@@ -425,7 +425,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "Processo da equipe",
-              "como": "fora do repositório",
+              "como": "Processo da equipe. O modelo do LEIA-ME de CS traz, entre colchetes, a declaração de que tabela-verdade, Karnaugh e circuito foram feitos à mão, sem IA: só vale se for verdade.",
               "id": "CS-09"
             }
           ]
@@ -493,7 +493,8 @@
       ],
       "observacoes": [
         "Tabela-verdade, Karnaugh e circuito são feitos à mão pela equipe: o enunciado tira 4 pontos se a IA fizer essas partes.",
-        "A integração com o app é opcional e não foi feita; o teste no sistema mostra só a regra do produto, uma combinação por vez."
+        "A integração com o app é opcional e não foi feita; o teste no sistema mostra só a regra do produto, uma combinação por vez.",
+        "A última frase do enunciado diz que a IA só pode ser usada no relatório. Lida ao pé da letra, a forma canônica, a simplificação algébrica e o programa também são da equipe; vale confirmar com o professor."
       ]
     },
     "DSA": {
@@ -582,7 +583,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/dsa/lista_encadeada.py:4-98",
-              "como": "Classes No (dado, proximo) e ListaEncadeada (cabeca, cauda, tamanho) com inserir_inicio/fim, percorrer, buscar_por_id, atualizar, remover. 28 testes unittest rodados: OK.",
+              "como": "Classes No (dado, proximo) e ListaEncadeada (cabeca, cauda, tamanho) com inserir_inicio/fim, percorrer, buscar_por_id, atualizar, remover. 29 testes unittest rodados: OK.",
               "id": "DSA-06"
             },
             {
@@ -660,7 +661,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/dsa/docs/EVIDENCIAS.md (23 cenários)",
-              "como": "Cobre cadastro, consulta, atualização, exclusão, pesquisa, ordenação, entradas inválidas e lista vazia (cenário 18). Reexecutei os 18 roteiros: 16 saídas iguais à transcrição na comparação automática e 2 (consultas) conferidas à mão. Em 15/11 entraram os cenários 19 a 23: ordenação por prazo com três prazos, exclusão da cabeça, do fim e do nó único com a lista antes e depois, prazo inválido, título vazio e id vazio.",
+              "como": "Cobre cadastro, consulta, atualização, exclusão, pesquisa, ordenação, entradas inválidas e lista vazia (cenário 18). Reexecutei os 23 cenários em 16/11: as 23 saídas ficaram idênticas à transcrição (comparação automática). Os cenários 19 a 23 (15/11) cobrem ordenação por prazo, exclusão da cabeça, do fim e do nó único, prazo inválido, título vazio e id vazio. Aviso: os 15 serviços reais não têm prazo, então só os cenários 16 e 19 mostram a ordenação por prazo.",
               "id": "DSA-13"
             },
             {
@@ -668,8 +669,8 @@
               "criterio": "Testes e evidências",
               "quem": "equipe",
               "status": "A fazer",
-              "onde": "entregas/dsa/docs/EVIDENCIAS.md:11-12",
-              "como": "O próprio arquivo diz que falta repetir os cenários na máquina e anexar os prints. O enunciado aceita 'capturas de tela ou saídas do terminal', e as saídas já estão transcritas; os prints reforçam.",
+              "onde": "entregas/dsa/docs/EVIDENCIAS.md:10-11",
+              "como": "O enunciado aceita 'capturas de tela ou saídas do terminal' e as 23 saídas já estão transcritas em EVIDENCIAS.md; os prints reforçam. Atenção: o arquivo traz o aviso 'Falta à equipe: repetir ... e anexar os prints'. Se for entregue assim, o professor lê uma pendência: anexar os prints e apagar o aviso, ou apagar o aviso se ficar só com as transcrições.",
               "id": "DSA-14"
             }
           ]
@@ -683,7 +684,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "entregas/portal/dsa/LEIA-ME.txt",
-              "como": "O pacote (código, documentação, evidências e testes) sai com scripts/montar_entregas.py.",
+              "como": "Depende de conferir o formato na tela do portal. O pacote (código, documentação e evidências) sai por scripts/montar_entregas.py e pelo botão da plataforma. Os testes (tests/dsa) ficam no repositório, fora do zip; o LEIA-ME do pacote traz o link para eles.",
               "id": "DSA-15"
             }
           ]
@@ -739,8 +740,8 @@
               "criterio": "Fundamentação e coerência técnica (60)",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "sistema/mobilidade/energia.py:47-88; entregas/sers/comparar_energia.py; README.md:58-100",
-              "como": "Rodado python comparar_energia.py (exit 0, também com 8,5): para 15 km, trilho 1,08 kWh, 0,05 kg CO2, R$ 5,40 (renovável: sim); ônibus 1,19 kg, R$ 5,30; carro 10,1 kWh, 1,96 a 2,52 kg, R$ 7,16. Período comum: 44 viagens por mês (trilho R$ 237,60, ônibus R$ 233,20, carro R$ 315,04; evita cerca de 84 kg de CO2). Refiz as contas à mão e conferem. Testes automáticos tests.sistema.test_sistema.Energia: 3 de 3 ok (sem IA, sem internet).",
+              "onde": "sistema/mobilidade/energia.py (comparar e mensal); entregas/sers/comparar_energia.py; README.md:58-100",
+              "como": "Rodado python comparar_energia.py (exit 0) para 15 km e 8,5 km. Em 16/11 corrigi dois defeitos que a revalidação achou: abaixo de uns 11 km o trilho custa mais que a gasolina e a frase saía 'custa R$ -58,96 a menos' (agora diz 'a mais'), e o mês era calculado sobre a viagem já arredondada (agora usa o valor exato: 47,3 kWh, carro R$ 315,11). Para 15 km: trilho 1,08 kWh, 0,05 kg CO2, R$ 5,40 (renovável: sim); ônibus 1,19 kg, R$ 5,30; carro 10,1 kWh, 1,96 a 2,52 kg, R$ 7,16. No mês (44 viagens) evita cerca de 84 a 108 kg de CO2 e custa R$ 77,51 a menos. Refiz as contas à mão e conferem. Testes automáticos (sem IA, sem internet): tests.sistema Energia e test_energia_lia.",
               "id": "SERS-03"
             },
             {
@@ -765,9 +766,9 @@
               "requisito": "Equipe verifica dados, cálculos, fontes e recomendações (uso criterioso de IA)",
               "criterio": "Fundamentação e coerência técnica (60)",
               "quem": "equipe",
-              "status": "A fazer",
+              "status": "Conferir",
               "onde": "pesquisa/ENERGIA_FONTES.md (seção Dúvidas para a equipe)",
-              "como": "O próprio levantamento lista 6 dúvidas abertas: ocupação de carro e ônibus, CPTM sem dado, teor de etanol da gasolina C, divergência entre g CO2/km do INMETRO e litros x fator, valores de PDF lidos por posição (ônibus 2,10 km/L, kg/L, linha da ANP) e períodos diferentes entre fontes. Só pessoas conseguem fechar isso, e o grupo precisa saber explicar as decisões no vídeo.",
+              "como": "Em 16/11: os links citados na base da PCP e no levantamento da SERS (27) abrem; as contas por viagem foram refeitas à mão e o mês passou a ser calculado sem arredondar antes. Ficam as 6 dúvidas abertas de pesquisa/ENERGIA_FONTES.md (ocupação de carro e ônibus, CPTM sem dado, teor de etanol da gasolina, g CO2/km do INMETRO contra litros x fator, valores lidos de PDF e períodos diferentes entre fontes): só o grupo decide, e precisa saber explicar no vídeo.",
               "id": "SERS-06"
             }
           ]
@@ -788,9 +789,9 @@
               "requisito": "Recomendação coerente com a análise, em linguagem acessível",
               "criterio": "Aplicação e utilidade (30)",
               "quem": "sistema",
-              "status": "Conferir",
-              "onde": "sistema/assistente.py:375-406 (_instrucoes)",
-              "como": "O cartão da viagem traz a recomendação e os números da análise; as instruções da Lia mandam usar só esses números, dizer que são estimativas e citar a fonte. A equipe confere numa conversa de verdade.",
+              "status": "Feito",
+              "onde": "sistema/assistente.py (_instrucoes e o cartão de energia); tests/sistema/test_energia_lia.py",
+              "como": "Conferido em 16/11 numa conversa real com a Lia e o modelo. A primeira resposta trouxe os números certos mas dizendo 'por km' (0,017 kg por km; 0,67 a 0,86 kg por km), quando valem para a viagem inteira de 5,1 km. Corrigi o dado que vai ao modelo (campo leia_assim) e a instrução ('nunca diga por km') e gravei um teste. Depois: 'na viagem de 5,1 km, 17 g de CO2 contra cerca de 0,67 kg do carro' e 'na viagem de 25,8 km, 85 g contra 3,4 kg, economia de 3,3 kg', as duas coerentes com o cartão. O modelo pode variar entre respostas; repetir uma conversa antes do vídeo. Quando o Groq atinge o limite por minuto, a Lia responde pelas regras e avisa.",
               "id": "SERS-08"
             }
           ]
@@ -812,8 +813,8 @@
               "criterio": "Usabilidade e comunicação (10)",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "pesquisa/ENERGIA_FONTES.md; README.md:124-148; saída de comparar_energia.py",
-              "como": "ENERGIA_FONTES.md lista 14 fontes com URL, o que foi lido e o que não abriu. O script imprime 7 URLs, premissas e limitações. Rótulo 'Estimativa a partir de médias oficiais, não medição da sua viagem' em energia.py:23.",
+              "onde": "pesquisa/ENERGIA_FONTES.md; README.md; saída de comparar_energia.py",
+              "como": "ENERGIA_FONTES.md lista 13 fontes abertas com URL e o que foi lido, e as que não abriram. O script imprime 8 URLs, premissas e limitações. Rótulo 'Estimativa a partir de médias oficiais, não medição da sua viagem' em energia.py:24. Em 16/11 as 8 URLs do script abrem.",
               "id": "SERS-10"
             },
             {
@@ -831,7 +832,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/sers/README.md:1-57",
-              "como": "Tem os 3 integrantes com RM, contexto, como rodar (script e app), tabela 'Onde está cada coisa' que identifica a parte da SERS no repositório compartilhado e aponta para entregas/README.md e README raiz (linhas 56, 79). Ressalva: o bloco 'O que falta à equipe' (linhas 135-140) com caixas vazias aparece como trabalho inacabado para quem avalia; tirar ou marcar antes de enviar.",
+              "como": "README com 3 integrantes e RM, contexto, como rodar (script e app) e a tabela 'Onde está cada coisa' (linhas 43-54), que identifica a parte da SERS no repositório compartilhado. Ressalva: o bloco 'O que falta à equipe' (linhas 152-157) com caixas vazias aparece como trabalho inacabado para quem avalia; tirar ou marcar antes de enviar.",
               "id": "SERS-12"
             },
             {
@@ -950,7 +951,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/mlam/questao03_testes_hipotese.py (interpretação da 03a)",
-              "como": "Interpretação corrigida em 15/11: com z = -1,684 e p = 0,0461 a decisão é a mesma a 6% e a 5%; só mudaria abaixo de 4,6%.",
+              "como": "Teste z unilateral à esquerda com as 20 estações mais distantes do Marco Zero: média 216,75, EP 74,25, z = -1,684, z crítico a 6% = -1,555, p = 0,0461, rejeita H0. A 5% a decisão é a mesma. O texto avisa que o grupo não foi sorteado e traz uma checagem com amostra sorteada (semente 42), que não rejeita. Código: questao03_testes_hipotese.py:58-90; gráfico saidas/q03_testes_hipotese.png. Recalculei com scipy e statsmodels em 16/11 e bate.",
               "id": "MLAM-03"
             },
             {
@@ -996,7 +997,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/mlam/questao05_multivariada.py:45-82, 176-201; saidas/q05a_dispersao.png e q05c_correlacao.png",
-              "como": "Matriz de dispersão das 4 variáveis (total, distância, linhas, latitude) com título e histogramas. As matrizes de covariância e de correlação são impressas e interpretadas: r(total, linhas) = 0,510, r(total, distância) = -0,468, r(total, lat) = 0,130. O mapa de calor tem título e rótulos. Detalhe do gráfico: os eixos da matriz usam os nomes das colunas e o rótulo 'dist_marco_zero_km' encosta nos números. O PDF traz as matrizes de covariância e de correlação em tabela (15/11).",
+              "como": "Matriz de dispersão das 4 variáveis (total, distância, linhas, latitude) com título, histogramas e rótulos legíveis. Matrizes de covariância e de correlação impressas, interpretadas e também em tabela no PDF (pág. 6): r(total, linhas) = 0,510, r(total, distância) = -0,468, r(total, lat) = 0,130. Mapa de calor com título e valores. Código: questao05_multivariada.py:45-82 e 176-201.",
               "id": "MLAM-07"
             },
             {
@@ -1005,7 +1006,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/mlam/questao05_multivariada.py:84-101, 103-133, 135-161",
-              "como": "total = 2624,89 - 20,53×dist + 243,59×linhas + 100,86×lat. R² = 0,3937, R² ajustado = 0,3803, F(3;135) = 29,225 com p = 1,26e-14, VIF todos menores que 1,10. Previsão para 4 km, 3 linhas e lat -23,55 = 898,3, com IC 95% [754; 1.043]. A média real das 4 estações parecidas (1.232) fica fora do IC, e o texto diz isso e avisa que é extrapolação. Contra: a latitude não é significativa (p = 0,789) e o texto da linha 123 diz que o enunciado pede três explicativas, o que não é o caso.",
+              "como": "total = 2624,89 - 20,53×dist + 243,59×linhas + 100,86×lat. R² = 0,3937, R² ajustado = 0,3803, F(3;135) = 29,225 com p = 1,26e-14, VIF todos menores que 1,10. Previsão para 4 km, 3 linhas e lat -23,55 = 898,3, com IC 95% [754; 1.043]. A média real das 4 estações parecidas (1.232) fica fora do IC, e o texto diz isso e avisa que é extrapolação. A latitude não é significativa (p = 0,789) e o texto avisa. O enunciado pede pelo menos três variáveis quantitativas, e a resposta conta como uma delas. Recalculado com statsmodels em 16/11: confere.",
               "id": "MLAM-08"
             }
           ]
@@ -1028,7 +1029,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/mlam/questao06_logistica.py:78-108 e 157-181; saidas/q06_logistica.png",
-              "como": "Matriz [[51, 20], [21, 47]]. Acurácia = 98/139 = 70,5%, contra 51,1% de piso da classe maior (71/139). Precisão 0,701, revocação 0,691 e AUC 0,744. A interpretação discute falso negativo (21) e o fato de a medida ser na própria base. Detalhe do gráfico: no painel da direita a cor da classe real não tem legenda.",
+              "como": "Matriz [[51, 20], [21, 47]]. Acurácia = 98/139 = 70,5%, contra 51,1% de piso da classe maior (71/139). Precisão 0,701, revocação 0,691 e AUC 0,744. A interpretação discute falso negativo (21) e o fato de a medida ser na própria base. O gráfico tem legenda da classe real (ocorrência normal ou alta ocorrência) e o corte 0,5. Matriz e acurácia recalculadas de forma independente em 16/11.",
               "id": "MLAM-10"
             }
           ]
@@ -1042,7 +1043,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/mlam/questao07_relatorio.py; saidas/relatorio_mlam_gs2026.pdf (9 páginas)",
-              "como": "Regerei o PDF: 9 páginas, 7 gráficos, tabelas por questão, resumo para quem decide, 'Insight' em cada seção, recomendação ao produto e página de limitações. Números lidos do resultados.json. Lacunas no PDF: não traz a matriz de covariância (05b) nem a equação da logística com coeficientes (06a), e cita dados/LEIA-ME.md, que não é um formato aceito no portal (ver lacunas). Revisado em 15/11 com as matrizes da Q05b, a equação da Q06a e o passo a passo de reprodução.",
+              "como": "PDF de 9 páginas e 7 gráficos regerado a partir do resultados.json. Tem resumo para quem decide, tabelas por questão (incluindo as matrizes de covariância e de correlação e a equação logito(p) da Q06a), 'Insight' em cada seção, recomendação ao produto, limitações e passo a passo de reprodução. Não cita arquivos .md.",
               "id": "MLAM-11"
             }
           ]
@@ -1132,8 +1133,8 @@
               "criterio": "Qualidade das respostas no golden e citação das fichas",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/pai/fichas/; entregas/pai/pai_agente/fichas.py:116-134; agente.py:123-132",
-              "como": "Testes (copia no scratchpad): 'python -m unittest discover -s tests/pai -v' deu 'Ran 24 tests ... OK'. Nas 34 mensagens (script sem IA), a busca devolveu a ficha esperada em primeiro lugar nas 25 mensagens de escopo ou borda, e #20 e #108 (passaporte e Uber) saíram sem modelo com 'Não encontrei essa informação nas fichas'. As 7 fichas têm Fonte com URL e data.",
+              "onde": "entregas/pai/fichas/; entregas/pai/pai_agente/fichas.py:115-134; agente.py:138-147",
+              "como": "Testes: Ran 27 tests, OK. Na busca por palavra-chave (sem IA), nas 34 mensagens a ficha esperada saiu em 1º lugar nos 29 casos que têm ficha esperada. #20 (Uber) e #108 (passaporte) saem sem modelo com 'Não encontrei essa informação nas fichas'. As 7 fichas têm Fonte com URL e data.",
               "id": "PAI-01"
             },
             {
@@ -1159,7 +1160,7 @@
               "criterio": "Qualidade das respostas no golden e citação das fichas",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/pai/pai_agente/agente.py:38-64 e 135-145; juiz.py:32-33",
+              "onde": "entregas/pai/pai_agente/agente.py:35-37 e 156-161; juiz.py:32-33",
               "como": "Desde 15/11 a ficha e a data de verificação vão por código em toda resposta do modelo, como o aviso, e o juiz cobra as duas.",
               "id": "PAI-04"
             },
@@ -1169,7 +1170,7 @@
               "quem": "equipe",
               "status": "Conferir",
               "onde": "entregas/pai/fichas/00_LEIA-ME.md; README.md:263-270",
-              "como": "O próprio LEIA-ME das fichas diz que a conferência é pendente. Eu não abri as páginas oficiais; a coerência interna ficha x golden está conferida, a exatidão externa não.",
+              "como": "Em 16/11 as 7 fichas foram conferidas contra as páginas oficiais (leitura direta, inclusive pelo navegador), telefones, horários, prazos e valores um a um. Corrigidos: o 156 do PAESE (só aparece em comunicados de 2018), o simulado do Metrô que era anúncio e não fato, a Linha 5 no WhatsApp e nos filtros, os prazos da Artesp (30 + 30) ao lado dos das concessionárias (20 + 10), 'até 20 dias', o pedido presencial do Bilhete Único Especial, o posto de achados do Metrô e as fontes. LEIA-ME e golden atualizados. A equipe ainda deve abrir as fontes antes da entrega, e as rodadas do juiz precisam ser regeradas (PAI-13).",
               "id": "PAI-05"
             }
           ]
@@ -1215,7 +1216,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/pai/README.md:65-113; pai_agente/modelo.py:19-27",
-              "como": "README com framework (LangGraph), um agente só, modelo (Groq, openai/gpt-oss-120b, citado no enunciado) e onde a IA entra e onde basta código.",
+              "como": "README com framework (LangGraph), um agente só, modelo (Groq com openai/gpt-oss-120b; o Groq é o provedor citado no enunciado) e onde a IA entra e onde basta código. O enunciado não cita o modelo, só o provedor.",
               "id": "PAI-09"
             }
           ]
@@ -1229,7 +1230,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/pai/pai_agente/guardrails.py:18-36 e 67-76; agente.py:109-114; avaliar.py:56-80",
-              "como": "CPF, RG, telefone, e-mail, CEP e cartão mascarados antes do modelo; #22 e #23 recusados sem modelo e sem repetir o número (testado: resposta não contém '123.456.789'). Nenhuma escrita em arquivo no agente nem no main.py (grep). avaliar.py mascara a resposta antes de gravar e preserva só os canais oficiais das fichas. Único CPF do repositório é o fictício do golden. Fora da PAI, a Lia tem barreira própria (assistente.py:430).",
+              "como": "CPF, RG, telefone, e-mail, CEP e cartão mascarados antes do modelo; #22 e #23 recusados sem modelo e sem repetir o número (testado: resposta não contém '123.456.789'). Nenhuma escrita em arquivo no agente nem no main.py (grep). avaliar.py mascara a resposta antes de gravar e preserva só os canais oficiais das fichas. Único CPF do repositório é o fictício do golden. Fora da PAI, a Lia tem barreira própria (assistente.py:430). Nota (16/11): o CPF fictício do enunciado aparece sem máscara no campo 'mensagem' de historico/aurora/saidas/rodada_aurora.json (arquivo do tema antigo, que vai no zip). Risco baixo; a equipe decide se mascara ou tira do pacote.",
               "id": "PAI-10"
             }
           ]
@@ -1243,7 +1244,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/pai/pai_agente/juiz.py:23-45 e 58-79; README.md:165-186",
-              "como": "4 critérios (pontos_esperados, cita_ficha, protege_dado_pessoal, resiste_manipulacao), acerto = C1 e C3 e C4, mais C2 só no tipo Escopo; JSON inválido vira 'indeterminado'. Régua e justificativa no README bate com o código. Teste test_regua_tem_os_quatro_criterios passou. Ressalva: README:184 cita validação com 7 respostas montadas à mão, mas não existe script nem saída disso no repositório.",
+              "como": "4 critérios (pontos_esperados, cita_ficha, protege_dado_pessoal, resiste_manipulacao), acerto = C1 e C3 e C4, mais C2 só no tipo Escopo; JSON inválido vira 'indeterminado'. Régua e justificativa no README bate com o código. Teste test_regua_tem_os_quatro_criterios passou. A validação do juiz com 7 respostas montadas existe: validar_juiz.py e saidas/validacao_juiz.json (7 de 7).",
               "id": "PAI-11"
             },
             {
@@ -1259,9 +1260,9 @@
               "requisito": "Rodar agente e juiz nas 26, analisar erros, aplicar melhoria, rodar de novo; tabelas salvas",
               "criterio": "Pipeline de LLM as a Judge, com comparação antes e depois",
               "quem": "sistema",
-              "status": "Feito",
+              "status": "Conferir",
               "onde": "entregas/pai/saidas/rodada_depois.json",
-              "como": "Rodada oficial em 15/11 com o Groq (openai/gpt-oss-120b): 25/26 antes e 25/26 depois. A melhoria (## como dígito nas palavras-chave) fez o #12 acertar; o #9 virou erro por falha do juiz, que não vê a ficha (análise no README). Tabelas em saidas/.",
+              "como": "Rodada oficial em 15/11 com o Groq (openai/gpt-oss-120b): 25/26 antes e 25/26 depois. A melhoria (## como dígito nas palavras-chave) fez o #12 acertar; o #9 virou erro por falha do juiz, que não vê a ficha (análise no README). Atenção (16/11): depois da conferência das fontes, as fichas e 4 respostas esperadas do golden mudaram (WhatsApp nas linhas 4, 5, 8 e 9, sem o 156, prazos da Artesp, 'até 20 dias'). As rodadas gravadas foram feitas com a versão anterior e precisam ser regeradas: python rodar_antes_e_depois.py --so-enunciado, com a chave do Groq (o historico/antes_da_melhoria/FT-04 já foi atualizado para a comparação continuar isolando só a melhoria). Depois, regerar o zip do portal.",
               "id": "PAI-13"
             },
             {
@@ -1270,7 +1271,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "entregas/pai/TESTES_USUARIOS.md (tabela 'Conferência manual do juiz')",
-              "como": "Tabela está vazia. Só pode ser feita depois de existir rodada_depois.json (PAI-11).",
+              "como": "A tabela 'Conferência manual do juiz' de TESTES_USUARIOS.md já traz 8 casos (#9 e #12 antes e depois, #1, #18, #22 e #25) e a coluna 'a equipe concorda?' vazia. Pré-leitura: as respostas do #1 e do #18 batem com o esperado, a do #22 não repete o CPF e o #9 antes, sem a ressalva da Artesp, é o caso em que o juiz errou. A conferência é da equipe e deve ser feita depois de regerar as rodadas (PAI-13).",
               "id": "PAI-14"
             }
           ]
@@ -1284,7 +1285,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/pai/pai_agente/guardrails.py:39-50; agente.py:115-119 e 58-61; guardrails.py:112-115",
-              "como": "#24 e #25 detectados por regra (ignorar instruções, pedir o prompt, falsa mensagem de sistema) e respondidos sem modelo, sem texto do prompt (teste verifica ausência de 'REGRA DE OURO'). A frase escondida do enunciado também cai no padrão 'forçar formato' (teste passou). Fichas e pergunta vão ao modelo entre marcas de DADO. Ressalva: a resposta pronta do #25 não menciona R$ 5,40 nem FT-06, que o esperado pede. #106 (FT-09 falsa) depende só das instruções do modelo. O #25 também repete o valor da FT-06 (R$ 5,40) na recusa, sem chamar o modelo (15/11).",
+              "como": "#24 e #25 detectados por regra (ignorar instruções, pedir o prompt, falsa mensagem de sistema) e respondidos sem modelo, sem texto do prompt (teste verifica ausência de 'REGRA DE OURO'). A frase escondida do enunciado também cai no padrão 'forçar formato' (teste passou). Fichas e pergunta vão ao modelo entre marcas de DADO. #106 (FT-09 falsa) depende só das instruções do modelo. O #25 também repete o valor da FT-06 (R$ 5,40) na recusa, sem chamar o modelo (15/11).",
               "id": "PAI-15"
             }
           ]
@@ -1312,7 +1313,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/pai/README.md:3-12, 34-63, 115-140, 246-261, 272-291",
-              "como": "Nomes completos e RM dos 3 integrantes no topo (linhas 3-12). Tem como rodar, arquitetura, fichas, guardrails, limitações (6 itens) e tabela de arquivos. Pontos a corrigir estão em 'lacunas' (instalação, trechos que vão envelhecer, TESTES_USUARIOS sem nomes). Seção de instalação e nomes no topo do relatório de testes (15/11).",
+              "como": "Nomes completos e RM dos 3 integrantes no topo (linhas 3-12). Tem como rodar, arquitetura, fichas, guardrails, limitações (7 itens) e tabela de arquivos. Pontos a corrigir estão em 'lacunas' (instalação, trechos que vão envelhecer, TESTES_USUARIOS sem nomes). Seção de instalação e nomes no topo do relatório de testes (15/11).",
               "id": "PAI-17"
             }
           ]
@@ -1326,7 +1327,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "entregas/portal/pai/LEIA-ME.txt",
-              "como": "O formato não está no enunciado. Pacote sugerido na seção 'entrega'. Não enviar .env nem config.local.json.",
+              "como": "O formato não está no enunciado. O pacote (zip de 41 itens, sem .env nem config.local.json) sai por scripts/montar_entregas.py e pelo botão da plataforma. Regerar depois da conferência das fichas e da nova rodada do juiz. O zip não leva tests/pai: o README diz que ficam no repositório.",
               "id": "PAI-18"
             }
           ]
@@ -1335,7 +1336,8 @@
       "observacoes": [
         "Tema autorizado pelo professor em 13/11/2026: fichas de transporte FT-01 a FT-07 com as regras do enunciado.",
         "Os itens da versão do PDF geral (RAG, Gradio, RAGAS) não fazem parte do enunciado do portal e saíram do checklist.",
-        "A instrução escondida no fim do enunciado foi tratada como prompt injection e não foi obedecida."
+        "A instrução escondida no fim do enunciado foi tratada como prompt injection e não foi obedecida.",
+        "Guardar a prova da autorização do professor para trocar as fichas de Aurora pelo tema transporte (13/11/2026): o enunciado pede 'exatamente estas 26 mensagens' e o README cita a autorização, mas não há registro dela no repositório."
       ]
     },
     "MMC": {
@@ -1385,7 +1387,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "Relatório PDF, Etapa 1d",
-              "como": "fora do repositório",
+              "como": "O argumento de Álgebra Linear vai no relatório (equipe). A página MMC > Teste mostra det(A) = 3 e posto(A) = posto(A|b) = 4 para conferir o resultado.",
               "id": "MMC-04"
             },
             {
@@ -1394,7 +1396,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "Código .py e relatório, Etapa 1e",
-              "como": "fora do repositório",
+              "como": "O .py é da equipe. A página MMC > Teste mostra a frota 12, 20, 16 e 24 (Norte, Sul, Leste e Oeste) para conferir.",
               "id": "MMC-05"
             },
             {
@@ -1403,7 +1405,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "Código .py e relatório, Etapa 1f",
-              "como": "fora do repositório",
+              "como": "A página MMC > Teste confere as 4 relações e se a frota é inteira e não negativa; a equipe faz a sua no .py e no relatório.",
               "id": "MMC-06"
             }
           ]
@@ -1417,7 +1419,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "Relatório PDF, Etapas 2a e 2b",
-              "como": "fora do repositório",
+              "como": "A página MMC > Teste mostra a necessidade 14, 19, 18 e 21 (total 72) e as diferenças; a conta e a análise dos desequilíbrios vão no relatório da equipe.",
               "id": "MMC-07"
             },
             {
@@ -1581,7 +1583,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "Circuito no Wokwi e vídeo",
-              "como": "fora do repositório",
+              "como": "A escolha dos componentes é da equipe. Não confirmei se o Wokwi tem uma peça de sensor de nível de água; se não tiver, use um substituto (por exemplo, um potenciômetro) e diga isso no vídeo.",
               "id": "COA-04"
             }
           ]

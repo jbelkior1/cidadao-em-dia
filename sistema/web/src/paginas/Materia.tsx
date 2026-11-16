@@ -1,14 +1,18 @@
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 
 import Checklist from "../componentes/Checklist";
 import Fluxograma from "../componentes/Fluxograma";
+import FluxoMateria from "../componentes/FluxoMateria";
 import { TesteCoa, TesteCs, TesteDsa, TesteMlam, TesteMmc, TestePai, TestePcp, TesteSers } from "../componentes/Testes";
 import { api, type DadosMateria, type ResumoChecklist } from "../lib/api";
 
 const PARTES = ["Entenda", "Teste", "Checklist da entrega"] as const;
 type Parte = (typeof PARTES)[number];
+/** O endereço aceita ?parte=teste ou ?parte=checklist, para linkar direto numa parte. */
+const POR_ENDERECO: Record<string, Parte> = { teste: "Teste", checklist: "Checklist da entrega" };
+const NO_ENDERECO: Partial<Record<Parte, string>> = { Teste: "teste", "Checklist da entrega": "checklist" };
 
 /** O que o professor abre primeiro: o formato da entrega, como rodar e os arquivos no GitHub. */
 function Entrega({ m }: { m: DadosMateria["materia"] }) {
@@ -59,60 +63,35 @@ function Entrega({ m }: { m: DadosMateria["materia"] }) {
 
 function Entenda({ dados }: { dados: DadosMateria }) {
   const m = dados.materia;
-  const navegar = useNavigate();
   return (
-    <div className="space-y-7">
+    <div className="space-y-8">
       <Entrega m={m} />
       <section className="space-y-2">
         <h3 className="text-lg font-bold">O que faz no sistema</h3>
-        <p className="text-[17px] leading-relaxed">{m.papel}</p>
+        <p className="text-[17px] leading-relaxed">{m.explicacao}</p>
+      </section>
+      <section className="space-y-3">
+        <h3 className="text-lg font-bold">O caminho por dentro de {m.cod}</h3>
+        <FluxoMateria fluxo={m.fluxo} cor={m.cor} />
       </section>
       <section className="space-y-2">
-        <h3 className="text-lg font-bold">Como ajuda o cidadão</h3>
-        <p className="text-[17px] leading-relaxed">{m.ajuda}</p>
-      </section>
-      {m.quando && m.quando.length > 0 && (
-        <section className="space-y-2">
-          <h3 className="text-lg font-bold">Quando entra em ação</h3>
-          <ul className="list-disc space-y-1 pl-5 text-[16px]">{m.quando.map((q) => <li key={q}>{q}</li>)}</ul>
-        </section>
-      )}
-      <div className="grid gap-3 sm:grid-cols-2">
-        <div className="rounded-xl border border-linha bg-superficie p-4">
-          <p className="text-[13px] font-semibold tracking-wide text-apagado uppercase">Recebe</p>
-          <p className="mt-1 text-[15px]">{m.recebe}</p>
-        </div>
-        <div className="rounded-xl border border-linha bg-superficie p-4">
-          <p className="text-[13px] font-semibold tracking-wide text-apagado uppercase">Devolve</p>
-          <p className="mt-1 text-[15px]">{m.devolve}</p>
-        </div>
-      </div>
-      <section className="space-y-2">
-        <h3 className="text-lg font-bold">A parte dela no fluxograma</h3>
-        <p className="text-[14px] text-apagado">Em destaque, {m.cod} e as ligações com as telas. O resto fica em cinza.</p>
+        <h3 className="text-lg font-bold">Onde {m.cod} entra no sistema</h3>
         <Fluxograma destaque={m.cod} />
       </section>
       <section className="space-y-2">
-        <h3 className="text-lg font-bold">A regra principal</h3>
-        <p className="text-[16px] leading-relaxed">{m.regra}</p>
+        <h3 className="text-lg font-bold">Onde ver no site</h3>
+        <ul className="grid gap-1.5 sm:grid-cols-2">
+          {m.rotas.map((r) => (
+            <li key={r.rota}>
+              <Link to={r.rota} className="flex items-baseline justify-between gap-3 rounded-lg px-2.5 py-2 hover:bg-superficie focus-visible:outline-2 focus-visible:outline-marca">
+                <span className="text-[14px] font-semibold text-marca-forte">{r.rotulo}</span>
+                <span className="truncate font-mono text-[12px] text-apagado">{r.rota}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
-      <section className="space-y-2 rounded-xl bg-marca-suave p-4">
-        <h3 className="text-[15px] font-bold text-marca-forte">Nesta versão</h3>
-        <p className="text-[15px]">{m.nesta_versao}</p>
-      </section>
-      {!!m.ver_funcionando?.length && (
-        <section className="space-y-2">
-          <h3 className="text-lg font-bold">Ver funcionando</h3>
-          <div className="flex flex-wrap gap-2">
-            {m.ver_funcionando.map((v) => (
-              <button key={v.rota} type="button" onClick={() => navegar(v.rota)}
-                className="inline-flex items-center gap-1.5 rounded-full bg-superficie px-4 py-2 text-[15px] font-semibold text-marca-forte ring-1 ring-marca/40 ring-inset hover:bg-marca-suave">
-                {v.rotulo} <ArrowUpRight className="size-4" aria-hidden />
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
+      <p className="rounded-xl bg-marca-suave px-4 py-3 text-[15px]"><span className="font-bold text-marca-forte">Nesta versão: </span>{m.nesta_versao}</p>
     </div>
   );
 }
@@ -121,10 +100,7 @@ function Teste({ dados }: { dados: DadosMateria }) {
   const cod = dados.materia.cod;
   return (
     <div className="space-y-5">
-      <p className="rounded-xl border border-linha bg-superficie px-4 py-3 text-[15px]">
-        <span className="font-semibold">Como testar: </span>
-        {dados.materia.como_testar}
-      </p>
+      <p className="text-[14px] text-apagado">{dados.materia.como_testar}</p>
       {cod === "PCP" && <TestePcp />}
       {cod === "CS" && <TesteCs />}
       {cod === "DSA" && <TesteDsa />}
@@ -174,12 +150,13 @@ export default function Materia() {
   const { cod = "" } = useParams();
   const [dados, setDados] = useState<DadosMateria | null>(null);
   const [erro, setErro] = useState("");
-  const [parte, setParte] = useState<Parte>("Entenda");
+  const [busca, setBusca] = useSearchParams();
+  const parte = POR_ENDERECO[busca.get("parte") ?? ""] ?? "Entenda";
+  const trocar = (p: Parte) => setBusca(NO_ENDERECO[p] ? { parte: NO_ENDERECO[p] as string } : {}, { replace: true });
 
   useEffect(() => {
     setDados(null);
     setErro("");
-    setParte("Entenda");
     api.materia(cod).then(setDados).catch((e) => setErro(e instanceof Error ? e.message : "Não consegui carregar."));
   }, [cod]);
 
@@ -198,7 +175,7 @@ export default function Materia() {
 
       <div className="flex flex-wrap gap-1 rounded-xl bg-superficie p-1 ring-1 ring-linha ring-inset sm:inline-flex" role="tablist" aria-label="Partes da página">
         {PARTES.map((p) => (
-          <button key={p} type="button" role="tab" aria-selected={parte === p} onClick={() => setParte(p)}
+          <button key={p} type="button" role="tab" aria-selected={parte === p} onClick={() => trocar(p)}
             className={`rounded-lg px-4 py-2 text-[15px] font-semibold transition-colors ${parte === p ? "bg-marca text-white" : "text-apagado hover:text-tinta"}`}>
             {p}
           </button>

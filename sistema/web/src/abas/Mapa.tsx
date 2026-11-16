@@ -11,8 +11,6 @@ import { corDoTexto, type Nivel } from "../lib/api";
  * (alagamentos do GeoSampa, ocorrências da SSP-SP por estação, relatos de passageiros).
  * Só usa circleMarker e polyline: o marcador padrão do Leaflet quebra no bundler.
  * Nada é guardado no aparelho.
- *
- * `simular` (opcional): número da linha com falha simulada, o mesmo do seletor do celular.
  */
 
 type LinhaMapa = { numero: string; nome: string; cor: string; nivel: Nivel; status: string; simulado: boolean; trechos: [number, number][][] };
@@ -114,7 +112,7 @@ function resumoRelatos(lista: Relato[]): string[] {
 }
 
 /* ---------------------------------------------------------------- componente */
-export default function Mapa({ simular }: { simular?: string } = {}) {
+export default function Mapa() {
   const recipiente = useRef<HTMLDivElement>(null);
   const mapaRef = useRef<L.Map | null>(null);
   const grupos = useRef<Record<Chave | "estacoes", L.LayerGroup> | null>(null);
@@ -165,12 +163,11 @@ export default function Mapa({ simular }: { simular?: string } = {}) {
     };
   }, []);
 
-  /* camadas: leitura inicial, a cada 120 s e quando a simulação muda */
+  /* camadas: leitura inicial e a cada 120 s */
   useEffect(() => {
     const controle = new AbortController();
     const carregar = () => {
-      const url = simular ? `/api/mapa/camadas?simular=${encodeURIComponent(simular)}` : "/api/mapa/camadas";
-      lerJson<Camadas>(url, controle.signal)
+      lerJson<Camadas>("/api/mapa/camadas", controle.signal)
         .then((d) => {
           setDados(d);
           setErro("");
@@ -186,7 +183,7 @@ export default function Mapa({ simular }: { simular?: string } = {}) {
       controle.abort();
       window.clearInterval(t);
     };
-  }, [simular]);
+  }, []);
 
   /* relatos: só busca enquanto a camada estiver ligada, a cada 15 s */
   useEffect(() => {

@@ -4,7 +4,7 @@ Assistente de terminal, em Python, que responde dúvidas do cidadão **somente c
 
 Trabalho da Global Solution 2026.2 (FIAP), tema CitizenTech, matéria Pensamento Computacional e Automação com Python.
 
-> **ATENÇÃO: parte da base de conhecimento ainda está em conferência.** As 16 orientações vieram de páginas oficiais; a URL de cada uma está no campo `fonte`. Em 16/11/2026 as 16 fontes foram abertas de novo e cada afirmação foi comparada com a página: 9 orientações (1, 2, 3, 4, 5, 7, 8, 14 e 16) bateram com a fonte citada, depois de corrigir os trechos que ela não sustentava, e perderam a marca. As outras 7 (6, 9, 10, 11, 12, 13 e 15) ainda trazem `conferido_pela_equipe: false` porque parte do texto vem de outra página oficial, que só foi confirmada por busca (por exemplo, a Delegacia Eletrônica, o posto de achados do Metrô e a Ouvidoria do Metrô). A equipe precisa abrir essas páginas, confirmar e apagar a marca do registro conferido.
+> **Conferência das fontes:** as 16 orientações vieram de páginas oficiais; a URL de cada uma está no campo `fonte`. Em 16/11/2026 todas as fontes foram abertas de novo e cada telefone, horário, prazo e documento foi comparado com a página; o texto foi corrigido onde a fonte não sustentava a frase, e `verificado_em` passou a 2026-11-16. Informação oficial muda: antes de entregar, a equipe abre as fontes e atualiza a data se algo mudou.
 
 ## Integrantes
 
@@ -145,17 +145,17 @@ Este programa é a entrega da PCP e roda sozinho, só com a biblioteca padrão. 
 
 ## Fontes consultadas
 
-As 16 orientações usam só páginas oficiais, lidas de novo em 16/11/2026; 7 delas seguem **em conferência pelo grupo** (ver o aviso no topo):
+As 16 orientações usam só páginas oficiais, lidas em 12/11/2026 e conferidas de novo em 16/11/2026:
 
 - Metrô: https://www.metro.sp.gov.br/pt_BR/fale-conosco/faq/, https://www.metro.sp.gov.br/sua-viagem/direto-metro/, https://www.metro.sp.gov.br/2026/09/21/metro-e-corpo-de-bombeiros-realizam-simulados-de-evacuacao-e-resgate-na-linha-17-ouro/
 - CPTM: https://www.cptm.sp.gov.br/cptm/contato/fale-conosco, https://www.cptm.sp.gov.br/cptm/esg-consciente/praticas-de-governanca/canal-de-denuncias, https://www.cptm.sp.gov.br/cptm/sua-viagem/acessibilidade
-- ViaQuatro e ViaMobilidade (portal Motiva Trilhos): https://trilhos.motiva.com.br/linha-4-amarela/declaracao-de-ocorrencias
-- SPTrans e Prefeitura: https://www.sptrans.com.br/tarifas/, https://www.sptrans.com.br/perguntas-e-respostas/?sobre=bilhete-pcd, https://prefeitura.sp.gov.br/web/mobilidade/w/institucional/sptrans/acesso_a_informacao/366625
+- ViaQuatro e ViaMobilidade (portal Motiva Trilhos): https://trilhos.motiva.com.br/linha-4-amarela/declaracao-de-ocorrencias, https://trilhos.motiva.com.br/linha-5-lilas/declaracao-de-ocorrencias, https://trilhos.motiva.com.br/viamobilidade8e9/declaracao-de-ocorrencias e as páginas de contatos de cada linha
+- SPTrans e Prefeitura: https://www.sptrans.com.br/tarifas/, https://www.sptrans.com.br/perguntas-e-respostas/?sobre=bilhete-pcd, https://www.sptrans.com.br/perguntas-e-respostas/?sobre=bilhete-pessoa-idosa, https://prefeitura.sp.gov.br/w/noticia/sptrans-ativara-paese-entre-as-estacoes-jabaquara-e-tucuruvi-no-domingo-3
 - Artesp: https://www.artesp.sp.gov.br/artesp/canais-de-comunicacao/ouvidoria
-- Defesa Civil de SP: https://www.spsemprealerta.sp.gov.br/, https://www.spsemprealerta.sp.gov.br/orientacoes/inundacoes/
-- Governo federal: https://www.gov.br/celularseguro, https://www.planalto.gov.br/ccivil_03/leis/2003/l10.741.htm (Estatuto da Pessoa Idosa)
+- Defesa Civil de SP: https://www.spsemprealerta.sp.gov.br/, https://www.spsemprealerta.sp.gov.br/orientacoes/inundacoes/, https://www.spsemprealerta.sp.gov.br/orientacoes/tempestades-raios-e-granizo/
+- Governo federal e de SP: https://www.gov.br/celularseguro, https://servicos.sp.gov.br/fcarta/58530894-E128-4E25-ADEC-AB177394802A (Delegacia Eletrônica), https://www.planalto.gov.br/ccivil_03/leis/2003/l10.741.htm (Estatuto da Pessoa Idosa)
 
-Algumas informações foram completadas pela Carta de Serviços do Metrô de outubro de 2023 (telefones e horários da Central de Informações e da Ouvidoria). O grupo precisa conferir essas páginas nas 7 orientações que seguem marcadas.
+Algumas informações foram completadas pela Carta de Serviços do Metrô de outubro de 2023 (telefones e horários da Central de Informações e da Ouvidoria). A equipe deve abrir essas páginas antes da entrega.
 
 ## Resultado do teste com usuários
 

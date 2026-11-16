@@ -81,6 +81,31 @@ def _br(numero: float) -> str:
     return f"{numero:g}".replace(".", ",")
 
 
+def mensal(km: float, viagens: int) -> list[dict]:
+    """As três alternativas no mesmo período (um mês de trabalho, ida e volta).
+
+    Multiplica os valores exatos da viagem e só arredonda no fim: somar viagens já arredondadas
+    deixava o mês com até 0,4% de diferença para quem refaz a conta à mão (1,08 kWh x 44 = 47,52,
+    quando 15 km x 0,0717 kWh x 44 = 47,32).
+    """
+    km = round(float(km), 1)
+    trilho_kwh = km * _v("metro_sp_energia_por_passageiro_km")
+    litros = km / _v("carro_consumo_hb20_sense_gasolina")
+    fator_gasolina = _v("fator_emissao_gasolina_automotiva")
+    return [
+        {"modo": "Trem ou metrô", "renovavel": True, "energia_kwh": round(trilho_kwh * viagens, 1),
+         "co2_kg": round(trilho_kwh * _v("fator_emissao_sin") * viagens, 1), "co2_kg_max": None,
+         "custo_rs": round(_v("tarifa_metro_trem") * viagens, 2), "custo_tipo": "tarifa"},
+        {"modo": "Ônibus a diesel", "renovavel": False, "energia_kwh": None,
+         "co2_kg": round(km * _v("comparativo_metro_onibus_sp_gco2e_pkm") / 1000 * viagens, 1), "co2_kg_max": None,
+         "custo_rs": round(_v("tarifa_onibus_sptrans") * viagens, 2), "custo_tipo": "tarifa"},
+        {"modo": "Carro, sozinho", "renovavel": False, "energia_kwh": round(litros * MJ_POR_LITRO_GASOLINA / 3.6 * viagens, 1),
+         "co2_kg": round(litros * fator_gasolina * FRACAO_FOSSIL_GASOLINA_C * viagens, 1),
+         "co2_kg_max": round(litros * fator_gasolina * viagens, 1),
+         "custo_rs": round(litros * _v("preco_gasolina_sp_capital") * viagens, 2), "custo_tipo": "combustível"},
+    ]
+
+
 def comparar(km: float) -> dict:
     km = round(float(km), 1)
     fator_sin = _v("fator_emissao_sin")                       # tCO2/MWh = kg/kWh

@@ -113,11 +113,7 @@ def sers_testar(km: float) -> dict:
     ]
     # mesmo período de referência para as três (o enunciado pede): um mês de trabalho, ida e volta
     viagens = DIAS_UTEIS_NO_MES * 2
-    mensal = [{"modo": m["modo"], "renovavel": m["renovavel"],
-               "energia_kwh": round(m["energia_kwh"] * viagens, 1) if m["energia_kwh"] is not None else None,
-               "co2_kg": round(m["co2_kg"] * viagens, 1),
-               "co2_kg_max": round(m["co2_kg_max"] * viagens, 1) if m.get("co2_kg_max") else None,
-               "custo_rs": round(m["custo_rs"] * viagens, 2), "custo_tipo": m["custo_tipo"]} for m in c["modos"]]
+    mensal = energia.mensal(c["km"], viagens)
     return c | {"passos": passos, "mensal": {"viagens": viagens, "dias_uteis": DIAS_UTEIS_NO_MES, "modos": mensal}}
 
 

@@ -1,8 +1,8 @@
-import { ArrowUp, X } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 
 import { CartaoDaAuxilia } from "./Cartoes";
-import { useConversa, type Notificacao } from "./conversa";
+import { useConversa } from "./conversa";
 
 /*
  * Peças da conversa com a Lia, para os layouts montarem do jeito deles:
@@ -140,27 +140,6 @@ export function Entrada({ placeholder = "Ex.: estou no Capão Redondo e vou para
         </form>
         <p className="text-center text-[11px] text-apagado">Não escreva CPF, telefone, endereço nem senha. Não é canal oficial das operadoras.</p>
       </div>
-    </div>
-  );
-}
-
-/** O aviso que chega no aparelho antes de sair (tocar continua a conversa). */
-export function AvisoNoAparelho({ flutuante = false }: { flutuante?: boolean }) {
-  const { aviso, abrirAviso, fecharAviso } = useConversa();
-  if (!aviso) return null;
-  return <CaixaDeAviso n={aviso} aoAbrir={abrirAviso} aoFechar={fecharAviso} flutuante={flutuante} />;
-}
-
-function CaixaDeAviso({ n, aoAbrir, aoFechar, flutuante }: { n: Notificacao; aoAbrir: () => void; aoFechar: () => void; flutuante: boolean }) {
-  return (
-    <div role="alert" className={`entrar z-30 flex items-start gap-3 rounded-3xl bg-superficie/95 p-3.5 shadow-flutua backdrop-blur ${flutuante ? "fixed top-20 right-6 w-80" : "absolute inset-x-3 top-11"}`}>
-      <Avatar />
-      <button type="button" className="min-w-0 flex-1 text-left" onClick={aoAbrir}>
-        <span className="flex items-center justify-between text-[11px] text-apagado"><span className="font-semibold">Dá Tempo?</span><span>agora</span></span>
-        <span className="block text-[14px] font-semibold">{n.titulo}</span>
-        <span className="block text-[13px] text-tinta/80">{n.texto}</span>
-      </button>
-      <button type="button" aria-label="Fechar aviso" onClick={aoFechar} className="rounded-full p-1 text-apagado hover:bg-fundo"><X className="size-4" /></button>
     </div>
   );
 }

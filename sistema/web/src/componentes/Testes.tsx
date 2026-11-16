@@ -59,53 +59,52 @@ export function TestePcp() {
 
       {r && !r.bloqueada && (
         <div className="space-y-3">
-          <p className="text-[15px]">
-            {melhor && melhor.pontos >= 3 ? (
-              <>
-                Resposta escolhida: <span className="font-semibold">{melhor.titulo}</span>, com {melhor.pontos} pontos{" "}
+          {r.escolhida && melhor ? (
+            <div className="space-y-2 rounded-xl border-2 border-[#2563EB]/30 bg-superficie px-4 py-3 text-[15px]">
+              <p className="flex flex-wrap items-center gap-2">
                 <span className={`rounded-full px-2 py-0.5 text-[12px] font-semibold ${CONFIANCA[melhor.confianca]}`}>confiança {melhor.confianca}</span>
-              </>
-            ) : (
-              <>Nenhuma orientação chegou a 3 pontos: o assistente diz que não encontrou e sugere as categorias.</>
-            )}
-          </p>
-          {r.normalizada !== undefined && (
-            <p className="text-[13px] text-apagado">
-              Como normalizar() vê a pergunta (sem acento, sem pontuação, minúsculas): <code className="rounded bg-fundo px-1.5 py-0.5 text-[13px] text-tinta">{r.normalizada}</code>
-            </p>
-          )}
-          {r.escolhida && (
-            <div className="space-y-1.5 rounded-xl border-2 border-[#2563EB]/30 bg-superficie px-4 py-3 text-[14px]">
-              <p className="font-semibold">&gt;&gt; {r.escolhida.titulo} <span className="font-normal text-apagado">[{r.escolhida.categoria}]</span></p>
+                <span className="text-[13px] text-apagado">{melhor.pontos} pontos</span>
+                {r.escolhida.em_conferencia && <span className="rounded-full bg-alerta-suave px-2 py-0.5 text-[12px] font-semibold text-alerta">em conferência</span>}
+              </p>
+              <p className="font-semibold">{r.escolhida.titulo} <span className="font-normal text-apagado">[{r.escolhida.categoria}]</span></p>
               <p>{r.escolhida.resposta}</p>
-              <p><span className="font-semibold">Documentos necessários: </span>{r.escolhida.documentos.length ? r.escolhida.documentos.join("; ") : "a fonte oficial consultada não lista nenhum."}</p>
-              <p><span className="font-semibold">Onde: </span>{r.escolhida.onde}</p>
-              <p className="break-all">
+              <p className="text-[14px]"><span className="font-semibold">Documentos: </span>{r.escolhida.documentos.length ? r.escolhida.documentos.join("; ") : "a fonte oficial consultada não lista nenhum."}</p>
+              <p className="text-[14px]"><span className="font-semibold">Onde: </span>{r.escolhida.onde}</p>
+              <p className="break-all text-[13px]">
                 <span className="font-semibold">Fonte: </span>
                 <a href={r.escolhida.fonte} target="_blank" rel="noreferrer" className="text-marca-forte underline">{r.escolhida.fonte}</a> (verificado em {r.escolhida.verificado_em})
               </p>
               {r.aviso && <p className="text-[13px] font-semibold">{r.aviso}</p>}
             </div>
+          ) : (
+            <p className="rounded-xl bg-fundo px-4 py-3 text-[15px]">Nenhuma orientação chegou a 3 pontos: o assistente diz que não encontrou e sugere as categorias.</p>
           )}
-          <p className="text-[13px] text-apagado">A lista de tuplas que buscar() devolve, da maior para a menor pontuação:</p>
-          {r.resultados.length === 0 && <p className="text-[14px] text-apagado">Nenhuma orientação recebeu ponto.</p>}
-          <ol className="space-y-2">
-            {r.resultados.map((x) => (
-              <li key={x.id} className="rounded-xl border border-linha bg-superficie px-4 py-3">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="w-10 shrink-0 text-lg font-bold tabular-nums">{x.pontos}</span>
-                  <span className="min-w-0 flex-1 font-semibold">{x.titulo}</span>
-                  <span className={`rounded-full px-2 py-0.5 text-[12px] font-semibold ${CONFIANCA[x.confianca]}`}>{x.confianca === "NENHUMA" ? "abaixo de 3" : x.confianca}</span>
-                </div>
-                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-fundo" aria-hidden>
-                  <div className="h-full rounded-full bg-[#2563EB]" style={{ width: `${(100 * x.pontos) / maximo}%` }} />
-                </div>
-                <p className="mt-2 text-[13px] text-apagado">
-                  {x.palavras_chave.map((k) => `+3 “${k}”`).concat(x.palavras_titulo.map((t) => `+1 “${t}” no título`)).join(" · ")}
-                </p>
-              </li>
-            ))}
-          </ol>
+          <details className="rounded-xl border border-linha bg-superficie px-4 py-3 text-[14px]">
+            <summary className="cursor-pointer font-semibold">Como a busca pontuou</summary>
+            {r.normalizada !== undefined && (
+              <p className="mt-3 text-[13px] text-apagado">
+                Pergunta normalizada (sem acento, sem pontuação, minúsculas): <code className="rounded bg-fundo px-1.5 py-0.5 text-tinta">{r.normalizada}</code>
+              </p>
+            )}
+            {r.resultados.length === 0 && <p className="mt-2 text-apagado">Nenhuma orientação recebeu ponto.</p>}
+            <ol className="mt-3 space-y-2">
+              {r.resultados.map((x) => (
+                <li key={x.id}>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="w-8 shrink-0 text-lg font-bold tabular-nums">{x.pontos}</span>
+                    <span className="min-w-0 flex-1 font-semibold">{x.titulo}</span>
+                    <span className={`rounded-full px-2 py-0.5 text-[12px] font-semibold ${CONFIANCA[x.confianca]}`}>{x.confianca === "NENHUMA" ? "abaixo de 3" : x.confianca}</span>
+                  </div>
+                  <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-fundo" aria-hidden>
+                    <div className="h-full rounded-full bg-[#2563EB]" style={{ width: `${(100 * x.pontos) / maximo}%` }} />
+                  </div>
+                  <p className="mt-1 text-[13px] text-apagado">
+                    {x.palavras_chave.map((k) => `+3 “${k}”`).concat(x.palavras_titulo.map((p) => `+1 “${p}” no título`)).join(" · ")}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </details>
         </div>
       )}
 
@@ -155,10 +154,6 @@ export function TestePai() {
 
   return (
     <div className="space-y-5">
-      <p className="text-[14px] text-apagado">
-        A pergunta passa pelos três nós do agente: guardrails, busca nas fichas FT-01 a FT-07 e resposta pelo modelo, que só pode usar a ficha
-        achada e precisa citá-la. Na conversa, a Lia chama este mesmo agente quando a dúvida é de regra ou procedimento.
-      </p>
       <form onSubmit={perguntar} className="flex flex-col gap-2 sm:flex-row">
         <label htmlFor="pergunta-pai" className="sr-only">Pergunta</label>
         <input id="pergunta-pai" value={pergunta} onChange={(e) => setPergunta(e.target.value)} className={CAMPO} placeholder="Escreva uma pergunta" />
@@ -177,43 +172,51 @@ export function TestePai() {
       {r && !r.ok && <p className="rounded-xl bg-erro-suave px-4 py-3 text-erro">{r.erro}</p>}
 
       {r?.ok && g && (
-        <ol className="space-y-3">
-          <li className="rounded-xl border border-linha bg-superficie px-4 py-3">
-            <p className="font-semibold">1. Guardrails, antes do modelo</p>
-            {barrou ? (
-              <p className="mt-1 flex items-start gap-2 text-[14px] text-alerta">
-                <ShieldAlert className="mt-0.5 size-4 shrink-0" aria-hidden />
-                {g.dado_pessoal.length > 0 && `Dado pessoal (${g.dado_pessoal.join(", ")}): recusado sem chamar o modelo. `}
-                {g.injecao.length > 0 && `Tentativa de manipulação (${g.injecao.join(", ")}): neutralizada. `}
-                {g.entrada_invalida && `Entrada ${g.entrada_invalida}.`}
-              </p>
-            ) : (
-              <p className="mt-1 text-[14px] text-apagado">Nenhum dado pessoal, manipulação ou entrada inválida: a pergunta segue.</p>
-            )}
-          </li>
-          <li className="rounded-xl border border-linha bg-superficie px-4 py-3">
-            <p className="font-semibold">2. Busca nas fichas (palavra-chave vale 3 pontos)</p>
-            {barrou && <p className="mt-1 text-[14px] text-apagado">Não roda: a mensagem parou no guardrail.</p>}
-            <ul className="mt-2 space-y-1.5">
-              {r.busca?.map((x) => (
-                <li key={x.ficha} className="flex items-center gap-3 text-[14px]">
-                  <span className="w-12 shrink-0 font-semibold tabular-nums">{x.ficha}</span>
-                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-fundo" aria-hidden>
-                    <div className="h-full rounded-full bg-[#7C3AED]" style={{ width: `${(100 * x.pontos) / maximo}%` }} />
-                  </div>
-                  <span className="w-16 shrink-0 text-right tabular-nums text-apagado">{x.pontos} pts</span>
-                </li>
-              ))}
-            </ul>
-          </li>
-          <li className="rounded-xl border border-linha bg-superficie px-4 py-3">
-            <p className="font-semibold">3. Resposta {r.usou_modelo ? "do modelo, presa à ficha" : "pronta, sem chamar o modelo"}</p>
-            <p className="mt-1 whitespace-pre-line text-[15px]">{r.resposta}</p>
-            {r.fichas && r.fichas.length > 0 && <p className="mt-2 text-[13px] text-apagado">Fichas usadas: {r.fichas.join(", ")}</p>}
-            {r.fonte && <a href={r.fonte} target="_blank" rel="noreferrer" className="mt-1 inline-block text-[13px] font-semibold text-marca-forte underline">Fonte oficial da ficha</a>}
-            {r.aviso && <p className="mt-2 text-[12px] text-apagado">{r.aviso}</p>}
-          </li>
-        </ol>
+        <div className="space-y-3">
+          <div className="space-y-2 rounded-xl border-2 border-[#7C3AED]/30 bg-superficie px-4 py-3">
+            <p className="flex flex-wrap items-center gap-2 text-[12px] font-semibold">
+              <span className={`rounded-full px-2 py-0.5 ${barrou ? "bg-alerta-suave text-alerta" : "bg-ok-suave text-ok"}`}>{barrou ? "Barrado antes do modelo" : "Passou pelos guardrails"}</span>
+              {r.fichas && r.fichas.length > 0 && <span className="rounded-full bg-fundo px-2 py-0.5 text-apagado ring-1 ring-linha ring-inset">{r.fichas.join(", ")}</span>}
+              <span className="rounded-full bg-fundo px-2 py-0.5 text-apagado ring-1 ring-linha ring-inset">{r.usou_modelo ? "resposta do modelo, presa à ficha" : "resposta pronta, sem chamar o modelo"}</span>
+            </p>
+            <p className="whitespace-pre-line text-[15px]">{r.resposta}</p>
+            {r.fonte && <a href={r.fonte} target="_blank" rel="noreferrer" className="inline-block text-[13px] font-semibold text-marca-forte underline">Fonte oficial da ficha</a>}
+            {r.aviso && <p className="text-[12px] text-apagado">{r.aviso}</p>}
+          </div>
+          <details className="rounded-xl border border-linha bg-superficie px-4 py-3 text-[14px]">
+            <summary className="cursor-pointer font-semibold">Ver as etapas do agente</summary>
+            <ol className="mt-3 space-y-3">
+              <li>
+                <p className="font-semibold">1. Guardrails, antes do modelo</p>
+                {barrou ? (
+                  <p className="mt-1 flex items-start gap-2 text-alerta">
+                    <ShieldAlert className="mt-0.5 size-4 shrink-0" aria-hidden />
+                    {g.dado_pessoal.length > 0 && `Dado pessoal (${g.dado_pessoal.join(", ")}): recusado sem chamar o modelo. `}
+                    {g.injecao.length > 0 && `Tentativa de manipulação (${g.injecao.join(", ")}): neutralizada. `}
+                    {g.entrada_invalida && `Entrada ${g.entrada_invalida}.`}
+                  </p>
+                ) : (
+                  <p className="mt-1 text-apagado">Nenhum dado pessoal, manipulação ou entrada inválida: a pergunta segue.</p>
+                )}
+              </li>
+              <li>
+                <p className="font-semibold">2. Busca nas fichas (palavra-chave vale 3 pontos)</p>
+                {barrou && <p className="mt-1 text-apagado">Não roda: a mensagem parou no guardrail.</p>}
+                <ul className="mt-2 space-y-1.5">
+                  {r.busca?.map((x) => (
+                    <li key={x.ficha} className="flex items-center gap-3">
+                      <span className="w-12 shrink-0 font-semibold tabular-nums">{x.ficha}</span>
+                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-fundo" aria-hidden>
+                        <div className="h-full rounded-full bg-[#7C3AED]" style={{ width: `${(100 * x.pontos) / maximo}%` }} />
+                      </div>
+                      <span className="w-16 shrink-0 text-right tabular-nums text-apagado">{x.pontos} pts</span>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            </ol>
+          </details>
+        </div>
       )}
     </div>
   );
@@ -276,6 +279,33 @@ export function TesteDsa() {
         <button type="submit" disabled={ocupado} className={BOTAO}>Pesquisar</button>
       </form>
 
+      {estado && (
+        <>
+          <p role="status" className={`rounded-xl px-4 py-2.5 text-[14px] ${estado.ok ? "bg-marca-suave text-marca-forte" : "bg-erro-suave text-erro"}`}>
+            {estado.mensagem || `${estado.tamanho} serviços na lista.`}
+          </p>
+          <div>
+            <p className="mb-2 text-[13px] text-apagado">Cabeça: {estado.cabeca ?? "vazia"} · cauda: {estado.cauda ?? "vazia"}. Cada nó aponta para o próximo.</p>
+            <ol className="flex flex-wrap items-center gap-y-2">
+              {estado.nos.map((no, i) => {
+                const achado = estado.achados.includes(no.id);
+                return (
+                  <li key={no.id} className="flex items-center">
+                    <span className={`rounded-lg border px-2.5 py-1.5 text-[13px] ${achado ? "border-[#C2410C] bg-[#C2410C]/10 font-semibold" : "border-linha bg-superficie"}`} title={no.titulo}>
+                      <span className="font-mono text-[11px] text-apagado">{no.id}</span>
+                      <span className="block max-w-[11rem] truncate">{no.titulo}</span>
+                      {no.prazo && <span className="block text-[11px] text-alerta">prazo {no.prazo}</span>}
+                    </span>
+                    {i < estado.nos.length - 1 ? <ArrowRight className="mx-1 size-4 shrink-0 text-apagado" aria-hidden /> : <span className="ml-1.5 text-[12px] text-apagado">→ None</span>}
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+
+          <details className="rounded-xl border border-linha bg-superficie px-4 py-3">
+            <summary className="cursor-pointer text-[15px] font-semibold">Consultar, atualizar, cadastrar ou excluir um serviço</summary>
+            <div className="mt-3">
       <div className="grid gap-2 rounded-xl border border-linha bg-superficie p-3 sm:grid-cols-[8rem_10rem_minmax(0,1fr)_auto_auto] sm:items-end">
         <div>
           <label htmlFor="alvo-dsa" className="block text-[13px] font-semibold">Identificador</label>
@@ -295,34 +325,7 @@ export function TesteDsa() {
         <button type="button" disabled={ocupado} onClick={() => operar("atualizar", { id: alvo, campo: campoNovo, valor })} className={BOTAO_2}>Atualizar</button>
       </div>
 
-      {estado && (
-        <>
-          <p role="status" className={`rounded-xl px-4 py-2.5 text-[14px] ${estado.ok ? "bg-marca-suave text-marca-forte" : "bg-erro-suave text-erro"}`}>
-            {estado.mensagem || `${estado.tamanho} serviços na lista.`}
-          </p>
-          <div>
-            <p className="mb-2 text-[13px] text-apagado">
-              A lista, do primeiro nó (cabeça: {estado.cabeca ?? "vazia"}) ao último (cauda: {estado.cauda ?? "vazia"}). Cada nó aponta para o próximo.
-            </p>
-            <ol className="flex flex-wrap items-center gap-y-2">
-              {estado.nos.map((no, i) => {
-                const achado = estado.achados.includes(no.id);
-                return (
-                  <li key={no.id} className="flex items-center">
-                    <span className={`rounded-lg border px-2.5 py-1.5 text-[13px] ${achado ? "border-[#C2410C] bg-[#C2410C]/10 font-semibold" : "border-linha bg-superficie"}`} title={no.titulo}>
-                      <span className="font-mono text-[11px] text-apagado">{no.id}</span>
-                      <span className="block max-w-[11rem] truncate">{no.titulo}</span>
-                      {no.prazo && <span className="block text-[11px] text-alerta">prazo {no.prazo}</span>}
-                    </span>
-                    {i < estado.nos.length - 1 ? <ArrowRight className="mx-1 size-4 shrink-0 text-apagado" aria-hidden /> : <span className="ml-1.5 text-[12px] text-apagado">→ None</span>}
-                  </li>
-                );
-              })}
-            </ol>
-          </div>
-
-          <details className="rounded-xl border border-linha bg-superficie px-4 py-3">
-            <summary className="cursor-pointer text-[15px] font-semibold">Cadastrar ou excluir um serviço</summary>
+            </div>
             <form onSubmit={(e) => { e.preventDefault(); void operar("cadastrar", novo); }} className="mt-3 grid gap-3 sm:grid-cols-2">
               {(Object.keys(VAZIO) as (keyof typeof VAZIO)[]).map((k) => (
                 <div key={k} className={k === "descricao" ? "sm:col-span-2" : ""}>
@@ -380,9 +383,6 @@ export function TesteSers() {
       {erro && <p className="rounded-xl bg-erro-suave px-4 py-3 text-erro">{erro}</p>}
       {r && (
         <>
-          <ol className="list-decimal space-y-1.5 rounded-xl border border-linha bg-superficie py-4 pr-4 pl-9 text-[15px]">
-            {r.passos.map((p) => <li key={p}>{p}</li>)}
-          </ol>
           <div className="overflow-x-auto rounded-xl border border-linha bg-superficie">
             <table className="w-full min-w-[520px] text-left text-[14px]">
               <caption className="px-4 pt-3 text-left text-[14px] font-semibold">
@@ -411,6 +411,12 @@ export function TesteSers() {
           {r.trilho_vs_carro !== null && (
             <p className="text-[15px]">De trem ou metrô, a viagem emite cerca de {r.trilho_vs_carro.toLocaleString("pt-BR")}% do CO₂ do carro (parte fóssil).</p>
           )}
+          <details className="rounded-xl border border-linha bg-superficie px-4 py-3 text-[14px]">
+            <summary className="cursor-pointer font-semibold">Ver a conta passo a passo</summary>
+            <ol className="mt-3 list-decimal space-y-1.5 pl-5">
+              {r.passos.map((p) => <li key={p}>{p}</li>)}
+            </ol>
+          </details>
           <p className="text-[13px] text-apagado">
             {r.rotulo} Premissas: {r.premissas.join("; ")}. Números levantados em {r.consultado_em.split("-").reverse().join("/")}, ainda em conferência pela equipe.
           </p>
@@ -479,11 +485,11 @@ function Questoes({ q }: { q: ResultadosMLAM }) {
   const logito = Object.entries(q.q06.coeficientes)
     .map(([k, v]) => (k === "const" ? num(v, 4) : `${v < 0 ? "−" : "+"} ${num(Math.abs(v), 4)} × ${k}`))
     .join(" ");
-  const cartao = "rounded-xl border border-linha bg-superficie p-4 text-[14px]";
+  const cartao = "rounded-xl border border-linha bg-fundo p-4 text-[14px]";
   return (
-    <section className="space-y-3" aria-labelledby="titulo-questoes-mlam">
-      <h4 id="titulo-questoes-mlam" className="text-[16px] font-bold">Resultados das questões 02 a 06</h4>
-      <p className="text-[13px] text-apagado">Números gravados por entregas/mlam/main.py (saidas/resultados.json), com a base real da SSP-SP. Nada é recalculado nesta página.</p>
+    <details className="rounded-xl border border-linha bg-superficie px-4 py-3" aria-labelledby="titulo-questoes-mlam">
+      <summary id="titulo-questoes-mlam" className="cursor-pointer text-[15px] font-semibold">Resultados das questões 02 a 06</summary>
+      <p className="mt-2 mb-3 text-[13px] text-apagado">Números gravados por entregas/mlam/main.py, com a base real da SSP-SP. Nada é recalculado aqui.</p>
       <div className="grid gap-3 lg:grid-cols-2">
         <div className={cartao}>
           <p className="font-semibold">02 · Probabilidade com distribuição normal</p>
@@ -521,7 +527,7 @@ function Questoes({ q }: { q: ResultadosMLAM }) {
           {q.q06.classificacao && <p>Classificação: {q.q06.classificacao.nome}: probabilidade {pct(q.q06.classificacao.probabilidade)}, classe {q.q06.classificacao.classe}.</p>}
         </div>
       </div>
-    </section>
+    </details>
   );
 }
 
@@ -633,7 +639,7 @@ export function TesteMmc() {
       {erro && <p className="rounded-xl bg-erro-suave px-4 py-3 text-erro">{erro}</p>}
       <form onSubmit={resolver} className={cartao}>
         <p className="text-[15px] font-semibold">Etapa 1 · Recuperar a frota atual (Relatório I)</p>
-        <p className="text-apagado">Variáveis: ônibus em cada região (N, S, L, O). Os quatro registros viram o sistema Ax = b; dá para mudar os valores de b.</p>
+        <p className="text-apagado">Os quatro registros viram o sistema Ax = b (N, S, L, O). Mude os valores de b se quiser.</p>
         <div className="grid gap-2 sm:grid-cols-2">
           {(e1?.equacoes ?? []).map((eq, i) => (
             <label key={eq.texto} className="flex items-center gap-2">
@@ -656,7 +662,7 @@ export function TesteMmc() {
       {nec && (
         <div className={cartao}>
           <p className="text-[15px] font-semibold">Etapa 2 · Necessidade por região (Relatório II)</p>
-          <p className="text-apagado">Passageiros no pico ÷ {nec.capacidade} por ônibus, arredondado para cima. Total disponível: {nec.total_atual}; total necessário: {nec.total_necessario}.</p>
+          <p className="text-apagado">Passageiros no pico ÷ {nec.capacidade} por ônibus, para cima. Tem {nec.total_atual}; precisa de {nec.total_necessario}.</p>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[420px] text-left">
               <thead><tr className="text-[13px] text-apagado"><th className="py-1 pr-3">Região</th><th className="py-1 pr-3">Passageiros</th><th className="py-1 pr-3">Tem</th><th className="py-1 pr-3">Precisa</th><th className="py-1">Diferença</th></tr></thead>
@@ -675,10 +681,7 @@ export function TesteMmc() {
 
       <form onSubmit={conferir} className={cartao}>
         <p className="text-[15px] font-semibold">Etapa 2 · Conferir a matriz de redistribuição da equipe</p>
-        <p className="text-apagado">
-          A política e a matriz são da equipe, como o enunciado exige; aqui só se confere o que ele pede: preservar o total e não gerar alocação negativa.
-          Convenção: a coluna diz para onde vão os ônibus da região de origem (cada coluna precisa somar 1). Começa pela identidade, que não muda nada.
-        </p>
+        <p className="text-apagado">A matriz é da equipe; aqui só se confere o total e os negativos. Cada coluna é uma região de origem e precisa somar 1.</p>
         <div className="overflow-x-auto">
           <table className="text-[13px]">
             <thead><tr><th className="px-1 text-left text-apagado">para \ de</th>{REGIOES.map((r) => <th key={r} className="px-1 font-semibold">{r}</th>)}</tr></thead>
@@ -727,8 +730,7 @@ export function TesteCoa({ links }: { links?: { wokwi?: string; video?: string }
     <div className="space-y-3 rounded-xl border border-linha bg-superficie p-5 text-[15px]">
       <p className="font-semibold">A simulação roda no Wokwi, não dentro do app</p>
       <p className="text-apagado">
-        Um Raspberry Pi Pico, programado em MicroPython, lê o sensor de nível de água num ponto de alagamento e aciona o alerta conforme o nível.
-        O professor confere o circuito, o código e a mudança das leituras no projeto e no vídeo.
+        O Pico, em MicroPython, lê o sensor de nível de água e aciona o alerta. O circuito, o código e a mudança das leituras ficam no projeto e no vídeo.
       </p>
       <ul className="space-y-1.5 text-[14px]">
         <li>

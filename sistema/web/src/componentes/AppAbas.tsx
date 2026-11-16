@@ -27,7 +27,7 @@ const ABAS: { id: IdAba; rotulo: string; titulo: string; Icone: LucideIcon }[] =
 
 export default function AppAbas({ aoAbrirMenu }: { aoAbrirMenu?: () => void }) {
   const { ia } = useApp();
-  const { simular, reiniciar, falas, enviar } = useConversa();
+  const { reiniciar, falas, enviar } = useConversa();
   const [aba, setAba] = useState<IdAba>("home");
   const [alertas, setAlertas] = useState(false);
   const [sos, setSos] = useState(false);
@@ -53,7 +53,6 @@ export default function AppAbas({ aoAbrirMenu }: { aoAbrirMenu?: () => void }) {
           <h2 className="truncate text-[21px] font-extrabold tracking-tight">{aba === "home" ? "dá tempo?" : atual.titulo}</h2>
           {aba === "ia" && <p className="mt-1 truncate text-[12px] text-apagado">sua companhia no trem e no metrô</p>}
         </div>
-        {simular && <span className="hidden rounded-full bg-erro-suave px-2.5 py-1 text-[11px] font-bold text-erro @sm:inline">simulação L{simular}</span>}
         {aba === "ia" && !ia?.ligada && <span className="rounded-full bg-cinza px-2.5 py-1 text-[11px] font-bold text-apagado">sem IA</span>}
         {aba === "ia" && falas.length > 0 && (
           <button type="button" onClick={reiniciar} aria-label="Nova conversa" title="Nova conversa" className="flex size-10 items-center justify-center rounded-full bg-cinza hover:bg-cinza-forte">
@@ -72,7 +71,7 @@ export default function AppAbas({ aoAbrirMenu }: { aoAbrirMenu?: () => void }) {
 
       <div className="min-h-0 flex-1 overflow-hidden">
         {aba === "home" && <Feed aoIr={ir} aoSos={abrirSos} />}
-        {aba === "mapa" && <Mapa simular={simular || undefined} />}
+        {aba === "mapa" && <Mapa />}
         {aba === "ia" && <Chat />}
         {aba === "perfil" && <Perfil aoConferir={(texto) => { ir("ia"); enviar(texto); }} />}
       </div>

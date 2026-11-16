@@ -1,4 +1,4 @@
-import { ChevronDown, ExternalLink, Pencil } from "lucide-react";
+import { ChevronDown, Download, ExternalLink, Pencil } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { api, type ChecklistMateria, type ItemChecklist, type ResumoChecklist, type Status } from "../lib/api";
@@ -125,18 +125,27 @@ export default function Checklist({ cod, dados, editavel }: { cod: string; dados
   return (
     <div className="space-y-5">
       <div className="space-y-3 rounded-xl border border-linha bg-superficie p-4">
-        <dl className="space-y-2 text-[14px]">
-          <div>
-            <dt className="font-semibold">O que vai para o portal</dt>
-            <dd className="text-apagado">{dados.formato_entrega}</dd>
-          </div>
-          {dados.prazo && (
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <dl className="min-w-0 space-y-2 text-[14px]">
             <div>
-              <dt className="font-semibold">Prazo</dt>
-              <dd className="text-apagado">{dados.prazo}</dd>
+              <dt className="font-semibold">O que vai para o portal</dt>
+              <dd className="text-apagado">{dados.formato_entrega}</dd>
             </div>
-          )}
-        </dl>
+            {dados.prazo && (
+              <div>
+                <dt className="font-semibold">Prazo</dt>
+                <dd className="text-apagado">{dados.prazo}</dd>
+              </div>
+            )}
+          </dl>
+          <div className="shrink-0 sm:text-right">
+            <a href={`/api/materias/${cod}/pacote`} download
+              className="inline-flex items-center gap-2 rounded-full bg-marca px-5 py-2.5 text-[15px] font-semibold text-white hover:bg-marca-forte focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marca">
+              <Download className="size-4" aria-hidden />Baixar o pacote (.zip)
+            </a>
+            <p className="mt-1.5 max-w-60 text-[12px] text-apagado sm:ml-auto">Um texto que explica a solução e os arquivos no formato do portal.</p>
+          </div>
+        </div>
         {!!dados.rubrica?.length && (
           <details className="text-[14px]">
             <summary className="cursor-pointer font-semibold">Critérios de avaliação do enunciado ({dados.rubrica.length})</summary>

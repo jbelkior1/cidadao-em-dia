@@ -36,10 +36,10 @@ Na plataforma, cada matéria tem uma página com **Entenda** (o que faz, a entre
 | **Como funciona** | O problema, como o sistema resolve, o fluxograma e onde cada matéria entra |
 | **Sistema** | O app funcionando dentro de um celular (no celular de verdade, em tela cheia) |
 | **Teste da sociedade** | Passageiros simulados vivendo uma situação do dia com o sistema de verdade |
-| **Matérias** | Uma página por matéria: Entenda, Teste e Checklist |
+| **Matérias** | Uma página por matéria: Entenda (com o fluxograma da matéria), Teste e Checklist, com o botão para baixar o pacote (.zip) da entrega |
 | **Documentação funcional** | Tudo o que a plataforma faz, tela por tela ([`docs/DOCUMENTACAO_FUNCIONAL.md`](docs/DOCUMENTACAO_FUNCIONAL.md)) |
 
-O **Modo banca** mostra, ao lado do app, qual matéria fez cada parte da última resposta, e permite simular uma falha de linha e o aviso antes de sair (marcados como simulação).
+O **Modo banca** mostra, ao lado do app, qual matéria fez cada parte da última resposta. Para abrir só o app em tela cheia, direto pelo celular, use o endereço `/app`.
 
 ## Como rodar no computador
 

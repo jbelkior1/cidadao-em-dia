@@ -25,6 +25,17 @@ export type Materia = {
   arquivos?: { rotulo: string; caminho: string; url: string }[]; pasta_url?: string;
   /** Entregas fora do repositório (COA): links que a equipe publica. */
   links?: { wokwi?: string; video?: string };
+  /** Um texto só: o que faz no sistema, como ajuda, quando entra em ação e a regra principal. */
+  explicacao: string;
+  /** O caminho do dado por dentro da matéria; o último passo pode se dividir em duas saídas. */
+  fluxo: FluxoDaMateria;
+  /** Os endereços do site em que a matéria aparece. */
+  rotas: { rotulo: string; rota: string }[];
+};
+export type PassoDoFluxo = { rotulo: string; sub: string };
+export type FluxoDaMateria = {
+  passos: PassoDoFluxo[];
+  decisao: { pergunta: string; sim: PassoDoFluxo; nao: PassoDoFluxo } | null;
 };
 
 export type Status = "Feito" | "Conferir" | "A fazer";
@@ -108,7 +119,7 @@ export type Simulacao = {
 export type OpcoesLaboratorio = { partes: string[]; canais: string[]; personas: number; tamanhos: number[] };
 export type Materias = {
   no_sistema: Materia[];
-  a_parte: { cod: string; nome: string; entrega: string }[];
+  a_parte: Materia[];
   situacao: Record<string, { ok: boolean; erro: string; orientacoes?: number; categorias?: number; em_conferencia?: number; registros?: number }>;
 };
 

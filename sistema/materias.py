@@ -186,7 +186,92 @@ FORA_DO_SISTEMA = ("CS", "MMC", "COA")
 A_PARTE: list[dict] = [m for m in NO_SISTEMA if m["cod"] in FORA_DO_SISTEMA]
 NO_SISTEMA = [m for m in NO_SISTEMA if m["cod"] not in FORA_DO_SISTEMA]
 
+
+# ---------------------------------------------------------------------------------------------
+# O que a página de cada matéria mostra: um texto só (o que faz no sistema, como ajuda, quando
+# entra em ação e a regra principal) e o caminho do dado por dentro dela.
+# ---------------------------------------------------------------------------------------------
+EXPLICACAO = {
+    "PCP": "Quando a pessoa pergunta à Lia o que fazer (linha parada, celular roubado, declaração de atraso), o programa procura a orientação certa entre 16 respostas tiradas de páginas oficiais. A busca vale 3 pontos por palavra-chave e 1 ponto por palavra do título: com 6 pontos ou mais a confiança é ALTA, de 3 a 5 é MÉDIA, e abaixo de 3 o assistente diz que não encontrou. Cada resposta traz o que fazer, onde, a fonte, a data e o aviso de que não é canal oficial. Assim a pessoa não precisa procurar em cinco sites na hora do problema.",
+    "DSA": "Os serviços ao passageiro (centrais de atendimento, ouvidorias, achados e perdidos, Defesa Civil) ficam numa lista encadeada feita pelo grupo: nenhuma lista pronta do Python, cada serviço é um nó que aponta para o próximo. A busca é linear e a ordenação é um merge sort que só religa os nós. Quando a orientação da Lia indica onde resolver, o canal de atendimento sai daqui, com o contato e a fonte, e a pessoa sabe a quem recorrer.",
+    "SERS": "A partir da distância do trajeto, o sistema compara a mesma viagem de carro, de ônibus a diesel e de trem ou metrô elétrico em energia, custo e CO₂. Os fatores vêm de fontes oficiais (MCTI, EPE, Metrô, INMETRO, ANP) e cada número mostra origem e premissa. A conta aparece no cartão da viagem da Lia, sempre rotulada como estimativa, para a pessoa ver quanto a escolha pesa no bolso e no clima sem tratar o número como garantia.",
+    "MLAM": "A matéria analisa as ocorrências registradas pela SSP-SP de janeiro a setembro de 2026, num raio de 300 m de 139 estações, com probabilidade, testes de hipótese e regressões. O resultado entra no cartão de segurança da estação, que mostra em que horário e que tipo de ocorrência é mais comum onde a pessoa embarca ou desce. A base conta registros perto da estação, sem o fluxo de passageiros: não é taxa de risco.",
+    "PAI": "Um agente de três etapas (LangGraph): os guardrails barram dado pessoal e tentativas de manipulação, a busca acha a ficha certa entre as 7 fichas de transporte (FT-01 a FT-07) e o modelo responde só com o que está na ficha, citando-a. A Lia chama esse agente nas dúvidas de regra, como \"tenho 67 anos, pago metrô?\". Se a resposta não está nas fichas, o agente diz que não encontrou em vez de inventar.",
+    "CS": "É uma entrega própria da matéria, feita à mão pelo grupo: quatro condições de sim ou não (falha numa linha, aviso de chuva, alagamento, horário de pico) viram tabela-verdade, expressão simplificada, mapa de Karnaugh e circuito, e um programa mostra a orientação. Usar IA nessas partes tira 4 pontos. O app tem a própria regra de prioridades para \"pode ir, saia mais cedo ou mude o caminho\"; a integração com o app é opcional e não foi feita.",
+    "MMC": "É uma entrega própria da matéria, fora do app. Na etapa 1, o grupo recupera a frota de 72 ônibus por região (Norte, Sul, Leste e Oeste) resolvendo um sistema linear e mostrando se a solução é única. Na etapa 2, propõe como redistribuir os ônibus por uma transformação linear que mantém o total e não gera valores negativos, que é o que acontece quando ônibus de apoio cobrem uma linha parada. A política e a matriz são do grupo: o teste desta página só confere essas propriedades.",
+    "COA": "É uma entrega própria da matéria, no Wokwi: um Raspberry Pi Pico, programado em MicroPython, lê um sensor de nível de água num ponto de alagamento e liga LED e buzina conforme o nível. Avisa no local quando a água sobe, antes de alguém tentar passar. O link do Wokwi e o vídeo são da equipe.",
+}
+
+#: Caminho do dado por dentro de cada matéria. "decisao" é o último passo, que se divide em duas saídas.
+FLUXO = {
+    "PCP": {
+        "passos": [("Pergunta da pessoa", "escrita para a Lia"), ("Barreira de dado pessoal", "8 dígitos ou @: recusa e não registra"),
+                   ("Normaliza o texto", "sem acento, minúsculas"), ("Busca por pontos", "+3 palavra-chave, +1 palavra do título")],
+        "decisao": ("3 pontos ou mais?", ("Mostra a orientação", "o que fazer, onde, fonte, data e aviso"), ("Diz que não encontrou", "e sugere as categorias")),
+    },
+    "DSA": {
+        "passos": [("Pedido do serviço", "nome, categoria ou id"), ("Lista encadeada", "cabeça, nós e cauda, sem lista pronta"),
+                   ("Busca linear ou merge sort", "o merge sort só religa os nós")],
+        "decisao": ("Achou o serviço?", ("Mostra o registro", "canal de atendimento, para quem é e fonte"), ("Avisa que não achou", "ou aponta o campo vazio")),
+    },
+    "SERS": {
+        "passos": [("Distância da viagem", "em km, vinda da rede"), ("Fatores com fonte", "energia, CO₂ e custo por km"),
+                   ("Calcula as três alternativas", "carro, ônibus a diesel, trem ou metrô"), ("Compara no mesmo período", "um mês de trabalho, ida e volta"),
+                   ("Cartão da viagem na Lia", "com premissas, fontes e rótulo de estimativa")],
+        "decisao": None,
+    },
+    "MLAM": {
+        "passos": [("Base da SSP-SP", "jan a set de 2026, 139 estações, raio de 300 m"), ("Agrupa", "por estação, faixa de horário e tipo"),
+                   ("Modelos das questões 02 a 06", "probabilidade, testes de hipótese, regressões"),
+                   ("Cartão de segurança da estação", "aparece na viagem conferida pela Lia")],
+        "decisao": None,
+    },
+    "PAI": {
+        "passos": [("Pergunta", "pela Lia ou pelo terminal"), ("Guardrails", "dado pessoal e manipulação barrados antes do modelo"),
+                   ("Busca nas fichas", "FT-01 a FT-07, palavra-chave vale 3 pontos"), ("Modelo responde só com a ficha", "e cita FT-xx")],
+        "decisao": ("Achou a ficha?", ("Resposta com a ficha e a fonte", "curta e sem invenção"), ("Diz que não encontrou", "e orienta o canal oficial")),
+    },
+    "CS": {
+        "passos": [("Quatro condições", "falha, chuva, alagamento e pico (0 ou 1)"), ("Tabela-verdade", "todas as combinações, à mão"),
+                   ("Expressão simplificada", "álgebra booleana e Karnaugh, à mão"), ("Circuito lógico", "original e simplificado, à mão"),
+                   ("Programa com a lógica simplificada", "recebe as entradas e mostra a orientação")],
+        "decisao": None,
+    },
+    "MMC": {
+        "passos": [("Registros do Relatório I", "4 equações, total de 72 ônibus"), ("Sistema Ax = b", "variáveis: ônibus por região"),
+                   ("Solução e unicidade", "determinante e posto"), ("Necessidade por região", "passageiros ÷ capacidade do ônibus"),
+                   ("Matriz de redistribuição da equipe", "transformação linear")],
+        "decisao": ("Cada coluna soma 1 e nada fica negativo?", ("Política válida", "o total de ônibus se mantém"), ("Ajustar a matriz", "o enunciado não aceita")),
+    },
+    "COA": {
+        "passos": [("Sensor de nível de água", "no ponto de alagamento"), ("Raspberry Pi Pico", "lê o valor em MicroPython"),
+                   ("Compara com os limites", "atenção e alerta")],
+        "decisao": ("Nível acima do limite?", ("Liga LED e buzina", "avisa no local"), ("Segue monitorando", "tudo apagado")),
+    },
+}
+
+
+def _rotas(m: dict) -> list[dict]:
+    """Os endereços do site em que a matéria aparece: a página dela (com o teste) e, se entra no app, o app."""
+    base = f"/materias/{m['cod'].lower()}"
+    rotas = [{"rotulo": f"Página da matéria {m['cod']}", "rota": base}, {"rotulo": "Teste da matéria", "rota": f"{base}?parte=teste"},
+             {"rotulo": "Checklist da entrega", "rota": f"{base}?parte=checklist"}]
+    if m["cod"] not in FORA_DO_SISTEMA:
+        rotas += [{"rotulo": "O app com a Lia (na plataforma)", "rota": "/sistema"}, {"rotulo": "Só o app, para abrir no celular", "rota": "/app"}]
+    return rotas
+
+
 POR_CODIGO = {m["cod"]: m for m in NO_SISTEMA + A_PARTE}
 for _cod, _m in POR_CODIGO.items():
     _m["arquivos"] = [{"rotulo": r, "caminho": c, "url": link(c)} for r, c in ARQUIVOS.get(_cod, [])]
     _m["pasta_url"] = link(_m["pasta"]) if _m["pasta"] else ""
+
+for _cod, _m in POR_CODIGO.items():
+    _m["explicacao"] = EXPLICACAO[_cod]
+    _f = FLUXO[_cod]
+    _d = _f["decisao"]
+    _m["fluxo"] = {
+        "passos": [{"rotulo": r, "sub": s} for r, s in _f["passos"]],
+        "decisao": {"pergunta": _d[0], "sim": {"rotulo": _d[1][0], "sub": _d[1][1]}, "nao": {"rotulo": _d[2][0], "sub": _d[2][1]}} if _d else None,
+    }
+    _m["rotas"] = _rotas(_m)

@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 
-import { assistente, mobilidade, type Alertas, type Cartao, type FalaHistorico, type Passo, type RespostaAssistente, type Viagem } from "../lib/api";
+import { assistente, type Alertas, type Cartao, type FalaHistorico, type Passo, type RespostaAssistente, type Viagem } from "../lib/api";
 import { conta, lerToken } from "../lib/conta";
 
 /*
@@ -13,7 +13,6 @@ import { conta, lerToken } from "../lib/conta";
 export type Fala =
   | { id: number; de: "pessoa"; texto: string }
   | { id: number; de: "auxilia"; texto: string; cartoes: Cartao[]; aviso: string };
-export type Notificacao = { titulo: string; texto: string; pedido: string };
 
 type Contexto = {
   falas: Fala[];
@@ -30,13 +29,7 @@ type Contexto = {
   definirCasa: (id: string | null) => void;
   alertas: Alertas | null;
   rastro: Passo[];
-  simular: string;
-  setSimular: (n: string) => void;
   ultimaViagem: Viagem | null;
-  aviso: Notificacao | null;
-  fecharAviso: () => void;
-  abrirAviso: () => void;
-  simularAviso: () => Promise<void>;
 };
 
 const ContextoConversa = createContext<Contexto | null>(null);
@@ -73,35 +66,32 @@ export function ProvedorConversa({ children }: { children: ReactNode }) {
   const [casa, setCasa] = useState<string | null>(lerCasa);
   const [alertas, setAlertas] = useState<Alertas | null>(null);
   const [rastro, setRastro] = useState<Passo[]>([]);
-  const [simular, setSimular] = useState("");
   const [ultimaViagem, setUltimaViagem] = useState<Viagem | null>(null);
-  const [aviso, setAviso] = useState<Notificacao | null>(null);
   const contador = useRef(0);
   const ultimoPlano = useRef("");
-  const temporizador = useRef(0);
   const falasRef = useRef<Fala[]>([]);
   falasRef.current = falas;
   const esperandoRef = useRef(false);
   esperandoRef.current = esperando;
 
-  // alertas do canto: agora, a cada 2 minutos e quando a simulação muda
+  // alertas do canto: agora e a cada 2 minutos
   useEffect(() => {
     let reintento = 0;
     const ler = () => {
       window.clearTimeout(reintento);
-      assistente.alertas(simular || undefined).then(setAlertas)
+      assistente.alertas().then(setAlertas)
         .catch(() => { reintento = window.setTimeout(ler, 5000); });   // servidor subindo ou fonte fora: tenta de novo logo
     };
     ler();
     const t = window.setInterval(ler, 120000);
     return () => { window.clearInterval(t); window.clearTimeout(reintento); };
-  }, [simular]);
+  }, []);
 
   const receber = useCallback((r: RespostaAssistente, idDaPergunta?: number) => {
-    // o cartão da viagem só aparece de novo quando algo mudou (decisão, chegada ou simulação)
+    // o cartão da viagem só aparece de novo quando algo mudou (decisão ou chegada)
     const cartoes = r.cartoes.filter((c) => {
       if (c.tipo !== "plano") return true;
-      const assinatura = [c.origem, c.destino, c.veredito.codigo, c.chegada, c.simulacao].join("|");
+      const assinatura = [c.origem, c.destino, c.veredito.codigo, c.chegada].join("|");
       if (assinatura === ultimoPlano.current) return false;
       ultimoPlano.current = assinatura;
       return true;
@@ -131,11 +121,11 @@ export function ProvedorConversa({ children }: { children: ReactNode }) {
     setSugestoes([]);
     setEsperando(true);
     setErro("");
-    assistente.responder(limpo, historico, { casa, ultima_viagem: ultimaViagem }, simular || undefined)
+    assistente.responder(limpo, historico, { casa, ultima_viagem: ultimaViagem })
       .then((r) => receber(r, id))
       .catch((e) => setErro(e instanceof Error ? e.message : "Algo deu errado. Tente de novo."))
       .finally(() => setEsperando(false));
-  }, [casa, ultimaViagem, simular, receber]);
+  }, [casa, ultimaViagem, receber]);
 
   const reiniciar = useCallback(() => {
     setFalas([]);
@@ -166,35 +156,9 @@ export function ProvedorConversa({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const notificar = useCallback((n: Notificacao) => {
-    setAviso(n);
-    window.clearTimeout(temporizador.current);
-    temporizador.current = window.setTimeout(() => setAviso(null), 10000);
-  }, []);
-  const fecharAviso = useCallback(() => setAviso(null), []);
-  const abrirAviso = useCallback(() => {
-    if (aviso) enviar(aviso.pedido);
-    setAviso(null);
-  }, [aviso, enviar]);
-
-  const simularAviso = useCallback(async () => {
-    if (!ultimaViagem) {
-      notificar({ titulo: "Converse com a Lia primeiro", texto: "Diga para onde vai; o aviso usa a viagem que ela conferiu.", pedido: "Estou saindo agora" });
-      return;
-    }
-    const p = await mobilidade.plano(ultimaViagem.origem, ultimaViagem.destino, simular || undefined);
-    const falha = p.linhas.find((l) => l.nivel === "parada" || l.nivel === "atencao");
-    notificar({
-      pode_ir: { titulo: "Pode sair no horário", texto: `Linhas ${p.rota.linhas.join(" e ")} normais até ${p.destino}.`, pedido: "Vi o aviso. Posso ir mesmo?" },
-      mais_cedo: { titulo: "Saia um pouco mais cedo", texto: p.motivos.find((m) => m.tipo === "chuva" || m.tipo === "alagamento")?.texto ?? "Seu caminho deve estar mais lento hoje.", pedido: "Vi o aviso. O que está acontecendo no caminho?" },
-      plano_b: { titulo: `Linha ${falha?.numero ?? ""} com problema`, texto: `Antes de sair: vai precisar mudar o caminho até ${p.destino}.`, pedido: "Vi o aviso. Qual é o outro caminho?" },
-    }[p.veredito.codigo]);
-  }, [ultimaViagem, simular, notificar]);
-
   return (
     <ContextoConversa.Provider value={{
-      falas, sugestoes, esperando, erro, enviar, reiniciar, casa, esquecer, definirCasa, alertas, rastro, simular, setSimular, ultimaViagem,
-      aviso, fecharAviso, abrirAviso, simularAviso,
+      falas, sugestoes, esperando, erro, enviar, reiniciar, casa, esquecer, definirCasa, alertas, rastro, ultimaViagem,
     }}>
       {children}
     </ContextoConversa.Provider>

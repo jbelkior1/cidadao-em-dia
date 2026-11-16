@@ -6,7 +6,7 @@
 
 **Integração:** o Bilhete Único Comum cobre uma viagem de metrô ou trem e até 3 embarques em ônibus municipais diferentes no período de 3 horas, com a viagem sobre trilhos feita nas primeiras 2 horas.
 
-**Não consta nesta ficha:** a tarifa Madrugador e as regras de desconto para estudante, vale-transporte e domingos não foram lidas e não estão aqui.
+**Não consta nesta ficha:** as tarifas de estudante, vale-transporte e Madrugador e a gratuidade do ônibus aos domingos. Elas estão na página de Tarifas da SPTrans, mas esta ficha não as traz.
 
 **Passo a passo:**
 1. Use o Bilhete Único Comum para ter a integração entre ônibus e metrô ou trem.
@@ -15,4 +15,4 @@
 
 **Onde:** site da SPTrans (Tarifas) e página Bilhetes e Cartões do Metrô.
 
-**Fonte:** SPTrans (https://www.sptrans.com.br/tarifas/). Página lida em 12/11/2026, com a tabela atualizada em 06/01/2026. Ficha FT-06, versão de 13/11/2026.
+**Fonte:** SPTrans (https://www.sptrans.com.br/tarifas/) e Metrô (https://www.metro.sp.gov.br/pt_BR/sua-viagem/bilhetes-cartoes/, para o bilhete unitário). Páginas lidas em 12/11/2026 e conferidas de novo em 16/11/2026, com a tabela da SPTrans atualizada em 06/01/2026. Ficha FT-06, versão de 13/11/2026.

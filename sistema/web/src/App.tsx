@@ -5,6 +5,7 @@ import Casca from "./componentes/Casca";
 import Sistema from "./componentes/Celular";
 import { api, type EstadoIA } from "./lib/api";
 import ComoFunciona from "./paginas/ComoFunciona";
+import AppCelular from "./paginas/AppCelular";
 import Configuracoes from "./paginas/Configuracoes";
 import Documentacao from "./paginas/Documentacao";
 import Laboratorio from "./paginas/Laboratorio";
@@ -26,6 +27,29 @@ function lerModoBanca(): boolean {
   } catch {
     return true;
   }
+}
+
+/** A plataforma dos professores: barra lateral e as páginas. */
+function Plataforma({ ia }: { ia: EstadoIA | null }) {
+  return (
+    <Casca>
+      <Routes>
+        <Route path="/" element={<ComoFunciona />} />
+        <Route path="/sistema" element={<Sistema />} />
+        <Route path="/sociedade" element={<Laboratorio />} />
+        <Route path="/materias/:cod" element={<Materia />} />
+        <Route path="/documentacao" element={<Documentacao />} />
+        {/* no servidor público a IA é fixa: a tela de configuração só existe no computador da equipe */}
+        <Route path="/configuracoes" element={ia?.modo_publico ? <Navigate to="/documentacao" replace /> : <Configuracoes />} />
+        {/* endereços das versões anteriores */}
+        <Route path="/caso" element={<Navigate to="/" replace />} />
+        <Route path="/como-funciona" element={<Navigate to="/" replace />} />
+        <Route path="/materias" element={<Navigate to="/" replace />} />
+        <Route path="/laboratorio" element={<Navigate to="/sociedade" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Casca>
+  );
 }
 
 export default function App() {
@@ -50,23 +74,11 @@ export default function App() {
 
   return (
     <ContextoApp.Provider value={{ modoBanca, alternarModoBanca, ia, recarregarIA }}>
-      <Casca>
-        <Routes>
-          <Route path="/" element={<ComoFunciona />} />
-          <Route path="/sistema" element={<Sistema />} />
-          <Route path="/sociedade" element={<Laboratorio />} />
-          <Route path="/materias/:cod" element={<Materia />} />
-          <Route path="/documentacao" element={<Documentacao />} />
-          {/* no servidor público a IA é fixa: a tela de configuração só existe no computador da equipe */}
-          <Route path="/configuracoes" element={ia?.modo_publico ? <Navigate to="/documentacao" replace /> : <Configuracoes />} />
-          {/* endereços das versões anteriores */}
-          <Route path="/caso" element={<Navigate to="/" replace />} />
-          <Route path="/como-funciona" element={<Navigate to="/" replace />} />
-          <Route path="/materias" element={<Navigate to="/" replace />} />
-          <Route path="/laboratorio" element={<Navigate to="/sociedade" replace />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Casca>
+      <Routes>
+        {/* só o app, em tela cheia: o endereço para abrir direto pelo celular */}
+        <Route path="/app" element={<AppCelular />} />
+        <Route path="*" element={<Plataforma ia={ia} />} />
+      </Routes>
     </ContextoApp.Provider>
   );
 }

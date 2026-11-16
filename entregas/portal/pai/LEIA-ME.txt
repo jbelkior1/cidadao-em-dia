@@ -18,7 +18,7 @@ O que tem neste pacote (pasta pai/):
 
 Como rodar:
 1. Python 3.13 e as bibliotecas langgraph, langchain-openai e matplotlib (pip install langgraph langchain-openai matplotlib).
-2. Chave do Groq na variável de ambiente GROQ_API_KEY (o modelo é o openai/gpt-oss-120b, citado no enunciado).
+2. Chave do Groq na variável de ambiente GROQ_API_KEY (o modelo é o openai/gpt-oss-120b, servido pelo Groq, provedor citado no enunciado).
 3. Na pasta pai: python main.py (menu por categorias e pergunta livre).
 4. Avaliação: python rodar_antes_e_depois.py --so-enunciado (as 26 mensagens, antes e depois da melhoria).
 

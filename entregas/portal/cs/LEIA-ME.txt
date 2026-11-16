@@ -21,4 +21,4 @@ Avisos:
 - Não coleta dados pessoais.
 - Limitações: [PREENCHER].
 
-Integridade: tabela-verdade, mapa de Karnaugh e circuito foram feitos à mão pela equipe, sem IA (o enunciado tira 4 pontos se a IA fizer essas partes). A IA, se usada, foi só no texto do relatório.
+Integridade: [A EQUIPE CONFIRMA, SÓ SE FOR VERDADE: tabela-verdade, mapa de Karnaugh e circuito foram feitos à mão pela equipe, sem IA (o enunciado tira 4 pontos se a IA fizer essas partes). A IA, se usada, foi só no texto do relatório.]

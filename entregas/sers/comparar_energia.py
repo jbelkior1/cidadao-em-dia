@@ -62,17 +62,20 @@ def main(km: float) -> int:
     print(f"\nPeríodo de referência: um mês de trabalho ({DIAS_UTEIS} dias úteis, ida e volta = {viagens} viagens de {br(r['km'], 1)} km)")
     print(f"{'Modo':<18}{'Energia/mês':>14}{'CO₂/mês':>18}{'Custo/mês':>14}")
     print("-" * 76)
-    for m in r["modos"]:
-        kwh = f"{br(m['energia_kwh'] * viagens, 1)} kWh" if m["energia_kwh"] is not None else "sem fonte"
-        co2 = (f"{br(m['co2_kg'] * viagens, 1)} a {br(m['co2_kg_max'] * viagens, 1)} kg" if m["co2_kg_max"]
-               else f"{br(m['co2_kg'] * viagens, 1)} kg")
-        print(f"{m['modo']:<18}{kwh:>14}{co2:>18}{real(m['custo_rs'] * viagens):>14}")
+    mes = energia.mensal(r["km"], viagens)
+    for m in mes:
+        kwh = f"{br(m['energia_kwh'], 1)} kWh" if m["energia_kwh"] is not None else "sem fonte"
+        co2 = (f"{br(m['co2_kg'], 1)} a {br(m['co2_kg_max'], 1)} kg" if m["co2_kg_max"] else f"{br(m['co2_kg'], 1)} kg")
+        print(f"{m['modo']:<18}{kwh:>14}{co2:>18}{real(m['custo_rs']):>14}")
     print("-" * 76)
-    carro, trilho = r["modos"][2], r["modos"][0]
-    evita_min = (carro["co2_kg"] - trilho["co2_kg"]) * viagens
-    evita_max = (carro["co2_kg_max"] - trilho["co2_kg"]) * viagens
+    trilho_mes, carro_mes = mes[0], mes[2]
+    evita_min = carro_mes["co2_kg"] - trilho_mes["co2_kg"]
+    evita_max = carro_mes["co2_kg_max"] - trilho_mes["co2_kg"]
+    # em distâncias curtas (abaixo de ~11 km) a tarifa do trilho passa o gasto de gasolina: a frase muda para "a mais"
+    diferenca = carro_mes["custo_rs"] - trilho_mes["custo_rs"]
+    custo_frase = f"{real(abs(diferenca))} a {'menos' if diferenca >= 0 else 'mais'}"
     print(f"Trocar o carro pelo trilho nesse mês evita cerca de {br(evita_min, 0)} a {br(evita_max, 0)} kg de CO₂ "
-          f"(faixa do teor de etanol) e custa cerca de {real((carro['custo_rs'] - trilho['custo_rs']) * viagens)} a menos")
+          f"(faixa do teor de etanol) e custa cerca de {custo_frase}")
     print("(tarifa do trilho contra só a gasolina do carro, sem estacionamento, manutenção nem depreciação).")
     print("O custo do trilho e do ônibus é tarifa cheia; com a integração do Bilhete Único ou vale-transporte o valor muda.")
 

@@ -12,10 +12,11 @@ saiu de página oficial (Metrô, CPTM, concessionárias, SPTrans, Artesp, Defesa
 lida em 12/11/2026, e a URL está no campo **Fonte** de cada ficha. Quando a página oficial não
 confirmava algo, a ficha diz isso com todas as letras, em vez de completar com suposição.
 
-**Antes da entrega, a equipe precisa abrir cada fonte e conferir o texto.** Valores e telefones
-mudam; a data de verificação de cada ficha deve ser atualizada depois da conferência.
+**Conferência:** em 16/11/2026 as fontes das 7 fichas foram abertas de novo e cada telefone, horário, prazo
+e valor foi comparado com a página. O texto foi corrigido onde a fonte não sustentava a frase. Valores e
+telefones mudam: a equipe deve abrir as fontes antes da entrega e atualizar a data se mudar algo.
 
-Versão das fichas: 13/11/2026 (fontes lidas em 12/11/2026)
+Versão das fichas: 16/11/2026 (fontes lidas em 12/11/2026 e conferidas de novo em 16/11/2026)
 
 | Código | Arquivo | Assunto |
 |---|---|---|

@@ -106,8 +106,8 @@ O enunciado pede ao menos uma alternativa renovável. O trilho entra nessa vaga 
 O **limite dessa leitura**: o trilho não usa uma usina renovável própria. O número é o **fator médio da
 rede elétrica do país**, não um contrato de energia do Metrô, e muda com a hidrologia de cada ano (0,0385 em
 2023, 0,0545 em 2024 e 0,0461 tCO2/MWh em 2025, no JSON). Se o Metrô comprar energia de uma fonte
-específica, o número muda; essa informação não foi lida. Por isso o app diz "alternativa renovável pela
-média da rede", e não "100% renovável".
+específica, o número muda; essa informação não foi lida. Por isso o app diz "O trilho é a alternativa renovável: usa a rede
+elétrica, que em 2025 teve 86,8% de fonte renovável (EPE). É a média do país, não um contrato do Metrô", e não "100% renovável".
 
 ## Premissas (toda estimativa depende delas)
 

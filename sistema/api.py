@@ -6,6 +6,8 @@ Se a interface já foi compilada (sistema/web/dist), a API também serve as tela
 No servidor público (MODO_PUBLICO=1, ver DEPLOY.md), a configuração de IA e o checklist
 ficam só para leitura: as rotas que gravam respondem 403.
 """
+import os
+import re
 import threading
 import time
 from collections import deque
@@ -13,13 +15,13 @@ from contextlib import asynccontextmanager
 from typing import Annotated
 
 import httpx
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from sistema import assistente, checklist, config, conversa, ia, laboratorio, materias, testes
+from sistema import assistente, checklist, config, conversa, ia, laboratorio, materias, pacotes, testes
 from sistema import banco, contas, mapa, relatos, sos
 from sistema.adaptadores import dsa, pcp
 from sistema.mobilidade import decisao, fontes, plano, rede
@@ -360,6 +362,26 @@ def materia(cod: str) -> dict:
     situacao = {"PCP": pcp.situacao, "DSA": dsa.situacao}.get(m["cod"])
     return {"materia": m, "no_sistema": m in materias.NO_SISTEMA, "checklist": checklist.da_materia(m["cod"]),
             "status": checklist.STATUS, "situacao": situacao() if situacao else None, "editavel": not config.modo_publico()}
+
+
+def _url_publica(pedido: Request) -> str:
+    """O endereço do site, para os links dentro do pacote: URL_PUBLICA, ou o que o navegador usou para chegar aqui."""
+    fixo = os.environ.get("URL_PUBLICA", "").strip().rstrip("/")
+    if fixo:
+        return fixo
+    host = pedido.headers.get("host", "")
+    proto = pedido.headers.get("x-forwarded-proto", pedido.url.scheme).split(",")[0].strip()
+    return f"{proto}://{host}" if proto in ("http", "https") and re.fullmatch(r"[A-Za-z0-9.\-]+(:\d{1,5})?", host) else ""
+
+
+@app.get("/api/materias/{cod}/pacote")
+def pacote_da_materia(cod: str, pedido: Request) -> Response:
+    """O .zip da matéria: o texto que explica a solução e os arquivos no formato do portal."""
+    if cod.upper() not in materias.POR_CODIGO:
+        raise HTTPException(404, "Matéria não encontrada.")
+    dados = pacotes.pacote(cod, _url_publica(pedido))
+    return Response(dados, media_type="application/zip",
+                    headers={"Content-Disposition": f'attachment; filename="DaTempo_{cod.upper()}.zip"'})
 
 
 @app.patch("/api/checklist/{cod}/{item_id}")
