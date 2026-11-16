@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """Registro de um serviço ou orientação ao cidadão (Citizen Assist AI)."""
 
 # Campos exigidos pelo enunciado (nenhum pode ficar vazio).

@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """Citizen Assist AI: assistente de orientação ao cidadão no terminal.
 
 Para executar, dentro desta pasta:  python main.py

@@ -1,5 +1,8 @@
 # SERS: testes com usuários (roteiro e registro)
 
+Integrantes: João Vitor Belchior Domingos Leite (RM 572478), João Pedro Pereira Teixeira (RM 569937) e
+Thiago de Oliveira Coelho Souza (RM 568783).
+
 > **Este arquivo é para a equipe preencher.** Nada abaixo foi testado ainda: os campos de resultado
 > estão vazios de propósito. Não invente respostas: o enunciado pede o registro do teste de verdade.
 

@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """De onde vem o modelo de linguagem, e nada mais.
 
 O provedor é trocável de propósito. O enunciado permite Ollama e Groq direto; outro provedor

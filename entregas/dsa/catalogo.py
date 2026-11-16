@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """Operações do sistema sobre a lista encadeada (sem input/print).
 
 Cada operação devolve uma tupla (sucesso, mensagem, dado):

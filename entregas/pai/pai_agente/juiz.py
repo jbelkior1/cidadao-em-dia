@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """LLM as a Judge: compara a resposta do agente com a esperada e classifica.
 
 A régua está escrita aqui e é a mesma do enunciado (seção 4.1), em quatro perguntas de sim ou não:

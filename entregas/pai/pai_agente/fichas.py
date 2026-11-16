@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """Carrega as 7 fichas de transporte (FT-01 a FT-07), a única fonte de verdade do assistente da PAI.
 
 O enunciado da PAI trazia 7 fichas fictícias de documentos pessoais (Central do Cidadão de Aurora).

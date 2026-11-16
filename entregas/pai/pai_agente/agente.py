@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """O agente de orientação ao passageiro do Dá Tempo?, em LangGraph.
 
 É a entrega da PAI com o tema do nosso protótipo (transporte), autorizado pelo professor em 13/11/2026,

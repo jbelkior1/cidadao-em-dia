@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """Roda as duas rodadas do golden nas mesmas condições e compara.
 
     python rodar_antes_e_depois.py                  # as 26 do enunciado e as perguntas do grupo

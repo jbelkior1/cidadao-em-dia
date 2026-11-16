@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """Desenha o grafo do agente (o enunciado pede a imagem quando a entrega é script).
 
     python desenhar_grafo.py      # grava grafo_agente.png e grafo_agente.mmd nesta pasta

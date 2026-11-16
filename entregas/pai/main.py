@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """Assistente de orientação do Dá Tempo? (fichas de transporte FT-01 a FT-07), uso pelo terminal.
 
     python main.py

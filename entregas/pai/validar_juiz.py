@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """Valida o juiz antes de confiar nele: 7 respostas montadas à mão, 6 erradas e 1 certa.
 
     python validar_juiz.py

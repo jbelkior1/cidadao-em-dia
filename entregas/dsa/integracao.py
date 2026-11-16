@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """EXTRA (não faz parte do enunciado de DSA): funções para o sistema web reutilizar o catálogo.
 
 Ficam separadas da entrega para deixar claro que a entrega de DSA é main.py + catalogo.py +

@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """SERS: comparação de energia, custo e CO₂ da mesma viagem em três modos.
 
 Roda a comparação que está no app "Dá Tempo?" e mostra cada conta passo a passo, com a origem

@@ -7,9 +7,9 @@ GS 2026.2, Computer Organization and Architecture (CitizenTech), turma 1CC
 [COLE AQUI O LINK DO VÍDEO]
 
 3. Integrantes do grupo:
-- João Vitor Belchior Domingos Leite
-- João Pedro Pereira Teixeira
-- Thiago de Oliveira Coelho Souza
+- João Vitor Belchior Domingos Leite (RM 572478)
+- João Pedro Pereira Teixeira (RM 569937)
+- Thiago de Oliveira Coelho Souza (RM 568783)
 
 Sobre a entrega
 Problema e público: [PREENCHER, por exemplo pessoas que passam por pontos que alagam perto das estações].

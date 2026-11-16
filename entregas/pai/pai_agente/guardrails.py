@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """Três travas que rodam ANTES e DEPOIS do modelo, nunca dependendo dele para se comportar.
 
 1. Dado pessoal (enunciado, seção 3): não pedir, não guardar, não repetir. O que o usuário

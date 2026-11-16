@@ -1,3 +1,4 @@
+# Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 """Roda o agente e o juiz nas 26 mensagens do golden e grava o resultado.
 
     python avaliar.py                 # uma rodada, grava saidas/rodada_<nome>.json
