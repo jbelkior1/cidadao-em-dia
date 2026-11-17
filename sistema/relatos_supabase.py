@@ -39,6 +39,18 @@ def _cabecalhos_storage(chave: str) -> dict:
     return c
 
 
+def _bucket_ausente(r: httpx.Response) -> bool:
+    """O Storage do Supabase responde HTTP 400 (não 404) com "Bucket not found" no corpo; aceita os dois."""
+    texto = r.text.lower()
+    return r.status_code in (400, 404) and ("bucket not found" in texto or "nosuchbucket" in texto)
+
+
+def _nao_existe(r: httpx.Response) -> bool:
+    """Objeto ou bucket inexistente: o Storage usa 404, ou 400 com "not_found"/"Bucket not found" no corpo."""
+    texto = r.text.lower()
+    return r.status_code == 404 or (r.status_code == 400 and ("not_found" in texto or "bucket not found" in texto or "nosuchbucket" in texto))
+
+
 def _data(texto: str) -> datetime:
     return datetime.fromisoformat(texto.replace("Z", "+00:00"))
 
@@ -153,7 +165,7 @@ class RepositorioSupabase:
     def guardar_foto(self, relato_id: str, jpeg: bytes) -> None:
         for tentativa in (1, 2):
             r = self._arm.post(f"/object/{BUCKET}/{relato_id}.jpg", content=jpeg, headers={"Content-Type": "image/jpeg"})
-            if r.status_code == 404 and tentativa == 1:          # o bucket ainda não existe: cria uma vez e tenta de novo
+            if _bucket_ausente(r) and tentativa == 1:            # o bucket ainda não existe: cria uma vez e tenta de novo
                 self._criar_bucket()
                 continue
             if r.status_code >= 400:
@@ -162,13 +174,13 @@ class RepositorioSupabase:
 
     def obter_foto(self, relato_id: str) -> bytes | None:
         r = self._arm.get(f"/object/{BUCKET}/{relato_id}.jpg")
-        if r.status_code == 404 or (r.status_code == 400 and "not_found" in r.text.lower()):
-            return None            # o Storage responde 400 com "not_found" para objeto que não existe
+        if _nao_existe(r):
+            return None            # objeto (ou bucket) que não existe: sem foto, não é erro
         if r.status_code >= 400:
             raise BancoIndisponivel(f"Storage respondeu {r.status_code}: {r.text[:200]}")
         return r.content
 
     def apagar_foto(self, relato_id: str) -> None:
         r = self._arm.delete(f"/object/{BUCKET}/{relato_id}.jpg")
-        if r.status_code >= 400 and r.status_code != 404:
+        if r.status_code >= 400 and not _nao_existe(r):
             raise BancoIndisponivel(f"Storage respondeu {r.status_code}: {r.text[:200]}")

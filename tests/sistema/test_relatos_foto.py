@@ -211,7 +211,9 @@ class ApiDoStorage:
         if f"/object/{BUCKET}/" in caminho:
             nome = caminho.split(f"/object/{BUCKET}/")[1]
             if not self.bucket_existe:
-                return httpx.Response(404, json={"error": "Bucket not found", "statusCode": "404"})
+                # resposta real medida no Supabase: HTTP 400 (não 404), com o 404 só dentro do corpo
+                return httpx.Response(400, json={"statusCode": "404", "error": "Bucket not found",
+                                                 "message": "Bucket not found", "code": "NoSuchBucket"})
             if metodo == "POST":
                 self.objetos[nome] = pedido.content
                 return httpx.Response(200, json={"Key": f"{BUCKET}/{nome}"})
