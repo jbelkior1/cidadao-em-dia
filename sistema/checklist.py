@@ -9,10 +9,10 @@ o checklist é só leitura.
 """
 import json
 import re
-from datetime import date
 from pathlib import Path
 
 from sistema import config, materias
+from sistema import hora
 
 ARQUIVO = Path(__file__).parent / "dados" / "checklist.json"
 STATUS = ["Feito", "Conferir", "A fazer"]
@@ -27,7 +27,7 @@ def ler() -> dict:
 
 
 def _gravar(dados: dict) -> None:
-    dados["atualizado_em"] = date.today().isoformat()
+    dados["atualizado_em"] = hora.hoje().isoformat()
     ARQUIVO.write_text(json.dumps(dados, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 

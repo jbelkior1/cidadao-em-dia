@@ -36,7 +36,7 @@ const ATUALIZA_RELATOS_MS = 15_000;
 
 const CHIPS: { chave: Chave; rotulo: string }[] = [
   { chave: "linhas", rotulo: "Linhas" },
-  { chave: "alagamentos", rotulo: "Alagamentos" },
+  { chave: "alagamentos", rotulo: "Onde já alagou" },
   { chave: "seguranca", rotulo: "Segurança" },
   { chave: "relatos", rotulo: "Relatos" },
 ];

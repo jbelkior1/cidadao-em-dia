@@ -23,6 +23,8 @@ from pathlib import Path
 
 import httpx
 
+from sistema import hora
+
 URL_LINHAS = "https://www.tictrens.com.br/helper/line-statuses"
 URL_INMET = "https://apiprevmet3.inmet.gov.br/avisos/ativos"
 URL_CGE = "https://www.cgesp.org/v3/"
@@ -39,7 +41,7 @@ _trava = threading.Lock()
 
 
 def _agora() -> str:
-    return datetime.now().isoformat(timespec="seconds")
+    return hora.agora().isoformat(timespec="seconds")
 
 
 def nivel(status: str) -> str:

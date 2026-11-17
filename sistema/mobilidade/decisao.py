@@ -19,6 +19,8 @@ e saídas) e `REGRA_PROVISORIA` passa a False.
 """
 from datetime import datetime
 
+from sistema import hora
+
 REGRA_PROVISORIA = True
 
 PODE_IR = "pode_ir"
@@ -34,7 +36,7 @@ TEXTO = {
 
 def horario_de_pico(agora: datetime | None = None) -> bool:
     """Dias úteis, das 6h às 9h e das 16h às 19h30."""
-    agora = agora or datetime.now()
+    agora = agora or hora.agora()
     if agora.weekday() >= 5:
         return False
     minutos = agora.hour * 60 + agora.minute

@@ -5,6 +5,8 @@ import json
 from datetime import datetime
 from pathlib import Path
 
+from sistema import hora
+
 from sistema.mobilidade import decisao, fontes, rede
 
 DADOS = Path(__file__).resolve().parent.parent / "dados"
@@ -60,8 +62,13 @@ def _linhas_com_situacao(numeros: list[str], situacao: dict, simular: str | None
     return saida
 
 
+def aviso_alagamento(al: dict) -> str:
+    pontos = "1 ponto" if al["ocorrencias"] == 1 else f"{al['ocorrencias']} pontos"
+    return f"{al['estacao']}: área com histórico de alagamento ({pontos} a menos de 500 m, GeoSampa); com chuva, atenção"
+
+
 def antes_de_sair(origem: str, destino: str, simular_falha: str | None = None, agora: datetime | None = None) -> dict:
-    agora = agora or datetime.now()
+    agora = agora or hora.agora()
     normal = rede.rota(origem, destino)
     if not normal:
         return {"ok": False, "erro": "Não encontrei um caminho de trem ou metrô entre essas estações."}
@@ -91,8 +98,10 @@ def antes_de_sair(origem: str, destino: str, simular_falha: str | None = None, a
         motivos.append({"tipo": "sem_dado", "texto": f"Linha {l['numero']}: a fonte não traz a situação desta linha"})
     for a in avisos_hoje:
         motivos.append({"tipo": "chuva", "texto": f"Aviso do INMET para São Paulo: {a['tipo'].lower()} ({a['severidade'].lower()}), até {a['fim'][-5:]}"})
-    for al in alagamentos:
-        motivos.append({"tipo": "alagamento", "texto": f"{al['estacao']}: " + ("1 ponto de alagamento" if al["ocorrencias"] == 1 else f"{al['ocorrencias']} pontos de alagamento") + " a menos de 500 m"})
+    # GeoSampa é histórico (onde já alagou), não alagamento de agora: só vira aviso quando há chuva hoje
+    if avisos_hoje:
+        for al in alagamentos:
+            motivos.append({"tipo": "alagamento", "texto": aviso_alagamento(al)})
     if entradas["pico"]:
         motivos.append({"tipo": "pico", "texto": "Horário de pico: trens mais cheios"})
 

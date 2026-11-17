@@ -29,6 +29,7 @@ import re
 from datetime import datetime, timedelta
 
 from sistema import ia, privacidade
+from sistema import hora
 from sistema.adaptadores import dsa, pcp
 from sistema.adaptadores import pai as ponte_pai
 from sistema.conversa import SERVICO_DA_ORIENTACAO
@@ -347,9 +348,10 @@ def cartao_do_plano(p: dict, agora: datetime) -> dict:
     avisos = [{"tipo": m["tipo"], "texto": m["texto"]} for m in p["motivos"] if m["tipo"] in ("chuva", "pico", "sem_dado")]
     # alagamento: das estações do caminho que a pessoa vai fazer (o desvio, quando houver)
     alvo_rota = (pb["parcial"]["rota"] if pb and pb.get("parcial") else pb.get("alternativa") if pb else None) or p["rota"]
-    for al in rede.alagamentos_na_rota(alvo_rota.get("estacoes", [])):
-        pontos = "1 ponto de alagamento" if al["ocorrencias"] == 1 else f"{al['ocorrencias']} pontos de alagamento"
-        avisos.append({"tipo": "alagamento", "texto": f"{al['estacao']}: {pontos} a menos de 500 m"})
+    # o GeoSampa mostra onde já alagou; sem chuva hoje, não é aviso (o CGE ao vivo fica no sinal de alerta)
+    if any(m["tipo"] == "chuva" for m in p["motivos"]):
+        for al in rede.alagamentos_na_rota(alvo_rota.get("estacoes", [])):
+            avisos.append({"tipo": "alagamento", "texto": plano.aviso_alagamento(al)})
     problemas = [m["texto"] for m in p["motivos"] if m["tipo"] == "falha"]
     return {"tipo": "plano", "chave": f"{p['origem']}>{p['destino']}", "origem": p["origem"], "destino": p["destino"],
             "veredito": p["veredito"], "motivos": [m["texto"] for m in p["motivos"]][:4], "rota": _rota_para_cartao(p["rota"]),
@@ -426,7 +428,7 @@ def _historico(historico: list[dict]) -> list[dict]:
 def responder(texto: str, historico: list[dict] | None = None, contexto: dict | None = None, simular: str | None = None,
               agora: datetime | None = None) -> dict:
     texto = (texto or "").strip()
-    agora = agora or datetime.now()
+    agora = agora or hora.agora()
     contexto = contexto or {}
     sessao = Sessao(simular, agora, contexto)
     if not texto:

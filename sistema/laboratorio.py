@@ -27,6 +27,8 @@ from pathlib import Path
 
 import numpy as np
 
+from sistema import hora
+
 PERSONAS = json.loads((Path(__file__).parent / "dados" / "personas.json").read_text(encoding="utf-8"))
 
 NIVEL_INTERNET = {"boa": 1.0, "só no celular, com pacote": 0.6, "quase nenhuma": 0.05}
@@ -119,7 +121,7 @@ def conversa_da_persona(p: dict, situacao_nome: str, hoje: datetime | None = Non
         return None
     if sit["volta"]:
         a, b = b, a
-    agora = (hoje or datetime.now()).replace(hour=sit["hora"], minute=0, second=0, microsecond=0)
+    agora = (hoje or hora.agora()).replace(hour=sit["hora"], minute=0, second=0, microsecond=0)
     if agora.weekday() >= 5:                               # simula num dia útil, como a rotina das personas
         agora = agora.replace(day=agora.day - (agora.weekday() - 4))
     from sistema.mobilidade import rede

@@ -10,11 +10,11 @@ Regras:
 """
 import json
 import time
-from datetime import date
 
 import httpx
 
 from sistema import config
+from sistema import hora
 
 ARQUIVO_USO = config.PASTA_LOCAL / "uso_ia.local.json"
 TEMPO_LIMITE = 40  # segundos
@@ -33,7 +33,7 @@ def ligada(cfg: dict | None = None) -> bool:
 
 
 def uso_de_hoje() -> dict:
-    hoje = date.today().isoformat()
+    hoje = hora.hoje().isoformat()
     try:
         uso = json.loads(ARQUIVO_USO.read_text(encoding="utf-8"))
     except (FileNotFoundError, json.JSONDecodeError):

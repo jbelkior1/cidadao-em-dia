@@ -8,9 +8,10 @@ X-Device-Id e o servidor guarda só um hash dele.
 O que sai daqui é uma ESTIMATIVA POR RELATOS DE PASSAGEIROS, não dado oficial. A lotação do
 vagão não existe como dado público.
 
-O armazenamento fica atrás do Protocol `Repositorio`. Hoje é `RepositorioMemoria`; quando o
-Supabase for ligado, basta uma classe com os mesmos métodos e `relatos.repo = RepositorioSupabase()`
-(ou `usar_repositorio(...)`). Todas as funções de domínio recebem `agora` para os testes
+O armazenamento fica atrás do Protocol `Repositorio`: `RepositorioMemoria` (testes e uso local) ou
+`RepositorioSupabase` (servidor, com SUPABASE_URL e SUPABASE_SECRET_KEY). No Supabase o relato vencido
+continua guardado como histórico; ele só sai do feed.
+Todas as funções de domínio recebem `agora` para os testes
 controlarem o relógio.
 """
 import hashlib

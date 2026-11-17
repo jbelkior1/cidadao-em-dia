@@ -4,7 +4,7 @@ Mesmo contrato do `RepositorioMemoria` em relatos.py. Cada método é uma chamad
 voto e sinalização usam funções do banco (registrar_voto, registrar_sinalizacao) para gravar
 e somar o contador na mesma transação. Tabelas em banco/migracoes/0001_datempo_relatos.sql.
 """
-from datetime import datetime
+from datetime import datetime, timezone
 
 import httpx
 
@@ -66,7 +66,10 @@ class RepositorioSupabase:
         return _relato(linhas[0]) if linhas else None
 
     def listar(self) -> list[Relato]:
-        r = self._ok(self._http.get("/relatos", params={"select": self._selecao(), "order": "criado_em.desc", "limit": "500"}))
+        """Só os que ainda não venceram: o histórico fica no banco, mas não precisa vir a cada leitura do feed."""
+        agora = datetime.now(timezone.utc).isoformat()
+        r = self._ok(self._http.get("/relatos", params={"select": self._selecao(), "expira_em": f"gt.{agora}", "sinalizacoes": "lt.3",
+                                                        "order": "criado_em.desc", "limit": "500"}))
         return [_relato(x) for x in r.json()]
 
     def ultimo_do_autor(self, autor: str, linha: str) -> Relato | None:
@@ -86,6 +89,6 @@ class RepositorioSupabase:
         return r.json() is True
 
     def remover_expirados(self, agora: datetime) -> int:
-        r = self._ok(self._http.delete("/relatos", params={"expira_em": f"lte.{agora.isoformat()}"},
-                                       headers={"Prefer": "return=representation"}))
-        return len(r.json())
+        """No banco nada é apagado: o relato vencido só deixa de aparecer no feed (listar_ativos filtra
+        por expira_em) e fica guardado como histórico, para acompanhar depois."""
+        return 0

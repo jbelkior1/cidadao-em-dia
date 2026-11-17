@@ -75,7 +75,7 @@ begin
      where r.id = p_relato and r.expira_em > now() and r.sinalizacoes < 3
     on conflict do nothing;
   exception when foreign_key_violation then
-    return false;   -- o relato venceu e foi apagado no meio do caminho
+    return false;   -- o relato não existe (id inválido)
   end;
   if not found then
     return false;

@@ -7,6 +7,7 @@ import sys
 from datetime import date
 
 from sistema import config
+from sistema import hora
 
 PASTA = config.RAIZ / "entregas" / "dsa"
 _catalogo = None
@@ -56,7 +57,7 @@ def servico_de(titulo: str) -> dict | None:
                 try:
                     dia = date.fromisoformat(servico.prazo)
                     achado["prazo"] = {"data": servico.prazo, "texto": "até " + dia.strftime("%d/%m/%Y"),
-                                       "faltam": _faltam((dia - date.today()).days)}
+                                       "faltam": _faltam((dia - hora.hoje()).days)}
                 except ValueError:
                     pass
             return achado
