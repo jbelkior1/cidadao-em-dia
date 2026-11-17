@@ -9,7 +9,7 @@ Data: 13/11/2026. Origem: reunião do grupo de 12/11 (ata do Gemini) e respostas
 | Nome | App **Dá Tempo?**; agente (chatbot) **Lia**. Escolhido por mim a pedido do grupo. Conferir loja e INPI antes de usar fora da faculdade. |
 | Telas | 4 abas: **Home** (feed de relatos), **Mapa**, **IA** (a Lia) e **Perfil**. SOS e sinal de alerta ficam no cabeçalho de todas as abas. |
 | Login | Ler o feed **sem conta**. Ficou a confirmar se há conta para postar, usar a IA e ter perfil, ou nenhuma (ver "Em aberto"). |
-| Privacidade | Sem GPS, sem foto, sem texto livre no feed, sem gravar o que se escreve à IA. Apelido no lugar de nome. |
+| Privacidade | Sem GPS, sem foto, sem gravar o que se escreve à IA. O feed aceita só campos prontos; em 17/11/2026 entrou uma descrição opcional de até 140 caracteres, com a barreira de dado pessoal, sem link e escondida da Lia. Apelido no lugar de nome. |
 | Lotação | Estimativa por relatos de passageiros, sempre rotulada "não é dado oficial". |
 | SOS | Abre o SMS ou a ligação já preenchidos. Não envia nada e não é canal de emergência. Os canais vêm do catálogo da DSA. |
 | WhatsApp | **Fora por enquanto**: sem botão, sem automação. A mensagem de atraso só tem "Copiar". |

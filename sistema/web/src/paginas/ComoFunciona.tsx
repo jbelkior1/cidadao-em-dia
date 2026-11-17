@@ -18,7 +18,7 @@ const ABAS: Aba[] = [
     serve: "Ver o que os outros passageiros estão relatando agora.",
     passos: [
       "\"Agora nas linhas\" mostra a situação estimada de cada linha, pelos relatos recentes.",
-      "Toque em Relatar, escolha a linha e toque no que está vendo: lotado, parado, quebrou, chuva, alagamento, segurança ou tudo certo. Não tem texto livre nem foto.",
+      "Toque em Relatar, escolha a linha e toque no que está vendo: lotado, parado, quebrou, chuva, alagamento, segurança ou tudo certo. Se quiser, escreva uma descrição curta, de até 140 caracteres, sem dado pessoal nem link. Não tem foto.",
       "Nos relatos dos outros, confirme que ainda continua ou que já acabou. Em \"Minhas linhas\" você vê só as suas.",
     ],
   },

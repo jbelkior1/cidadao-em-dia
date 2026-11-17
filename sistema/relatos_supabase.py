@@ -11,7 +11,7 @@ import httpx
 from sistema import banco
 from sistema.relatos import Relato
 
-CAMPOS = "id,linha,estacao_id,tipo,criado_em,expira_em,autor_hash,confirmacoes,contestacoes,sinalizacoes,demo"
+CAMPOS = "id,linha,estacao_id,tipo,criado_em,expira_em,autor_hash,confirmacoes,contestacoes,sinalizacoes,demo,descricao"
 
 
 def _cabecalhos(chave: str) -> dict:
@@ -30,7 +30,7 @@ def _relato(linha: dict) -> Relato:
         id=linha["id"], linha=linha["linha"], estacao_id=linha.get("estacao_id"), tipo=linha["tipo"],
         criado_em=_data(linha["criado_em"]), expira_em=_data(linha["expira_em"]), autor_hash=linha["autor_hash"],
         confirmacoes=linha.get("confirmacoes", 0), contestacoes=linha.get("contestacoes", 0),
-        sinalizacoes=linha.get("sinalizacoes", 0), demo=linha.get("demo", False),
+        sinalizacoes=linha.get("sinalizacoes", 0), demo=linha.get("demo", False), descricao=linha.get("descricao") or "",
         votos={v["autor_hash"]: v["valor"] for v in linha.get("votos") or []},
         sinalizadores={s["autor_hash"] for s in linha.get("sinalizacoes_lista") or []},
     )
@@ -56,7 +56,7 @@ class RepositorioSupabase:
         self._ok(self._http.post("/relatos", headers={"Prefer": "return=minimal"}, json={
             "id": relato.id, "linha": relato.linha, "estacao_id": relato.estacao_id, "tipo": relato.tipo,
             "criado_em": relato.criado_em.isoformat(), "expira_em": relato.expira_em.isoformat(),
-            "autor_hash": relato.autor_hash, "demo": relato.demo,
+            "autor_hash": relato.autor_hash, "demo": relato.demo, "descricao": relato.descricao,
             "confirmacoes": relato.confirmacoes, "contestacoes": relato.contestacoes, "sinalizacoes": relato.sinalizacoes,
         }))
 

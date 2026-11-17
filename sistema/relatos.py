@@ -1,8 +1,10 @@
 """Relatos dos passageiros: o feed "Agora nas linhas" do Dá Tempo?
 
-Quem está na linha toca em campos prontos (linha, o que vê, estação opcional). Não há texto
-livre nem foto: assim não entra ofensa, dado pessoal nem instrução escondida para a IA, que
-vai ler estes relatos. Ninguém precisa de conta: o aparelho manda um id aleatório no cabeçalho
+Quem está na linha toca em campos prontos (linha, o que vê, estação opcional) e pode acrescentar
+uma descrição curta (até 140 caracteres, opcional). Não há foto. A descrição passa pela barreira de
+dado pessoal, não aceita link e some com o relato; quem vê pode sinalizar. Ela só aparece para as
+pessoas no feed: a Lia nunca recebe esse texto (veja `relatos_dos_passageiros`), então ninguém
+consegue plantar uma instrução para a IA por aqui. Ninguém precisa de conta: o aparelho manda um id aleatório no cabeçalho
 X-Device-Id e o servidor guarda só um hash dele.
 
 O que sai daqui é uma ESTIMATIVA POR RELATOS DE PASSAGEIROS, não dado oficial. A lotação do
@@ -27,6 +29,7 @@ from typing import Protocol
 from fastapi import APIRouter, Header, HTTPException, Query
 from pydantic import BaseModel
 
+from sistema import privacidade
 from sistema.mobilidade import rede
 
 router = APIRouter(prefix="/api/relatos", tags=["relatos"])
@@ -36,6 +39,9 @@ AVISO = "Estimativa por relatos de passageiros, não dado oficial."
 VALIDADE = timedelta(hours=2)                 # o relato some do feed depois disso
 INTERVALO_POR_LINHA = timedelta(minutes=10)   # um relato por (autor, linha) a cada 10 min
 LIMITE_SINALIZACOES = 3                       # com 3 denúncias o relato some da lista
+LIMITE_DESCRICAO = 140                        # caracteres da descrição opcional
+_CONTROLE = re.compile(r"[\x00-\x1f\x7f-\x9f]")
+_LINK = re.compile(r"https?:|www\.|\.(com|net|org|gov|br)\b", re.IGNORECASE)
 MEIA_VIDA_MIN = 30.0                          # o peso do relato cai pela metade a cada 30 min
 PESO_MINIMO = 0.2                             # piso do peso depois dos votos
 AUTORES_PARA_ALERTA = 2                       # pessoas diferentes relatando o mesmo tipo
@@ -87,6 +93,7 @@ class Relato:
     contestacoes: int = 0       # "já acabou"
     sinalizacoes: int = 0
     demo: bool = False
+    descricao: str = ""         # texto curto opcional de quem relatou (já validado)
     votos: dict[str, str] = field(default_factory=dict)          # autor_hash -> "ainda" | "acabou"
     sinalizadores: set[str] = field(default_factory=set)
 
@@ -212,14 +219,35 @@ def _validar_estacao(estacao_id: str | None) -> str | None:
     return estacao_id
 
 
+def _validar_descricao(texto: str | None) -> str:
+    """Texto limpo (sem caractere de controle, espaços arrumados) ou "" se vazio.
+
+    422 se passar de 140 caracteres, tiver link ou parecer dado pessoal (mesma barreira do chat).
+    """
+    if texto is None:
+        return ""
+    if not isinstance(texto, str):
+        raise ErroRelato(422, "A descrição precisa ser um texto.")
+    limpo = " ".join(_CONTROLE.sub(" ", texto).split())   # tab, quebra de linha e controle viram espaço
+    if len(limpo) > LIMITE_DESCRICAO:
+        raise ErroRelato(422, f"A descrição pode ter até {LIMITE_DESCRICAO} caracteres (a sua tem {len(limpo)}).")
+    if limpo and _LINK.search(limpo):
+        raise ErroRelato(422, "Não coloque link na descrição.")
+    if limpo and privacidade.motivo(limpo):
+        raise ErroRelato(422, "A descrição não pode ter CPF, telefone, e-mail, endereço ou nome. Tire esse dado e envie de novo.")
+    return limpo
+
+
 def criar_relato(id_aparelho: str, linha: str | None, tipo: str | None, estacao_id: str | None = None, *,
-                 agora: datetime | None = None, repositorio: Repositorio | None = None) -> Relato:
+                 descricao: str | None = None, agora: datetime | None = None,
+                 repositorio: Repositorio | None = None) -> Relato:
     agora = agora or agora_utc()
     r = _repo(repositorio)
     linha = _validar_linha(linha)
     if tipo not in TIPOS:
         raise ErroRelato(422, "Escolha o que você está vendo na lista.")
     estacao_id = _validar_estacao(estacao_id)
+    descricao = _validar_descricao(descricao)
     autor = autor_hash(id_aparelho)
     with _trava_criacao:
         r.remover_expirados(agora)
@@ -230,7 +258,7 @@ def criar_relato(id_aparelho: str, linha: str | None, tipo: str | None, estacao_
             raise ErroRelato(429, f"Você já relatou na Linha {linha} há pouco. "
                                   f"Dá para relatar de novo nesta linha em {minutos} min.", espera_s=math.ceil(falta.total_seconds()))
         novo = Relato(id=secrets.token_hex(6), linha=linha, estacao_id=estacao_id, tipo=tipo, criado_em=agora,
-                      expira_em=agora + VALIDADE, autor_hash=autor)
+                      expira_em=agora + VALIDADE, autor_hash=autor, descricao=descricao)
         r.inserir(novo)
     return novo
 
@@ -349,6 +377,7 @@ def para_json(r: Relato, agora: datetime, id_aparelho: str | None = None) -> dic
         "contestacoes": r.contestacoes,
         "sinalizacoes": r.sinalizacoes,
         "demo": r.demo,
+        "descricao": r.descricao,
     }
     if estacao:
         saida["estacao_nome"] = estacao["nome"]
@@ -428,6 +457,7 @@ class NovoRelato(BaseModel):
     linha: str | None = None
     tipo: str | None = None
     estacao_id: str | None = None
+    descricao: str | None = None
 
 
 class Voto(BaseModel):
@@ -472,7 +502,7 @@ def criar(corpo: NovoRelato, x_device_id: str | None = Header(None)) -> dict:
     aparelho = _aparelho_obrigatorio(x_device_id)
     agora = _agora()
     try:
-        r = criar_relato(aparelho, corpo.linha, corpo.tipo, corpo.estacao_id, agora=agora)
+        r = criar_relato(aparelho, corpo.linha, corpo.tipo, corpo.estacao_id, descricao=corpo.descricao, agora=agora)
     except ErroRelato as e:
         raise _como_http(e)
     return para_json(r, agora, aparelho)

@@ -16,12 +16,13 @@ type TipoCodigo = "lotado" | "parado" | "quebrou" | "chuva" | "alagado" | "segur
 type Voto = "ainda" | "acabou";
 type Relato = {
   id: string; linha: string; tipo: TipoCodigo; estacao_id: string | null; estacao_nome?: string; ha_min: number; apelido: string;
-  meu: boolean; meu_voto: Voto | null; confirmacoes: number; contestacoes: number; demo: boolean;
+  meu: boolean; meu_voto: Voto | null; confirmacoes: number; contestacoes: number; demo: boolean; descricao: string;
 };
 type LinhaEstimada = { linha: string; nivel: "alerta" | "relato" | "normal"; tipo_principal: TipoCodigo; n_relatos: number; n_autores: number; ultimo_em: string };
 type Aviso = { texto: string; erro: boolean };
 
 const AVISO_FIXO = "Estimativa por relatos de passageiros, não dado oficial.";
+const LIMITE_DESCRICAO = 140;
 const CHAVE_LINHAS = "dt-minhas-linhas";
 const CHAVE_APARELHO = "dt-device-id";
 const ATUALIZA_A_CADA_MS = 5000;
@@ -193,7 +194,7 @@ function GradeDeLinhas({ linhas, marcadas, onEscolher }: { linhas: LinhaInfo[]; 
 
 /* ------------------------------------------------------------------ folha de "Relatar" */
 
-const FOCAVEIS = 'button:not(:disabled), select:not(:disabled), [href], [tabindex]:not([tabindex="-1"])';
+const FOCAVEIS = 'button:not(:disabled), select:not(:disabled), textarea:not(:disabled), [href], [tabindex]:not([tabindex="-1"])';
 
 function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnviado }: {
   linhas: LinhaInfo[]; estacoes: EstacaoEscolha[]; erroLinhas: boolean; recarregarLinhas: () => void;
@@ -201,6 +202,7 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
 }) {
   const [linha, setLinha] = useState<string | null>(null);
   const [estacaoId, setEstacaoId] = useState("");
+  const [descricao, setDescricao] = useState("");
   const [enviando, setEnviando] = useState(false);
   const [enviado, setEnviado] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
@@ -251,7 +253,7 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
     setEnviando(true);
     setErro(null);
     try {
-      await chamar("/api/relatos", { metodo: "POST", corpo: { linha, tipo, estacao_id: estacaoId || null } });
+      await chamar("/api/relatos", { metodo: "POST", corpo: { linha, tipo, estacao_id: estacaoId || null, descricao: descricao.trim() || null } });
       setEnviado(true);
       onEnviado();
     } catch (e) {
@@ -309,7 +311,7 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
             <div className="flex items-center gap-3 rounded-2xl bg-cinza p-3">
               {info && <SeloLinha numero={info.numero} cor={info.cor} />}
               <span className="min-w-0 flex-1 truncate text-[16px] font-bold">Linha {linha}{info ? ` ${info.nome}` : ""}</span>
-              <button type="button" onClick={() => { setLinha(null); setErro(null); setEstacaoId(""); }}
+              <button type="button" onClick={() => { setLinha(null); setErro(null); setEstacaoId(""); setDescricao(""); }}
                 className="inline-flex h-9 items-center gap-1 rounded-full bg-superficie px-3 text-[13px] font-bold hover:bg-cinza-forte">
                 <ArrowLeft className="size-4" aria-hidden />
                 Trocar
@@ -323,6 +325,18 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
                 <option value="">Não informar</option>
                 {daLinha.map((e) => <option key={e.id} value={e.id}>{e.nome}</option>)}
               </select>
+            </div>
+
+            <div>
+              <label htmlFor="descricao-relato" className="mb-1.5 flex items-baseline justify-between text-[14px] font-bold">
+                <span>Descrição (opcional)</span>
+                <span className={`text-[12px] font-medium tabular-nums ${descricao.length >= LIMITE_DESCRICAO ? "text-erro" : "text-apagado"}`}>
+                  {descricao.length}/{LIMITE_DESCRICAO}
+                </span>
+              </label>
+              <textarea id="descricao-relato" value={descricao} rows={2} maxLength={LIMITE_DESCRICAO}
+                onChange={(e) => setDescricao(e.target.value)} placeholder="Ex.: porta travada no vagão 3"
+                className="w-full resize-none rounded-2xl bg-cinza px-4 py-3 text-[16px] font-medium placeholder:text-apagado/70 focus:bg-superficie focus:ring-2 focus:ring-tinta focus:outline-none" />
             </div>
 
             <div>
@@ -341,7 +355,7 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
             </div>
 
             {erro && <p role="alert" className="rounded-2xl bg-erro-suave p-3 text-[14px] font-medium text-erro">{erro}</p>}
-            <p className="text-[12px] text-apagado">Sem texto livre e sem foto: só o que está na lista. {AVISO_FIXO}</p>
+            <p className="text-[12px] text-apagado">Não escreva CPF, telefone, e-mail, endereço, nome nem link. Sem foto. {AVISO_FIXO}</p>
           </div>
         )}
       </div>
@@ -382,6 +396,7 @@ function Cartao({ r, cor, ocupado, onVotar, onSinalizar }: {
           <span className="shrink-0 text-[13px] text-apagado">{haTempo(r.ha_min)}</span>
         </div>
         <p className="mt-0.5 truncate text-[14px] text-apagado">{sobre}</p>
+        {r.descricao && <p className="mt-1.5 text-[15px] leading-snug break-words">{r.descricao}</p>}
         {r.demo && (
           <span className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-cinza px-2 py-0.5 text-[11px] font-bold text-apagado">
             <FlaskConical className="size-3.5" aria-hidden />

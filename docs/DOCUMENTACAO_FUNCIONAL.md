@@ -27,7 +27,7 @@ Quatro abas embaixo (Home, Mapa, IA, Perfil). Em todas, no topo, ficam o SOS e o
 
 **Home.** Mostra o que os passageiros relatam agora.
 - *Agora nas linhas* resume cada linha; *Relatos recentes* lista os relatos (filtro Todas ou Minhas linhas).
-- *Relatar* leva dois toques: a linha e o que a pessoa vê (Lotado, Parado, Quebrou, Chuva, Alagamento, Segurança ou Tudo certo). Não há texto livre nem foto.
+- *Relatar* leva dois toques: a linha e o que a pessoa vê (Lotado, Parado, Quebrou, Chuva, Alagamento, Segurança ou Tudo certo). Há um campo opcional de descrição, de até 140 caracteres, que barra CPF, telefone, e-mail, endereço, nome e link; só aparece no feed e a Lia não lê esse texto. Não há foto.
 - Regras: um relato por pessoa e por linha a cada 10 minutos; cada relato vale 2 horas; outras pessoas confirmam ou encerram; três denúncias tiram o relato; o alerta de uma linha só aparece com dois autores diferentes. É estimativa, não dado oficial.
 
 **Mapa.** Linhas coloridas pela situação de agora, com camadas para ligar e desligar: Alagamentos (GeoSampa e CGE), Segurança (SSP-SP perto das estações) e Relatos. Há um resumo em texto abaixo do mapa, para leitor de tela.
