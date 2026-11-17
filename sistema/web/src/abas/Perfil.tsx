@@ -224,7 +224,7 @@ export default function Perfil({ aoConferir }: { aoConferir?: (texto: string) =>
             <li className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-ok" strokeWidth={3} aria-hidden />Não pedimos nome, CPF, e-mail, telefone, endereço nem localização. A conta é só usuário e senha.</li>
             <li className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-ok" strokeWidth={3} aria-hidden />A senha é guardada embaralhada (hash), nunca como você digitou.</li>
             <li className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-ok" strokeWidth={3} aria-hidden />O que você escreve para a Lia não fica guardado.</li>
-            <li className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-ok" strokeWidth={3} aria-hidden />Os relatos usam campos prontos e, se quiser, uma descrição curta de até 140 caracteres (sem dado pessoal e sem link). Não há foto.</li>
+            <li className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-ok" strokeWidth={3} aria-hidden />Os relatos usam campos prontos e, se quiser, uma descrição curta de até 140 caracteres (sem dado pessoal e sem link) e uma foto como evidência. A foto perde a localização, só aparece enquanto o relato está ativo e é apagada depois.</li>
           </ul>
           <button type="button" onClick={apagarTudo} className="inline-flex h-11 items-center gap-2 rounded-full bg-superficie px-5 text-[14px] font-bold text-erro hover:bg-erro-suave">
             <Trash2 className="size-4" aria-hidden />Apagar os dados deste aparelho

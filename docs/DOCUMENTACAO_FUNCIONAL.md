@@ -27,7 +27,7 @@ Quatro abas embaixo (Home, Mapa, IA, Perfil). Em todas, no topo, ficam o SOS e o
 
 **Home.** Mostra o que os passageiros relatam agora.
 - *Agora nas linhas* resume cada linha; *Relatos recentes* lista os relatos (filtro Todas ou Minhas linhas).
-- *Relatar* leva dois toques: a linha e o que a pessoa vê (Lotado, Parado, Quebrou, Chuva, Alagamento, Segurança ou Tudo certo). Há um campo opcional de descrição, de até 140 caracteres, que barra CPF, telefone, e-mail, endereço, nome e link; só aparece no feed e a Lia não lê esse texto. Não há foto.
+- *Relatar* leva dois toques: a linha e o que a pessoa vê (Lotado, Parado, Quebrou, Chuva, Alagamento, Segurança ou Tudo certo). Há um campo opcional de descrição, de até 140 caracteres, que barra CPF, telefone, e-mail, endereço, nome e link; só aparece no feed. Também dá para anexar uma foto como evidência: ela é recomprimida no servidor (a localização do arquivo é descartada), fica num bucket privado, só aparece enquanto o relato está ativo e é apagada quando ele vence ou recebe 3 sinalizações (uma faxina automática roda a cada poucos minutos). Cada envio tem limite de tamanho (5 MB) e de relatos por endereço. A Lia não lê nem o texto nem a foto.
 - Regras: um relato por pessoa e por linha a cada 10 minutos; cada relato vale 2 horas; outras pessoas confirmam ou encerram; três denúncias tiram o relato; o alerta de uma linha só aparece com dois autores diferentes. É estimativa, não dado oficial.
 
 **Mapa.** Linhas coloridas pela situação de agora, com camadas para ligar e desligar: Alagamentos (GeoSampa e CGE), Segurança (SSP-SP perto das estações) e Relatos. Há um resumo em texto abaixo do mapa, para leitor de tela.
@@ -60,7 +60,7 @@ Horário de pico: dias úteis, das 6h às 9h e das 16h às 19h30. A modelagem l�
 - Antes de qualquer registro e de qualquer chamada à IA, o sistema barra números longos (CPF, telefone), e-mail e frases que anunciam um dado ("meu nome é", "moro na rua", "minha senha é").
 - **No aparelho:** estação de casa, minhas linhas, um código aleatório dos relatos e, com conta, o token da sessão.
 - **No servidor:** os relatos (só o hash do código do aparelho) e, com conta, usuário, hash da senha, linhas, casa e rotas.
-- **Nunca guardado:** o que a pessoa escreve para a Lia, localização, foto ou documento.
+- **Nunca guardado:** o que a pessoa escreve para a Lia, localização ou documento. A foto do relato é a única imagem que o servidor guarda: sai recomprimida e sem metadados, num bucket privado, e é apagada quando o relato vence ou recebe 3 sinalizações.
 
 ## 6. Dados e IA
 

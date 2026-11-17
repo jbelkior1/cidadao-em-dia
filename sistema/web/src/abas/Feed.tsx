@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
-  ArrowLeft, Check, CircleCheck, CloudRain, Flag, FlaskConical, Map as MapaIcone, Megaphone, OctagonX, Plus, RefreshCw, Search,
+  ArrowLeft, Camera, Check, CircleCheck, CloudRain, Flag, FlaskConical, Map as MapaIcone, Megaphone, OctagonX, Plus, RefreshCw, Search,
   ShieldAlert, Siren, ThumbsUp, TrainFront, UsersRound, Waves, Wrench, X,
 } from "lucide-react";
 
@@ -17,12 +17,38 @@ type Voto = "ainda" | "acabou";
 type Relato = {
   id: string; linha: string; tipo: TipoCodigo; estacao_id: string | null; estacao_nome?: string; ha_min: number; apelido: string;
   meu: boolean; meu_voto: Voto | null; confirmacoes: number; contestacoes: number; demo: boolean; descricao: string;
+  tem_foto: boolean; foto_url: string | null;
 };
 type LinhaEstimada = { linha: string; nivel: "alerta" | "relato" | "normal"; tipo_principal: TipoCodigo; n_relatos: number; n_autores: number; ultimo_em: string };
 type Aviso = { texto: string; erro: boolean };
 
 const AVISO_FIXO = "Estimativa por relatos de passageiros, não dado oficial.";
 const LIMITE_DESCRICAO = 140;
+const LADO_FOTO = 1280;        // px do lado maior: o celular reduz antes de enviar (o servidor confere de novo)
+
+/** Abre a imagem escolhida, reduz e devolve um JPEG em base64 (data URL). O JPEG novo não leva os metadados do original. */
+async function prepararFoto(arquivo: File): Promise<string> {
+  if (!arquivo.type.startsWith("image/")) throw new Error("Escolha um arquivo de imagem.");
+  const endereco = URL.createObjectURL(arquivo);
+  try {
+    const imagem = await new Promise<HTMLImageElement>((ok, falha) => {
+      const i = new Image();
+      i.onload = () => ok(i);
+      i.onerror = () => falha(new Error("Não consegui abrir essa foto. Tente tirar de novo."));
+      i.src = endereco;
+    });
+    const escala = Math.min(1, LADO_FOTO / Math.max(imagem.naturalWidth, imagem.naturalHeight));
+    const tela = document.createElement("canvas");
+    tela.width = Math.max(1, Math.round(imagem.naturalWidth * escala));
+    tela.height = Math.max(1, Math.round(imagem.naturalHeight * escala));
+    const contexto = tela.getContext("2d");
+    if (!contexto) throw new Error("Este aparelho não conseguiu preparar a foto.");
+    contexto.drawImage(imagem, 0, 0, tela.width, tela.height);
+    return tela.toDataURL("image/jpeg", 0.8);
+  } finally {
+    URL.revokeObjectURL(endereco);
+  }
+}
 const CHAVE_LINHAS = "dt-minhas-linhas";
 const CHAVE_APARELHO = "dt-device-id";
 const ATUALIZA_A_CADA_MS = 5000;
@@ -194,7 +220,7 @@ function GradeDeLinhas({ linhas, marcadas, onEscolher }: { linhas: LinhaInfo[]; 
 
 /* ------------------------------------------------------------------ folha de "Relatar" */
 
-const FOCAVEIS = 'button:not(:disabled), select:not(:disabled), textarea:not(:disabled), [href], [tabindex]:not([tabindex="-1"])';
+const FOCAVEIS = 'button:not(:disabled), select:not(:disabled), textarea:not(:disabled), input:not(:disabled), [href], [tabindex]:not([tabindex="-1"])';
 
 function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnviado }: {
   linhas: LinhaInfo[]; estacoes: EstacaoEscolha[]; erroLinhas: boolean; recarregarLinhas: () => void;
@@ -203,6 +229,8 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
   const [linha, setLinha] = useState<string | null>(null);
   const [estacaoId, setEstacaoId] = useState("");
   const [descricao, setDescricao] = useState("");
+  const [foto, setFoto] = useState<string | null>(null);
+  const [erroFoto, setErroFoto] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
   const [enviado, setEnviado] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
@@ -248,12 +276,23 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
   const info = linhas.find((l) => l.numero === linha);
   const daLinha = useMemo(() => (linha ? estacoes.filter((e) => e.linhas.includes(linha)) : []), [estacoes, linha]);
 
+  async function escolherFoto(arquivo: File | undefined) {
+    if (!arquivo) return;
+    setErroFoto(null);
+    try {
+      setFoto(await prepararFoto(arquivo));
+    } catch (e) {
+      setFoto(null);
+      setErroFoto(mensagemDe(e));
+    }
+  }
+
   async function enviar(tipo: TipoCodigo) {
     if (!linha || enviando) return;
     setEnviando(true);
     setErro(null);
     try {
-      await chamar("/api/relatos", { metodo: "POST", corpo: { linha, tipo, estacao_id: estacaoId || null, descricao: descricao.trim() || null } });
+      await chamar("/api/relatos", { metodo: "POST", corpo: { linha, tipo, estacao_id: estacaoId || null, descricao: descricao.trim() || null, foto } });
       setEnviado(true);
       onEnviado();
     } catch (e) {
@@ -311,7 +350,7 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
             <div className="flex items-center gap-3 rounded-2xl bg-cinza p-3">
               {info && <SeloLinha numero={info.numero} cor={info.cor} />}
               <span className="min-w-0 flex-1 truncate text-[16px] font-bold">Linha {linha}{info ? ` ${info.nome}` : ""}</span>
-              <button type="button" onClick={() => { setLinha(null); setErro(null); setEstacaoId(""); setDescricao(""); }}
+              <button type="button" onClick={() => { setLinha(null); setErro(null); setEstacaoId(""); setDescricao(""); setFoto(null); setErroFoto(null); }}
                 className="inline-flex h-9 items-center gap-1 rounded-full bg-superficie px-3 text-[13px] font-bold hover:bg-cinza-forte">
                 <ArrowLeft className="size-4" aria-hidden />
                 Trocar
@@ -340,6 +379,34 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
             </div>
 
             <div>
+              <p className="mb-1.5 text-[14px] font-bold">Foto como evidência (opcional)</p>
+              {foto ? (
+                <div className="flex items-center gap-3 rounded-2xl bg-cinza p-2">
+                  <img src={foto} alt="Foto que será enviada com o relato" className="size-16 shrink-0 rounded-xl object-cover" />
+                  <p className="min-w-0 flex-1 text-[14px] font-medium">Foto pronta para enviar</p>
+                  <button type="button" onClick={() => setFoto(null)} aria-label="Remover a foto"
+                    className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-superficie hover:bg-cinza-forte">
+                    <X className="size-4" aria-hidden />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <input id="foto-relato" type="file" accept="image/*" className="peer sr-only"
+                    onChange={(e) => { void escolherFoto(e.target.files?.[0]); e.target.value = ""; }} />
+                  <label htmlFor="foto-relato"
+                    className="flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-2xl bg-cinza px-4 text-[15px] font-bold hover:bg-cinza-forte peer-focus-visible:ring-2 peer-focus-visible:ring-tinta">
+                    <Camera className="size-5" aria-hidden />
+                    Tirar ou escolher uma foto
+                  </label>
+                </>
+              )}
+              {erroFoto && <p role="alert" className="mt-2 text-[13px] font-medium text-erro">{erroFoto}</p>}
+              <p className="mt-1.5 text-[12px] text-apagado">
+                Mostre só o problema. Evite rostos e placas de veículos. A localização da foto é apagada, e ela sai do app quando o relato vence.
+              </p>
+            </div>
+
+            <div>
               <p className="mb-2 text-[14px] font-bold">Toque no que está vendo para enviar</p>
               <div className="grid grid-cols-2 gap-2">
                 {TIPOS.map((t) => (
@@ -355,7 +422,7 @@ function Folha({ linhas, estacoes, erroLinhas, recarregarLinhas, onFechar, onEnv
             </div>
 
             {erro && <p role="alert" className="rounded-2xl bg-erro-suave p-3 text-[14px] font-medium text-erro">{erro}</p>}
-            <p className="text-[12px] text-apagado">Não escreva CPF, telefone, e-mail, endereço, nome nem link. Sem foto. {AVISO_FIXO}</p>
+            <p className="text-[12px] text-apagado">Não escreva CPF, telefone, e-mail, endereço, nome nem link. {AVISO_FIXO}</p>
           </div>
         )}
       </div>
@@ -397,6 +464,11 @@ function Cartao({ r, cor, ocupado, onVotar, onSinalizar }: {
         </div>
         <p className="mt-0.5 truncate text-[14px] text-apagado">{sobre}</p>
         {r.descricao && <p className="mt-1.5 text-[15px] leading-snug break-words">{r.descricao}</p>}
+        {r.foto_url && (
+          <a href={r.foto_url} target="_blank" rel="noreferrer" aria-label="Abrir a foto do relato em tamanho maior" className="mt-2 block w-fit">
+            <img src={r.foto_url} alt="Foto enviada por quem relatou" loading="lazy" className="h-24 w-36 max-w-full rounded-xl bg-cinza object-cover" />
+          </a>
+        )}
         {r.demo && (
           <span className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-cinza px-2 py-0.5 text-[11px] font-bold text-apagado">
             <FlaskConical className="size-3.5" aria-hidden />

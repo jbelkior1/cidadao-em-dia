@@ -93,10 +93,10 @@ class Escrita(unittest.TestCase):
         self.assertFalse(repo.registrar_sinalizacao("a1b2c3d4e5f6", "0123456789ab"))
         self.assertEqual(json.loads(api.pedidos[0].content)["p_valor"], "ainda")
 
-    def test_remover_expirados_nao_apaga_nada_no_banco(self):
+    def test_remover_expirados_nunca_apaga_o_relato_do_banco(self):
         repo, api = repositorio({})
-        self.assertEqual(repo.remover_expirados(AGORA), 0)
-        self.assertEqual(api.pedidos, [])
+        self.assertEqual(repo.remover_expirados(AGORA), 0)       # sem foto vencida: só uma consulta
+        self.assertEqual([p.method for p in api.pedidos], ["GET"])
 
     def test_erro_do_banco_vira_excecao(self):
         api = lambda p: httpx.Response(401, json={"message": "no"})  # noqa: E731

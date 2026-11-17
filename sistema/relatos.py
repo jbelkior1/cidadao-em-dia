@@ -1,10 +1,12 @@
 """Relatos dos passageiros: o feed "Agora nas linhas" do Dá Tempo?
 
 Quem está na linha toca em campos prontos (linha, o que vê, estação opcional) e pode acrescentar
-uma descrição curta (até 140 caracteres, opcional). Não há foto. A descrição passa pela barreira de
-dado pessoal, não aceita link e some com o relato; quem vê pode sinalizar. Ela só aparece para as
-pessoas no feed: a Lia nunca recebe esse texto (veja `relatos_dos_passageiros`), então ninguém
-consegue plantar uma instrução para a IA por aqui. Ninguém precisa de conta: o aparelho manda um id aleatório no cabeçalho
+uma descrição curta (até 140 caracteres) e uma foto como evidência, as duas opcionais. A descrição
+passa pela barreira de dado pessoal e não aceita link. A foto é recomprimida no servidor (sem os
+metadados do arquivo, como a localização) e só é entregue enquanto o relato está ativo; ao vencer
+ou ao ser sinalizado 3 vezes, o arquivo é apagado. Quem vê pode sinalizar. Texto e foto só aparecem
+para as pessoas no feed: a Lia nunca recebe nenhum dos dois (veja `relatos_dos_passageiros`), então
+ninguém consegue plantar uma instrução para a IA por aqui. Ninguém precisa de conta: o aparelho manda um id aleatório no cabeçalho
 X-Device-Id e o servidor guarda só um hash dele.
 
 O que sai daqui é uma ESTIMATIVA POR RELATOS DE PASSAGEIROS, não dado oficial. A lotação do
@@ -17,22 +19,25 @@ Todas as funções de domínio recebem `agora` para os testes
 controlarem o relógio.
 """
 import hashlib
+import logging
 import math
 import os
 import re
 import secrets
 import threading
+import time
 from dataclasses import dataclass, field, replace
 from datetime import datetime, timedelta, timezone
 from typing import Protocol
 
-from fastapi import APIRouter, Header, HTTPException, Query
-from pydantic import BaseModel
+from fastapi import APIRouter, Header, HTTPException, Query, Response
+from pydantic import BaseModel, Field
 
 from sistema import privacidade
 from sistema.mobilidade import rede
 
 router = APIRouter(prefix="/api/relatos", tags=["relatos"])
+log = logging.getLogger(__name__)
 
 AVISO = "Estimativa por relatos de passageiros, não dado oficial."
 
@@ -94,6 +99,7 @@ class Relato:
     sinalizacoes: int = 0
     demo: bool = False
     descricao: str = ""         # texto curto opcional de quem relatou (já validado)
+    tem_foto: bool = False      # há um JPEG limpo guardado para este relato (repositório.obter_foto)
     votos: dict[str, str] = field(default_factory=dict)          # autor_hash -> "ainda" | "acabou"
     sinalizadores: set[str] = field(default_factory=set)
 
@@ -132,12 +138,28 @@ class Repositorio(Protocol):
     def registrar_voto(self, relato_id: str, autor: str, valor: str) -> bool: ...
     def registrar_sinalizacao(self, relato_id: str, autor: str) -> bool: ...
     def remover_expirados(self, agora: datetime) -> int: ...
+    def guardar_foto(self, relato_id: str, jpeg: bytes) -> None: ...
+    def obter_foto(self, relato_id: str) -> bytes | None: ...
+    def apagar_foto(self, relato_id: str) -> None: ...
 
 
 class RepositorioMemoria:
     def __init__(self) -> None:
         self._dados: dict[str, Relato] = {}
+        self._fotos: dict[str, bytes] = {}
         self._trava = threading.Lock()
+
+    def guardar_foto(self, relato_id: str, jpeg: bytes) -> None:
+        with self._trava:
+            self._fotos[relato_id] = jpeg
+
+    def obter_foto(self, relato_id: str) -> bytes | None:
+        with self._trava:
+            return self._fotos.get(relato_id)
+
+    def apagar_foto(self, relato_id: str) -> None:
+        with self._trava:
+            self._fotos.pop(relato_id, None)
 
     def inserir(self, relato: Relato) -> None:
         with self._trava:
@@ -184,6 +206,7 @@ class RepositorioMemoria:
             velhos = [i for i, r in self._dados.items() if agora >= r.expira_em]
             for i in velhos:
                 del self._dados[i]
+                self._fotos.pop(i, None)
             return len(velhos)
 
 
@@ -239,8 +262,9 @@ def _validar_descricao(texto: str | None) -> str:
 
 
 def criar_relato(id_aparelho: str, linha: str | None, tipo: str | None, estacao_id: str | None = None, *,
-                 descricao: str | None = None, agora: datetime | None = None,
+                 descricao: str | None = None, foto: bytes | None = None, agora: datetime | None = None,
                  repositorio: Repositorio | None = None) -> Relato:
+    from sistema import fotos        # import aqui porque fotos.py usa ErroRelato deste módulo
     agora = agora or agora_utc()
     r = _repo(repositorio)
     linha = _validar_linha(linha)
@@ -249,18 +273,54 @@ def criar_relato(id_aparelho: str, linha: str | None, tipo: str | None, estacao_
     estacao_id = _validar_estacao(estacao_id)
     descricao = _validar_descricao(descricao)
     autor = autor_hash(id_aparelho)
+    r.remover_expirados(agora)              # fora da trava: uma limpeza lenta não segura as outras criações
+    _conferir_intervalo(r, autor, linha, agora)      # antes de gastar processador com a foto
+    jpeg = fotos.processar(foto) if foto else None
     with _trava_criacao:
-        r.remover_expirados(agora)
-        anterior = r.ultimo_do_autor(autor, linha)
-        if anterior is not None and agora - anterior.criado_em < INTERVALO_POR_LINHA:
-            falta = INTERVALO_POR_LINHA - (agora - anterior.criado_em)
-            minutos = max(1, math.ceil(falta.total_seconds() / 60))
-            raise ErroRelato(429, f"Você já relatou na Linha {linha} há pouco. "
-                                  f"Dá para relatar de novo nesta linha em {minutos} min.", espera_s=math.ceil(falta.total_seconds()))
+        _conferir_intervalo(r, autor, linha, agora)  # de novo, agora sem corrida entre dois envios
         novo = Relato(id=secrets.token_hex(6), linha=linha, estacao_id=estacao_id, tipo=tipo, criado_em=agora,
-                      expira_em=agora + VALIDADE, autor_hash=autor, descricao=descricao)
-        r.inserir(novo)
+                      expira_em=agora + VALIDADE, autor_hash=autor, descricao=descricao, tem_foto=jpeg is not None)
+        if jpeg is not None:
+            r.guardar_foto(novo.id, jpeg)
+        try:
+            r.inserir(novo)
+        except Exception:
+            if jpeg is not None:
+                _apagar_foto_sem_relato(r, novo.id)
+            raise
     return novo
+
+
+def _conferir_intervalo(r: Repositorio, autor: str, linha: str, agora: datetime) -> None:
+    anterior = r.ultimo_do_autor(autor, linha)
+    if anterior is not None and agora - anterior.criado_em < INTERVALO_POR_LINHA:
+        falta = INTERVALO_POR_LINHA - (agora - anterior.criado_em)
+        minutos = max(1, math.ceil(falta.total_seconds() / 60))
+        raise ErroRelato(429, f"Você já relatou na Linha {linha} há pouco. "
+                              f"Dá para relatar de novo nesta linha em {minutos} min.", espera_s=math.ceil(falta.total_seconds()))
+
+
+def _apagar_foto_sem_relato(r: Repositorio, relato_id: str) -> None:
+    """Se a gravação do relato falhou, tira o arquivo para não sobrar foto sem dono. Só apaga se o relato
+    de fato não chegou ao banco (a resposta pode ter se perdido depois de gravar). Nunca esconde o erro original."""
+    try:
+        if r.obter(relato_id) is None:
+            r.apagar_foto(relato_id)
+    except Exception:
+        log.warning("não consegui conferir/apagar a foto do relato %s depois da falha ao gravar", relato_id, exc_info=True)
+
+
+def limpar_em_segundo_plano(intervalo_seg: int = 300) -> None:
+    """Apaga as fotos de relatos vencidos ou sinalizados mesmo quando ninguém está usando o app.
+    Falha de banco ou de Storage só vai para o log: a próxima rodada tenta de novo."""
+    def laco():
+        while True:
+            time.sleep(intervalo_seg)
+            try:
+                repo.remover_expirados(agora_utc())
+            except Exception:
+                log.warning("limpeza de fotos falhou", exc_info=True)
+    threading.Thread(target=laco, daemon=True, name="limpeza-fotos").start()
 
 
 def _relato_ativo(relato_id: str, agora: datetime, repositorio: Repositorio | None) -> Relato:
@@ -378,6 +438,8 @@ def para_json(r: Relato, agora: datetime, id_aparelho: str | None = None) -> dic
         "sinalizacoes": r.sinalizacoes,
         "demo": r.demo,
         "descricao": r.descricao,
+        "tem_foto": r.tem_foto,
+        "foto_url": f"/api/relatos/{r.id}/foto" if r.tem_foto else None,
     }
     if estacao:
         saida["estacao_nome"] = estacao["nome"]
@@ -458,6 +520,7 @@ class NovoRelato(BaseModel):
     tipo: str | None = None
     estacao_id: str | None = None
     descricao: str | None = None
+    foto: str | None = Field(None, max_length=4_200_000)     # base64 (com ou sem "data:image/...;base64,")
 
 
 class Voto(BaseModel):
@@ -501,11 +564,29 @@ def listar(linha: str | None = Query(None), x_device_id: str | None = Header(Non
 def criar(corpo: NovoRelato, x_device_id: str | None = Header(None)) -> dict:
     aparelho = _aparelho_obrigatorio(x_device_id)
     agora = _agora()
+    from sistema import fotos
     try:
-        r = criar_relato(aparelho, corpo.linha, corpo.tipo, corpo.estacao_id, descricao=corpo.descricao, agora=agora)
+        jpeg_enviado = fotos.decodificar(corpo.foto) if corpo.foto else None
+        r = criar_relato(aparelho, corpo.linha, corpo.tipo, corpo.estacao_id, descricao=corpo.descricao,
+                         foto=jpeg_enviado, agora=agora)
     except ErroRelato as e:
         raise _como_http(e)
     return para_json(r, agora, aparelho)
+
+
+@router.get("/{relato_id}/foto")
+def foto_do_relato(relato_id: str) -> Response:
+    """A foto só sai enquanto o relato está ativo (não venceu e tem menos de 3 sinalizações)."""
+    if not re.fullmatch(r"[0-9a-f]{12}", relato_id):
+        raise HTTPException(404, "Foto não encontrada.")
+    relato = repo.obter(relato_id)
+    if relato is None or not relato.tem_foto or not esta_ativo(relato, _agora()):
+        raise HTTPException(404, "Foto não encontrada.")
+    jpeg = repo.obter_foto(relato_id)
+    if jpeg is None:
+        raise HTTPException(404, "Foto não encontrada.")
+    return Response(jpeg, media_type="image/jpeg",
+                    headers={"Cache-Control": "private, max-age=60", "X-Content-Type-Options": "nosniff"})
 
 
 @router.get("/estimativa")

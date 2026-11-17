@@ -56,6 +56,7 @@ def semear_demonstracao() -> str:
 async def ciclo_de_vida(_app):
     print(f"Relatos: {ligar_banco()}, {semear_demonstracao()}")
     fontes.coletar_em_segundo_plano()      # grava a situação das linhas a cada 2 minutos enquanto a API estiver ligada
+    relatos.limpar_em_segundo_plano()      # apaga as fotos de relatos vencidos ou sinalizados, mesmo sem ninguém usando o app
     yield
 
 
@@ -94,25 +95,44 @@ ROTAS_COM_IA = {"/api/assistente", "/api/chat", "/api/explicar", "/api/teste/pai
 JANELA_POR_IP_S = 300
 MAXIMO_POR_IP = 20
 _pedidos_por_ip: dict[str, deque] = {}
+_relatos_por_ip: dict[str, deque] = {}
 _trava_ip = threading.Lock()
+MAXIMO_RELATOS_POR_IP = 30             # por janela; folga para uma turma inteira atrás do mesmo Wi-Fi
+LIMITE_CORPO_RELATO = 5_000_000        # bytes; o app manda a foto reduzida, perto de 300 KB
+
+
+def _espera_se_estourou(mapa: dict[str, deque], ip: str, maximo: int) -> int | None:
+    """Conta um pedido deste IP na janela. Devolve quantos segundos esperar se passou do máximo, senão None."""
+    agora = time.monotonic()
+    with _trava_ip:
+        if len(mapa) > 10000:                                          # não deixa o mapa crescer para sempre
+            mapa.clear()
+        fila = mapa.setdefault(ip, deque())
+        while fila and agora - fila[0] > JANELA_POR_IP_S:
+            fila.popleft()
+        if len(fila) >= maximo:
+            return int(JANELA_POR_IP_S - (agora - fila[0])) + 1
+        fila.append(agora)
+    return None
 
 
 @app.middleware("http")
 async def limitar_por_aparelho(pedido, seguir):
-    if config.modo_publico() and pedido.method == "POST" and pedido.url.path in ROTAS_COM_IA:
-        ip = pedido.client.host if pedido.client else "desconhecido"   # atrás do proxy, vem do X-Forwarded-For
-        agora = time.monotonic()
-        with _trava_ip:
-            if len(_pedidos_por_ip) > 10000:                              # não deixa o mapa crescer para sempre
-                _pedidos_por_ip.clear()
-            fila = _pedidos_por_ip.setdefault(ip, deque())
-            while fila and agora - fila[0] > JANELA_POR_IP_S:
-                fila.popleft()
-            if len(fila) >= MAXIMO_POR_IP:
-                espera = int(JANELA_POR_IP_S - (agora - fila[0])) + 1
+    ip = pedido.client.host if pedido.client else "desconhecido"       # atrás do proxy, vem do X-Forwarded-For
+    if pedido.method == "POST" and pedido.url.path == "/api/relatos":
+        tamanho = pedido.headers.get("content-length", "")
+        if tamanho.isdigit() and int(tamanho) > LIMITE_CORPO_RELATO:
+            return JSONResponse(status_code=413, content={"detail": "A foto é grande demais. Escolha uma menor."})
+        if config.modo_publico():
+            espera = _espera_se_estourou(_relatos_por_ip, ip, MAXIMO_RELATOS_POR_IP)
+            if espera is not None:
                 return JSONResponse(status_code=429, headers={"Retry-After": str(espera)},
-                                    content={"detail": "Muitas perguntas seguidas deste aparelho. Espere alguns minutos e tente de novo."})
-            fila.append(agora)
+                                    content={"detail": "Muitos relatos seguidos deste endereço. Espere alguns minutos e tente de novo."})
+    if config.modo_publico() and pedido.method == "POST" and pedido.url.path in ROTAS_COM_IA:
+        espera = _espera_se_estourou(_pedidos_por_ip, ip, MAXIMO_POR_IP)
+        if espera is not None:
+            return JSONResponse(status_code=429, headers={"Retry-After": str(espera)},
+                                content={"detail": "Muitas perguntas seguidas deste aparelho. Espere alguns minutos e tente de novo."})
     return await seguir(pedido)
 
 

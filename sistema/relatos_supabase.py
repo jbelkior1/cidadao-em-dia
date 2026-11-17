@@ -3,7 +3,13 @@
 Mesmo contrato do `RepositorioMemoria` em relatos.py. Cada método é uma chamada só:
 voto e sinalização usam funções do banco (registrar_voto, registrar_sinalizacao) para gravar
 e somar o contador na mesma transação. Tabelas em banco/migracoes/0001_datempo_relatos.sql.
+
+As fotos ficam no Storage do mesmo projeto, num bucket privado só nosso, com o nome "<id do relato>.jpg".
+O relato guarda apenas a marca tem_foto. O arquivo é apagado quando o relato vence ou é sinalizado
+3 vezes (remover_expirados); o relato em si continua no banco como histórico.
 """
+import logging
+import time
 from datetime import datetime, timezone
 
 import httpx
@@ -11,12 +17,24 @@ import httpx
 from sistema import banco
 from sistema.relatos import Relato
 
-CAMPOS = "id,linha,estacao_id,tipo,criado_em,expira_em,autor_hash,confirmacoes,contestacoes,sinalizacoes,demo,descricao"
+CAMPOS = "id,linha,estacao_id,tipo,criado_em,expira_em,autor_hash,confirmacoes,contestacoes,sinalizacoes,demo,descricao,tem_foto"
+log = logging.getLogger(__name__)
+BUCKET = "datempo-relatos"
+LOTE_DE_LIMPEZA = 20                  # fotos apagadas por rodada; o resto fica para a rodada seguinte
+LIMITE_FOTO_BUCKET = 2_097_152        # 2 MB por arquivo (o app grava JPEG de 1280 px, bem menor)
+INTERVALO_LIMPEZA_S = 60              # a limpeza das fotos vencidas roda no máximo uma vez por minuto
 
 
 def _cabecalhos(chave: str) -> dict:
     c = {"apikey": chave, "Accept-Profile": banco.ESQUEMA, "Content-Profile": banco.ESQUEMA}
     if chave.startswith("eyJ"):          # chave antiga (JWT): vai também no Authorization
+        c["Authorization"] = f"Bearer {chave}"
+    return c
+
+
+def _cabecalhos_storage(chave: str) -> dict:
+    c = {"apikey": chave}
+    if chave.startswith("eyJ"):
         c["Authorization"] = f"Bearer {chave}"
     return c
 
@@ -31,6 +49,7 @@ def _relato(linha: dict) -> Relato:
         criado_em=_data(linha["criado_em"]), expira_em=_data(linha["expira_em"]), autor_hash=linha["autor_hash"],
         confirmacoes=linha.get("confirmacoes", 0), contestacoes=linha.get("contestacoes", 0),
         sinalizacoes=linha.get("sinalizacoes", 0), demo=linha.get("demo", False), descricao=linha.get("descricao") or "",
+        tem_foto=bool(linha.get("tem_foto", False)),
         votos={v["autor_hash"]: v["valor"] for v in linha.get("votos") or []},
         sinalizadores={s["autor_hash"] for s in linha.get("sinalizacoes_lista") or []},
     )
@@ -41,8 +60,11 @@ class BancoIndisponivel(RuntimeError):
 
 
 class RepositorioSupabase:
-    def __init__(self, url: str, chave: str, cliente: httpx.Client | None = None) -> None:
+    def __init__(self, url: str, chave: str, cliente: httpx.Client | None = None,
+                 armazenamento: httpx.Client | None = None) -> None:
         self._http = cliente or httpx.Client(base_url=f"{url}/rest/v1", headers=_cabecalhos(chave), timeout=10)
+        self._arm = armazenamento or httpx.Client(base_url=f"{url}/storage/v1", headers=_cabecalhos_storage(chave), timeout=20)
+        self._ultima_limpeza = float("-inf")
 
     def _ok(self, r: httpx.Response) -> httpx.Response:
         if r.status_code >= 400:
@@ -57,6 +79,7 @@ class RepositorioSupabase:
             "id": relato.id, "linha": relato.linha, "estacao_id": relato.estacao_id, "tipo": relato.tipo,
             "criado_em": relato.criado_em.isoformat(), "expira_em": relato.expira_em.isoformat(),
             "autor_hash": relato.autor_hash, "demo": relato.demo, "descricao": relato.descricao,
+            "tem_foto": relato.tem_foto,
             "confirmacoes": relato.confirmacoes, "contestacoes": relato.contestacoes, "sinalizacoes": relato.sinalizacoes,
         }))
 
@@ -89,6 +112,63 @@ class RepositorioSupabase:
         return r.json() is True
 
     def remover_expirados(self, agora: datetime) -> int:
-        """No banco nada é apagado: o relato vencido só deixa de aparecer no feed (listar_ativos filtra
-        por expira_em) e fica guardado como histórico, para acompanhar depois."""
-        return 0
+        """No banco o relato vencido fica como histórico: só sai do feed (listar filtra por expira_em).
+        Já a FOTO é apagada do Storage quando o relato vence ou chega a 3 sinalizações, e o relato passa
+        a tem_foto = false. Devolve quantas fotos foram apagadas.
+
+        É uma faxina, não uma etapa obrigatória: roda no máximo uma vez por minuto, apaga até
+        LOTE_DE_LIMPEZA por rodada e, se o banco ou o Storage falharem, só registra no log e segue
+        (o feed e a criação de relatos não podem cair por causa dela). A foto que falhou fica
+        marcada e entra na próxima rodada."""
+        if time.monotonic() - self._ultima_limpeza < INTERVALO_LIMPEZA_S:
+            return 0
+        self._ultima_limpeza = time.monotonic()
+        try:
+            r = self._ok(self._http.get("/relatos", params={
+                "select": "id", "tem_foto": "eq.true", "or": f"(expira_em.lte.{agora.isoformat()},sinalizacoes.gte.3)",
+                "order": "expira_em.asc", "limit": str(LOTE_DE_LIMPEZA),
+            }))
+            pendentes = [linha["id"] for linha in r.json()]
+        except (BancoIndisponivel, httpx.HTTPError):
+            log.warning("limpeza de fotos: não consegui listar os relatos com foto vencida", exc_info=True)
+            return 0
+        apagadas = 0
+        for relato_id in pendentes:
+            try:
+                self.apagar_foto(relato_id)
+                self._ok(self._http.patch("/relatos", params={"id": f"eq.{relato_id}"}, json={"tem_foto": False}))
+                apagadas += 1
+            except (BancoIndisponivel, httpx.HTTPError):
+                log.warning("limpeza de fotos: falhou no relato %s, tento de novo na próxima rodada", relato_id, exc_info=True)
+        return apagadas
+
+    # ---- fotos (Storage)
+
+    def _criar_bucket(self) -> None:
+        r = self._arm.post("/bucket", json={"id": BUCKET, "name": BUCKET, "public": False,
+                                            "file_size_limit": LIMITE_FOTO_BUCKET, "allowed_mime_types": ["image/jpeg"]})
+        if r.status_code >= 400 and "already exists" not in r.text.lower():
+            raise BancoIndisponivel(f"Storage não criou o bucket: {r.status_code}: {r.text[:200]}")
+
+    def guardar_foto(self, relato_id: str, jpeg: bytes) -> None:
+        for tentativa in (1, 2):
+            r = self._arm.post(f"/object/{BUCKET}/{relato_id}.jpg", content=jpeg, headers={"Content-Type": "image/jpeg"})
+            if r.status_code == 404 and tentativa == 1:          # o bucket ainda não existe: cria uma vez e tenta de novo
+                self._criar_bucket()
+                continue
+            if r.status_code >= 400:
+                raise BancoIndisponivel(f"Storage respondeu {r.status_code}: {r.text[:200]}")
+            return
+
+    def obter_foto(self, relato_id: str) -> bytes | None:
+        r = self._arm.get(f"/object/{BUCKET}/{relato_id}.jpg")
+        if r.status_code == 404 or (r.status_code == 400 and "not_found" in r.text.lower()):
+            return None            # o Storage responde 400 com "not_found" para objeto que não existe
+        if r.status_code >= 400:
+            raise BancoIndisponivel(f"Storage respondeu {r.status_code}: {r.text[:200]}")
+        return r.content
+
+    def apagar_foto(self, relato_id: str) -> None:
+        r = self._arm.delete(f"/object/{BUCKET}/{relato_id}.jpg")
+        if r.status_code >= 400 and r.status_code != 404:
+            raise BancoIndisponivel(f"Storage respondeu {r.status_code}: {r.text[:200]}")
