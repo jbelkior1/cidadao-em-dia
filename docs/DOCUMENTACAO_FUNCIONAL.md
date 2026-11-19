@@ -12,12 +12,17 @@ O Dá Tempo? é um app de trem e metrô de São Paulo que avisa, antes de a pess
 
 | Endereço | O que abre |
 |---|---|
-| `/` **Como funciona** | O problema, o uso aba por aba, o fluxograma e onde cada matéria entra. |
+| `/` **Como funciona** | O vídeo do pitch (abre no YouTube), o problema, o uso aba por aba, o fluxograma e onde cada matéria entra. |
 | `/sistema` **Sistema** | O app dentro do desenho de um celular (no celular de verdade, em tela cheia). |
 | `/app` **Só o app** | O app em tela cheia, sem a barra da plataforma. É o endereço para abrir direto pelo celular. |
-| `/sociedade` **Teste da sociedade** | Passageiros fictícios vivem uma situação do dia no sistema de verdade. |
+| `/avaliacao` **Avaliação usuários** | O que as pessoas acharam do app, separado por grupo (Família, Faculdade, Trabalho, Conhecido). Ninguém se identifica. Quando há testes completos, mostra também os números deles. |
+| `/avaliar` **Avaliar o Dá Tempo?** | O formulário simples: como a pessoa conhece o projeto (opcional) e o campo "O que você achou do sistema?", de até 500 caracteres. |
+| `/avaliar/teste` **Teste completo** | Três tarefas cronometradas no app, com acerto, perguntas sobre o cartão de energia da viagem e notas de facilidade de 1 a 5 (cerca de 10 minutos). |
 | `/materias/pcp`, `/dsa`, `/sers`, `/mlam`, `/pai`, `/cs`, `/mmc`, `/coa` **Matérias** | Cada página tem **Entenda** (entrega, arquivos no GitHub, o que faz no sistema e o fluxograma), **Teste** e **Checklist da entrega**, com o botão para baixar o pacote (.zip) da matéria. |
 | `/documentacao` **Documentação funcional** | Esta página. |
+| `/configuracoes` **Configurações de IA** | Só no computador: escolhe o provedor e o modelo da Lia. No servidor público não aparece. |
+
+As avaliações seguem a mesma barreira do resto do app: texto com dado pessoal ou link é recusado, e cada aparelho envia no máximo 10 por hora (no servidor público, também 20 a cada 5 minutos por endereço).
 
 O **Modo banca**, no rodapé da barra lateral, mostra ao lado do app qual matéria fez cada parte da última resposta.
 
@@ -59,7 +64,7 @@ Horário de pico: dias úteis, das 6h às 9h e das 16h às 19h30. A modelagem l�
 
 - Antes de qualquer registro e de qualquer chamada à IA, o sistema barra números longos (CPF, telefone), e-mail e frases que anunciam um dado ("meu nome é", "moro na rua", "minha senha é").
 - **No aparelho:** estação de casa, minhas linhas, um código aleatório dos relatos e, com conta, o token da sessão.
-- **No servidor:** os relatos (só o hash do código do aparelho) e, com conta, usuário, hash da senha, linhas, casa e rotas.
+- **No servidor:** os relatos e as avaliações (só o hash do código do aparelho) e, com conta, usuário, hash da senha, linhas, casa e rotas. A avaliação guarda o grupo, se a pessoa escolheu, o comentário e, no teste completo, os tempos, os acertos, as respostas sobre energia e as notas.
 - **Nunca guardado:** o que a pessoa escreve para a Lia, localização ou documento. A foto do relato é a única imagem que o servidor guarda: sai recomprimida e sem metadados, num bucket privado, e é apagada quando o relato vence ou recebe 3 sinalizações.
 
 ## 6. Dados e IA
@@ -96,7 +101,7 @@ Quando uma fonte cai, o app mostra a última leitura com a hora dela e diz que e
 | Variável | Para que serve |
 |---|---|
 | `IA_PROVEDOR`, `IA_MODELO`, `IA_CHAVE`, `IA_BASE_URL`, `IA_LIMITE_DIARIO` | Modelo da Lia e limite diário |
-| `SUPABASE_URL`, `SUPABASE_SECRET_KEY` | Banco dos relatos e das contas (esquema `datempo`); sem elas, os relatos ficam em memória |
+| `SUPABASE_URL`, `SUPABASE_SECRET_KEY` | Banco dos relatos, das contas e das avaliações (esquema `datempo`); sem elas, tudo fica em memória |
 | `MODO_PUBLICO` | `1` no servidor aberto aos professores |
 | `PASTA_DADOS_LOCAIS` | Contador de uso da IA e histórico das linhas |
 | `URL_PUBLICA` | Endereço do site nos pacotes das matérias (sem ela, usa o endereço do navegador) |

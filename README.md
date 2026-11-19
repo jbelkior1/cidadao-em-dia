@@ -33,9 +33,9 @@ Na plataforma, cada matéria tem uma página com **Entenda** (o que faz, a entre
 
 | Página | O que tem |
 |---|---|
-| **Como funciona** | O problema, como o sistema resolve, o fluxograma e onde cada matéria entra |
+| **Como funciona** | O vídeo do pitch, o problema, como o sistema resolve, o fluxograma e onde cada matéria entra |
 | **Sistema** | O app funcionando dentro de um celular (no celular de verdade, em tela cheia) |
-| **Teste da sociedade** | Passageiros simulados vivendo uma situação do dia com o sistema de verdade |
+| **Avaliação usuários** | Os comentários de quem usou o app, por grupo, e o formulário para avaliar (com o teste completo em `/avaliar/teste`) |
 | **Matérias** | Uma página por matéria: Entenda (com o fluxograma da matéria), Teste e Checklist, com o botão para baixar o pacote (.zip) da entrega |
 | **Documentação funcional** | Tudo o que a plataforma faz, tela por tela ([`docs/DOCUMENTACAO_FUNCIONAL.md`](docs/DOCUMENTACAO_FUNCIONAL.md)) |
 
@@ -68,7 +68,7 @@ Servidor público (Docker): passo a passo em [`DEPLOY.md`](DEPLOY.md).
 
 | Pasta | O que tem |
 |---|---|
-| `sistema/` | API (FastAPI), a Lia (`assistente.py`), barreira de dado pessoal, camada de IA, relatos, contas, mapa, SOS, testes das matérias, teste da sociedade e checklist |
+| `sistema/` | API (FastAPI), a Lia (`assistente.py`), barreira de dado pessoal, camada de IA, relatos, contas, mapa, SOS, testes das matérias, avaliações e checklist |
 | `sistema/mobilidade/` | Rede (GTFS, Dijkstra com custo de baldeação e desvio), fontes ao vivo (linhas, INMET, CGE), decisão do dia, energia e a montagem da viagem |
 | `sistema/web/` | As telas (React, Vite e Tailwind) |
 | `sistema/dados/` | Rede de trem e metrô, segurança por estação, personas e o checklist das entregas |

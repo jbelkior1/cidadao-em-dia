@@ -10,9 +10,9 @@
       "requisito": "Inserir os 3 integrantes, com RM, em cada uma das entregas do portal (o campo mostra só um integrante)",
       "criterio": "",
       "quem": "equipe",
-      "status": "A fazer",
+      "status": "Feito",
       "onde": "",
-      "como": "Conferido no portal em 13/11: sem isso a nota pode não chegar aos outros dois.",
+      "como": "Nome completo e RM dos três estão em todos os arquivos de entrega (.txt da PCP, SERS e pitch, LEIA-ME de CS, DSA, MMC e PAI, COA), na capa do PDF e nos .py da MLAM.",
       "id": "GERAL-01"
     },
     {
@@ -21,7 +21,7 @@
       "quem": "equipe",
       "status": "Feito",
       "onde": "entregas/portal/pitch/PITCH_entrega.txt",
-      "como": "Vídeo publicado no YouTube em 19/11/2026 (2:54): https://www.youtube.com/watch?v=TXzhmbRmonE. O .txt de entrega já tem o link (entregas/portal/saida/PITCH); falta conferir se o vídeo está como não listado e enviar.",
+      "como": "Vídeo publicado no YouTube como não listado (2:54): https://www.youtube.com/watch?v=TXzhmbRmonE. O .txt de entrega já tem o link e os três integrantes com RM.",
       "id": "GERAL-02"
     },
     {
