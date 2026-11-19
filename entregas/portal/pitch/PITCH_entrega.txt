@@ -8,4 +8,9 @@ Entrega em grupo. Integrantes:
 - João Pedro Pereira Teixeira (RM 569937)
 - Thiago de Oliveira Coelho Souza (RM 568783)
 
-Plataforma do projeto: {URL_SISTEMA}
+================================================================
+VEJA O DÁ TEMPO? FUNCIONANDO
+{URL_SISTEMA}
+Na plataforma: o app dentro de um celular, como funciona, a avaliação dos usuários e uma página por matéria com a entrega de cada uma.
+No celular, abra direto o app: {URL_SISTEMA}/app
+================================================================

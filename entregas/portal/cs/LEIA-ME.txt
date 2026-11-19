@@ -6,6 +6,12 @@ Integrantes:
 - João Pedro Pereira Teixeira (RM 569937)
 - Thiago de Oliveira Coelho Souza (RM 568783)
 
+================================================================
+VEJA A ENTREGA DE CS FUNCIONANDO NO APP DÁ TEMPO?
+{URL_SISTEMA}/materias/cs
+Na página da matéria: o que a entrega faz dentro do app, o teste ao vivo e o checklist do enunciado, item por item.
+================================================================
+
 Conteúdo do pacote:
 - [NOME_DO_RELATORIO].pdf: relatório técnico (problema, variáveis com o significado de 0 e 1, regras e referências com data de consulta, tabela-verdade, forma canônica, simplificação por álgebra, De Morgan se necessário, mapa de Karnaugh, circuitos original e simplificado com contagem de portas e resultados dos testes)
 - prints/: capturas da simulação no [logic.ly ou logiccircuit.org] e da execução do programa

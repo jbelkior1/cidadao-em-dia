@@ -11,8 +11,13 @@ GS 2026.2, Computer Organization and Architecture (CitizenTech), turma 1CC
 - João Pedro Pereira Teixeira (RM 569937)
 - Thiago de Oliveira Coelho Souza (RM 568783)
 
+================================================================
+VEJA A ENTREGA DE COA FUNCIONANDO NO APP DÁ TEMPO?
+{URL_SISTEMA}/materias/coa
+Na página da matéria: o que a entrega faz dentro do app, o teste ao vivo e o checklist do enunciado, item por item.
+================================================================
+
 Sobre a entrega
 Problema e público: [problema e público].
 Como foi feito: Raspberry Pi Pico com [SENSOR] e [ATUADORES], programada em MicroPython no Wokwi; o código lê o sensor, compara com os limites e aciona o alerta. [AJUSTAR ao que foi montado.]
 O que agrega ao Dá Tempo?: o alagamento é uma das condições que fazem o app avisar para sair mais cedo ou mudar o caminho; o dispositivo mostra como esse aviso pode nascer no próprio local.
-Página da matéria no sistema: {URL_SISTEMA}/materias/coa

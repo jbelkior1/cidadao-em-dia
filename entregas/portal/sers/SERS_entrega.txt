@@ -11,8 +11,13 @@ https://github.com/jbelkior1/cidadao-em-dia
 Link do vídeo no YouTube (não listado, até 3 minutos):
 [COLE AQUI O LINK DO VÍDEO]
 
+================================================================
+VEJA A ENTREGA DE SERS FUNCIONANDO NO APP DÁ TEMPO?
+{URL_SISTEMA}/materias/sers
+Na página da matéria: o que a entrega faz dentro do app, o teste ao vivo e o checklist do enunciado, item por item.
+================================================================
+
 Sobre a entrega
 A parte da SERS fica em entregas/sers no repositório (README.md, comparar_energia.py e TESTES_USUARIOS.md), com o cálculo em sistema/mobilidade/energia.py e os fatores com fonte em pesquisa/energia_modos.json.
 Como foi feito: comparamos a mesma viagem casa-trabalho, por pessoa, de trem ou metrô (elétrico; 86,8% da eletricidade do país veio de fonte renovável em 2025, segundo a EPE), ônibus a diesel e carro a gasolina, em energia, CO2 e custo, por viagem e em um mês de trabalho. Cada fator tem fonte oficial (MCTI, EPE, Metrô de São Paulo, INMETRO, ANP), unidade, ano e o trecho lido; as contas são estimativas por médias, não medição.
 O que agrega ao Dá Tempo?: quando a agente Lia confere uma viagem, o cartão mostra quanto aquela distância pesa em CO2 e em dinheiro no trilho, no ônibus e no carro, com as premissas e as fontes.
-Página da matéria no sistema: {URL_SISTEMA}/materias/sers
