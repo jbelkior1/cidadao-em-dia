@@ -6,7 +6,7 @@
 Lê os modelos de entregas/portal/<matéria>/ e grava em entregas/portal/saida/ (fora do git):
 - PCP e SERS: um único .txt, como os enunciados mandam;
 - DSA e PAI: um .zip com a pasta da entrega e o LEIA-ME.txt;
-- MLAM: a pasta MLAM_para_enviar com o .csv, os .py e o .pdf soltos (o enunciado proíbe links e
+- MLAM: a pasta MLAM_para_enviar com o .csv, os .py de entregas/mlam/entrega e o .pdf soltos (o enunciado proíbe links e
   aceita só esses formatos);
 - CS, MMC, COA e o vídeo pitch: o modelo de texto a completar.
 
@@ -88,7 +88,7 @@ def main() -> int:
 
     soltos = SAIDA / "MLAM" / "MLAM_para_enviar"
     soltos.mkdir(parents=True, exist_ok=True)
-    for arquivo in [MLAM / "dados" / "ocorrencias_estacoes_2026.csv", *sorted(MLAM.glob("*.py")),
+    for arquivo in [MLAM / "dados" / "ocorrencias_estacoes_2026.csv", *sorted((MLAM / "entrega").glob("questao*.py")),
                     MLAM / "saidas" / "relatorio_mlam_gs2026.pdf"]:
         shutil.copy2(arquivo, soltos / arquivo.name)
     gerados.append(soltos)

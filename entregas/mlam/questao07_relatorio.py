@@ -345,10 +345,11 @@ def montar(r: dict) -> list:
     ]:
         hist.append(P(f"• {texto}"))
     hist += [Spacer(1, 8), P("Como reproduzir", "h2"),
-             P("Coloque todos os arquivos recebidos numa mesma pasta (o .csv pode ficar junto dos .py ou numa subpasta "
-               "chamada dados). Depois rode python main.py e, em seguida, python questao07_relatorio.py. Os scripts de "
-               "cada questão e a base em .csv acompanham este relatório. A fonte, os filtros e as limitações da base "
-               "estão resumidos no início do arquivo preparar_base.py, que também traz o passo a passo de montagem.")]
+             P("Coloque o arquivo ocorrencias_estacoes_2026.csv e os cinco arquivos .py na mesma pasta e rode um por "
+               "questão: python questao02_probabilidade.py, questao03_testes_hipotese.py, questao04_bivariada.py, "
+               "questao05_multivariada.py e questao06_logistica.py. Cada script imprime os resultados da questão e "
+               "salva o gráfico usado neste relatório. Bibliotecas: pandas, numpy, scipy, statsmodels, scikit-learn e "
+               "matplotlib. A fonte, os filtros e as limitações da base estão na seção sobre a base de dados (questão 01).")]
     return hist
 
 

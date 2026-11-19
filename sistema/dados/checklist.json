@@ -900,7 +900,7 @@
               "criterio": "Q02a e Q02b",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/mlam/questao02_probabilidade.py:36-40 e 55-59; gráfico saidas/q02_probabilidade.png",
+              "onde": "entregas/mlam/entrega/questao02_probabilidade.py:36-40 e 55-59; gráfico saidas/q02_probabilidade.png",
               "como": "python main.py: média 341,78, mediana 228, σ populacional 332,04. P(X < 341,78) = 0,5000, 'evento equiprovável'. P(X > 228) = 0,6341, 'evento provável'. Recalculado com scipy: 0,63408. Há interpretação escrita (assimetria, 15,2% da normal em valores negativos). O gráfico tem título, eixos e legenda.",
               "id": "MLAM-02"
             }
@@ -914,7 +914,7 @@
               "criterio": "Q03a (teste z unilateral à esquerda)",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/mlam/questao03_testes_hipotese.py (interpretação da 03a)",
+              "onde": "entregas/mlam/entrega/questao03_testes_hipotese.py (interpretação da 03a)",
               "como": "Teste z unilateral à esquerda com as 20 estações mais distantes do Marco Zero: média 216,75, EP 74,25, z = -1,684, z crítico a 6% = -1,555, p = 0,0461, rejeita H0. A 5% a decisão é a mesma. O texto avisa que o grupo não foi sorteado e traz uma checagem com amostra sorteada (semente 42), que não rejeita. Código: questao03_testes_hipotese.py:58-90; gráfico saidas/q03_testes_hipotese.png. Recalculado com scipy e statsmodels em 16/11: bate.",
               "id": "MLAM-03"
             },
@@ -923,7 +923,7 @@
               "criterio": "Q03b (teste z unilateral à direita)",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/mlam/questao03_testes_hipotese.py:89-103; gráfico saidas/q03_testes_hipotese.png",
+              "onde": "entregas/mlam/entrega/questao03_testes_hipotese.py:89-103; gráfico saidas/q03_testes_hipotese.png",
               "como": "25 estações mais próximas: média 723,04, EP 66,41, z = 5,741, z crítico = 1,341, p < 0,0001, rejeita H0. Recalculado: deu igual. Há H0 e H1 explícitas, decisão e interpretação. Há também uma checagem com amostras sorteadas (sementes 42 e 43), que não rejeita nenhuma. O gráfico mostra a região de rejeição.",
               "id": "MLAM-04"
             }
@@ -937,7 +937,7 @@
               "criterio": "Q04a, Q04c, Q04d",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/mlam/questao04_bivariada.py:49-61, 78-98, 148-180; saidas/q04a_dispersao.png e q04c_correlacao.png",
+              "onde": "entregas/mlam/entrega/questao04_bivariada.py:49-61, 78-98, 148-180; saidas/q04a_dispersao.png e q04c_correlacao.png",
               "como": "Dispersão distância × ocorrências com título, rótulos nos dois eixos, reta e as 3 maiores estações rotuladas (imagem conferida). A equação sai como total = 587,85 - 25,92 × distância_km (recalculado: a = 587,851, b = -25,925). O mapa de calor do par mostra r = -0,47 e tem título. As três leituras estão escritas no relatorio.txt.",
               "id": "MLAM-05"
             },
@@ -946,7 +946,7 @@
               "criterio": "Q04b, Q04e, Q04f",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/mlam/questao04_bivariada.py:40-42, 63-76, 100-118, 121-136",
+              "onde": "entregas/mlam/entrega/questao04_bivariada.py:40-42, 63-76, 100-118, 121-136",
               "como": "Covariância = -939,34 e r = -0,4683 (conferido). R² = 0,2193 e F(1;137) = 38,481 com p = 6,1e-09 (conferido, F = r²/(1-r²)·(n-2)). Previsão a 5 km = 458,2 com IC 95% [396; 520], contra 432 de média real na faixa. Há interpretação de cada item e checagem de pressupostos (Breusch-Pagan p = 0,0054 e erro padrão HC3).",
               "id": "MLAM-06"
             }
@@ -960,7 +960,7 @@
               "criterio": "Q05a, Q05b, Q05c",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/mlam/questao05_multivariada.py:45-82, 176-201; saidas/q05a_dispersao.png e q05c_correlacao.png",
+              "onde": "entregas/mlam/entrega/questao05_multivariada.py:45-82, 176-201; saidas/q05a_dispersao.png e q05c_correlacao.png",
               "como": "Matriz de dispersão das 4 variáveis (total, distância, linhas, latitude) com título, histogramas e rótulos legíveis. Matrizes de covariância e de correlação impressas, interpretadas e também em tabela no PDF (pág. 6): r(total, linhas) = 0,510, r(total, distância) = -0,468, r(total, lat) = 0,130. Mapa de calor com título e valores. Código: questao05_multivariada.py:45-82 e 176-201.",
               "id": "MLAM-07"
             },
@@ -969,7 +969,7 @@
               "criterio": "Q05d, Q05e, Q05f",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/mlam/questao05_multivariada.py:84-101, 103-133, 135-161",
+              "onde": "entregas/mlam/entrega/questao05_multivariada.py:84-101, 103-133, 135-161",
               "como": "total = 2624,89 - 20,53×dist + 243,59×linhas + 100,86×lat. R² = 0,3937, R² ajustado = 0,3803, F(3;135) = 29,225 com p = 1,26e-14, VIF todos menores que 1,10. Previsão para 4 km, 3 linhas e lat -23,55 = 898,3, com IC 95% [754; 1.043]. A média real das 4 estações parecidas (1.232) fica fora do IC, e o texto diz isso e avisa que é extrapolação. A latitude não é significativa (p = 0,789) e o texto avisa. O enunciado pede pelo menos três variáveis quantitativas, e a resposta conta como uma delas. Recalculado com statsmodels em 16/11: confere.",
               "id": "MLAM-08"
             }
@@ -983,7 +983,7 @@
               "criterio": "Q06a, Q06c",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/mlam/questao06_logistica.py:34-55, 110-144",
+              "onde": "entregas/mlam/entrega/questao06_logistica.py:34-55, 110-144",
               "como": "Resposta binária: total > 228 (mediana), com 68 de classe 1 e 71 de classe 0. logito = -13,3295 - 0,1250×dist + 1,0437×linhas - 0,5626×lat. Razões de chance, pseudo R² de McFadden = 0,123 e LLR p = 2,8e-05. Duas classificações com as 3 variáveis: baldeação central p = 0,94 (ALTA) e ponta de linha p = 0,14 (normal). Decomposição por variável e ressalva sobre o p = 0,0674 das linhas. O PDF traz a equação logito(p) da Q06a (15/11).",
               "id": "MLAM-09"
             },
@@ -992,7 +992,7 @@
               "criterio": "Q06b",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/mlam/questao06_logistica.py:78-108 e 157-181; saidas/q06_logistica.png",
+              "onde": "entregas/mlam/entrega/questao06_logistica.py:78-108 e 157-181; saidas/q06_logistica.png",
               "como": "Matriz [[51, 20], [21, 47]]. Acurácia = 98/139 = 70,5%, contra 51,1% de piso da classe maior (71/139). Precisão 0,701, revocação 0,691 e AUC 0,744. A interpretação discute falso negativo (21) e o fato de a medida ser na própria base. O gráfico tem legenda da classe real (ocorrência normal ou alta ocorrência) e o corte 0,5. Matriz e acurácia recalculadas de forma independente em 16/11.",
               "id": "MLAM-10"
             }
@@ -1006,7 +1006,7 @@
               "criterio": "Q07 (o cliente também avalia o rigor técnico)",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/mlam/questao07_relatorio.py; saidas/relatorio_mlam_gs2026.pdf (9 páginas)",
+              "onde": "entregas/mlam/saidas/relatorio_mlam_gs2026.pdf (gerado por questao07_relatorio.py, que fica no repositório)",
               "como": "PDF de 9 páginas e 7 gráficos regerado a partir do resultados.json. Tem resumo para quem decide, tabelas por questão (incluindo as matrizes de covariância e de correlação e a equação logito(p) da Q06a), 'Insight' em cada seção, recomendação ao produto, limitações e passo a passo de reprodução. Não cita arquivos .md.",
               "id": "MLAM-11"
             }
@@ -1020,8 +1020,8 @@
               "criterio": "Orientação geral (todos respondem pela entrega)",
               "quem": "sistema",
               "status": "Feito",
-              "onde": "entregas/mlam/comum.py:1 e 28-32; cabeçalho linha 1 dos 9 .py; capa do PDF",
-              "como": "Os 9 .py têm na linha 1 'Integrantes: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)'. A capa do PDF tem a tabela com os três nomes e RMs, lida do texto extraído. O .csv não traz nomes (um CSV de dados não comporta cabeçalho de texto sem quebrar as colunas).",
+              "onde": "capa do PDF; linha 1 dos 5 .py de entregas/mlam/entrega",
+              "como": "Os 5 .py que vão ao portal têm na linha 1 os três nomes completos com RM, e a capa do PDF traz a tabela de integrantes (conferido em 19/11).",
               "id": "MLAM-12"
             },
             {
@@ -1030,7 +1030,7 @@
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/mlam/dados/*.csv; entregas/mlam/*.py; entregas/mlam/saidas/relatorio_mlam_gs2026.pdf",
-              "como": "Os .py acham o CSV em dados/ ou na mesma pasta; o PDF não cita mais arquivo .md; a ordem de execução está no README e em Como reproduzir (15/11).",
+              "como": "Vão 7 arquivos soltos: o .csv, um .py por questão (02 a 06, cada um lê o .csv da mesma pasta, imprime os resultados e salva o gráfico) e o PDF. Os 5 scripts foram reescritos em 19/11 num formato simples e reproduzem todos os números do relatório; o PDF foi regerado com os gráficos deles.",
               "id": "MLAM-13"
             },
             {

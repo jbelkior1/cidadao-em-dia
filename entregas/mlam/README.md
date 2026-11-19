@@ -8,6 +8,20 @@ Integrantes:
 | João Pedro Pereira Teixeira | 569937 |
 | Thiago de Oliveira Coelho Souza | 568783 |
 
+## O que vai ao portal
+
+A pasta `entrega/` tem exatamente o que é postado, solto: a base `ocorrencias_estacoes_2026.csv`, um script por
+questão (`questao02_probabilidade.py` a `questao06_logistica.py`) e o relatório `relatorio_mlam_gs2026.pdf` (que fica em
+`saidas/`). Cada script lê o `.csv` da mesma pasta, imprime os resultados da questão e salva o gráfico usado no relatório:
+
+```bash
+cd entrega
+python questao02_probabilidade.py
+```
+
+Os scripts desta pasta raiz (`comum.py`, `main.py`, `questao07_relatorio.py` e `preparar_base.py`) ficam só no repositório:
+montam a base a partir da planilha bruta e geram o PDF, e não vão ao portal. Os números dos dois conjuntos são os mesmos.
+
 ## O problema
 
 O app **Dá Tempo?** (CitizenTech) acompanha quem anda de trem e metrô em São Paulo. Uma das perguntas
@@ -24,7 +38,7 @@ ocorrências e até onde dá para prever.
 - **Período:** janeiro a setembro de 2026.
 - **Como foi montada:** contagem de ocorrências num raio de 300 m de cada estação (coordenadas do GTFS
   da SPTrans). O passo a passo, os filtros e as limitações estão em `dados/LEIA-ME.md` (neste repositório) e
-  resumidos no início do `preparar_base.py`, que é o script que gera a base e vai ao portal.
+  resumidos no início do `preparar_base.py`, o script que gera a base (fica no repositório; o relatório resume a fonte e os filtros).
 - **Privacidade:** só números agregados por estação. Nenhum endereço, número de BO ou dado de pessoa.
 
 ### Variáveis usadas
