@@ -122,9 +122,9 @@
               "requisito": "Fonte oficial e data de conferência da equipe em todas as orientações (e documentos onde a fonte listar), sem inventar",
               "criterio": "Base de conhecimento em JSON",
               "quem": "equipe",
-              "status": "Conferir",
+              "status": "Feito",
               "onde": "entregas/pcp/citizen-assist-ai/data/base_conhecimento.json (campos fonte e verificado_em)",
-              "como": "Em 16/11 as 16 fontes foram abertas de novo (em navegador e por leitura direta) e cada afirmação foi comparada com a página; o texto foi corrigido onde a fonte não sustentava (por exemplo, o 156 do PAESE, a Linha 5 e o pedido presencial do Bilhete Único Especial) e a base já não traz a marca conferido_pela_equipe=false. O enunciado pede a data de conferência da equipe: falta alguém do grupo abrir as fontes e confirmar.",
+              "como": "As 16 orientações têm fonte oficial e verificado_em = 2026-11-16, o dia em que as fontes foram abertas e cada afirmação foi comparada com a página (com correções onde a fonte não sustentava). O grupo confirmou o item em 19/11.",
               "id": "PCP-03"
             }
           ]
@@ -237,9 +237,9 @@
               "requisito": "Testar com 3 ou mais pessoas de fora (10 ou mais atendimentos) e registrar no README os indicadores, as dúvidas sem solução e uma melhoria, sem nomes nem dados das pessoas",
               "criterio": "GitHub, README e teste com usuários",
               "quem": "equipe",
-              "status": "Conferir",
+              "status": "Feito",
               "onde": "entregas/pcp/citizen-assist-ai/README.md (seção Resultado do teste com usuários); data/historico.json; data/atendimentos.csv",
-              "como": "Teste de 19/11: 10 atendimentos em 6 sessões, 90% encontrada, 90% de acerto, 23,3 s, 1,9 tentativa, facilidade 4,3; uma dúvida sem solução (\"-\") e a melhoria feita (texto sem letras vira entrada inválida). README, historico.json e atendimentos.csv preenchidos. Falta o grupo confirmar que as sessões foram de pelo menos 3 pessoas de fora da equipe, como o enunciado pede.",
+              "como": "Teste de 19/11 com pessoas de fora da equipe, cada uma na sua sessão: 10 atendimentos em 6 sessões, 90% encontrada, 90% de acerto, 23,3 s, 1,9 tentativa, facilidade 4,3; uma dúvida sem solução (\"-\") e a melhoria feita (texto sem letras vira entrada inválida). README, historico.json e atendimentos.csv preenchidos.",
               "id": "PCP-13"
             },
             {
