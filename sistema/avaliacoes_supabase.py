@@ -45,8 +45,3 @@ class RepositorioSupabaseAvaliacoes:
     def todas(self) -> list[Avaliacao]:
         r = self._ok(self._http.get("/avaliacoes", params={"select": "*", "order": "criada_em.desc", "limit": str(LIMITE_LEITURA)}))
         return [_avaliacao(x) for x in r.json()]
-
-    def contar_do_autor(self, autor: str, desde: datetime) -> int:
-        r = self._ok(self._http.get("/avaliacoes", params={"select": "id", "autor_hash": f"eq.{autor}",
-                                                           "criada_em": f"gte.{desde.isoformat()}"}))
-        return len(r.json())

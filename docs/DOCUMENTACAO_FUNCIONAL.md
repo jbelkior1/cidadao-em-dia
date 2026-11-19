@@ -22,7 +22,7 @@ O Dá Tempo? é um app de trem e metrô de São Paulo que avisa, antes de a pess
 | `/documentacao` **Documentação funcional** | Esta página. |
 | `/configuracoes` **Configurações de IA** | Só no computador: escolhe o provedor e o modelo da Lia. No servidor público não aparece. |
 
-As avaliações seguem a mesma barreira do resto do app: texto com dado pessoal ou link é recusado, e cada aparelho envia no máximo 10 por hora (no servidor público, também 20 a cada 5 minutos por endereço).
+As avaliações seguem a mesma barreira do resto do app: texto com dado pessoal ou link é recusado. O mesmo aparelho pode enviar várias avaliações seguidas, para que um teste passe de mão em mão; no servidor público, o limite é de 20 envios a cada 5 minutos por endereço.
 
 O **Modo banca**, no rodapé da barra lateral, mostra ao lado do app qual matéria fez cada parte da última resposta.
 

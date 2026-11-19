@@ -68,13 +68,11 @@ class Regras(Base):
             with self.subTest(mudanca=mudanca), self.assertRaises(avaliacoes.ErroAvaliacao):
                 self.registrar(**mudanca)
 
-    def test_limite_por_aparelho(self):
-        for i in range(avaliacoes.LIMITE_POR_HORA):
+    def test_mesmo_aparelho_pode_enviar_varias_seguidas(self):
+        # várias pessoas fazem o teste no mesmo computador: não há trava por aparelho
+        for i in range(15):
             self.registrar(agora=AGORA + timedelta(minutes=i))
-        with self.assertRaises(avaliacoes.ErroAvaliacao) as e:
-            self.registrar(agora=AGORA + timedelta(minutes=20))
-        self.assertEqual(e.exception.status, 429)
-        self.registrar(agora=AGORA + timedelta(hours=2))               # depois de uma hora, volta a aceitar
+        self.assertEqual(len(avaliacoes.repo.todas()), 15)
 
     def test_nao_guarda_id_do_aparelho(self):
         a = self.registrar()

@@ -6,8 +6,8 @@ estava certa), as 4 situações de energia da SERS (entendeu: sim, em parte, nã
 teste com usuários da PAI, da SERS e da PCP.
 
 Sem dado pessoal: ninguém se identifica, o comentário e a sugestão passam pela mesma barreira da Lia
-(privacidade.motivo) e o servidor guarda só o hash do id aleatório do aparelho, para limitar envios
-(o mesmo celular pode passar de mão em mão num teste, por isso o limite é de 10 por hora, não 1).
+(privacidade.motivo) e o servidor guarda só o hash do id aleatório do aparelho. Não há limite por aparelho: num teste, o mesmo
+computador ou celular passa de mão em mão. Contra enxurrada, o servidor público limita por endereço (api.py).
 
 Repositório em memória nos testes e no computador local; no Supabase (esquema datempo) quando o .env tem as
 chaves. Tabela em banco/migracoes/0005_datempo_avaliacoes.sql.
@@ -17,7 +17,7 @@ import threading
 import time
 import uuid
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from typing import Literal, Protocol
 
 from fastapi import APIRouter, Header, HTTPException
@@ -31,7 +31,6 @@ router = APIRouter(prefix="/api/avaliacoes", tags=["avaliacoes"])
 PERFIS = ("familia", "faculdade", "trabalho", "conhecido", "outro")
 ROTULO_PERFIL = {"familia": "Família", "faculdade": "Faculdade", "trabalho": "Trabalho", "conhecido": "Conhecido", "outro": "Outro"}
 ENTENDEU = ("sim", "em parte", "nao")
-LIMITE_POR_HORA = 10
 TEMPO_MAXIMO_S = 300
 CACHE_RESUMO_S = 30                   # a página pública não lê o banco a cada visita
 LINK = re.compile(r"https?://|www\.|\b[\w-]+\.(com|br|net|org|io|ly|me)\b", re.IGNORECASE)
@@ -87,7 +86,6 @@ class ErroAvaliacao(Exception):
 class Repositorio(Protocol):
     def inserir(self, a: Avaliacao) -> None: ...
     def todas(self) -> list[Avaliacao]: ...
-    def contar_do_autor(self, autor: str, desde: datetime) -> int: ...
 
 
 class RepositorioMemoria:
@@ -101,9 +99,6 @@ class RepositorioMemoria:
 
     def todas(self) -> list[Avaliacao]:
         return sorted(self._dados, key=lambda a: a.criada_em, reverse=True)
-
-    def contar_do_autor(self, autor: str, desde: datetime) -> int:
-        return sum(1 for a in self._dados if a.autor_hash == autor and a.criada_em >= desde)
 
 
 repo: Repositorio = RepositorioMemoria()
@@ -157,8 +152,6 @@ def registrar(id_aparelho: str, perfil: str | None, tempos: list[int | None] | N
         raise ErroAvaliacao(422, "Escreva o que você achou do sistema.")
     sugestao = _texto(sugestao, 300, "sugestão")
     autor = autor_hash(id_aparelho)
-    if repo.contar_do_autor(autor, agora - timedelta(hours=1)) >= LIMITE_POR_HORA:
-        raise ErroAvaliacao(429, "Muitas avaliações seguidas deste aparelho. Espere um pouco e tente de novo.")
     a = Avaliacao(id=str(uuid.uuid4()), criada_em=agora, autor_hash=autor, perfil=perfil, tempos=list(tempos),
                   acertos=list(acertos), energia=list(energia), nota_energia=nota_energia, facilidade=list(facilidade),
                   comentario=comentario, sugestao=sugestao)
