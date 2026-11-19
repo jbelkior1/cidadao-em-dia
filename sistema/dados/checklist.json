@@ -1197,9 +1197,9 @@
               "requisito": "Rodar agente e juiz nas 26, analisar erros, aplicar melhoria, rodar de novo; tabelas salvas",
               "criterio": "Pipeline de LLM as a Judge, com comparação antes e depois",
               "quem": "sistema",
-              "status": "Conferir",
+              "status": "Feito",
               "onde": "entregas/pai/saidas/rodada_depois.json",
-              "como": "Rodadas refeitas em 16/11 com o Groq (openai/gpt-oss-120b), depois da conferência das fichas: antes 25/26 (erro no #12), depois 25/26 (erro no #3). A melhoria (## como dígito nas palavras-chave) fez o #12 acertar. O erro do #3 foi do golden: o esperado ainda dizia 'filtrar por data e por linha', e a conferência mostrou que a página da Linha 4 filtra só por mês; o agente respondeu certo e o esperado foi corrigido depois. Falta refazer a rodada depois com o golden corrigido (python avaliar.py --nome depois --so-enunciado): a repetição parou no limite diário de tokens do Groq. Análise no README.",
+              "como": "Rodadas oficiais com o Groq (openai/gpt-oss-120b) e o golden corrigido: antes 25/26 (erro no #12, em 16/11) e depois 26/26 (refeita em 19/11). A melhoria (## como dígito nas palavras-chave) fez o #12 acertar; o erro do #3 na rodada de 16/11 era do golden, já corrigido. Tabelas e análise no README; resultados em saidas/rodada_antes.json e saidas/rodada_depois.json.",
               "id": "PAI-13"
             },
             {

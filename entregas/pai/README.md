@@ -207,14 +207,16 @@ acrescentou 8 perguntas próprias (`extras_do_grupo`, #101 a #108: celular rouba
 CPTM, ficha falsa citada pelo usuário e mais um fora do escopo), usadas nos testes de desenvolvimento.
 A rodada oficial usa só as 26.
 
-**Rodadas de 16/11/2026** (`python rodar_antes_e_depois.py --so-enunciado`, Groq `openai/gpt-oss-120b`,
-mesma régua e mesma máscara nas duas; arquivos em `saidas/`). Foram refeitas depois da conferência das
-fichas contra as páginas oficiais, que corrigiu o texto de algumas fichas e cinco respostas esperadas do golden.
+**Rodadas oficiais** (Groq `openai/gpt-oss-120b`, mesma régua, mesma máscara e o mesmo golden já corrigido
+nas duas; arquivos em `saidas/`). Foram feitas depois da conferência das fichas contra as páginas oficiais,
+que corrigiu o texto de algumas fichas e cinco respostas esperadas do golden. A rodada depois foi refeita em
+19/11 (`python avaliar.py --nome depois --so-enunciado`) porque a de 16/11 ainda usava um esperado
+desatualizado no #3. Comparação: `python avaliar.py --comparar antes depois`.
 
 | rodada | acertos nas 26 (juiz) | erros |
 |---|---|---|
 | antes (16/11, 11h58) | 25/26 (96,2%) | #12 |
-| depois (16/11, 11h51) | 25/26 (96,2%) | #3 (esperado desatualizado, ver abaixo) |
+| depois (19/11) | 26/26 (100%) | nenhum |
 
 **Análise dos erros e a melhoria.**
 
@@ -225,12 +227,13 @@ fichas contra as páginas oficiais, que corrigiu o texto de algumas fichas e cin
   palavras-chave ("## anos" casa com qualquer idade) e "meu celular" só conta como dado pessoal quando
   vem antes de "é", ":" ou "=" (nas perguntas do grupo, "roubaram meu celular" era recusado). Na rodada
   depois, o #12 achou a FT-04 e acertou.
-- **#3** "Onde pego a declaração de atraso da Linha 4-Amarela?" (erro na rodada depois): o erro foi **do
+- **#3** "Onde pego a declaração de atraso da Linha 4-Amarela?" (erro na rodada depois de 16/11): o erro foi **do
   golden**, não do agente. A conferência de 16/11 mostrou que a página da Linha 4 filtra só por mês, e a
   FT-02 foi corrigida; o agente respondeu isso ("não há filtro por linha"), mas a resposta esperada ainda
   dizia "filtrando por data e por linha", e o juiz marcou contradição. O esperado foi corrigido logo
-  depois. A rodada antes já foi refeita com o golden corrigido; a depois precisa ser refeita também (a
-  repetição parou no limite diário de tokens do Groq).
+  depois e a rodada depois foi refeita em 19/11 com o golden corrigido: o #3 acertou, e o resultado ficou
+  em 26/26. As duas rodadas não são do mesmo dia; como o modelo varia um pouco entre execuções (item 5
+  das limitações), a melhoria que se pode atribuir à mudança é a do #12, que passou de erro a acerto.
 - **Histórico:** a rodada de 15/11, com as fichas antes da conferência, deu 25/26 nas duas. Ali o #9 foi
   marcado como erro na rodada depois porque a resposta repetiu uma ressalva da ficha e o juiz, que não vê
   o texto da ficha, achou que era invenção. Nas rodadas de 16/11 o #9 acertou nas duas.
