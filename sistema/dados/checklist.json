@@ -785,9 +785,9 @@
               "requisito": "Testes com usuários: situações, comentários e ajustes, sem dado pessoal",
               "criterio": "Usabilidade e comunicação (10)",
               "quem": "equipe",
-              "status": "A fazer",
+              "status": "Feito",
               "onde": "entregas/sers/TESTES_USUARIOS.md",
-              "como": "O roteiro existe (4 situações, tabela para 3 pessoas, nota de 1 a 5, sem dado pessoal), mas todos os campos de resultado estão vazios e o item de ajustes ainda está em branco. Falta aplicar com pessoas de fora, registrar e fazer pelo menos um ajuste real.",
+              "como": "5 pessoas de fora em 19/11, no app: 19 de 20 respostas \"sim\" nas 4 situações e nota 5 de quem respondeu à pergunta final. Ajuste: a frase de estimativa passou a abrir a linha de CO₂ e custo do cartão (Cartoes.tsx), porque uma pessoa entendeu em parte esse limite.",
               "id": "SERS-11"
             },
             {
@@ -1234,9 +1234,9 @@
               "requisito": "Testes com 5 pessoas de fora e relatório com acerto, tempo (3 tarefas) e facilidade (5 perguntas, 1 a 5)",
               "criterio": "Testes com usuários e indicadores",
               "quem": "equipe",
-              "status": "A fazer",
+              "status": "Feito",
               "onde": "entregas/pai/TESTES_USUARIOS.md",
-              "como": "Roteiro, 3 tarefas com resposta certa e tabelas existem e batem com o enunciado, mas todos os campos de tempo, notas e médias estão vazios; o item de ajustes ainda está em branco. Sem identificar participantes (Pessoa 1 a 5), como o enunciado manda.",
+              "como": "5 pessoas de fora em 19/11, pelo /avaliar/teste: tempos médios de 14,6 s, 5,8 s e 20,6 s nas 3 tarefas, 14 de 15 acertos (93%) e facilidade 4,96 de 5. A análise registra que a tarefa 2 foi respondida de cabeça (1 a 2 s) e propõe trocá-la; o ajuste feito no app foi o aviso de estimativa no cartão de energia.",
               "id": "PAI-16"
             }
           ]

@@ -190,7 +190,7 @@ function Plano({ c }: { c: CartaoPlano }) {
               {c.energia && (
                 <div className="space-y-1">
                   <p className="flex gap-1.5"><Leaf className="mt-0.5 size-3.5 shrink-0 text-ok" aria-hidden />
-                    <span>De trilho, cerca de {c.energia.trilho_g} g de CO₂ e {reais(c.energia.tarifa)}. De ônibus, {kg(c.energia.onibus_g / 1000)} e {reais(c.energia.onibus_tarifa)}. De carro, {kg(c.energia.carro_kg)} e {reais(c.energia.carro_custo)} de gasolina.</span></p>
+                    <span>Estimativa por médias oficiais, não a medição desta viagem. De trilho, cerca de {c.energia.trilho_g} g de CO₂ e {reais(c.energia.tarifa)}. De ônibus, {kg(c.energia.onibus_g / 1000)} e {reais(c.energia.onibus_tarifa)}. De carro, {kg(c.energia.carro_kg)} e {reais(c.energia.carro_custo)} de gasolina.</span></p>
                   <p className="pl-5 font-semibold text-ok">{c.energia.renovavel}</p>
                   <p className="pl-5 text-[11px] text-apagado">{c.energia.rotulo} Premissas: {c.energia.premissas.join("; ")}.</p>
                   <p className="pl-5 text-[11px] text-apagado">Fontes: {c.energia.fontes.map((f, i) => (

@@ -3,9 +3,6 @@
 Integrantes: João Vitor Belchior Domingos Leite (RM 572478), João Pedro Pereira Teixeira (RM 569937) e
 Thiago de Oliveira Coelho Souza (RM 568783).
 
-> Os campos de resultado dos testes com pessoas ficam vazios até o teste ser aplicado: o enunciado
-> pede o relatório do teste de verdade.
-
 O enunciado (seção 4.3) pede três indicadores:
 
 | indicador | como medir |
@@ -14,12 +11,15 @@ O enunciado (seção 4.3) pede três indicadores:
 | Tempo para encontrar a informação | cronometrar **pelo menos 5 pessoas de fora do grupo** em **3 tarefas simples** |
 | Facilidade de utilização | questionário de **5 perguntas**, escala de 1 a 5, depois do teste |
 
-## Como aplicar
+## Como foi aplicado
 
-- Pessoas de fora do grupo. Não anote nome, idade exata, telefone nem e-mail: use "Pessoa 1", "Pessoa 2"...
-- Cada pessoa usa o assistente pelo terminal (`python main.py`) ou pela Lia no app (aba IA).
-- Leia a tarefa, dispare o cronômetro e pare quando a pessoa disser a resposta certa. Não ajude.
-- Se passar de 3 minutos, anote "não achou" e siga.
+- Teste feito em 19/11/2026 por 5 pessoas de fora do grupo, pelo formulário do portal (`/avaliar/teste`),
+  que guarda as respostas sem nome nem dado pessoal (só o hash de um código aleatório do aparelho). Aqui
+  elas aparecem como "Pessoa 1" a "Pessoa 5", na ordem em que enviaram.
+- Em cada tarefa, a pessoa clica em "Começar", procura a resposta com a Lia no app e clica em "Achei"; o
+  tempo vai do primeiro clique ao segundo, medido pelo relógio do aparelho. Depois ela marca a resposta
+  entre três alternativas, e o formulário confere se acertou. Passando de 5 minutos, conta como "não achou".
+- Os dados ficam na tabela `datempo.avaliacoes` do banco do projeto.
 
 ## As 3 tarefas
 
@@ -31,14 +31,17 @@ O enunciado (seção 4.3) pede três indicadores:
 
 ## Tempo (segundos)
 
-| Pessoa | Tarefa 1 | Tarefa 2 | Tarefa 3 | Usou menu ou pergunta livre? |
+| Pessoa | Tarefa 1 | Tarefa 2 | Tarefa 3 | Acertos |
 |---|---|---|---|---|
-| Pessoa 1 | | | | |
-| Pessoa 2 | | | | |
-| Pessoa 3 | | | | |
-| Pessoa 4 | | | | |
-| Pessoa 5 | | | | |
-| **Média** | | | | |
+| Pessoa 1 | 6 | 2 | 11 | 3 de 3 |
+| Pessoa 2 | 19 | 1 | 43 | 3 de 3 |
+| Pessoa 3 | 8 | 1 | 4 | 2 de 3 (errou a tarefa 1) |
+| Pessoa 4 | 26 | 1 | 34 | 3 de 3 |
+| Pessoa 5 | 14 | 24 | 11 | 3 de 3 |
+| **Média** | **14,6** | **5,8** | **20,6** | **14 de 15 (93%)** |
+
+Acerto por tarefa: tarefa 1, 4 de 5 (80%); tarefa 2, 5 de 5; tarefa 3, 5 de 5. Ninguém passou do limite
+de 5 minutos.
 
 ## Questionário de facilidade (1 = discordo totalmente, 5 = concordo totalmente)
 
@@ -50,12 +53,15 @@ O enunciado (seção 4.3) pede três indicadores:
 
 | Pessoa | P1 | P2 | P3 | P4 | P5 | Média |
 |---|---|---|---|---|---|---|
-| Pessoa 1 | | | | | | |
-| Pessoa 2 | | | | | | |
-| Pessoa 3 | | | | | | |
-| Pessoa 4 | | | | | | |
-| Pessoa 5 | | | | | | |
-| **Média** | | | | | | |
+| Pessoa 1 | 5 | 5 | 4 | 5 | 5 | 4,8 |
+| Pessoa 2 | 5 | 5 | 5 | 5 | 5 | 5,0 |
+| Pessoa 3 | 5 | 5 | 5 | 5 | 5 | 5,0 |
+| Pessoa 4 | 5 | 5 | 5 | 5 | 5 | 5,0 |
+| Pessoa 5 | 5 | 5 | 5 | 5 | 5 | 5,0 |
+| **Média** | **5,0** | **5,0** | **4,8** | **5,0** | **5,0** | **5,0** (4,96) |
+
+No formulário, a pergunta 4 saiu como "Ficou claro de onde veio a informação." e a 5 como "Eu usaria o
+Dá Tempo? de novo.", porque o teste foi feito no app, onde a Lia chama o agente das fichas.
 
 ## Conferência manual do juiz (amostra)
 
@@ -79,6 +85,20 @@ o juiz compara com o esperado e não lê a ficha.
 
 ## Comentários e ajustes
 
-O que as pessoas estranharam e o que o grupo mudou por causa disso (arquivo e linha).
-
-- [a preencher]
+- **Comentários:** o campo era opcional e nenhuma das 5 pessoas escreveu comentário ou sugestão. O que
+  segue sai dos números.
+- **Tarefa 2 não mediu o sistema.** Quatro das cinco pessoas responderam em 1 ou 2 segundos se uma pessoa
+  de 67 anos paga o metrô. Não dá tempo de perguntar à Lia e ler a resposta: elas responderam de cabeça.
+  A média de 5,8 s dessa tarefa mede o quanto a gratuidade do idoso é conhecida, não a facilidade de achar
+  a informação no app. Ajuste para a próxima rodada: trocar a tarefa 2 por uma que dependa da ficha, como
+  "quanto custa a integração do ônibus com o metrô no Bilhete Único" (R$ 9,38, FT-06). A troca não foi
+  feita no formulário agora para não misturar, na mesma coluna do banco, respostas de tarefas diferentes.
+- **Tarefa 1 teve o único erro** (Pessoa 3, em 8 s). O formulário guarda só se acertou, não qual
+  alternativa foi marcada, então não dá para saber o que confundiu. Fica para a próxima rodada guardar a
+  alternativa escolhida.
+- **Facilidade quase no teto (4,96 de 5).** Com 5 pessoas e notas quase todas 5, o número mostra que
+  ninguém teve dificuldade, mas não separa bem o que pode melhorar. A única nota abaixo de 5 foi na
+  confiança para agir (Pessoa 1, nota 4), o que bate com o aviso do assistente de confirmar no canal oficial.
+- **Ajuste feito no app por causa do teste:** o cartão de energia passou a dizer, na mesma linha dos
+  números, que a conta é estimativa por médias oficiais (`sistema/web/src/componentes/Cartoes.tsx`), porque
+  uma pessoa respondeu "em parte" a essa pergunta (detalhes no teste da SERS, `entregas/sers/TESTES_USUARIOS.md`).
