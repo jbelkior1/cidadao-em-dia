@@ -123,6 +123,21 @@ export type Materias = {
   situacao: Record<string, { ok: boolean; erro: string; orientacoes?: number; categorias?: number; em_conferencia?: number; registros?: number }>;
 };
 
+export type Entendeu = "sim" | "em parte" | "nao";
+export type Perfil = "familia" | "faculdade" | "trabalho" | "conhecido" | "outro";
+export type NovaAvaliacao = {
+  perfil: Perfil | null; tempos: (number | null)[]; acertos: (boolean | null)[]; energia: (Entendeu | null)[];
+  nota_energia: number | null; facilidade: number[]; comentario: string | null; sugestao: string | null;
+};
+export type ResumoAvaliacoes = {
+  pessoas: number; facilidade_media: number | null; nota_energia_media: number | null; perfis: Record<string, number>;
+  tarefas: { tarefa: string; tempo_medio_s: number | null; acharam: number; pessoas: number; acerto_percentual: number | null }[];
+  facilidade: { pergunta: string; media: number | null }[];
+  energia: { situacao: string; respostas: number; sim: number; "em parte": number; nao: number }[];
+  comentarios: { pessoa: string; quando: string; perfil: string | null; media: number | null; comentario: string | null; sugestao: string | null }[];
+  perguntas: string[]; tarefas_texto: string[]; situacoes: string[];
+};
+
 async function pedir<T>(caminho: string, opcoes?: RequestInit): Promise<T> {
   const resposta = await fetch(caminho, { headers: { "Content-Type": "application/json" }, ...opcoes });
   if (!resposta.ok) {
@@ -138,6 +153,9 @@ async function pedir<T>(caminho: string, opcoes?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  avaliacoes: () => pedir<ResumoAvaliacoes>("/api/avaliacoes"),
+  avaliar: (corpo: NovaAvaliacao, idAparelho: string) =>
+    pedir<{ ok: boolean }>("/api/avaliacoes", { method: "POST", body: JSON.stringify(corpo), headers: { "Content-Type": "application/json", "X-Device-Id": idAparelho } }),
   inicio: () => pedir<RespostaChat>("/api/chat/inicio"),
   chat: (corpo: { texto?: string; acao?: string; estado: Record<string, unknown> }) =>
     pedir<RespostaChat>("/api/chat", { method: "POST", body: JSON.stringify(corpo) }),

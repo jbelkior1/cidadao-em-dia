@@ -1,4 +1,4 @@
-import { BookOpen, Compass, FlaskConical, Menu, SlidersHorizontal, Smartphone, X, type LucideIcon } from "lucide-react";
+import { BookOpen, ClipboardCheck, Compass, Menu, SlidersHorizontal, Smartphone, X, type LucideIcon } from "lucide-react";
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -8,7 +8,7 @@ import { MarcaDaTempo } from "./Logo";
 
 /*
  * A plataforma que os professores usam, de cima para baixo: como funciona, o sistema (o app,
- * em formato de celular), o teste da sociedade, as oito matérias e, no fim, a documentação.
+ * em formato de celular), a avaliação dos usuários, as oito matérias e, no fim, a documentação.
  * Configurações de IA só aparece no computador da equipe: no servidor público a IA é fixa.
  */
 type Item = { rotulo: string; para: string; icone?: LucideIcon; cor?: string };
@@ -21,7 +21,7 @@ function grupos(local: boolean): Grupo[] {
       itens: [
         { rotulo: "Como funciona", para: "/", icone: Compass },
         { rotulo: "Sistema: o app Dá Tempo?", para: "/sistema", icone: Smartphone },
-        { rotulo: "Teste da sociedade", para: "/sociedade", icone: FlaskConical },
+        { rotulo: "Avaliação usuários", para: "/avaliacao", icone: ClipboardCheck },
       ],
     },
     {
@@ -41,7 +41,8 @@ function grupos(local: boolean): Grupo[] {
 const TITULOS: Record<string, string> = {
   "/": "Como funciona",
   "/sistema": "Sistema · Dá Tempo?",
-  "/sociedade": "Teste da sociedade",
+  "/avaliacao": "Avaliação usuários",
+  "/avaliar": "Avaliar o Dá Tempo?",
   "/documentacao": "Documentação funcional",
   "/configuracoes": "Configurações de IA",
 };

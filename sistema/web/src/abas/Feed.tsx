@@ -93,7 +93,7 @@ export function esquecerIdDoAparelho(): void {
 }
 
 /** Gera na primeira vez e guarda. Se o navegador bloquear o armazenamento, vale o da memória (até recarregar). */
-function idDoAparelho(): string {
+export function idDoAparelho(): string {
   if (idEmMemoria) return idEmMemoria;
   try {
     const guardado = localStorage.getItem(CHAVE_APARELHO);

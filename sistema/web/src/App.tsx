@@ -8,7 +8,8 @@ import ComoFunciona from "./paginas/ComoFunciona";
 import AppCelular from "./paginas/AppCelular";
 import Configuracoes from "./paginas/Configuracoes";
 import Documentacao from "./paginas/Documentacao";
-import Laboratorio from "./paginas/Laboratorio";
+import AvaliacaoUsuarios from "./paginas/AvaliacaoUsuarios";
+import Avaliar from "./paginas/Avaliar";
 import Materia from "./paginas/Materia";
 
 type Contexto = {
@@ -36,7 +37,8 @@ function Plataforma({ ia }: { ia: EstadoIA | null }) {
       <Routes>
         <Route path="/" element={<ComoFunciona />} />
         <Route path="/sistema" element={<Sistema />} />
-        <Route path="/sociedade" element={<Laboratorio />} />
+        <Route path="/avaliacao" element={<AvaliacaoUsuarios />} />
+        <Route path="/avaliar" element={<Avaliar />} />
         <Route path="/materias/:cod" element={<Materia />} />
         <Route path="/documentacao" element={<Documentacao />} />
         {/* no servidor público a IA é fixa: a tela de configuração só existe no computador da equipe */}
@@ -45,7 +47,8 @@ function Plataforma({ ia }: { ia: EstadoIA | null }) {
         <Route path="/caso" element={<Navigate to="/" replace />} />
         <Route path="/como-funciona" element={<Navigate to="/" replace />} />
         <Route path="/materias" element={<Navigate to="/" replace />} />
-        <Route path="/laboratorio" element={<Navigate to="/sociedade" replace />} />
+        <Route path="/laboratorio" element={<Navigate to="/avaliacao" replace />} />
+        <Route path="/sociedade" element={<Navigate to="/avaliacao" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Casca>

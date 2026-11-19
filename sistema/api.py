@@ -22,7 +22,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from sistema import assistente, checklist, config, conversa, ia, laboratorio, materias, pacotes, testes
-from sistema import banco, contas, mapa, relatos, sos
+from sistema import avaliacoes, banco, contas, mapa, relatos, sos
 from sistema.adaptadores import dsa, pcp
 from sistema.mobilidade import decisao, fontes, plano, rede
 from sistema.relatos_supabase import BancoIndisponivel
@@ -34,10 +34,12 @@ def ligar_banco() -> str:
     cred = banco.credenciais()
     if not cred:
         return "memoria"
+    from sistema.avaliacoes_supabase import RepositorioSupabaseAvaliacoes
     from sistema.contas_supabase import RepositorioSupabaseContas
     from sistema.relatos_supabase import RepositorioSupabase
     relatos.usar_repositorio(RepositorioSupabase(*cred))
     contas.usar_repositorio(RepositorioSupabaseContas(*cred))
+    avaliacoes.usar_repositorio(RepositorioSupabaseAvaliacoes(*cred))
     return "supabase"
 
 
@@ -64,6 +66,7 @@ app = FastAPI(title="Dá Tempo?", docs_url="/api/docs", openapi_url="/api/openap
 app.include_router(mapa.router)
 app.include_router(relatos.router)
 app.include_router(contas.router)
+app.include_router(avaliacoes.router)
 
 
 def _banco_fora_do_ar(_pedido, _erro) -> JSONResponse:
@@ -96,6 +99,8 @@ JANELA_POR_IP_S = 300
 MAXIMO_POR_IP = 20
 _pedidos_por_ip: dict[str, deque] = {}
 _relatos_por_ip: dict[str, deque] = {}
+_avaliacoes_por_ip: dict[str, deque] = {}
+MAXIMO_AVALIACOES_POR_IP = 20          # por janela; uma sala inteira avaliando pelo mesmo Wi-Fi
 _trava_ip = threading.Lock()
 MAXIMO_RELATOS_POR_IP = 30             # por janela; folga para uma turma inteira atrás do mesmo Wi-Fi
 LIMITE_CORPO_RELATO = 5_000_000        # bytes; o app manda a foto reduzida, perto de 300 KB
@@ -128,6 +133,11 @@ async def limitar_por_aparelho(pedido, seguir):
             if espera is not None:
                 return JSONResponse(status_code=429, headers={"Retry-After": str(espera)},
                                     content={"detail": "Muitos relatos seguidos deste endereço. Espere alguns minutos e tente de novo."})
+    if config.modo_publico() and pedido.method == "POST" and pedido.url.path == "/api/avaliacoes":
+        espera = _espera_se_estourou(_avaliacoes_por_ip, ip, MAXIMO_AVALIACOES_POR_IP)
+        if espera is not None:
+            return JSONResponse(status_code=429, headers={"Retry-After": str(espera)},
+                                content={"detail": "Muitas avaliações seguidas deste endereço. Espere alguns minutos e tente de novo."})
     if config.modo_publico() and pedido.method == "POST" and pedido.url.path in ROTAS_COM_IA:
         espera = _espera_se_estourou(_pedidos_por_ip, ip, MAXIMO_POR_IP)
         if espera is not None:

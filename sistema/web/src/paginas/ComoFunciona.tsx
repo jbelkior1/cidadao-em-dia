@@ -83,8 +83,8 @@ export default function ComoFunciona() {
           <Link to="/app" className="inline-flex items-center rounded-full px-5 py-2.5 text-[15px] font-semibold text-marca-forte ring-1 ring-marca/40 ring-inset hover:bg-marca-suave">
             Abrir só o app (celular)
           </Link>
-          <Link to="/sociedade" className="inline-flex items-center rounded-full px-5 py-2.5 text-[15px] font-semibold text-marca-forte ring-1 ring-marca/40 ring-inset hover:bg-marca-suave">
-            Ver o teste da sociedade
+          <Link to="/avaliacao" className="inline-flex items-center rounded-full px-5 py-2.5 text-[15px] font-semibold text-marca-forte ring-1 ring-marca/40 ring-inset hover:bg-marca-suave">
+            Ver a avaliação dos usuários
           </Link>
         </div>
       </header>
