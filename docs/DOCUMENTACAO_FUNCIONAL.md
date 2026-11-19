@@ -55,8 +55,8 @@ Quatro abas embaixo (Home, Mapa, IA, Perfil). Em todas, no topo, ficam o SOS e o
 | Situação | Decisão |
 |---|---|
 | Falha numa linha do trajeto | **Mude o caminho**, com o desvio até a próxima troca |
-| Aviso de chuva com alagamento perto do trajeto, ou horário de pico | **Saia mais cedo** |
-| Nenhum dos casos | **Pode ir** |
+| Aviso de chuva do INMET e, junto com ele, alagamento perto do trajeto ou horário de pico | **Saia mais cedo** |
+| Nenhum dos casos (inclusive pico sem chuva, ou chuva sem alagamento fora do pico) | **Pode ir** |
 
 Horário de pico: dias úteis, das 6h às 9h e das 16h às 19h30. A modelagem lógica de Computer Science (tabela-verdade, Karnaugh e circuito) é feita pela equipe, à parte, e pode substituir esta regra com as mesmas entradas e saídas.
 
