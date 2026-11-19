@@ -25,8 +25,8 @@ INTEGRANTES = [
 
 #: Textos do portal por matéria (modelos em entregas/portal/<matéria>/).
 TEXTOS = {
-    "PCP": ["pcp/PCP_entrega.txt"], "SERS": ["sers/SERS_entrega.txt"], "CS": ["cs/LEIA-ME.txt"], "MMC": ["mmc/LEIA-ME.txt"],
-    "COA": ["coa/COA_entrega.txt"], "MLAM": ["mlam/COMO_ENVIAR.txt"], "DSA": ["dsa/LEIA-ME.txt"], "PAI": ["pai/LEIA-ME.txt"],
+    "PCP": ["pcp/PCP_entrega.txt"], "SERS": ["sers/SERS_entrega.txt"], "MLAM": ["mlam/MLAM_entrega.txt"],
+    "DSA": ["dsa/LEIA-ME.txt"], "PAI": ["pai/LEIA-ME.txt"],
 }
 #: Pastas do repositório que vão inteiras para o portal ou para o repositório próprio da matéria.
 PASTAS = {"PCP": ENTREGAS / "pcp" / "citizen-assist-ai", "DSA": ENTREGAS / "dsa", "PAI": ENTREGAS / "pai"}
@@ -74,8 +74,7 @@ def explicacao(cod: str, url: str) -> str:
     linhas.append(f"- Código no GitHub: {m['pasta_url'] or materias.REPOSITORIO}")
     if base:
         linhas.append(f"- Página da matéria (explicação, teste e checklist): {base}/materias/{cod.lower()}")
-        if cod not in materias.FORA_DO_SISTEMA:
-            linhas.append(f"- O app, para abrir no celular: {base}/app")
+        linhas.append(f"- O app, para abrir no celular: {base}/app")
     linhas += ["", "NESTA PASTA",
                f"- LEIA-ME_{cod}.txt: este texto.",
                "- entrega_para_o_portal: os arquivos no formato do enunciado. O que estiver entre colchetes ainda falta preencher.", ""]

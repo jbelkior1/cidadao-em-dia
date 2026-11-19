@@ -18,7 +18,7 @@ O Dá Tempo? é um app de trem e metrô de São Paulo que avisa, antes de a pess
 | `/avaliacao` **Avaliação usuários** | O que as pessoas acharam do app, separado por grupo (Família, Faculdade, Trabalho, Conhecido). Ninguém se identifica. Quando há testes completos, mostra também os números deles. |
 | `/avaliar` **Avaliar o Dá Tempo?** | O formulário simples: como a pessoa conhece o projeto (opcional) e o campo "O que você achou do sistema?", de até 500 caracteres. |
 | `/avaliar/teste` **Teste completo** | Três tarefas cronometradas no app, com acerto, perguntas sobre o cartão de energia da viagem e notas de facilidade de 1 a 5 (cerca de 10 minutos). |
-| `/materias/pcp`, `/dsa`, `/sers`, `/mlam`, `/pai`, `/cs`, `/mmc`, `/coa` **Matérias** | Cada página tem **Entenda** (entrega, arquivos no GitHub, o que faz no sistema e o fluxograma), **Teste** e **Checklist da entrega**, com o botão para baixar o pacote (.zip) da matéria. |
+| `/materias/pcp`, `/dsa`, `/sers`, `/mlam`, `/pai` **Matérias** | Cada página tem **Entenda** (entrega, arquivos no GitHub, o que faz no sistema e o fluxograma), **Teste** e **Checklist da entrega**, com o botão para baixar o pacote (.zip) da matéria. CS, MMC e COA têm só a aba no menu, com o aviso de que foram feitas à parte. |
 | `/documentacao` **Documentação funcional** | Esta página. |
 | `/configuracoes` **Configurações de IA** | Só no computador: escolhe o provedor e o modelo da Lia. No servidor público não aparece. |
 
@@ -58,7 +58,7 @@ Quatro abas embaixo (Home, Mapa, IA, Perfil). Em todas, no topo, ficam o SOS e o
 | Aviso de chuva do INMET e, junto com ele, alagamento perto do trajeto ou horário de pico | **Saia mais cedo** |
 | Nenhum dos casos (inclusive pico sem chuva, ou chuva sem alagamento fora do pico) | **Pode ir** |
 
-Horário de pico: dias úteis, das 6h às 9h e das 16h às 19h30. A modelagem lógica de Computer Science (tabela-verdade, Karnaugh e circuito) é feita pela equipe, à parte, e pode substituir esta regra com as mesmas entradas e saídas.
+Horário de pico: dias úteis, das 6h às 9h e das 16h às 19h30.
 
 ## 5. Privacidade
 

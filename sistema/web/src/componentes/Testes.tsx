@@ -2,7 +2,7 @@ import { ArrowRight, RotateCcw, ShieldAlert } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 
 import {
-  api, mobilidade, type EstadoDSA, type MmcEtapa1, type MmcMatriz, type MmcNecessidade, type ResultadosMLAM, type TesteCS, type TesteMLAM,
+  api, mobilidade, type EstadoDSA, type ResultadosMLAM, type TesteMLAM,
   type TestePAI, type TestePCP, type TesteSERS,
 } from "../lib/api";
 
@@ -432,47 +432,6 @@ export function TesteSers() {
   );
 }
 
-/* ---------------------------------------------------------------- CS */
-
-const CONDICOES: { chave: keyof TesteCS["entradas"]; letra: string; rotulo: string }[] = [
-  { chave: "falha", letra: "F", rotulo: "Falha numa linha do trajeto" },
-  { chave: "chuva", letra: "C", rotulo: "Aviso de chuva do INMET" },
-  { chave: "alagamento", letra: "A", rotulo: "Alagamento perto de uma estação" },
-  { chave: "pico", letra: "P", rotulo: "Horário de pico" },
-];
-const COR_DECISAO: Record<string, string> = { pode_ir: "bg-ok-suave text-ok", mais_cedo: "bg-alerta-suave text-alerta", plano_b: "bg-erro-suave text-erro" };
-
-export function TesteCs() {
-  const [entradas, setEntradas] = useState<TesteCS["entradas"]>({ falha: false, chuva: true, alagamento: false, pico: true });
-  const [r, setR] = useState<TesteCS | null>(null);
-  const [erro, setErro] = useState("");
-
-  useEffect(() => {
-    mobilidade.testeCS(entradas).then(setR).catch((e) => setErro(e instanceof Error ? e.message : "Não consegui decidir."));
-  }, [entradas]);
-
-  return (
-    <div className="space-y-5">
-      <div className="grid gap-2 sm:grid-cols-2">
-        {CONDICOES.map((c) => (
-          <label key={c.chave} className="flex cursor-pointer items-center gap-3 rounded-xl border border-linha bg-superficie px-4 py-3 text-[15px]">
-            <input type="checkbox" checked={entradas[c.chave]} onChange={(e) => setEntradas({ ...entradas, [c.chave]: e.target.checked })} className="size-5 accent-[#4338CA]" />
-            <span className="font-mono text-[13px] font-bold text-[#4338CA]">{c.letra} = {entradas[c.chave] ? 1 : 0}</span>
-            <span>{c.rotulo}</span>
-          </label>
-        ))}
-      </div>
-      {erro && <p className="rounded-xl bg-erro-suave px-4 py-3 text-erro">{erro}</p>}
-      {r && (
-        <div className="space-y-2">
-          <p role="status" className={`rounded-xl px-4 py-3 text-xl font-bold ${COR_DECISAO[r.codigo] ?? ""}`}>{r.texto}</p>
-          <p className="text-[13px] text-apagado">{r.aviso}</p>
-        </div>
-      )}
-    </div>
-  );
-}
-
 /* ---------------------------------------------------------------- MLAM */
 
 const NOME_FAIXA: Record<string, string> = { madrugada: "Madrugada", manha: "Manhã", tarde: "Tarde", noite: "Noite" };
@@ -593,155 +552,6 @@ export function TesteMlam() {
         </ol>
       </div>
       <p className="text-[13px] text-apagado">{r.meta.observacao} A base conta registros perto da estação, sem o fluxo de passageiros: não é taxa de risco.</p>
-    </div>
-  );
-}
-
-/* ---------------------------------------------------------------- MMC */
-
-const REGIOES = ["Norte", "Sul", "Leste", "Oeste"];
-const IDENTIDADE = REGIOES.map((_, i) => REGIOES.map((__, j) => (i === j ? "1" : "0")));
-
-export function TesteMmc() {
-  const [lados, setLados] = useState(["72", "76", "52", "76"]);
-  const [e1, setE1] = useState<MmcEtapa1 | null>(null);
-  const [nec, setNec] = useState<MmcNecessidade | null>(null);
-  const [matriz, setMatriz] = useState<string[][]>(IDENTIDADE);
-  const [conf, setConf] = useState<MmcMatriz | null>(null);
-  const [erro, setErro] = useState("");
-
-  const resolver = async (evento?: FormEvent) => {
-    evento?.preventDefault();
-    setErro("");
-    try {
-      setE1(await mobilidade.mmcEtapa1(lados.map((x) => Number(x.replace(",", ".")))));
-    } catch (e) {
-      setErro(e instanceof Error ? e.message : "Não consegui resolver.");
-    }
-  };
-  const conferir = async (evento?: FormEvent) => {
-    evento?.preventDefault();
-    setErro("");
-    try {
-      setConf(await mobilidade.mmcMatriz(matriz.map((linha) => linha.map((x) => Number(x.replace(",", "."))))));
-    } catch (e) {
-      setErro(e instanceof Error ? e.message : "Não consegui conferir a matriz.");
-    }
-  };
-  useEffect(() => {
-    void resolver();
-    mobilidade.mmcNecessidade().then(setNec).catch(() => setNec(null));
-  }, []);
-
-  const cartao = "space-y-3 rounded-xl border border-linha bg-superficie p-4 text-[14px]";
-  return (
-    <div className="space-y-5">
-      {erro && <p className="rounded-xl bg-erro-suave px-4 py-3 text-erro">{erro}</p>}
-      <form onSubmit={resolver} className={cartao}>
-        <p className="text-[15px] font-semibold">Etapa 1 · Recuperar a frota atual (Relatório I)</p>
-        <p className="text-apagado">Os quatro registros viram o sistema Ax = b (N, S, L, O). Mude os valores de b se quiser.</p>
-        <div className="grid gap-2 sm:grid-cols-2">
-          {(e1?.equacoes ?? []).map((eq, i) => (
-            <label key={eq.texto} className="flex items-center gap-2">
-              <span className="w-32 shrink-0 font-mono text-[13px]">{eq.texto} =</span>
-              <input value={lados[i]} onChange={(ev) => setLados(lados.map((x, k) => (k === i ? ev.target.value : x)))} inputMode="decimal" className={CAMPO} />
-            </label>
-          ))}
-        </div>
-        <button type="submit" className={BOTAO}>Resolver</button>
-        {e1?.ok && (
-          <div className="space-y-1.5">
-            <p className="font-semibold">{e1.conclusao}</p>
-            <p className="text-apagado">det(A) = {num(e1.determinante, 4)}; posto(A) = {e1.posto_a}; posto(A|b) = {e1.posto_ampliada}.</p>
-            {e1.frota && <p>Distribuição: {Object.entries(e1.frota).map(([r, n]) => `${r} ${num(n, 2)}`).join(", ")}.</p>}
-            {e1.conferencia && <ul className="list-disc pl-5 text-apagado">{e1.conferencia.map((c) => <li key={c}>{c}</li>)}</ul>}
-          </div>
-        )}
-      </form>
-
-      {nec && (
-        <div className={cartao}>
-          <p className="text-[15px] font-semibold">Etapa 2 · Necessidade por região (Relatório II)</p>
-          <p className="text-apagado">Passageiros no pico ÷ {nec.capacidade} por ônibus, para cima. Tem {nec.total_atual}; precisa de {nec.total_necessario}.</p>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[420px] text-left">
-              <thead><tr className="text-[13px] text-apagado"><th className="py-1 pr-3">Região</th><th className="py-1 pr-3">Passageiros</th><th className="py-1 pr-3">Tem</th><th className="py-1 pr-3">Precisa</th><th className="py-1">Diferença</th></tr></thead>
-              <tbody>
-                {REGIOES.map((r) => (
-                  <tr key={r} className="border-t border-linha tabular-nums">
-                    <td className="py-1 pr-3 font-semibold">{r}</td><td className="py-1 pr-3">{nec.passageiros[r]}</td><td className="py-1 pr-3">{nec.atual[r]}</td>
-                    <td className="py-1 pr-3">{nec.necessidade[r]}</td><td className={`py-1 ${nec.diferenca[r] < 0 ? "text-erro" : ""}`}>{nec.diferenca[r] > 0 ? `+${nec.diferenca[r]}` : nec.diferenca[r]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      <form onSubmit={conferir} className={cartao}>
-        <p className="text-[15px] font-semibold">Etapa 2 · Conferir a matriz de redistribuição da equipe</p>
-        <p className="text-apagado">Aqui só se confere o total e os negativos da matriz digitada. Cada coluna é uma região de origem e precisa somar 1.</p>
-        <div className="overflow-x-auto">
-          <table className="text-[13px]">
-            <thead><tr><th className="px-1 text-left text-apagado">para \ de</th>{REGIOES.map((r) => <th key={r} className="px-1 font-semibold">{r}</th>)}</tr></thead>
-            <tbody>
-              {REGIOES.map((r, i) => (
-                <tr key={r}>
-                  <th className="px-1 pr-2 text-left font-semibold">{r}</th>
-                  {REGIOES.map((de, j) => (
-                    <td key={de} className="p-1">
-                      <input aria-label={`fração de ${de} para ${r}`} value={matriz[i][j]} inputMode="decimal"
-                        onChange={(ev) => setMatriz(matriz.map((linha, a) => linha.map((x, b) => (a === i && b === j ? ev.target.value : x))))}
-                        className="w-20 rounded-lg border border-linha bg-superficie px-2 py-1.5 text-right tabular-nums focus:border-marca focus:outline-none" />
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <button type="submit" className={BOTAO}>Conferir a matriz</button>
-        {conf && !conf.ok && <p className="text-erro">{conf.mensagem}</p>}
-        {conf?.ok && (
-          <div className="space-y-1.5">
-            <p className={conf.preserva_total ? "text-ok" : "text-erro"}>
-              {conf.preserva_total ? "Preserva o total: cada coluna soma 1." : "Não preserva o total: há coluna que não soma 1."} Somas: {conf.somas_das_colunas.map((s) => num(s, 4)).join("; ")}.
-            </p>
-            <p className={conf.sem_entrada_negativa ? "text-ok" : "text-erro"}>
-              {conf.sem_entrada_negativa ? "Nenhuma entrada negativa: nenhuma região fica com número negativo." : "Há entrada negativa: alguma região pode ficar negativa."}
-            </p>
-            <p>
-              Nova distribuição: {Object.entries(conf.nova_distribuicao).map(([r, n]) => `${r} ${num(n, 2)}`).join(", ")} (total {num(conf.total_depois, 2)} de {conf.total_antes}).
-              {!conf.inteira && " Há valores não inteiros: explique no relatório como arredonda."}
-            </p>
-            <p className="text-apagado">Atende a necessidade: {Object.entries(conf.atende).map(([r, ok]) => `${r} ${ok ? "sim" : "não"}`).join(", ")}.</p>
-          </div>
-        )}
-      </form>
-    </div>
-  );
-}
-
-/* ---------------------------------------------------------------- COA */
-
-export function TesteCoa({ links }: { links?: { wokwi?: string; video?: string } }) {
-  return (
-    <div className="space-y-3 rounded-xl border border-linha bg-superficie p-5 text-[15px]">
-      <p className="font-semibold">A simulação roda no Wokwi, não dentro do app</p>
-      <p className="text-apagado">
-        O Pico, em MicroPython, lê o sensor de nível de água e aciona o alerta. O circuito, o código e a mudança das leituras ficam no projeto e no vídeo.
-      </p>
-      <ul className="space-y-1.5 text-[14px]">
-        <li>
-          <span className="font-semibold">Projeto no Wokwi: </span>
-          {links?.wokwi ? <a href={links.wokwi} target="_blank" rel="noreferrer" className="break-all text-marca-forte underline">{links.wokwi}</a> : <span className="text-apagado">link ainda não publicado.</span>}
-        </li>
-        <li>
-          <span className="font-semibold">Vídeo: </span>
-          {links?.video ? <a href={links.video} target="_blank" rel="noreferrer" className="break-all text-marca-forte underline">{links.video}</a> : <span className="text-apagado">link ainda não publicado.</span>}
-        </li>
-      </ul>
     </div>
   );
 }

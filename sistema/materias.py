@@ -1,6 +1,6 @@
 """O que cada matéria faz no Dá Tempo?: textos das páginas das matérias e do Como funciona.
 
-As oito matérias entram no produto. Cada professor continua recebendo a entrega
+As cinco matérias que entram no produto. Cada professor continua recebendo a entrega
 no formato do enunciado; o código que ele corrige é o mesmo que roda no app.
 """
 
@@ -48,9 +48,6 @@ ARQUIVOS = {
             ("Resultados gravados", "entregas/pai/saidas"),
             ("Imagem do grafo", "entregas/pai/grafo_agente.png"), ("Testes com usuários (roteiro)", "entregas/pai/TESTES_USUARIOS.md"),
             ("No app: ponte com a Lia", "sistema/adaptadores/pai.py"), ("Testes", "tests/pai/test_pai.py")],
-    "CS": [("Regra do produto (não é a entrega)", "sistema/mobilidade/decisao.py")],
-    "MMC": [],
-    "COA": [],
 }
 
 NO_SISTEMA = [
@@ -68,21 +65,6 @@ NO_SISTEMA = [
         "nesta_versao": "Programa de terminal pronto e testado (56 testes automáticos): 3 classes em 4 arquivos, busca por pontos, navegação por categorias, histórico, indicadores e CSV, com 16 orientações de transporte conferidas contra as páginas oficiais em 16/11/2026.",
         "como_testar": "Escreva uma pergunta e veja a orientação que o assistente mostraria, com a confiança, a fonte e a data. Em \"Como a busca pontuou\" ficam a pergunta normalizada e a lista de buscar(), da maior para a menor pontuação. Tente também um telefone para ver a recusa.",
         "ver_funcionando": [{"rotulo": "Conversar com a Lia", "rota": "/sistema"}],
-    },
-    {
-        "cod": "CS", "nome": "Computer Science", "curto": "A decisão do dia", "cor": "#4338CA",
-        "papel": "Decide a frase principal do app a partir de quatro perguntas de sim ou não: há falha numa linha do trajeto, há aviso de chuva, há alagamento perto de alguma estação, é horário de pico.",
-        "ajuda": "A pessoa não precisa interpretar quatro informações: recebe uma frase só, \"pode ir\", \"saia mais cedo\" ou \"mude o caminho\".",
-        "quando": ["Fora do sistema: entrega própria da matéria, feita à mão pelo grupo (tabela-verdade, Karnaugh e circuito)"],
-        "recebe": "Quatro valores verdadeiro ou falso: falha (F), chuva (C), alagamento (A) e pico (P).",
-        "devolve": "A decisão do dia.",
-        "no_chat": "Fora do sistema. O produto tem a própria regra para \"pode ir, saia mais cedo ou mude o caminho\"; a entrega de CS segue à parte, e a integração é opcional pelo enunciado.",
-        "entrega": "Relatório em PDF com tabela-verdade, forma canônica, simplificação por álgebra e Karnaugh, circuitos original e simplificado, e um programa com a lógica simplificada.",
-        "pasta": "", "rodar": "",
-        "regra": "Tabela-verdade, Karnaugh e circuito são feitos pela equipe, à mão: usar IA nessas partes tira 4 pontos. O app tem a própria regra de prioridades para a decisão do dia, independente da entrega de CS.",
-        "nesta_versao": "Entregue à parte, no formato do enunciado (relatório em PDF, prints da simulação e instruções). A integração com o app é opcional e não foi feita; o teste abaixo mostra a regra do produto, uma combinação por vez.",
-        "como_testar": "Ligue e desligue as quatro condições e veja a decisão que sai, uma combinação por vez.",
-        "ver_funcionando": [],
     },
     {
         "cod": "DSA", "nome": "Data Structures and Algorithms", "curto": "O catálogo de serviços", "cor": "#C2410C",
@@ -145,45 +127,7 @@ NO_SISTEMA = [
         "como_testar": "Escreva uma pergunta abaixo e veja cada etapa do grafo. Ou converse com a Lia e pergunte, por exemplo, como pedir a declaração de atraso.",
         "ver_funcionando": [{"rotulo": "Perguntar à Lia", "rota": "/sistema"}],
     },
-    {
-        "cod": "MMC", "nome": "Modelagem Matemática e Computacional", "curto": "Os ônibus de apoio", "cor": "#6B7280",
-        "papel": "Modela a frota de ônibus das regiões Norte, Sul, Leste e Oeste com um sistema linear e propõe uma redistribuição por transformação linear, que é o que acontece quando ônibus de apoio cobrem uma linha parada.",
-        "ajuda": "Mostra como a cidade pode deslocar ônibus para atender uma falha sem perder ônibus e sem deixar região descoberta.",
-        "quando": ["Fora do sistema: entrega própria da matéria (modelo matricial da frota e política de redistribuição)"],
-        "recebe": "A frota disponível por região e a necessidade de cada uma.",
-        "devolve": "A nova distribuição, com a prova de que mantém o total e não gera números negativos.",
-        "no_chat": "Fora do sistema. Entregue à parte, no formato do enunciado.",
-        "entrega": "Etapa 1 (modelo matricial, unicidade e solução em Python) e etapa 2 (política de redistribuição por transformação linear).",
-        "pasta": "", "rodar": "",
-        "regra": "Frota de 72 ônibus. A matriz da transformação é criada pelo grupo e precisa preservar o total e não gerar valores negativos.",
-        "nesta_versao": "Entregue à parte pela equipe. O teste abaixo confere a Etapa 1 (sistema linear da frota) e as propriedades que a Etapa 2 exige de uma matriz digitada pela equipe, sem sugerir nenhuma.",
-        "como_testar": "Resolva a Etapa 1 com os registros do Relatório I (dá para mudar os valores), veja a necessidade por região e digite a matriz da equipe para conferir se preserva o total e não gera negativos.",
-        "ver_funcionando": [],
-    },
-    {
-        "cod": "COA", "nome": "Computer Organization and Architecture", "curto": "O sensor de alagamento", "cor": "#0891B2",
-        "papel": "Um Raspberry Pi Pico com sensor de nível de água, no Wokwi, acende um alerta num ponto de alagamento (passagem subterrânea ou ponto de ônibus).",
-        "ajuda": "Avisa no local quando a água sobe, antes de alguém tentar passar.",
-        "quando": ["Fora do sistema: entregue no Wokwi, com a Raspberry Pi Pico e o sensor de nível de água"],
-        "recebe": "A leitura do sensor de nível.",
-        "devolve": "LED e buzina de alerta conforme o nível.",
-        "no_chat": "Fora do sistema. Entregue à parte, no Wokwi.",
-        "entrega": "Link do projeto no Wokwi com a Pico e o código em MicroPython, vídeo no YouTube e nomes de todos.",
-        "pasta": "", "rodar": "",
-        "regra": "Sensores e atuadores ligados ao problema escolhido. O enunciado cita alerta de risco em espaço público como exemplo.",
-        "nesta_versao": "Entregue à parte, no Wokwi, com o vídeo no YouTube.",
-        "como_testar": "Abra o projeto no Wokwi, mude a leitura do sensor de nível e veja o alerta responder; o vídeo mostra o mesmo.",
-        "ver_funcionando": [],
-        "links": {"wokwi": "", "video": ""},
-    },
 ]
-
-# Entregues à parte, fora do sistema: não fazem sentido dentro da conversa (o COA depende do Wokwi,
-# o MMC é um modelo matemático da frota, a CS tem integração opcional e é feita à mão pelo grupo).
-# Continuam com página, teste e checklist próprios.
-FORA_DO_SISTEMA = ("CS", "MMC", "COA")
-A_PARTE: list[dict] = [m for m in NO_SISTEMA if m["cod"] in FORA_DO_SISTEMA]
-NO_SISTEMA = [m for m in NO_SISTEMA if m["cod"] not in FORA_DO_SISTEMA]
 
 
 # ---------------------------------------------------------------------------------------------
@@ -196,9 +140,6 @@ EXPLICACAO = {
     "SERS": "A partir da distância do trajeto, o sistema compara a mesma viagem de carro, de ônibus a diesel e de trem ou metrô elétrico em energia, custo e CO₂. Os fatores vêm de fontes oficiais (MCTI, EPE, Metrô, INMETRO, ANP) e cada número mostra origem e premissa. A conta aparece no cartão da viagem da Lia, sempre rotulada como estimativa, para a pessoa ver quanto a escolha pesa no bolso e no clima sem tratar o número como garantia.",
     "MLAM": "A matéria analisa as ocorrências registradas pela SSP-SP de janeiro a setembro de 2026, num raio de 300 m de 139 estações, com probabilidade, testes de hipótese e regressões. O resultado entra no cartão de segurança da estação, que mostra em que horário e que tipo de ocorrência é mais comum onde a pessoa embarca ou desce. A base conta registros perto da estação, sem o fluxo de passageiros: não é taxa de risco.",
     "PAI": "Um agente de três etapas (LangGraph): os guardrails barram dado pessoal e tentativas de manipulação, a busca acha a ficha certa entre as 7 fichas de transporte (FT-01 a FT-07) e o modelo responde só com o que está na ficha, citando-a. A Lia chama esse agente nas dúvidas de regra, como \"tenho 67 anos, pago metrô?\". Se a resposta não está nas fichas, o agente diz que não encontrou em vez de inventar.",
-    "CS": "É uma entrega própria da matéria, feita à mão pelo grupo: quatro condições de sim ou não (falha numa linha, aviso de chuva, alagamento, horário de pico) viram tabela-verdade, expressão simplificada, mapa de Karnaugh e circuito, e um programa mostra a orientação. Usar IA nessas partes tira 4 pontos. O app tem a própria regra de prioridades para \"pode ir, saia mais cedo ou mude o caminho\"; a integração com o app é opcional e não foi feita.",
-    "MMC": "É uma entrega própria da matéria, fora do app. Na etapa 1, o grupo recupera a frota de 72 ônibus por região (Norte, Sul, Leste e Oeste) resolvendo um sistema linear e mostrando se a solução é única. Na etapa 2, propõe como redistribuir os ônibus por uma transformação linear que mantém o total e não gera valores negativos, que é o que acontece quando ônibus de apoio cobrem uma linha parada. A política e a matriz são do grupo: o teste desta página só confere essas propriedades.",
-    "COA": "É uma entrega própria da matéria, no Wokwi: um Raspberry Pi Pico, programado em MicroPython, lê um sensor de nível de água num ponto de alagamento e liga LED e buzina conforme o nível. Avisa no local quando a água sobe, antes de alguém tentar passar. O link do Wokwi e o vídeo são da equipe.",
 }
 
 #: Caminho do dado por dentro de cada matéria. "decisao" é o último passo, que se divide em duas saídas.
@@ -230,23 +171,6 @@ FLUXO = {
                    ("Busca nas fichas", "FT-01 a FT-07, palavra-chave vale 3 pontos"), ("Modelo responde só com a ficha", "e cita FT-xx")],
         "decisao": ("Achou a ficha?", ("Resposta com a ficha e a fonte", "curta e sem invenção"), ("Diz que não encontrou", "e orienta o canal oficial")),
     },
-    "CS": {
-        "passos": [("Quatro condições", "falha, chuva, alagamento e pico (0 ou 1)"), ("Tabela-verdade", "todas as combinações, à mão"),
-                   ("Expressão simplificada", "álgebra booleana e Karnaugh, à mão"), ("Circuito lógico", "original e simplificado, à mão"),
-                   ("Programa com a lógica simplificada", "recebe as entradas e mostra a orientação")],
-        "decisao": None,
-    },
-    "MMC": {
-        "passos": [("Registros do Relatório I", "4 equações, total de 72 ônibus"), ("Sistema Ax = b", "variáveis: ônibus por região"),
-                   ("Solução e unicidade", "determinante e posto"), ("Necessidade por região", "passageiros ÷ capacidade do ônibus"),
-                   ("Matriz de redistribuição da equipe", "transformação linear")],
-        "decisao": ("Cada coluna soma 1 e nada fica negativo?", ("Política válida", "o total de ônibus se mantém"), ("Ajustar a matriz", "o enunciado não aceita")),
-    },
-    "COA": {
-        "passos": [("Sensor de nível de água", "no ponto de alagamento"), ("Raspberry Pi Pico", "lê o valor em MicroPython"),
-                   ("Compara com os limites", "atenção e alerta")],
-        "decisao": ("Nível acima do limite?", ("Liga LED e buzina", "avisa no local"), ("Segue monitorando", "tudo apagado")),
-    },
 }
 
 
@@ -255,12 +179,11 @@ def _rotas(m: dict) -> list[dict]:
     base = f"/materias/{m['cod'].lower()}"
     rotas = [{"rotulo": f"Página da matéria {m['cod']}", "rota": base}, {"rotulo": "Teste da matéria", "rota": f"{base}?parte=teste"},
              {"rotulo": "Checklist da entrega", "rota": f"{base}?parte=checklist"}]
-    if m["cod"] not in FORA_DO_SISTEMA:
-        rotas += [{"rotulo": "O app com a Lia (na plataforma)", "rota": "/sistema"}, {"rotulo": "Só o app, para abrir no celular", "rota": "/app"}]
+    rotas += [{"rotulo": "O app com a Lia (na plataforma)", "rota": "/sistema"}, {"rotulo": "Só o app, para abrir no celular", "rota": "/app"}]
     return rotas
 
 
-POR_CODIGO = {m["cod"]: m for m in NO_SISTEMA + A_PARTE}
+POR_CODIGO = {m["cod"]: m for m in NO_SISTEMA}
 for _cod, _m in POR_CODIGO.items():
     _m["arquivos"] = [{"rotulo": r, "caminho": c, "url": link(c)} for r, c in ARQUIVOS.get(_cod, [])]
     _m["pasta_url"] = link(_m["pasta"]) if _m["pasta"] else ""

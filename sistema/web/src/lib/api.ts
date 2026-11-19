@@ -23,8 +23,6 @@ export type Materia = {
   regra?: string; ajuda?: string; quando?: string[]; recebe?: string; devolve?: string; nesta_versao?: string; como_testar?: string;
   ver_funcionando?: { rotulo: string; rota: string }[];
   arquivos?: { rotulo: string; caminho: string; url: string }[]; pasta_url?: string;
-  /** Entregas fora do repositório (COA): links que a equipe publica. */
-  links?: { wokwi?: string; video?: string };
   /** Um texto só: o que faz no sistema, como ajuda, quando entra em ação e a regra principal. */
   explicacao: string;
   /** O caminho do dado por dentro da matéria; o último passo pode se dividir em duas saídas. */
@@ -92,19 +90,6 @@ export type TesteMLAM = {
   ranking: { estacao: string; linhas: string[]; total: number; faixa_mais_comum: string }[];
   questoes: ResultadosMLAM | null;
 };
-export type MmcEtapa1 = {
-  ok: boolean; mensagem?: string; equacoes: { texto: string; coeficientes: number[]; valor: number }[]; determinante: number; posto_a: number; posto_ampliada: number;
-  unica: boolean; conclusao: string; frota?: Record<string, number>; inteira?: boolean; nao_negativa?: boolean; conferencia?: string[];
-};
-export type MmcNecessidade = {
-  capacidade: number; passageiros: Record<string, number>; atual: Record<string, number>; necessidade: Record<string, number>;
-  diferenca: Record<string, number>; total_atual: number; total_necessario: number;
-};
-export type MmcMatriz = {
-  ok: boolean; mensagem?: string; somas_das_colunas: number[]; preserva_total: boolean; sem_entrada_negativa: boolean;
-  nova_distribuicao: Record<string, number>; inteira: boolean; total_antes: number; total_depois: number; atende: Record<string, boolean>; necessidade: Record<string, number>;
-};
-export type TesteCS = { entradas: { falha: boolean; chuva: boolean; alagamento: boolean; pico: boolean }; codigo: string; texto: string; regra_provisoria: boolean; aviso: string };
 
 export type Opiniao = {
   id: string; nome: string; idade: number; quem: string; onde: string; perfil: string; internet: string; genero: string; canal: string;
@@ -119,7 +104,6 @@ export type Simulacao = {
 export type OpcoesLaboratorio = { partes: string[]; canais: string[]; personas: number; tamanhos: number[] };
 export type Materias = {
   no_sistema: Materia[];
-  a_parte: Materia[];
   situacao: Record<string, { ok: boolean; erro: string; orientacoes?: number; categorias?: number; em_conferencia?: number; registros?: number }>;
 };
 
@@ -183,14 +167,21 @@ export const api = {
 
 export const MATERIAS_DO_SISTEMA = [
   { cod: "PCP", curto: "Orientações" },
-  { cod: "CS", curto: "Lógica (à parte)" },
+  { cod: "CS", curto: "Feita à parte" },
   { cod: "DSA", curto: "Catálogo" },
   { cod: "SERS", curto: "Energia" },
   { cod: "MLAM", curto: "Segurança" },
   { cod: "PAI", curto: "Agente das fichas" },
-  { cod: "MMC", curto: "Frota (à parte)" },
-  { cod: "COA", curto: "Sensor (à parte)" },
+  { cod: "MMC", curto: "Feita à parte" },
+  { cod: "COA", curto: "Feita à parte" },
 ];
+
+/** Matérias feitas à parte, fora deste repositório: só têm a aba no menu, com o aviso. */
+export const MATERIAS_A_PARTE: Record<string, string> = {
+  CS: "Computer Science",
+  MMC: "Modelagem Matemática e Computacional",
+  COA: "Computer Organization and Architecture",
+};
 
 export const CORES_DAS_MATERIAS: Record<string, string> = {
   PCP: "#2563EB",
@@ -230,7 +221,7 @@ export type PlanoB = {
 };
 export type PlanoDoDia = {
   ok: boolean; origem: string; destino: string;
-  veredito: { codigo: "pode_ir" | "mais_cedo" | "plano_b"; texto: string; regra_provisoria: boolean };
+  veredito: { codigo: "pode_ir" | "mais_cedo" | "plano_b"; texto: string };
   entradas: { falha: boolean; chuva: boolean; alagamento: boolean; pico: boolean };
   motivos: Motivo[]; rota: Rota; linhas: LinhaAgora[]; plano_b: PlanoB | null;
   seguranca: { origem: Seguranca; destino: Seguranca }; energia: Energia;
@@ -245,11 +236,7 @@ export const mobilidade = {
   tempo: () => pedir<{ ok: boolean; lido_em: string; avisos: AvisoTempo[]; fonte: string }>("/api/mobilidade/tempo"),
   plano: (origem: string, destino: string, simular?: string) =>
     pedir<PlanoDoDia>(`/api/mobilidade/plano?origem=${encodeURIComponent(origem)}&destino=${encodeURIComponent(destino)}${simular ? `&simular=${simular}` : ""}`),
-  testeCS: (entradas: TesteCS["entradas"]) => pedir<TesteCS>("/api/teste/cs", { method: "POST", body: JSON.stringify(entradas) }),
   testeMLAM: () => pedir<TesteMLAM>("/api/teste/mlam"),
-  mmcEtapa1: (lados?: number[]) => pedir<MmcEtapa1>("/api/teste/mmc", { method: "POST", body: JSON.stringify({ etapa: 1, lados }) }),
-  mmcNecessidade: () => pedir<MmcNecessidade>("/api/teste/mmc", { method: "POST", body: JSON.stringify({ etapa: 2 }) }),
-  mmcMatriz: (matriz: number[][]) => pedir<MmcMatriz>("/api/teste/mmc", { method: "POST", body: JSON.stringify({ etapa: 2, matriz }) }),
 };
 
 /* ---------------------------------------------------------------- assistente */

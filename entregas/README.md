@@ -8,11 +8,10 @@ está sua parte no repositório compartilhado, como os enunciados pedem.
 | **PCP** · Pensamento Computacional | [`pcp/citizen-assist-ai/`](pcp/citizen-assist-ai/) | `python main.py` |
 | **DSA** · Data Structures | [`dsa/`](dsa/) | `python main.py` |
 | **SERS** · Energias Renováveis | [`sers/`](sers/) | `python comparar_energia.py` |
-| **MLAM** · Modelagem Linear | [`mlam/`](mlam/) | `python main.py` e `python questao07_relatorio.py` |
+| **MLAM** · Modelagem Linear | [`mlam/entrega/`](mlam/entrega/) | `python questao02_probabilidade.py` (um script por questão) |
 | **PAI** · Prompt and AI | [`pai/`](pai/) | `python main.py` e `python rodar_antes_e_depois.py --so-enunciado` |
 
-**CS**, **MMC** e **COA** não entregam código neste repositório: são feitas à parte, à mão ou no
-Wokwi, no formato do enunciado de cada uma. Elas têm página com explicação, teste e checklist na plataforma.
+**CS**, **MMC** e **COA** foram feitas à parte, fora deste repositório.
 
 ## Como cada matéria vai ao portal
 

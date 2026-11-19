@@ -130,7 +130,7 @@ def antes_de_sair(origem: str, destino: str, simular_falha: str | None = None, a
     return {
         "ok": True,
         "origem": origem_nome, "destino": destino_nome,
-        "veredito": {"codigo": veredito, "texto": decisao.TEXTO[veredito], "regra_provisoria": decisao.REGRA_PROVISORIA},
+        "veredito": {"codigo": veredito, "texto": decisao.TEXTO[veredito]},
         "entradas": entradas,
         "motivos": motivos,
         "rota": normal,

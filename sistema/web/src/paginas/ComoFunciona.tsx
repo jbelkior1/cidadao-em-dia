@@ -65,7 +65,7 @@ export default function ComoFunciona() {
   useEffect(() => {
     api.materias().then(setMaterias).catch(() => setMaterias(null));
   }, []);
-  const todas = [...(materias?.no_sistema ?? []), ...(materias?.a_parte ?? [])];
+  const todas = materias?.no_sistema ?? [];
 
   return (
     <div className="mx-auto w-full max-w-4xl space-y-12 px-4 py-8 lg:px-8">
@@ -188,7 +188,7 @@ export default function ComoFunciona() {
       <section className="space-y-3" aria-labelledby="titulo-materias">
         <h3 id="titulo-materias" className="text-xl font-bold">Onde cada matéria entra</h3>
         <p className="text-[16px] text-apagado">
-          Cinco matérias viraram ferramentas da Lia; CS, MMC e COA são entregas próprias, fora do app. Cada página tem a explicação, os
+          Cinco matérias viraram ferramentas da Lia. Cada página tem a explicação, os
           arquivos no GitHub, o teste e o checklist.
         </p>
         <ul className="grid gap-2 sm:grid-cols-2">

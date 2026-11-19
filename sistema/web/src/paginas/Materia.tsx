@@ -5,8 +5,8 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import Checklist from "../componentes/Checklist";
 import Fluxograma from "../componentes/Fluxograma";
 import FluxoMateria from "../componentes/FluxoMateria";
-import { TesteCoa, TesteCs, TesteDsa, TesteMlam, TesteMmc, TestePai, TestePcp, TesteSers } from "../componentes/Testes";
-import { api, type DadosMateria, type ResumoChecklist } from "../lib/api";
+import { TesteDsa, TesteMlam, TestePai, TestePcp, TesteSers } from "../componentes/Testes";
+import { api, CORES_DAS_MATERIAS, MATERIAS_A_PARTE, type DadosMateria, type ResumoChecklist } from "../lib/api";
 
 const PARTES = ["Entenda", "Teste", "Checklist da entrega"] as const;
 type Parte = (typeof PARTES)[number];
@@ -35,9 +35,7 @@ function Entrega({ m }: { m: DadosMateria["materia"] }) {
             </>
           )}
         </p>
-      ) : (
-        <p className="text-[14px] text-apagado">Entregue à parte, fora deste repositório, no formato do enunciado.</p>
-      )}
+      ) : null}
       {arquivos.length > 0 && (
         <div className="space-y-2">
           <p className="text-[13px] font-semibold text-apagado">Arquivos no GitHub</p>
@@ -106,13 +104,10 @@ function Teste({ dados }: { dados: DadosMateria }) {
     <div className="space-y-5">
       <p className="text-[14px] text-apagado">{dados.materia.como_testar}</p>
       {cod === "PCP" && <TestePcp />}
-      {cod === "CS" && <TesteCs />}
       {cod === "DSA" && <TesteDsa />}
       {cod === "SERS" && <TesteSers />}
       {cod === "MLAM" && <TesteMlam />}
       {cod === "PAI" && <TestePai />}
-      {cod === "MMC" && <TesteMmc />}
-      {cod === "COA" && <TesteCoa links={dados.materia.links} />}
     </div>
   );
 }
@@ -150,8 +145,28 @@ function Andamento({ resumo }: { resumo: ResumoChecklist }) {
   );
 }
 
+/** CS, MMC e COA: só a aba no menu e o aviso de que a matéria foi feita à parte. */
+function FeitaAParte({ cod }: { cod: string }) {
+  return (
+    <div className="mx-auto w-full max-w-4xl space-y-6 px-4 py-8 lg:px-8">
+      <header className="space-y-3 border-l-4 pl-4" style={{ borderColor: CORES_DAS_MATERIAS[cod] }}>
+        <p className="text-[13px] font-semibold tracking-wide text-apagado uppercase">{MATERIAS_A_PARTE[cod]} ({cod})</p>
+        <h2 className="text-3xl leading-tight font-bold">Matéria feita à parte</h2>
+      </header>
+      <p className="rounded-xl border border-linha bg-superficie p-5 text-[16px] leading-relaxed">
+        Esta matéria foi feita à parte, fora deste sistema, e entregue diretamente no portal da FIAP no formato do enunciado.
+      </p>
+    </div>
+  );
+}
+
 export default function Materia() {
-  const { cod = "" } = useParams();
+  const { cod: codRota = "" } = useParams();
+  const cod = codRota.toUpperCase();
+  return MATERIAS_A_PARTE[cod] ? <FeitaAParte cod={cod} /> : <MateriaDoSistema cod={codRota} />;
+}
+
+function MateriaDoSistema({ cod }: { cod: string }) {
   const [dados, setDados] = useState<DadosMateria | null>(null);
   const [erro, setErro] = useState("");
   const [busca, setBusca] = useSearchParams();

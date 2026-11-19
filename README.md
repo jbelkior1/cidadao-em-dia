@@ -21,11 +21,8 @@ Cada matéria tem a entrega no formato do seu enunciado. O código que o profess
 | **PCP** · Pensamento Computacional | [`entregas/pcp/citizen-assist-ai/`](entregas/pcp/citizen-assist-ai/) | `python main.py` | Orientações oficiais nos cartões da Lia (busca por pontos) |
 | **DSA** · Data Structures | [`entregas/dsa/`](entregas/dsa/) | `python main.py` | Catálogo de serviços (lista encadeada) que dá o canal de atendimento e o SOS |
 | **SERS** · Energias Renováveis | [`entregas/sers/`](entregas/sers/) | `python comparar_energia.py` | Energia, custo e CO₂ da viagem no cartão da Lia |
-| **MLAM** · Modelagem Linear | [`entregas/mlam/`](entregas/mlam/) | `python main.py` e `python questao07_relatorio.py` | Segurança perto das estações (SSP-SP) |
+| **MLAM** · Modelagem Linear | [`entregas/mlam/entrega/`](entregas/mlam/entrega/) | `python questao02_probabilidade.py` (um script por questão) | Segurança perto das estações (SSP-SP) |
 | **PAI** · Prompt and AI | [`entregas/pai/`](entregas/pai/) | `python main.py` e `python avaliar.py` | Agente das fichas (LangGraph) que a Lia chama nas dúvidas de regra |
-| **CS** · Computer Science | entregue à parte (relatório e simulação) | | Página com explicação e checklist |
-| **MMC** · Modelagem Matemática | entregue à parte | | Página com explicação, teste e checklist |
-| **COA** · Computer Organization | entregue à parte, no Wokwi | | Página com explicação e checklist |
 
 Na plataforma, cada matéria tem uma página com **Entenda** (o que faz, a entrega e os arquivos no GitHub), **Teste** (o núcleo da matéria rodando) e **Checklist** (o que o enunciado pede e o que está pronto). O guia de entrega no portal, matéria por matéria, está em [`entregas/portal/`](entregas/portal/).
 
@@ -87,5 +84,4 @@ GTFS da SPTrans (rede), agregador público dos avisos das operadoras (situação
 - **Não é canal oficial** das operadoras nem da Defesa Civil, nem canal de emergência; o app mostra a fonte e a hora de cada informação.
 - **Privacidade:** sem conta, nada da pessoa fica no servidor; o que ela escreve para a Lia não é guardado. A conta opcional guarda só usuário, hash da senha, linhas, estação de casa e rotas.
 - **PAI:** o tema foi trocado para transporte com autorização do professor em 13/11/2026.
-- **CS:** tabela-verdade, Karnaugh e circuito são da equipe, feitos à mão, e entregues à parte.
 - **MLAM:** a base conta registros perto da estação, sem o fluxo de passageiros; não é taxa de risco.

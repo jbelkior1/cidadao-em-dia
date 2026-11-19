@@ -12,19 +12,18 @@ import threading
 import time
 from collections import deque
 from contextlib import asynccontextmanager
-from typing import Annotated
 
 import httpx
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 from sistema import assistente, checklist, config, conversa, ia, laboratorio, materias, pacotes, testes
 from sistema import avaliacoes, banco, contas, mapa, relatos, sos
 from sistema.adaptadores import dsa, pcp
-from sistema.mobilidade import decisao, fontes, plano, rede
+from sistema.mobilidade import fontes, plano, rede
 from sistema.relatos_supabase import BancoIndisponivel
 
 
@@ -288,7 +287,7 @@ def documentacao() -> dict:
 
 @app.get("/api/materias")
 def listar_materias() -> dict:
-    return {"no_sistema": materias.NO_SISTEMA, "a_parte": materias.A_PARTE,
+    return {"no_sistema": materias.NO_SISTEMA,
             "situacao": {"PCP": pcp.situacao(), "DSA": dsa.situacao()}}
 
 
@@ -328,21 +327,6 @@ def plano_do_dia(origem: str, destino: str, simular: str | None = Query(None, de
     return resultado
 
 
-class EntradasCS(BaseModel):
-    falha: bool
-    chuva: bool
-    alagamento: bool
-    pico: bool
-
-
-@app.post("/api/teste/cs")
-def teste_cs(e: EntradasCS) -> dict:
-    codigo = decisao.decidir(e.falha, e.chuva, e.alagamento, e.pico)
-    return {"entradas": e.model_dump(), "codigo": codigo, "texto": decisao.TEXTO[codigo], "regra_provisoria": decisao.REGRA_PROVISORIA,
-            "aviso": "Regra do produto, escrita como prioridades simples e independente da entrega de CS: a tabela-verdade, "
-                     "o Karnaugh e o circuito são da equipe, feitos à mão. Não é canal oficial."}
-
-
 @app.get("/api/teste/mlam")
 def teste_mlam() -> dict:
     return testes.mlam_resumo()
@@ -368,15 +352,6 @@ class PedidoSERS(BaseModel):
     km: float
 
 
-Numero = Annotated[float, Field(allow_inf_nan=False, ge=-1_000_000, le=1_000_000)]
-
-
-class PedidoMMC(BaseModel):
-    etapa: int = 1
-    lados: list[Numero] | None = Field(None, max_length=4)                                 # Relatório I: os quatro valores
-    matriz: list[Annotated[list[Numero], Field(max_length=4)]] | None = Field(None, max_length=4)   # a matriz da equipe
-
-
 class PedidoSimulacao(BaseModel):
     parte: str
     canais: list[str] = []
@@ -390,7 +365,7 @@ def materia(cod: str) -> dict:
     if not m:
         raise HTTPException(404, "Matéria não encontrada.")
     situacao = {"PCP": pcp.situacao, "DSA": dsa.situacao}.get(m["cod"])
-    return {"materia": m, "no_sistema": m in materias.NO_SISTEMA, "checklist": checklist.da_materia(m["cod"]),
+    return {"materia": m, "no_sistema": True, "checklist": checklist.da_materia(m["cod"]),
             "status": checklist.STATUS, "situacao": situacao() if situacao else None, "editavel": not config.modo_publico()}
 
 
@@ -452,14 +427,6 @@ def teste_sers(p: PedidoSERS) -> dict:
     if not 0 < p.km <= 200:
         raise HTTPException(400, "Informe uma distância entre 0,1 e 200 km.")
     return testes.sers_testar(p.km)
-
-
-@app.post("/api/teste/mmc")
-def teste_mmc(p: PedidoMMC) -> dict:
-    """Etapa 1 (sistema linear da frota) ou Etapa 2 (necessidade por região e a conferência da matriz da equipe)."""
-    if p.etapa == 1:
-        return testes.mmc_etapa1(p.lados)
-    return testes.mmc_necessidade() if p.matriz is None else testes.mmc_conferir_matriz(p.matriz)
 
 
 @app.get("/api/laboratorio")

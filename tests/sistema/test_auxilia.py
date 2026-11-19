@@ -78,7 +78,6 @@ class Conversa(SemInternet):
         plano = r["cartoes"][0]
         self.assertEqual(plano["tipo"], "plano")
         self.assertEqual(plano["chegada"], "11:53")
-        self.assertNotIn("CS", [p["materia"] for p in r["rastro"]])      # a CS é entregue à parte
         self.assertEqual(plano["situacao"]["9"]["nivel"], "normal")
         # a conversa é da Lia (sistema); a PAI só entra no rastro quando o agente das fichas é chamado
         self.assertIn({"materia": "Sistema", "titulo": "Conversou com IA"},

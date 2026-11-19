@@ -17,14 +17,7 @@ const NOS: No[] = [
   { id: "PCP", rotulo: "PCP", sub: "orientações oficiais", x: 730, y: 116, w: 168, h: 46, tipo: "materia" },
   { id: "DSA", rotulo: "DSA", sub: "canal de atendimento", x: 730, y: 168, w: 168, h: 46, tipo: "materia" },
   { id: "PAI", rotulo: "PAI", sub: "agente das fichas", x: 730, y: 220, w: 168, h: 46, tipo: "materia" },
-  // entregues à parte: sem ligação com o sistema
-  { id: "CS", rotulo: "CS", sub: "lógica · à mão", x: 560, y: 360, w: 156, h: 46, tipo: "materia" },
-  { id: "COA", rotulo: "COA", sub: "sensor · Wokwi", x: 728, y: 360, w: 156, h: 46, tipo: "materia" },
-  { id: "MMC", rotulo: "MMC", sub: "frota · modelo", x: 896, y: 360, w: 156, h: 46, tipo: "materia" },
 ];
-
-/** Molduras de agrupamento (desenhadas atrás dos nós, sem setas). */
-const GRUPOS = [{ x: 546, y: 320, w: 520, h: 98, rotulo: "Entregues à parte, fora do sistema" }];
 
 const LIGACOES: Ligacao[] = [
   { de: "cidadao", para: "auxilia" },
@@ -55,7 +48,7 @@ export default function Fluxograma({ destaque }: { destaque?: string }) {
     <div className="space-y-1">
     <p className="text-[12px] text-apagado sm:hidden">Arraste para o lado para ver o fluxograma inteiro.</p>
     <div className="overflow-x-auto rounded-xl border border-linha bg-superficie p-3">
-      <svg viewBox="0 0 1080 424" className="w-full min-w-[620px]" role="img"
+      <svg viewBox="0 0 920 310" className="w-full min-w-[620px]" role="img"
         aria-label={destaque ? `Fluxograma do sistema com a matéria ${destaque} em destaque` : "Fluxograma do sistema"}>
         <defs>
           {["normal", "foco", "cinza"].map((tipo) => (
@@ -64,16 +57,6 @@ export default function Fluxograma({ destaque }: { destaque?: string }) {
             </marker>
           ))}
         </defs>
-
-        {GRUPOS.map((g) => {
-          const on = !destaque || NOS.some((n) => n.id === destaque && n.x >= g.x && n.y >= g.y && n.y < g.y + g.h);
-          return (
-            <g key={g.rotulo}>
-              <rect x={g.x} y={g.y} width={g.w} height={g.h} rx={14} fill="none" stroke={on ? "#8FA19D" : CINZA.linha} strokeWidth={1.4} strokeDasharray="6 5" />
-              <text x={g.x + 12} y={g.y + 22} fontSize="12.5" fontWeight="600" fill={on ? "#556A6A" : CINZA.texto}>{g.rotulo}</text>
-            </g>
-          );
-        })}
 
         {LIGACOES.map((l) => {
           const emFoco = !destaque || l.de === destaque || l.para === destaque;

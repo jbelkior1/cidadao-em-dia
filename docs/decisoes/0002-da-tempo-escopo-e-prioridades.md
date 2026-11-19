@@ -14,7 +14,7 @@ Data: 13/11/2026. Origem: reunião do grupo de 12/11 (ata do Gemini) e respostas
 | SOS | Abre o SMS ou a ligação já preenchidos. Não envia nada e não é canal de emergência. Os canais vêm do catálogo da DSA. |
 | WhatsApp | **Fora por enquanto**: sem botão, sem automação. A mensagem de atraso só tem "Copiar". |
 | MiroFish | Fica para depois. Primeiro as outras partes do sistema. |
-| Matérias | No sistema: PCP, DSA, SERS, MLAM e PAI. À parte: **CS, COA e MMC** (com outro integrante). CS proíbe IA na tabela-verdade, no Karnaugh e no circuito (−4 pontos). Os enunciados de COA e MMC não falam de IA, nem para proibir nem para permitir (conferido em 13/11). |
+| Matérias | No sistema: PCP, DSA, SERS, MLAM e PAI. À parte, fora deste repositório: **CS, COA e MMC**. |
 | PAI | O professor autorizou em 13/11 manter as regras do enunciado e trocar as fichas de Aurora pelo tema do grupo: 7 fichas de transporte (FT-01 a FT-07). Na conversa, a Lia chama o agente da PAI como ferramenta. |
 | Cores | Laranja e branco, sem modo escuro. Marca `#c2410c` (passa 4,5:1 com texto branco); o amarelo de "atenção" fica separado. |
 

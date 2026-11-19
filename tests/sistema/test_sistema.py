@@ -86,7 +86,7 @@ class Rede(unittest.TestCase):
 
 
 class Decisao(unittest.TestCase):
-    def test_regra_provisoria(self):
+    def test_decisao_do_dia(self):
         self.assertEqual(decisao.decidir(True, False, False, False), decisao.PLANO_B)
         self.assertEqual(decisao.decidir(False, True, True, False), decisao.MAIS_CEDO)
         self.assertEqual(decisao.decidir(False, False, False, True), decisao.PODE_IR)
@@ -343,10 +343,6 @@ class Api(SemInternet):
     def test_plano_mesma_estacao(self):
         self.assertEqual(self.cliente.get("/api/mobilidade/plano", params={"origem": estacao("Sé"), "destino": estacao("Sé")}).status_code, 400)
 
-    def test_teste_cs(self):
-        r = self.cliente.post("/api/teste/cs", json={"falha": False, "chuva": True, "alagamento": True, "pico": False}).json()
-        self.assertEqual(r["codigo"], "mais_cedo")
-
     def test_chat(self):
         r = self.cliente.post("/api/chat", json={"texto": "perdi minha mochila no metrô"}).json()
         self.assertEqual(r["blocos"][0]["tipo"], "orientacao")
@@ -377,7 +373,7 @@ class Api(SemInternet):
         self.assertIn("indisponíveis", r.json()["detail"])
 
     def test_paginas_das_materias(self):
-        for cod in ("pcp", "cs", "dsa", "sers", "mlam", "pai", "mmc", "coa"):
+        for cod in ("pcp", "dsa", "sers", "mlam", "pai"):
             self.assertEqual(self.cliente.get(f"/api/materias/{cod}").status_code, 200, cod)
 
     def test_laboratorio(self):

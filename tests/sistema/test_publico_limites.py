@@ -75,19 +75,6 @@ class LimiteDiarioNoAgenteDaPai(unittest.TestCase):
 
 
 class EntradasEstranhas(unittest.TestCase):
-    def test_mmc_recusa_nan_infinito_e_numero_enorme(self):
-        # corpo cru: o parser do servidor aceita NaN e Infinity, que um visitante pode mandar à mão
-        for lados in ("[NaN, 1, 1, 1]", "[Infinity, 1, 1, 1]", "[2000000, 1, 1, 1]"):
-            r = c.post("/api/teste/mmc", content=f'{{"etapa": 1, "lados": {lados}}}', headers={"Content-Type": "application/json"})
-            self.assertEqual(r.status_code, 422, lados)
-        grande = '[[1e308, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]'
-        r = c.post("/api/teste/mmc", content=f'{{"etapa": 2, "matriz": {grande}}}', headers={"Content-Type": "application/json"})
-        self.assertEqual(r.status_code, 422)
-
-    def test_mmc_segunda_trava_nas_funcoes(self):
-        self.assertFalse(testes.mmc_etapa1([float("nan"), 1, 1, 1])["ok"])
-        self.assertFalse(testes.mmc_conferir_matriz([[float("inf")] * 4] * 4)["ok"])
-
     def test_dsa_aceita_numero_no_lugar_de_texto_sem_cair(self):
         for operacao, dados in (("consultar", {"id": 5}), ("excluir", {"id": 5}), ("pesquisar", {"campo": "titulo", "trecho": 5}),
                                 ("atualizar", {"id": 5, "campo": "titulo", "valor": 7})):

@@ -8,7 +8,7 @@ Lê os modelos de entregas/portal/<matéria>/ e grava em entregas/portal/saida/ 
 - DSA e PAI: um .zip com a pasta da entrega e o LEIA-ME.txt;
 - MLAM: a pasta MLAM_para_enviar com o .csv, os .py de entregas/mlam/entrega e o .pdf soltos (o enunciado proíbe links e
   aceita só esses formatos);
-- CS, MMC, COA e o vídeo pitch: o modelo de texto a completar.
+- o vídeo pitch: o .txt com o link.
 
 Sem --url, a linha "Página da matéria no sistema" sai do texto (link quebrado não vai ao professor).
 No fim, lista o que ainda está entre colchetes, por preencher.
@@ -27,9 +27,6 @@ IGNORAR = shutil.ignore_patterns("__pycache__", "*.pyc", ".env", "config.local.j
 TEXTOS = {
     "PCP": ["pcp/PCP_entrega.txt"],
     "SERS": ["sers/SERS_entrega.txt"],
-    "CS": ["cs/LEIA-ME.txt"],
-    "MMC": ["mmc/LEIA-ME.txt"],
-    "COA": ["coa/COA_entrega.txt"],
     "PITCH": ["pitch/PITCH_entrega.txt"],
     "MLAM": ["mlam/MLAM_entrega.txt", "mlam/COMO_ENVIAR.txt"],
 }

@@ -15,14 +15,11 @@ O script grava tudo em `entregas/portal/saida/` (fora do git) e lista o que aind
 | **SERS** | Só um .txt com nome completo e RM, link do repositório e link do vídeo | [`sers/SERS_entrega.txt`](sers/SERS_entrega.txt) | Testes com usuários em `entregas/sers/TESTES_USUARIOS.md`, conferir os números lidos de PDF, vídeo de até 3 min, colar o link |
 | **MLAM** | Base .csv, códigos .py e relatório .pdf, postados soltos, **sem links** | O script gera `MLAM_para_enviar/`; instruções em [`mlam/COMO_ENVIAR.txt`](mlam/COMO_ENVIAR.txt) (não vai ao portal) | Conferir quantos arquivos o portal aceita, conferir o cadastro do grupo e postar |
 | **PAI** | Protótipo testável, fichas, juiz com antes e depois, relatório dos testes e justificativas (formato livre) | [`pai/LEIA-ME.txt`](pai/LEIA-ME.txt); o script gera `PAI_entrega.zip` | Testes com 5 pessoas (tempo e facilidade) em `entregas/pai/TESTES_USUARIOS.md`, confirmar o formato de envio |
-| **CS** | Relatório técnico em PDF, prints da simulação e instruções | Modelo em [`cs/LEIA-ME.txt`](cs/LEIA-ME.txt) | Tudo, à mão: tabela-verdade, Karnaugh e circuito |
-| **MMC** | Não fixado no enunciado (mínimo seguro: PDF e .py) | Modelo em [`mmc/LEIA-ME.txt`](mmc/LEIA-ME.txt) | Etapas 1 e 2, com a política e a matriz da equipe; confirmar o formato com o professor |
-| **COA** | Link do Wokwi, link do vídeo e nomes completos (um integrante entrega) | Modelo em [`coa/COA_entrega.txt`](coa/COA_entrega.txt) | Circuito e código no Wokwi, vídeo mostrando a leitura mudar, testar os links em janela anônima |
 | **Vídeo pitch** | Entrega própria do portal (GS2026.2 - ENTREGA VÍDEO PITCH) | Modelo em [`pitch/PITCH_entrega.txt`](pitch/PITCH_entrega.txt) | Gravar o pitch de até 3 min, sem narração por IA |
 
 ## Antes de enviar qualquer uma
 
 1. **Integrantes no portal:** em cada entrega, inserir os três integrantes com RM. Em 13/11 o campo mostrava só um; sem isso a nota pode não chegar aos outros dois.
 2. **Prazo:** 19/11/2026, adotar 23h55 (o menor horário entre os enunciados). Depois do prazo o portal não aceita envio nem troca.
-3. **Links:** abrir cada link (repositório, vídeos, Wokwi, plataforma) numa janela anônima antes de enviar. Vídeo do YouTube como "não listado", nunca "privado".
+3. **Links:** abrir cada link (repositório, vídeos, plataforma) numa janela anônima antes de enviar. Vídeo do YouTube como "não listado", nunca "privado".
 4. **Plataforma:** publicar na VPS (`DEPLOY.md`) e rodar o script de novo com `--url`.
