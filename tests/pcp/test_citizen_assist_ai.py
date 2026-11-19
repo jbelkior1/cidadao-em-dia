@@ -401,6 +401,17 @@ class TesteTelas(TesteComPasta):
         self.assertIn("Resposta inválida", saida)
         self.assertEqual(len(self.assistente.historico), 1)
 
+    def test_texto_sem_letras_nem_numeros_nao_conta_como_duvida(self):
+        # melhoria do teste com usuários: "-" virava um atendimento sem solução
+        saida = self.executar(self.assistente.perguntar, "-", "?!", "0")
+        self.assertIn("Escreva sua dúvida com palavras", saida)
+        self.assertEqual(self.assistente.historico, [])
+
+    def test_texto_sem_letras_depois_pergunta_valida(self):
+        self.executar(self.assistente.perguntar, "...", "cartao sus", "s", "0")
+        self.assertEqual(len(self.assistente.historico), 1)
+        self.assertEqual(self.assistente.historico[0]["tentativas"], 1)
+
     def test_nao_ajudou_e_tenta_de_novo(self):
         self.executar(self.assistente.perguntar, "cartao sus", "n", "vacina", "s", "0")
         self.assertEqual(len(self.assistente.historico), 1)

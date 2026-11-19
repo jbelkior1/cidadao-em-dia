@@ -230,16 +230,16 @@
               "quem": "sistema",
               "status": "Conferir",
               "onde": "entregas/pcp/citizen-assist-ai/README.md",
-              "como": "Estrutura com os campos do enunciado, a integração com o Dá Tempo? declarada e os ajustes de regra explicados. Falta o resultado do teste com usuários e o link do vídeo.",
+              "como": "Estrutura com os campos do enunciado, a integração com o Dá Tempo?, os ajustes de regra e o resultado do teste com usuários. Falta só o link do vídeo técnico.",
               "id": "PCP-12"
             },
             {
               "requisito": "Testar com 3 ou mais pessoas de fora (10 ou mais atendimentos) e registrar no README os indicadores, as dúvidas sem solução e uma melhoria, sem nomes nem dados das pessoas",
               "criterio": "GitHub, README e teste com usuários",
               "quem": "equipe",
-              "status": "A fazer",
+              "status": "Conferir",
               "onde": "entregas/pcp/citizen-assist-ai/README.md (seção Resultado do teste com usuários); data/historico.json; data/atendimentos.csv",
-              "como": "historico.json está como [] e atendimentos.csv só tem o cabeçalho; a seção do README é um placeholder. Os indicadores de verdade só existem depois do teste com pessoas.",
+              "como": "Teste de 19/11: 10 atendimentos em 6 sessões, 90% encontrada, 90% de acerto, 23,3 s, 1,9 tentativa, facilidade 4,3; uma dúvida sem solução (\"-\") e a melhoria feita (texto sem letras vira entrada inválida). README, historico.json e atendimentos.csv preenchidos. Falta o grupo confirmar que as sessões foram de pelo menos 3 pessoas de fora da equipe, como o enunciado pede.",
               "id": "PCP-13"
             },
             {
