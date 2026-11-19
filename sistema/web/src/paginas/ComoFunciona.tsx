@@ -1,4 +1,4 @@
-import { ArrowRight, Bell, House, Map as MapaIcone, MessageCircle, Siren, UserRound, type LucideIcon } from "lucide-react";
+import { ArrowRight, Bell, ExternalLink, House, Map as MapaIcone, MessageCircle, Play, Siren, UserRound, type LucideIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -7,8 +7,11 @@ import { api, type Materias } from "../lib/api";
 
 /*
  * Como funciona: a primeira página da plataforma. O problema em poucas linhas, como usar o app aba
- * por aba, um exemplo, o fluxograma e onde cada matéria entra.
+ * por aba, um exemplo, o fluxograma e onde cada matéria entra. Logo depois da apresentação, o vídeo do
+ * pitch: a capa é um quadro do próprio vídeo (public/pitch-capa.jpg) e o clique abre o YouTube em outra aba.
  */
+
+const PITCH_URL = "https://www.youtube.com/watch?v=TXzhmbRmonE";
 
 type Aba = { nome: string; Icone: LucideIcon; serve: string; passos: string[] };
 
@@ -85,6 +88,34 @@ export default function ComoFunciona() {
           </Link>
         </div>
       </header>
+
+      <section aria-labelledby="titulo-pitch" className="mx-auto w-full max-w-3xl">
+        <a
+          href={PITCH_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group block overflow-hidden rounded-2xl border border-linha bg-superficie shadow-sm transition hover:border-marca/50 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marca"
+          aria-label="Assistir ao pitch do Dá Tempo? no YouTube (abre em outra aba)"
+        >
+          <div className="relative aspect-video bg-tinta">
+            <img src="/pitch-capa.jpg" alt="" className="size-full object-cover transition duration-300 group-hover:scale-[1.02]" loading="lazy" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" aria-hidden />
+            <span className="absolute top-1/2 left-1/2 flex size-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-marca text-white shadow-lg transition group-hover:scale-110" aria-hidden>
+              <Play className="ml-1 size-9 fill-current" />
+            </span>
+            <span className="absolute right-3 bottom-3 rounded-md bg-black/70 px-2 py-0.5 text-[13px] font-semibold text-white" aria-hidden>2:54</span>
+          </div>
+          <div className="flex items-center justify-between gap-3 px-4 py-3">
+            <div className="min-w-0">
+              <h3 id="titulo-pitch" className="text-[17px] leading-tight font-bold">Assista ao pitch do Dá Tempo?</h3>
+              <p className="text-[14px] text-apagado">Em menos de 3 minutos, o problema, a Lia e a comunidade. Feito por João Vitor, João Pedro e Thiago.</p>
+            </div>
+            <span className="inline-flex shrink-0 items-center gap-1.5 text-[14px] font-semibold text-marca-forte">
+              YouTube<ExternalLink className="size-4" aria-hidden />
+            </span>
+          </div>
+        </a>
+      </section>
 
       <section className="space-y-3" aria-labelledby="titulo-problema">
         <h3 id="titulo-problema" className="text-xl font-bold">O problema</h3>

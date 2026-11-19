@@ -1,5 +1,5 @@
 {
-  "atualizado_em": "2026-11-15",
+  "atualizado_em": "2026-11-19",
   "status": [
     "Feito",
     "Conferir",
@@ -19,9 +19,9 @@
       "requisito": "Vídeo pitch de até 3 min no YouTube não listado, na entrega própria do portal (GS2026.2 - ENTREGA VÍDEO PITCH)",
       "criterio": "",
       "quem": "equipe",
-      "status": "A fazer",
+      "status": "Feito",
       "onde": "entregas/portal/pitch/PITCH_entrega.txt",
-      "como": "Sem narração por IA.",
+      "como": "Publicado no YouTube em 19/11/2026 (2:54): https://www.youtube.com/watch?v=TXzhmbRmonE. Também na página Como funciona.",
       "id": "GERAL-02"
     },
     {
