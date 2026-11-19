@@ -1,6 +1,6 @@
 """Avaliações no Supabase (esquema "datempo"), pela API REST (PostgREST), com a chave secreta do servidor.
 
-Mesmo contrato do `RepositorioMemoria` de avaliacoes.py. Tabela em banco/migracoes/0005_datempo_avaliacoes.sql.
+Mesmo contrato do `RepositorioMemoria` de avaliacoes.py. Tabelas em banco/migracoes/0005_datempo_avaliacoes.sql e 0006 (comentário sem notas).
 Erro do banco vira `BancoIndisponivel` (a API responde 503), como nos relatos e nas contas.
 """
 from datetime import datetime
@@ -27,7 +27,7 @@ def _avaliacao(x: dict) -> Avaliacao:
                      perfil=x.get("perfil"), tempos=[x.get("t1_segundos"), x.get("t2_segundos"), x.get("t3_segundos")],
                      acertos=[x.get("t1_acertou"), x.get("t2_acertou"), x.get("t3_acertou")],
                      energia=[x.get("e1"), x.get("e2"), x.get("e3"), x.get("e4")], nota_energia=x.get("nota_energia"),
-                     facilidade=[x["f1"], x["f2"], x["f3"], x["f4"], x["f5"]], comentario=x.get("comentario"), sugestao=x.get("sugestao"))
+                     facilidade=[x.get("f1"), x.get("f2"), x.get("f3"), x.get("f4"), x.get("f5")], comentario=x.get("comentario"), sugestao=x.get("sugestao"))
 
 
 class RepositorioSupabaseAvaliacoes:

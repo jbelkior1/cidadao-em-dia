@@ -69,7 +69,7 @@ class Avaliacao:
     acertos: list[bool | None]        # 3 tarefas; None = não respondeu
     energia: list[str | None]         # 4 situações: "sim", "em parte", "nao" ou None (pulou)
     nota_energia: int | None
-    facilidade: list[int]             # 5 notas de 1 a 5
+    facilidade: list[int | None]      # 5 notas de 1 a 5 (todas None no formulário simples, só com comentário)
     comentario: str | None = None
     sugestao: str | None = None
     extra: dict = field(default_factory=dict)
@@ -130,10 +130,15 @@ def _texto(valor: str | None, maximo: int, campo: str) -> str | None:
     return texto
 
 
-def registrar(id_aparelho: str, perfil: str | None, tempos: list[int | None], acertos: list[bool | None],
-              energia: list[str | None], nota_energia: int | None, facilidade: list[int],
+def registrar(id_aparelho: str, perfil: str | None, tempos: list[int | None] | None = None, acertos: list[bool | None] | None = None,
+              energia: list[str | None] | None = None, nota_energia: int | None = None, facilidade: list[int | None] | None = None,
               comentario: str | None = None, sugestao: str | None = None, agora: datetime | None = None) -> Avaliacao:
+    """O formulário simples manda só o perfil e o comentário; o teste completo manda tudo."""
     agora = agora or datetime.now(timezone.utc)
+    tempos = tempos if tempos is not None else [None] * 3
+    acertos = acertos if acertos is not None else [None] * 3
+    energia = energia if energia is not None else [None] * 4
+    facilidade = facilidade if facilidade is not None else [None] * 5
     if perfil is not None and perfil not in PERFIS:
         raise ErroAvaliacao(422, "Perfil desconhecido.")
     if len(tempos) != 3 or len(acertos) != 3 or len(energia) != 4 or len(facilidade) != 5:
@@ -144,9 +149,12 @@ def registrar(id_aparelho: str, perfil: str | None, tempos: list[int | None], ac
         raise ErroAvaliacao(422, "Resposta de energia desconhecida.")
     if nota_energia is not None and not 1 <= nota_energia <= 5:
         raise ErroAvaliacao(422, "A nota de energia vai de 1 a 5.")
-    if any(not 1 <= f <= 5 for f in facilidade):
-        raise ErroAvaliacao(422, "As notas de facilidade vão de 1 a 5.")
+    notas = [f for f in facilidade if f is not None]
+    if notas and (len(notas) != 5 or any(not 1 <= f <= 5 for f in notas)):
+        raise ErroAvaliacao(422, "As notas de facilidade vão de 1 a 5, nas 5 perguntas.")
     comentario = _texto(comentario, 500, "comentário")
+    if not notas and not comentario:
+        raise ErroAvaliacao(422, "Escreva o que você achou do sistema.")
     sugestao = _texto(sugestao, 300, "sugestão")
     autor = autor_hash(id_aparelho)
     if repo.contar_do_autor(autor, agora - timedelta(hours=1)) >= LIMITE_POR_HORA:
@@ -180,7 +188,7 @@ def _calcular_resumo() -> dict:
         respondidas = [a.acertos[i] for a in lista if a.acertos[i] is not None]
         tarefas.append({"tarefa": texto, "tempo_medio_s": _media(tempos), "acharam": len(tempos), "pessoas": len(lista),
                         "acerto_percentual": round(100 * sum(respondidas) / len(respondidas)) if respondidas else None})
-    facilidade = [{"pergunta": p, "media": _media([a.facilidade[i] for a in lista])} for i, p in enumerate(PERGUNTAS)]
+    facilidade = [{"pergunta": p, "media": _media([a.facilidade[i] for a in lista if a.facilidade[i] is not None])} for i, p in enumerate(PERGUNTAS)]
     energia = []
     for i, texto in enumerate(SITUACOES):
         respostas = [a.energia[i] for a in lista if a.energia[i] is not None]
@@ -188,10 +196,16 @@ def _calcular_resumo() -> dict:
                         **{e: sum(1 for r in respostas if r == e) for e in ENTENDEU}})
     perfis = {ROTULO_PERFIL[p]: sum(1 for a in lista if a.perfil == p) for p in PERFIS}
     comentarios = [{"pessoa": f"Pessoa {len(lista) - k}", "quando": a.criada_em.date().isoformat(), "perfil": ROTULO_PERFIL.get(a.perfil or ""),
-                    "media": _media(a.facilidade), "comentario": a.comentario, "sugestao": a.sugestao}
+                    "media": _media([f for f in a.facilidade if f is not None]), "comentario": a.comentario, "sugestao": a.sugestao}
                    for k, a in enumerate(lista) if a.comentario or a.sugestao]
-    todas_notas = [f for a in lista for f in a.facilidade]
-    return {"pessoas": len(lista), "facilidade_media": _media(todas_notas), "tarefas": tarefas, "facilidade": facilidade,
+    todas_notas = [f for a in lista for f in a.facilidade if f is not None]
+    grupos = {}
+    for c in comentarios:
+        grupos.setdefault(c["perfil"] or "Sem grupo", []).append(c)
+    ordem = [ROTULO_PERFIL[p] for p in PERFIS] + ["Sem grupo"]
+    testes = sum(1 for a in lista if any(f is not None for f in a.facilidade))
+    return {"pessoas": len(lista), "testes_completos": testes,
+            "grupos": [{"grupo": g, "comentarios": grupos[g]} for g in ordem if g in grupos], "facilidade_media": _media(todas_notas), "tarefas": tarefas, "facilidade": facilidade,
             "energia": energia, "nota_energia_media": _media([a.nota_energia for a in lista if a.nota_energia]),
             "perfis": {k: v for k, v in perfis.items() if v}, "comentarios": comentarios}
 
@@ -208,11 +222,11 @@ def como_json(a: Avaliacao) -> dict:
 
 class NovaAvaliacao(BaseModel):
     perfil: Literal["familia", "faculdade", "trabalho", "conhecido", "outro"] | None = None
-    tempos: list[int | None] = Field(min_length=3, max_length=3)
-    acertos: list[bool | None] = Field(min_length=3, max_length=3)
-    energia: list[Literal["sim", "em parte", "nao"] | None] = Field(min_length=4, max_length=4)
+    tempos: list[int | None] | None = Field(default=None, min_length=3, max_length=3)
+    acertos: list[bool | None] | None = Field(default=None, min_length=3, max_length=3)
+    energia: list[Literal["sim", "em parte", "nao"] | None] | None = Field(default=None, min_length=4, max_length=4)
     nota_energia: int | None = Field(default=None, ge=1, le=5)
-    facilidade: list[int] = Field(min_length=5, max_length=5)
+    facilidade: list[int | None] | None = Field(default=None, min_length=5, max_length=5)
     comentario: str | None = Field(default=None, max_length=2000)
     sugestao: str | None = Field(default=None, max_length=2000)
 

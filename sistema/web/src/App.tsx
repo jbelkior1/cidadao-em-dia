@@ -10,6 +10,7 @@ import Configuracoes from "./paginas/Configuracoes";
 import Documentacao from "./paginas/Documentacao";
 import AvaliacaoUsuarios from "./paginas/AvaliacaoUsuarios";
 import Avaliar from "./paginas/Avaliar";
+import AvaliarTeste from "./paginas/AvaliarTeste";
 import Materia from "./paginas/Materia";
 
 type Contexto = {
@@ -39,6 +40,7 @@ function Plataforma({ ia }: { ia: EstadoIA | null }) {
         <Route path="/sistema" element={<Sistema />} />
         <Route path="/avaliacao" element={<AvaliacaoUsuarios />} />
         <Route path="/avaliar" element={<Avaliar />} />
+        <Route path="/avaliar/teste" element={<AvaliarTeste />} />
         <Route path="/materias/:cod" element={<Materia />} />
         <Route path="/documentacao" element={<Documentacao />} />
         {/* no servidor público a IA é fixa: a tela de configuração só existe no computador da equipe */}

@@ -126,11 +126,12 @@ export type Materias = {
 export type Entendeu = "sim" | "em parte" | "nao";
 export type Perfil = "familia" | "faculdade" | "trabalho" | "conhecido" | "outro";
 export type NovaAvaliacao = {
-  perfil: Perfil | null; tempos: (number | null)[]; acertos: (boolean | null)[]; energia: (Entendeu | null)[];
-  nota_energia: number | null; facilidade: number[]; comentario: string | null; sugestao: string | null;
+  perfil: Perfil | null; tempos?: (number | null)[]; acertos?: (boolean | null)[]; energia?: (Entendeu | null)[];
+  nota_energia?: number | null; facilidade?: (number | null)[]; comentario: string | null; sugestao?: string | null;
 };
 export type ResumoAvaliacoes = {
-  pessoas: number; facilidade_media: number | null; nota_energia_media: number | null; perfis: Record<string, number>;
+  pessoas: number; testes_completos: number; facilidade_media: number | null;
+  grupos: { grupo: string; comentarios: ResumoAvaliacoes["comentarios"] }[]; nota_energia_media: number | null; perfis: Record<string, number>;
   tarefas: { tarefa: string; tempo_medio_s: number | null; acharam: number; pessoas: number; acerto_percentual: number | null }[];
   facilidade: { pergunta: string; media: number | null }[];
   energia: { situacao: string; respostas: number; sim: number; "em parte": number; nao: number }[];

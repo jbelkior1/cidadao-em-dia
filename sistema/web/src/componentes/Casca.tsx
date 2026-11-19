@@ -43,6 +43,7 @@ const TITULOS: Record<string, string> = {
   "/sistema": "Sistema · Dá Tempo?",
   "/avaliacao": "Avaliação usuários",
   "/avaliar": "Avaliar o Dá Tempo?",
+  "/avaliar/teste": "Teste completo",
   "/documentacao": "Documentação funcional",
   "/configuracoes": "Configurações de IA",
 };

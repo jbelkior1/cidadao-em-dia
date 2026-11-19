@@ -127,3 +127,26 @@ class Supabase(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FormularioSimples(Base):
+    def test_so_comentario(self):
+        a = avaliacoes.registrar(APARELHO, "trabalho", comentario="Achei muito útil para o dia a dia.", agora=AGORA)
+        self.assertEqual(a.facilidade, [None] * 5)
+        r = avaliacoes.resumo()
+        self.assertEqual(r["pessoas"], 1)
+        self.assertEqual(r["testes_completos"], 0)
+        self.assertEqual(r["grupos"][0]["grupo"], "Trabalho")
+        self.assertIsNone(r["facilidade_media"])
+
+    def test_vazio_ou_notas_pela_metade(self):
+        with self.assertRaises(avaliacoes.ErroAvaliacao):
+            avaliacoes.registrar(APARELHO, None, comentario="   ", agora=AGORA)
+        with self.assertRaises(avaliacoes.ErroAvaliacao):
+            avaliacoes.registrar(APARELHO, None, facilidade=[5, None, None, None, None], comentario="ok", agora=AGORA)
+
+    def test_rota_so_comentario(self):
+        cliente = TestClient(app)
+        r = cliente.post("/api/avaliacoes", json={"perfil": "familia", "comentario": "Gostei do relatar."}, headers={"X-Device-Id": APARELHO})
+        self.assertEqual(r.status_code, 201, r.text)
+        self.assertEqual(cliente.get("/api/avaliacoes").json()["grupos"][0]["comentarios"][0]["comentario"], "Gostei do relatar.")
