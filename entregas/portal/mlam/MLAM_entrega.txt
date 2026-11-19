@@ -1,0 +1,26 @@
+GLOBAL SOLUTION 2026.2 | CITIZEN ASSIST AI | MODELAGEM LINEAR PARA APRENDIZADO DE MÁQUINA (MLAM)
+Análise estatística das ocorrências no entorno das estações de trem e metrô de São Paulo
+
+Integrantes:
+João Vitor Belchior Domingos Leite (RM 572478)
+João Pedro Pereira Teixeira (RM 569937)
+Thiago de Oliveira Coelho Souza (RM 568783)
+
+================================================================
+VEJA A ENTREGA DE MLAM FUNCIONANDO NO APP DÁ TEMPO?
+{URL_SISTEMA}/materias/mlam
+Na página da matéria: o que a entrega faz dentro do app, os resultados das questões e o checklist do enunciado, item por item.
+================================================================
+
+Arquivos da entrega:
+- ocorrencias_estacoes_2026.csv: a base (139 estações, SSP-SP, janeiro a setembro de 2026, raio de 300 m)
+- questao02_probabilidade.py: questão 02, probabilidade com a normal
+- questao03_testes_hipotese.py: questão 03, testes de hipótese para a média
+- questao04_bivariada.py: questão 04, análise bivariada e regressão linear simples
+- questao05_multivariada.py: questão 05, análise multivariada e regressão linear múltipla
+- questao06_logistica.py: questão 06, regressão logística binária
+- relatorio_mlam_gs2026.pdf: questão 07, o relatório estatístico
+
+Como rodar: coloque o .csv e os .py na mesma pasta e rode um por questão (por exemplo, python questao02_probabilidade.py). Cada script imprime os resultados e salva o gráfico usado no relatório. Bibliotecas: pandas, numpy, scipy, statsmodels, scikit-learn e matplotlib.
+
+O que agrega ao Dá Tempo?: a contagem de ocorrências por estação e por faixa de horário aparece no cartão de segurança da estação, sempre como registro perto da estação, não como taxa de risco.

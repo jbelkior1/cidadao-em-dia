@@ -31,7 +31,7 @@ TEXTOS = {
     "MMC": ["mmc/LEIA-ME.txt"],
     "COA": ["coa/COA_entrega.txt"],
     "PITCH": ["pitch/PITCH_entrega.txt"],
-    "MLAM": ["mlam/COMO_ENVIAR.txt"],
+    "MLAM": ["mlam/MLAM_entrega.txt", "mlam/COMO_ENVIAR.txt"],
 }
 ZIPS = {"DSA": ("dsa/LEIA-ME.txt", RAIZ / "entregas" / "dsa"), "PAI": ("pai/LEIA-ME.txt", RAIZ / "entregas" / "pai")}
 MLAM = RAIZ / "entregas" / "mlam"
@@ -92,6 +92,11 @@ def main() -> int:
                     MLAM / "saidas" / "relatorio_mlam_gs2026.pdf"]:
         shutil.copy2(arquivo, soltos / arquivo.name)
     gerados.append(soltos)
+    mlam_zip = SAIDA / "MLAM" / "MLAM_entrega.zip"          # os mesmos 7 arquivos num zip, para quem preferir
+    with zipfile.ZipFile(mlam_zip, "w", zipfile.ZIP_DEFLATED) as z:
+        for arquivo in sorted(soltos.iterdir()):
+            z.write(arquivo, arquivo.name)
+    gerados.append(mlam_zip)
 
     pcp_repo = SAIDA / "PCP" / "citizen-assist-ai.zip"          # conteúdo do repositório público que o PCP pede
     zipar(RAIZ / "entregas" / "pcp" / "citizen-assist-ai", pcp_repo)
