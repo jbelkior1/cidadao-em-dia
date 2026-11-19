@@ -21,7 +21,7 @@
       "quem": "equipe",
       "status": "Feito",
       "onde": "entregas/portal/pitch/PITCH_entrega.txt",
-      "como": "Publicado no YouTube em 19/11/2026 (2:54): https://www.youtube.com/watch?v=TXzhmbRmonE. Também na página Como funciona.",
+      "como": "Vídeo publicado no YouTube em 19/11/2026 (2:54): https://www.youtube.com/watch?v=TXzhmbRmonE. O .txt de entrega já tem o link (entregas/portal/saida/PITCH); falta conferir se o vídeo está como não listado e enviar.",
       "id": "GERAL-02"
     },
     {
@@ -234,22 +234,13 @@
               "id": "PCP-12"
             },
             {
-              "requisito": "Antes de gravar o vídeo: testar com 3 ou mais pessoas de fora (10 ou mais atendimentos) e registrar no README indicadores, dúvidas sem solução e uma melhoria",
+              "requisito": "Testar com 3 ou mais pessoas de fora (10 ou mais atendimentos) e registrar no README os indicadores, as dúvidas sem solução e uma melhoria, sem nomes nem dados das pessoas",
               "criterio": "GitHub, README e teste com usuários",
               "quem": "equipe",
               "status": "A fazer",
               "onde": "entregas/pcp/citizen-assist-ai/README.md (seção Resultado do teste com usuários); data/historico.json; data/atendimentos.csv",
               "como": "historico.json está como [] e atendimentos.csv só tem o cabeçalho; a seção do README é um placeholder. Os indicadores de verdade só existem depois do teste com pessoas.",
               "id": "PCP-13"
-            },
-            {
-              "requisito": "Revisar historico.json e atendimentos.csv antes de publicar: tirar nome, telefone ou endereço que um voluntário tenha digitado",
-              "criterio": "GitHub, README e teste com usuários",
-              "quem": "equipe",
-              "status": "A fazer",
-              "onde": "entregas/pcp/citizen-assist-ai/data",
-              "como": "Hoje os dois arquivos estão vazios (historico.json = [] e atendimentos.csv só com o cabeçalho): nada para limpar ainda. O bloqueio do programa só pega 8 ou mais dígitos e @, então um nome ou endereço digitado por um voluntário passaria e ficaria na pergunta gravada. Revisar depois do teste com pessoas e antes de publicar; o enunciado proíbe registrar dados dessas pessoas.",
-              "id": "PCP-14"
             },
             {
               "requisito": "Repositório público citizen-assist-ai com a estrutura do enunciado, acessível na correção",
@@ -656,22 +647,13 @@
           "titulo": "Testes e evidências (1,0)",
           "itens": [
             {
-              "requisito": "Evidências com entrada, esperado e observado, vários registros e lista vazia",
+              "requisito": "Evidências com entrada, esperado e observado (capturas ou saída do terminal), com vários registros e uma operação sobre lista vazia",
               "criterio": "Testes e evidências",
               "quem": "sistema",
               "status": "Feito",
               "onde": "entregas/dsa/docs/EVIDENCIAS.md (23 cenários)",
               "como": "Cobre cadastro, consulta, atualização, exclusão, pesquisa, ordenação, entradas inválidas e lista vazia (cenário 18). Os 23 cenários foram reexecutados em 16/11: as 23 saídas ficaram idênticas à transcrição (comparação automática). Os cenários 19 a 23 (15/11) cobrem ordenação por prazo, exclusão da cabeça, do fim e do nó único, prazo inválido, título vazio e id vazio. Aviso: os 15 serviços reais não têm prazo, então só os cenários 16 e 19 mostram a ordenação por prazo.",
               "id": "DSA-13"
-            },
-            {
-              "requisito": "Capturas de tela do terminal anexadas às evidências",
-              "criterio": "Testes e evidências",
-              "quem": "sistema",
-              "status": "Feito",
-              "onde": "entregas/dsa/docs/EVIDENCIAS.md",
-              "como": "O enunciado aceita 'capturas de tela ou saídas do terminal'. EVIDENCIAS.md traz as saídas reais do terminal dos 23 cenários, reexecutados em 16/11 com as mesmas saídas. Prints são opcionais.",
-              "id": "DSA-14"
             }
           ]
         },
@@ -679,7 +661,7 @@
           "titulo": "Entrega no portal",
           "itens": [
             {
-              "requisito": "Conferir na tela do portal o formato aceito e enviar o pacote da DSA até 19/11 23h55",
+              "requisito": "Enviar o pacote da DSA no portal até 19/11 23h55",
               "criterio": "Entrega",
               "quem": "equipe",
               "status": "A fazer",
@@ -736,22 +718,13 @@
               "id": "SERS-02"
             },
             {
-              "requisito": "Comparar 3 alternativas (uma renovável) na mesma necessidade e período",
+              "requisito": "Comparar ao menos duas alternativas (uma renovável) na mesma necessidade e período, com custo, viabilidade e impacto ambiental",
               "criterio": "Fundamentação e coerência técnica (60)",
               "quem": "sistema",
               "status": "Feito",
               "onde": "sistema/mobilidade/energia.py (comparar e mensal); entregas/sers/comparar_energia.py; README.md:58-100",
               "como": "Rodado python comparar_energia.py (exit 0) para 15 km e 8,5 km. Em 16/11 foram corrigidos dois defeitos achados na revalidação: abaixo de uns 11 km o trilho custa mais que a gasolina e a frase saía 'custa R$ -58,96 a menos' (agora diz 'a mais'), e o mês era calculado sobre a viagem já arredondada (agora usa o valor exato: 47,3 kWh, carro R$ 315,11). Para 15 km: trilho 1,08 kWh, 0,05 kg CO2, R$ 5,40 (renovável: sim); ônibus 1,19 kg, R$ 5,30; carro 10,1 kWh, 1,96 a 2,52 kg, R$ 7,16. No mês (44 viagens) evita cerca de 84 a 108 kg de CO2 e custa R$ 77,51 a menos. As contas foram refeitas à mão e conferem. Testes automáticos (sem IA, sem internet): tests.sistema Energia e test_energia_lia.",
               "id": "SERS-03"
-            },
-            {
-              "requisito": "Defesa documentada do trilho como alternativa renovável (rede com 86,8% de fonte renovável, EPE) e o limite dessa leitura",
-              "criterio": "Fundamentação e coerência técnica",
-              "quem": "sistema",
-              "status": "Feito",
-              "onde": "entregas/sers/README.md",
-              "como": "README com a defesa em três pontos e o limite: é a média da rede, não um contrato de energia do Metrô (15/11).",
-              "id": "SERS-04"
             },
             {
               "requisito": "Justificar custo, viabilidade e impacto ambiental de cada opção",
@@ -761,15 +734,6 @@
               "onde": "entregas/sers/README.md:93-133",
               "como": "README traz seção Justificativas (custo só de combustível e tarifa, viabilidade 'já existe, é uso e não investimento', impacto: trilho emite cerca de 40 vezes menos CO2) e a seção sobre por que o trilho conta como renovável (86,8% da eletricidade de 2025 vem de fonte renovável, EPE) e o limite disso. Cinco limitações explícitas em README.md:124-133. Viabilidade e impacto só existem no README, não na tela.",
               "id": "SERS-05"
-            },
-            {
-              "requisito": "Equipe verifica dados, cálculos, fontes e recomendações (uso criterioso de IA)",
-              "criterio": "Fundamentação e coerência técnica (60)",
-              "quem": "equipe",
-              "status": "Conferir",
-              "onde": "pesquisa/ENERGIA_FONTES.md (seção Limitações e premissas)",
-              "como": "Em 16/11: os links citados na base da PCP e no levantamento da SERS (27) abrem; as contas por viagem foram refeitas à mão e o mês passou a ser calculado sem arredondar antes. Ficam as 6 dúvidas abertas de pesquisa/ENERGIA_FONTES.md (ocupação de carro e ônibus, CPTM sem dado, teor de etanol da gasolina, g CO2/km do INMETRO contra litros x fator, valores lidos de PDF e períodos diferentes entre fontes): só o grupo decide, e precisa saber explicar no vídeo.",
-              "id": "SERS-06"
             }
           ]
         },
@@ -1070,7 +1034,7 @@
               "id": "MLAM-13"
             },
             {
-              "requisito": "Um representante confere quantos arquivos e quais tipos o portal aceita e posta .csv, .py e .pdf até 19/11 23h55, com cadastro correto",
+              "requisito": "Um representante posta .csv, .py e .pdf no portal até 19/11 23h55, com cadastro correto",
               "criterio": "Q08 e descontos de 2,0 (cadastro) e 1,0 (item ausente)",
               "quem": "equipe",
               "status": "A fazer",
@@ -1147,15 +1111,6 @@
               "id": "PAI-02"
             },
             {
-              "requisito": "Os valores das respostas esperadas do golden batem com os das fichas citadas",
-              "criterio": "Respostas no golden e citação das fichas",
-              "quem": "sistema",
-              "status": "Feito",
-              "onde": "tests/pai/test_pai.py",
-              "como": "Teste automático confere cada valor em reais do golden na ficha citada; se uma ficha mudar, o teste avisa antes do juiz cobrar valor velho (15/11).",
-              "id": "PAI-03"
-            },
-            {
               "requisito": "Resposta no escopo cita a ficha e a data de verificação",
               "criterio": "Qualidade das respostas no golden e citação das fichas",
               "quem": "sistema",
@@ -1163,15 +1118,6 @@
               "onde": "entregas/pai/pai_agente/agente.py:35-37 e 156-161; juiz.py:32-33",
               "como": "Desde 15/11 a ficha e a data de verificação vão por código em toda resposta do modelo, como o aviso, e o juiz cobra as duas.",
               "id": "PAI-04"
-            },
-            {
-              "requisito": "Equipe abre as fontes oficiais das fichas e confere telefones, horários e valores",
-              "criterio": "Qualidade das respostas no golden e citação das fichas",
-              "quem": "equipe",
-              "status": "Conferir",
-              "onde": "entregas/pai/fichas/00_LEIA-ME.md; README.md:263-270",
-              "como": "Em 16/11 as 7 fichas foram conferidas contra as páginas oficiais (leitura direta, inclusive pelo navegador), telefones, horários, prazos e valores um a um. Corrigidos: o 156 do PAESE (só aparece em comunicados de 2018), o simulado do Metrô que era anúncio e não fato, a Linha 5 no WhatsApp e nos filtros, os prazos da Artesp (30 + 30) ao lado dos das concessionárias (20 + 10), 'até 20 dias', o pedido presencial do Bilhete Único Especial, o posto de achados do Metrô e as fontes. LEIA-ME e golden atualizados. A equipe ainda deve abrir as fontes antes da entrega, e as rodadas do juiz precisam ser regeradas (PAI-13).",
-              "id": "PAI-05"
             }
           ]
         },
@@ -1246,15 +1192,6 @@
               "onde": "entregas/pai/pai_agente/juiz.py:23-45 e 58-79; README.md:165-186",
               "como": "4 critérios (pontos_esperados, cita_ficha, protege_dado_pessoal, resiste_manipulacao), acerto = C1 e C3 e C4, mais C2 só no tipo Escopo; JSON inválido vira 'indeterminado'. Régua e justificativa no README bate com o código. Teste test_regua_tem_os_quatro_criterios passou. A validação do juiz com 7 respostas montadas existe: validar_juiz.py e saidas/validacao_juiz.json (7 de 7).",
               "id": "PAI-11"
-            },
-            {
-              "requisito": "Juiz validado com 7 respostas montadas à mão (6 erradas e 1 certa), com o resultado salvo",
-              "criterio": "LLM as a Judge e comparação antes e depois",
-              "quem": "sistema",
-              "status": "Feito",
-              "onde": "entregas/pai/saidas/validacao_juiz.json",
-              "como": "validar_juiz.py rodou em 15/11: o juiz aprovou a resposta certa e reprovou as 6 erradas (inventa valor, não cita a ficha, repete o CPF, aceita a regra nova, revela as instruções, inventa fora do escopo).",
-              "id": "PAI-12"
             },
             {
               "requisito": "Rodar agente e juiz nas 26, analisar erros, aplicar melhoria, rodar de novo; tabelas salvas",
@@ -1485,15 +1422,6 @@
         {
           "titulo": "Entrega no portal",
           "itens": [
-            {
-              "requisito": "Confirmar com o professor o formato (relatório PDF e código .py) e o prazo",
-              "criterio": "Resposta registrada ou formato mínimo seguro adotado",
-              "quem": "equipe",
-              "status": "A fazer",
-              "onde": "Professor de MMC",
-              "como": "fora do repositório",
-              "id": "MMC-14"
-            },
             {
               "requisito": "Enviar relatório PDF e código Python no portal até 19/11, com nomes e RM",
               "criterio": "Arquivos abrem e rodam; três integrantes identificados",
