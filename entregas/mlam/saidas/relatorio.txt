@@ -1,4 +1,4 @@
-MLAM: Global Solution 2026.2, análises rodadas em 16/11/2026 12:29
+MLAM: Global Solution 2026.2, análises rodadas em 19/11/2026 11:26
 Base: ocorrencias_estacoes_2026.csv (139 estações, SSP-SP, jan–set/2026)
 
 ==============================================================================
@@ -133,7 +133,7 @@ Interpretação:
   indica relação negativa moderada. O p-valor de 6.1e-09 é bem menor que 1%. Esse p-valor supõe
   estações independentes, e os raios de 300 m de estações vizinhas se sobrepõem; mesmo assim, com um
   p-valor tão pequeno, a direção da relação é clara nesta base.
-  Correlação não é causa: a distância não causa ocorrência. Ela está de intermediária para
+  Correlação não é causa: a distância não causa ocorrência. Ela funciona só como intermediária para
   circulação de pessoas, comércio e concentração de serviços, que a base não mede.
 
 --- c) Gráfico da correlação linear de Pearson

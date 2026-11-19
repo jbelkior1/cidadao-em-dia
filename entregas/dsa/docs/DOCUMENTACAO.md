@@ -75,7 +75,7 @@ entregas/dsa/
   integracao.py        EXTRA: funções para o sistema web (não faz parte da entrega de DSA)
   dados/servicos.json  15 serviços iniciais (fontes oficiais, conferidas)
   docs/                esta documentação e EVIDENCIAS.md
-tests/dsa/test_dsa.py  testes automatizados (unittest)
+tests/dsa/test_dsa.py  testes automatizados (unittest), na raiz do repositório, fora desta pasta
 ```
 
 Fluxo: `main.py` lê o que o usuário digita → chama `Catalogo` → `Catalogo` valida e usa `ListaEncadeada` e `algoritmos` → devolve `(sucesso, mensagem, dado)` → `main.py` imprime.
@@ -104,7 +104,7 @@ Menu:
 
 Tratamento de erros: opção inexistente, valor incompatível, campo obrigatório vazio, id duplicado, prazo inválido, registro não encontrado e lista vazia geram uma mensagem clara e o programa continua.
 
-Testes automatizados, a partir da raiz do repositório:
+Testes automatizados, a partir da raiz do repositório (https://github.com/jbelkior1/cidadao-em-dia; ficam fora do pacote da DSA):
 
 ```
 python -m unittest discover -s tests/dsa -v

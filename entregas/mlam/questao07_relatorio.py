@@ -75,6 +75,11 @@ def p_valor(valor: float) -> str:
     return "< 0,0001" if valor < 1e-4 else br(valor, 4)
 
 
+def p_igual(valor: float) -> str:
+    """O p-valor dentro de uma frase: "p < 0,0001" ou "p = 0,0123"."""
+    return "p < 0,0001" if valor < 1e-4 else f"p = {br(valor, 4)}"
+
+
 def tabela(linhas: list[list[str]], larguras: list[float]) -> Table:
     dados = [[Paragraph(str(c), E["cel"]) for c in linha] for linha in linhas]
     t = Table(dados, colWidths=[w * cm for w in larguras], repeatRows=1)
@@ -228,9 +233,13 @@ def montar(r: dict) -> list:
              Spacer(1, 6),
              *figura("q04a_dispersao.png", 13.5, "Dispersão com a reta de regressão; as três estações com mais registro estão rotuladas."),
              *figura("q04c_correlacao.png", 7, "Correlação de Pearson do par."),
+             P(f"Leitura do gráfico de correlação (questão 04c): fora da diagonal, r = {br(q4['pearson_r'], 3)}, na cor do "
+               f"lado negativo da escala: quanto mais longe do Marco Zero, menos registros perto da estação. Em módulo, "
+               f"{br(abs(q4['pearson_r']), 3)} é uma relação moderada, não forte. A diagonal vale 1 porque é cada "
+               f"variável comparada com ela mesma."),
              P(f"A relação é real, mas frouxa: perto do centro os valores variam muito (o \"leque\" do gráfico), e o "
                f"teste de Breusch-Pagan confirma isso. Com erro padrão robusto (HC3), a inclinação continua "
-               f"significativa (p = {p_valor(bp4['p_robusto']['dist_marco_zero_km'])}), então a conclusão sobre o "
+               f"significativa ({p_igual(bp4['p_robusto']['dist_marco_zero_km'])}), então a conclusão sobre o "
                f"sentido da relação se mantém."),
              P("<b>Insight:</b> a distância serve para comparar regiões (centro registra mais que periferia), não "
                "para prever uma estação. O R² baixo é o recado: falta informação na base.", "insight")]
@@ -266,7 +275,18 @@ def montar(r: dict) -> list:
              Spacer(1, 6),
              P(f"Equação: {q5['equacao'].replace('.', ',')}", "nota"),
              *figura("q05a_dispersao.png", 12.5, "Matriz de dispersão das quatro variáveis, com o histograma de cada uma na diagonal."),
+             P(f"Leitura da matriz de dispersão (questão 05a): a nuvem do total contra a distância desce e a do total contra "
+               f"o número de linhas sobe, como mostram as correlações ({br(q5['correlacao']['total']['dist_marco_zero_km'], 3)} e "
+               f"{br(q5['correlacao']['total']['qtd_linhas'], 3)}). Contra a latitude, a nuvem não tem direção clara "
+               f"({br(q5['correlacao']['total']['lat'], 3)}). No histograma da diagonal, o total é assimétrico à direita: "
+               f"muitas estações com pouco registro e poucas com muito, por isso a média ({br(q2['media'], 1)}) fica acima da "
+               f"mediana ({br(q2['mediana'], 0)})."),
              *figura("q05c_correlacao.png", 9, "Correlação de Pearson entre as quatro variáveis."),
+             P(f"Leitura do gráfico de correlação (questão 05c): na linha do total, a cor mais forte é a do número de linhas "
+               f"({br(q5['correlacao']['total']['qtd_linhas'], 3)}), seguida da distância. Entre as três explicativas as "
+               f"correlações são baixas (a maior, em módulo, é "
+               f"{br(max(abs(q5['correlacao'][a_][b_]) for a_ in q5['explicativas'] for b_ in q5['explicativas'] if a_ != b_), 3)}), "
+               f"o que bate com os VIF menores que 1,10: cada uma traz informação própria ao modelo."),
              P(f"Acrescentar o número de linhas levou o R² de {br(q5['r2_do_modelo_simples'], 3)} para "
                f"{br(q5['r2'], 3)}. A latitude não ajuda: sem ela, o R² ajustado é maior. A previsão do cenário de "
                f"baldeação central ficou abaixo da média real das 4 estações parecidas, fora do intervalo de 95%: com "

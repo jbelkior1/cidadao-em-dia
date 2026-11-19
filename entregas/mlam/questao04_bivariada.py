@@ -71,7 +71,7 @@ def resolver(df=None) -> dict:
         indica relação negativa moderada. O p-valor de {p_r:.1e} é bem menor que 1%. Esse p-valor supõe
         estações independentes, e os raios de 300 m de estações vizinhas se sobrepõem; mesmo assim, com um
         p-valor tão pequeno, a direção da relação é clara nesta base.
-        Correlação não é causa: a distância não causa ocorrência. Ela está de intermediária para
+        Correlação não é causa: a distância não causa ocorrência. Ela funciona só como intermediária para
         circulação de pessoas, comércio e concentração de serviços, que a base não mede.
     """)
 

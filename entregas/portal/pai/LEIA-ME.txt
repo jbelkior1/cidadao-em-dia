@@ -12,7 +12,7 @@ O que tem neste pacote (pasta pai/):
 - fichas/: as 7 fichas de transporte FT-01 a FT-07, a única fonte de verdade do agente
 - golden/golden_pai.json: as 26 mensagens na distribuição do enunciado (mais as perguntas do grupo)
 - avaliar.py, rodar_antes_e_depois.py e validar_juiz.py: o pipeline de LLM as a Judge
-- saidas/: as rodadas antes e depois e a validação do juiz, gravadas (16/11, Groq: 25/26 antes e 25/26 depois, com a análise dos erros no README; o juiz acertou 7 de 7 na validação)
+- saidas/: as rodadas antes e depois e a validação do juiz, gravadas (Groq: 25/26 antes, em 16/11, e 26/26 depois, refeita em 19/11 com o golden corrigido, com a análise dos erros no README; o juiz acertou 7 de 7 na validação)
 - grafo_agente.png: a imagem do grafo
 - TESTES_USUARIOS.md: o relatório dos testes com usuários (acerto, tempo e facilidade)
 
@@ -25,4 +25,4 @@ Como rodar:
 Como foi feito: o agente é um grafo LangGraph de três nós. Dado pessoal, prompt injection e entrada inválida são tratados por regra em código e recusados antes do modelo; a busca pontua as 7 fichas por palavra-chave; o modelo só redige a resposta com a ficha encontrada, tratada como dado, e o código anexa a ficha, a data de verificação e o aviso de que não é canal oficial.
 O que agrega ao Dá Tempo?: a agente Lia chama este agente como ferramenta quando a dúvida é de regra ou procedimento (declaração de atraso, gratuidade, reclamação, achados e perdidos, tarifa, assédio, acessibilidade e chuva).
 Página da matéria no sistema: {URL_SISTEMA}/materias/pai
-Repositório: https://github.com/jbelkior1/cidadao-em-dia (pasta entregas/pai)
+Repositório: https://github.com/jbelkior1/cidadao-em-dia (pasta entregas/pai). Os testes automáticos (tests/pai) e o app que usa o agente ficam no repositório, fora deste pacote.

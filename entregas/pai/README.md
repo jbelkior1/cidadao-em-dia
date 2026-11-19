@@ -69,7 +69,7 @@ tudo em `saidas/`. `validar_juiz.py` testa o juiz com 7 respostas montadas à m�
 `desenhar_grafo.py` gera `grafo_agente.png`.
 
 **No app:** a Lia (a conversa do Dá Tempo?) chama este mesmo agente como ferramenta
-(`perguntar_fichas`, em `sistema/assistente.py`, pela ponte `sistema/adaptadores/pai.py`) quando a
+(`perguntar_fichas`, em `sistema/assistente.py`, pela ponte `sistema/adaptadores/pai.py`, no repositório do projeto, fora deste pacote: https://github.com/jbelkior1/cidadao-em-dia) quando a
 dúvida é de regra ou procedimento. A resposta vira um cartão com a ficha e a fonte oficial. Na página
 da PAI no sistema, a aba **Teste** mostra cada etapa do grafo para uma pergunta qualquer.
 
@@ -314,4 +314,4 @@ juiz está feita (abaixo); os testes com pessoas ficam com os campos vazios até
 | `saidas/` | resultado de cada rodada (`rodada_antes.json`, `rodada_depois.json`) e a validação do juiz (`validacao_juiz.json`) |
 | `TESTES_USUARIOS.md` | roteiro e registro dos testes com usuários e a conferência do juiz |
 | `historico/aurora/` | as fichas, o golden e a rodada de Aurora, antes da troca de tema |
-| `../../tests/pai/test_pai.py` | testes sem rede: fichas, busca, guardrails, golden, agente e juiz |
+| `tests/pai/test_pai.py` (no repositório do projeto, fora deste pacote: https://github.com/jbelkior1/cidadao-em-dia) | testes sem rede: fichas, busca, guardrails, golden, agente e juiz |

@@ -124,7 +124,7 @@ Cada premissa é marcada com o **tipo** e o **ano** do dado, porque anos de 2023
 | Gasolina a 2,23 kg de CO₂ por litro (inventário do Ministério dos Transportes); a faixa do carro vai da parte fóssil (78%, ensaio com 22% de etanol) ao litro inteiro | dado oficial (fator) e estimativa (fração fóssil) | 2024 |
 | Ônibus a 79 g de CO₂ por passageiro-km: indicador publicado pelo Metrô, que já embute uma lotação média não publicada | estimativa | 2024 |
 | Tarifas: R$ 5,40 no trilho e R$ 5,30 no ônibus, vigentes em São Paulo | dado oficial | 2026 |
-| Energia da gasolina a 32,2 MJ por litro (0,770 tep/m³ × 41,87 GJ/tep, BEN da EPE) | calculado pela equipe | a confirmar |
+| Energia da gasolina a 32,2 MJ por litro (0,770 tep/m³ × 41,87 GJ/tep, BEN da EPE) | calculado pela equipe | fator de conversão do BEN; a edição não foi registrada (só entra na conta de energia, não no CO₂ nem no custo) |
 
 ## Justificativas: custo, viabilidade e impacto das três alternativas
 

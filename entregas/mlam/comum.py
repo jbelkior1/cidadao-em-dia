@@ -16,8 +16,16 @@ Escolha das variáveis (vale para todas as questões):
   (ver preparar_base.py). A coluna fica no arquivo para deixar essa limitação registrada.
 """
 from pathlib import Path
+import sys
 
 import pandas as pd
+
+# Terminal do Windows em cp1252 não imprime μ, Φ e σ: a saída sai sempre em UTF-8.
+for _fluxo in (sys.stdout, sys.stderr):
+    try:
+        _fluxo.reconfigure(encoding="utf-8")
+    except (AttributeError, ValueError):
+        pass
 
 PASTA = Path(__file__).resolve().parent
 ARQUIVO_BASE = "ocorrencias_estacoes_2026.csv"

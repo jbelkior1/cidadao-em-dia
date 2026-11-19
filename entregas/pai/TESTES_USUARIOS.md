@@ -19,7 +19,7 @@ O enunciado (seção 4.3) pede três indicadores:
 - Em cada tarefa, a pessoa clica em "Começar", procura a resposta com a Lia no app e clica em "Achei"; o
   tempo vai do primeiro clique ao segundo, medido pelo relógio do aparelho. Depois ela marca a resposta
   entre três alternativas, e o formulário confere se acertou. Passando de 5 minutos, conta como "não achou".
-- Os dados ficam na tabela `datempo.avaliacoes` do banco do projeto.
+- Os dados ficam na tabela `datempo.avaliacoes` do banco do projeto; os números estão transcritos neste arquivo.
 
 ## As 3 tarefas
 
@@ -101,4 +101,5 @@ o juiz compara com o esperado e não lê a ficha.
   confiança para agir (Pessoa 1, nota 4), o que bate com o aviso do assistente de confirmar no canal oficial.
 - **Ajuste feito no app por causa do teste:** o cartão de energia passou a dizer, na mesma linha dos
   números, que a conta é estimativa por médias oficiais (`sistema/web/src/componentes/Cartoes.tsx`), porque
-  uma pessoa respondeu "em parte" a essa pergunta (detalhes no teste da SERS, `entregas/sers/TESTES_USUARIOS.md`).
+  uma pessoa respondeu "em parte" a essa pergunta (detalhes no teste da SERS, `entregas/sers/TESTES_USUARIOS.md`; os dois
+  arquivos ficam no repositório do projeto, fora deste pacote: https://github.com/jbelkior1/cidadao-em-dia).
