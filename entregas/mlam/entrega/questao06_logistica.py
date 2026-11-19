@@ -23,8 +23,11 @@ Xc = sm.add_constant(df[X])
 modelo = sm.Logit(y, Xc).fit(disp=False)
 b = modelo.params
 print("\na) Equação logística")
-print("logito(p) =", round(b["const"], 4), "+", round(b["dist_marco_zero_km"], 4), "× dist_marco_zero_km +",
-      round(b["qtd_linhas"], 4), "× qtd_linhas +", round(b["lat"], 4), "× lat")
+eq = "logito(p) = " + str(round(b["const"], 4))
+for v in X:
+    sinal = " + " if b[v] >= 0 else " - "
+    eq += sinal + str(round(abs(b[v]), 4)) + " × " + v
+print(eq)
 print("p = 1 / (1 + e^(-logito))")
 print("Coeficientes:")
 print(b.round(4))

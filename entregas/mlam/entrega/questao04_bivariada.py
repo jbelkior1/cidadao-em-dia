@@ -73,6 +73,8 @@ plt.tight_layout()
 plt.savefig("q04c_correlacao.png", dpi=150)
 plt.show()
 print("\nc) Mapa de calor: arquivo q04c_correlacao.png (diagonal 1,00 e", round(r, 2), "fora dela)")
+print("Interpretação: a cor fora da diagonal fica do lado negativo da escala (r =", round(r, 3), "),")
+print("ou seja, relação negativa moderada: mais longe do centro, menos registros. A diagonal é 1 (a variável com ela mesma).")
 
 # d) reta da regressão e equação
 print("\nd) Regressão linear simples")

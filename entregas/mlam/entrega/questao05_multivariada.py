@@ -62,15 +62,20 @@ plt.tight_layout()
 plt.savefig("q05c_correlacao.png", dpi=150)
 plt.show()
 print("\nc) Gráfico salvo em q05c_correlacao.png")
-print("Interpretação: a primeira linha do mapa mostra o que acompanha o total de ocorrências.")
+print("Interpretação: na linha do total, a cor mais forte é a das linhas (", round(corr.loc["total", "qtd_linhas"], 2), ")")
+print("e depois a da distância (", round(corr.loc["total", "dist_marco_zero_km"], 2), "). Entre as explicativas as correlações são baixas,")
+print("então cada uma traz informação diferente para o modelo.")
 
 # d) regressão linear múltipla
 Xc = sm.add_constant(dados[X])
 modelo = sm.OLS(dados[y], Xc).fit()
 b = modelo.params
 print("\nd) Equação da regressão")
-print("total =", round(b["const"], 2), "+", round(b["dist_marco_zero_km"], 2), "× dist_marco_zero_km +",
-      round(b["qtd_linhas"], 2), "× qtd_linhas +", round(b["lat"], 2), "× lat")
+eq = "total = " + str(round(b["const"], 2))
+for v in X:
+    sinal = " + " if b[v] >= 0 else " - "
+    eq += sinal + str(round(abs(b[v]), 2)) + " × " + v
+print(eq)
 print("Coeficientes:")
 print(b.round(4))
 print("p-valores:")
