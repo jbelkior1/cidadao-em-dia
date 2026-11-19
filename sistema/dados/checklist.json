@@ -21,7 +21,7 @@
       "quem": "equipe",
       "status": "Feito",
       "onde": "entregas/portal/pitch/PITCH_entrega.txt",
-      "como": "Vídeo publicado no YouTube como não listado (2:54): https://www.youtube.com/watch?v=TXzhmbRmonE. O .txt de entrega já tem o link e os três integrantes com RM.",
+      "como": "Vídeo publicado no YouTube como não listado (2:54): https://www.youtube.com/watch?v=TXzhmbRmonE. O .txt com o link e os três integrantes foi enviado no portal em 19/11/2026.",
       "id": "GERAL-02"
     },
     {
@@ -481,9 +481,9 @@
               "requisito": "Enviar o pacote da DSA no portal até 19/11 23h55",
               "criterio": "Entrega",
               "quem": "equipe",
-              "status": "A fazer",
+              "status": "Feito",
               "onde": "entregas/portal/dsa/LEIA-ME.txt",
-              "como": "Depende de conferir o formato na tela do portal. O pacote (código, documentação e evidências) sai por scripts/montar_entregas.py e pelo botão da plataforma. Os testes (tests/dsa) ficam no repositório, fora do zip; o LEIA-ME do pacote traz o link para eles.",
+              "como": "Pacote da DSA (zip com código, documentação, Big-O e evidências) enviado no portal em 19/11/2026.",
               "id": "DSA-15"
             }
           ]
@@ -854,9 +854,9 @@
               "requisito": "Um representante posta .csv, .py e .pdf no portal até 19/11 23h55, com cadastro correto",
               "criterio": "Q08 e descontos de 2,0 (cadastro) e 1,0 (item ausente)",
               "quem": "equipe",
-              "status": "A fazer",
+              "status": "Feito",
               "onde": "entregas/portal/mlam/COMO_ENVIAR.txt",
-              "como": "Depende só de pessoas. Escolher quem posta, anexar os 3 tipos de arquivo (pacote abaixo), conferir a lista de integrantes do cadastro e guardar o comprovante de envio.",
+              "como": "Enviado no portal em 19/11/2026: zip com o .csv, os 5 .py (um por questão) e o relatório em PDF.",
               "id": "MLAM-14"
             }
           ]
@@ -1079,9 +1079,9 @@
               "requisito": "Confirmar o formato de envio, montar o pacote e enviar até 19/11 23h55",
               "criterio": "Organização e execução do trabalho",
               "quem": "equipe",
-              "status": "A fazer",
+              "status": "Feito",
               "onde": "entregas/portal/pai/LEIA-ME.txt",
-              "como": "O formato não está no enunciado. O pacote (zip de 41 itens, sem .env nem config.local.json) sai por scripts/montar_entregas.py e pelo botão da plataforma. Regerar depois da conferência das fichas e da nova rodada do juiz. O zip não leva tests/pai: o README diz que ficam no repositório.",
+              "como": "Pacote da PAI (zip com agente, fichas, golden, juiz antes e depois, testes com usuários e grafo) enviado no portal em 19/11/2026.",
               "id": "PAI-18"
             }
           ]
