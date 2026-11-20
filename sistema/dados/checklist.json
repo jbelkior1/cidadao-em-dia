@@ -643,9 +643,9 @@
               "requisito": "Enviar APENAS um .txt com nome completo e RM, link do repositório e link do vídeo",
               "criterio": "Entregável 3",
               "quem": "equipe",
-              "status": "A fazer",
+              "status": "Feito",
               "onde": "entregas/portal/sers/SERS_entrega.txt",
-              "como": "SERS_entrega.txt pronto com nome completo e RM dos três, o link do repositório e o link do vídeo (https://youtu.be/MwJggmJDA3A). Falta um integrante enviar.",
+              "como": "SERS_entrega.txt enviado no portal em 19/11/2026, com nome completo e RM dos três, o link da pasta da SERS no repositório e o link do vídeo (https://youtu.be/MwJggmJDA3A).",
               "id": "SERS-15"
             }
           ]
