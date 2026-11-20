@@ -228,9 +228,9 @@
               "requisito": "README com os 10 campos do enunciado (seção 11), sem texto provisório",
               "criterio": "GitHub, README e teste com usuários",
               "quem": "sistema",
-              "status": "Conferir",
+              "status": "Feito",
               "onde": "entregas/pcp/citizen-assist-ai/README.md",
-              "como": "Estrutura com os campos do enunciado, a integração com o Dá Tempo?, os ajustes de regra e o resultado do teste com usuários. Falta só o link do vídeo técnico.",
+              "como": "README com os campos do enunciado, o resultado do teste com usuários e o link do vídeo técnico; sem texto provisório.",
               "id": "PCP-12"
             },
             {
@@ -260,27 +260,27 @@
               "requisito": "Vídeo de 5 a 8 min, YouTube não listado: tela com o código legível e o programa rodando, todos falam, sem voz sintética",
               "criterio": "Vídeo técnico",
               "quem": "equipe",
-              "status": "A fazer",
+              "status": "Feito",
               "onde": "",
-              "como": "O que passar de 8 minutos não é avaliado.",
+              "como": "Vídeo técnico no YouTube como não listado (7:34): https://youtu.be/ZzU907XdyFE. Os três integrantes falam com a própria voz, com o código e o programa rodando: equipe e problema, JSON, busca com o cálculo do túnel, execução, alteração ao vivo do \"inundou\", histórico, CSV, indicadores, a decisão das alternativas com 3 pontos e a limitação.",
               "id": "PCP-16"
             },
             {
               "requisito": "Roteiro obrigatório de 8 passos, com a alteração ao vivo: incluir uma palavra-chave no JSON e mostrar a pergunta passar a ser encontrada",
               "criterio": "Vídeo técnico",
               "quem": "equipe",
-              "status": "A fazer",
+              "status": "Feito",
               "onde": "",
-              "como": "Sugestão testada em 16/11: 'o trem quebrou' hoje dá Não encontrei (0 pontos); com 'quebrou' nas palavras-chave da orientação 5, passa a MÉDIA com 4 pontos (+3 pela palavra-chave e +1 por 'trem' no título). Fazer a alteração ao vivo no vídeo.",
+              "como": "Vídeo técnico no YouTube como não listado (7:34): https://youtu.be/ZzU907XdyFE. Os três integrantes falam com a própria voz, com o código e o programa rodando: equipe e problema, JSON, busca com o cálculo do túnel, execução, alteração ao vivo do \"inundou\", histórico, CSV, indicadores, a decisão das alternativas com 3 pontos e a limitação.",
               "id": "PCP-17"
             },
             {
               "requisito": "Explicar no vídeo os ajustes de regra (alternativa só com 3 pontos ou mais) e a integração com o Dá Tempo? (seções 6.2 e 6.3)",
               "criterio": "Vídeo técnico",
               "quem": "equipe",
-              "status": "A fazer",
+              "status": "Feito",
               "onde": "entregas/pcp/citizen-assist-ai/README.md",
-              "como": "Funcionalidade não demonstrada e explicada no vídeo não é pontuada.",
+              "como": "Vídeo técnico no YouTube como não listado (7:34): https://youtu.be/ZzU907XdyFE. Os três integrantes falam com a própria voz, com o código e o programa rodando: equipe e problema, JSON, busca com o cálculo do túnel, execução, alteração ao vivo do \"inundou\", histórico, CSV, indicadores, a decisão das alternativas com 3 pontos e a limitação.",
               "id": "PCP-18"
             }
           ]
