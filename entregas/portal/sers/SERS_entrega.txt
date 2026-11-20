@@ -5,8 +5,9 @@ João Vitor Belchior Domingos Leite, RM 572478
 João Pedro Pereira Teixeira, RM 569937
 Thiago de Oliveira Coelho Souza, RM 568783
 
-Link do repositório no GitHub:
-https://github.com/jbelkior1/cidadao-em-dia
+Link do repositório no GitHub (pasta da SERS):
+https://github.com/jbelkior1/cidadao-em-dia/tree/main/entregas/sers
+(o repositório é compartilhado com as outras matérias; a parte da SERS fica nessa pasta, como o enunciado pede)
 
 Link do vídeo no YouTube (não listado, até 3 minutos):
 https://youtu.be/MwJggmJDA3A
