@@ -2,6 +2,8 @@
 
 Saiba antes de sair se o seu trem vai te deixar na mão. App de trem e metrô de São Paulo feito na Global Solution 2026.2 da FIAP (CitizenTech, case Citizen Assist AI).
 
+**Vídeo pitch do projeto:** https://www.youtube.com/watch?v=TXzhmbRmonE
+
 **Integrantes:** João Vitor Belchior Domingos Leite (RM 572478), João Pedro Pereira Teixeira (RM 569937) e Thiago de Oliveira Coelho Souza (RM 568783). Turma 1CC, Ciência da Computação.
 
 ## O que é

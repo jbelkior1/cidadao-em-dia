@@ -3,6 +3,7 @@ Público atendido: Pessoas que usam metrô, trem e ônibus em São Paulo no dia 
 Integrantes e RM: João Vitor Belchior Domingos Leite (RM 572478); João Pedro Pereira Teixeira (RM 569937); Thiago de Oliveira Coelho Souza (RM 568783)
 Link do repositório GitHub: https://github.com/jbelkior1/citizen-assist-ai
 Link do vídeo técnico no YouTube: https://youtu.be/ZzU907XdyFE
+Vídeo pitch do projeto (entrega própria): https://www.youtube.com/watch?v=TXzhmbRmonE
 
 ================================================================
 VEJA A ENTREGA DE PCP FUNCIONANDO NO APP DÁ TEMPO?
