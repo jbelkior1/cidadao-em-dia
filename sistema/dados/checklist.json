@@ -620,9 +620,9 @@
               "requisito": "Vídeo de até 3 min, não listado: público e necessidade, análise e comparação com a renovável, demonstração da energia na Lia (abrir o bloco do cartão), recomendações e limitações",
               "criterio": "Clareza do vídeo (considerada na avaliação)",
               "quem": "equipe",
-              "status": "A fazer",
+              "status": "Feito",
               "onde": "",
-              "como": "Não existe link. Precisa mostrar: público e necessidade; consumo e comparação com a fonte renovável; demonstração da energia na Lia; recomendações e limitações. Não confundir com o vídeo pitch, que é entrega separada.",
+              "como": "Vídeo publicado no YouTube como não listado em 19/11/2026 (2:55): https://youtu.be/MwJggmJDA3A. Mostra o público e a necessidade, a comparação das três alternativas no mesmo período com a renovável (EPE), a demonstração do cartão de energia na Lia e a recomendação; as premissas e limites aparecem na tela no final.",
               "id": "SERS-13"
             }
           ]
@@ -645,7 +645,7 @@
               "quem": "equipe",
               "status": "A fazer",
               "onde": "entregas/portal/sers/SERS_entrega.txt",
-              "como": "Arquivo pronto com nome completo e RM, link do repositório e o espaço do link do vídeo.",
+              "como": "SERS_entrega.txt pronto com nome completo e RM dos três, o link do repositório e o link do vídeo (https://youtu.be/MwJggmJDA3A). Falta um integrante enviar.",
               "id": "SERS-15"
             }
           ]

@@ -12,6 +12,8 @@ Integrantes:
 > que a contribuição dela esteja claramente identificada: é o que a seção **Onde está cada coisa**
 > faz, mais abaixo.
 
+**Vídeo técnico (YouTube, não listado):** https://youtu.be/MwJggmJDA3A
+
 ## Contexto: público, necessidade energética e como as orientações ajudam
 
 - **Público:** quem usa trem e metrô em São Paulo todo dia, principalmente no trajeto casa-trabalho.
